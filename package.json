@@ -44,6 +44,7 @@
     ]
   },
   "devDependencies": {
-    "gh-pages": "^5.0.0"
+    "gh-pages": "^5.0.0",
+    "jsxgraph": "^1.5.0"
   }
 }
