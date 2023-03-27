@@ -1,0 +1,16 @@
+{
+  "files": {
+    "main.css": "/efodx/bezeg/static/css/main.073c9b0a.css",
+    "main.js": "/efodx/bezeg/static/js/main.467e9578.js",
+    "static/js/787.28d82508.chunk.js": "/efodx/bezeg/static/js/787.28d82508.chunk.js",
+    "static/media/logo.svg": "/efodx/bezeg/static/media/logo.6ce24c58023cc2f8fd88fe9d219db6c6.svg",
+    "index.html": "/efodx/bezeg/index.html",
+    "main.073c9b0a.css.map": "/efodx/bezeg/static/css/main.073c9b0a.css.map",
+    "main.467e9578.js.map": "/efodx/bezeg/static/js/main.467e9578.js.map",
+    "787.28d82508.chunk.js.map": "/efodx/bezeg/static/js/787.28d82508.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.073c9b0a.css",
+    "static/js/main.467e9578.js"
+  ]
+}
