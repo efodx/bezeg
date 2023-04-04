@@ -3,23 +3,16 @@ import logo from './logo.svg';
 import './App.css';
 
 import { JSXGraph } from "jsxgraph";
-import Graph from "./Graph";
+import Graph from "./graphs/Graph";
+import GraphSubdivision from "./graphs/GraphSubdivision";
 
 
 function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
         <Graph/>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+          <GraphSubdivision/>
       </header>
     </div>
   );

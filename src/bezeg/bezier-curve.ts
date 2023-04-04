@@ -1,5 +1,6 @@
-import {Point} from './point'
-import {PointImpl} from "./PointImpl";
+
+import {PointImpl} from "./point/point-impl";
+import {Point} from "./point/point";
 
 
 export class BezierCurve {
