@@ -7,7 +7,6 @@ import GraphExtrapolation from "./graphs/GraphExtrapolation";
 import GraphDecasteljau from "./graphs/GraphDecasteljau";
 
 const routes = [
-
     {
         title: "Bezierjeve Krivulje",
         path: "/bezeg",

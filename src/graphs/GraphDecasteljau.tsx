@@ -1,7 +1,5 @@
-import React, {Component} from 'react';
+import React from 'react';
 import '../App.css';
-
-import {Board, JSXGraph} from "jsxgraph";
 import {BezierCurve} from "../bezeg/bezier-curve";
 import {Point} from "./Point";
 import {JGBox} from "../JGBox";
@@ -37,14 +35,15 @@ class GraphDecasteljau extends GraphBase {
         this.slider = this.board.create('slider', [[2, 3], [4, 3], [0, 0.1, 1]]);
         this.lastDrawn = Date.now();
         this.generateLineSegments(this.slider.Value())
-        this.board.on("update", ()=> { // @ts-ignore
-            if(Date.now() - this.lastDrawn > 60){
+        this.board.on("update", () => { // @ts-ignore
+            if (Date.now() - this.lastDrawn > 60) {
                 // @ts-ignore
                 this.lastDrawn = Date.now()
-            this.updateDecasteljauScheme(this.slider?.Value() as number)
-            }})
+                this.updateDecasteljauScheme(this.slider?.Value() as number)
+            }
+        })
 
-        const curve = this.board.create('curve',
+        this.board.create('curve',
             [(t: number) => {
                 // @ts-ignore
                 return this.bejzjer.calculatePointAtT(t).X();
@@ -59,8 +58,8 @@ class GraphDecasteljau extends GraphBase {
 
     render() {
         return <div><JGBox/>
-            {this.state.animating?
-            <Button onClick={() => this.stopAnimation()} text="Ustavi"/>:
+            {this.state.animating ?
+                <Button onClick={() => this.stopAnimation()} text="Ustavi"/> :
                 <Button onClick={() => this.startAnimation()} text="Animiraj"/>}
         </div>;
     }
@@ -68,8 +67,7 @@ class GraphDecasteljau extends GraphBase {
 
     updateDecasteljauScheme(t: number) {
         // done like this to avoid redrawing segments every tick
-        // @ts-ignore
-        const decasteljauScheme = this.bejzjer.decasteljau(t)
+        const decasteljauScheme = this.bejzjer!.decasteljau(t)
         this.segments = []
         const n = decasteljauScheme.length
         for (let r = 0; r < n; r++) {
@@ -92,23 +90,27 @@ class GraphDecasteljau extends GraphBase {
                 const p1 = this.decasteljauScheme[r][i - 1]
                 const p2 = this.decasteljauScheme[r][i]
                 var pp1 = null;
-                if(i===1 && r !== 0){
-                    // @ts-ignore
-                   pp1 = this.board?.create('point', [() => p1.X(), () => p1.Y()], {style: JXG.POINT_STYLE_X, color: this.pointColors[r]});
-                }else{
-                    if(r !== 0) {
+                if (i === 1 && r !== 0) {
+                    pp1 = this.board?.create('point', [() => p1.X(), () => p1.Y()], {
+                        // @ts-ignore
+                        style: JXG.POINT_STYLE_X,
+                        color: this.pointColors[r]
+                    });
+                } else {
+                    if (r !== 0) {
                         pp1 = this.segments[this.segments.length - 1]
                     }
                 }
                 var pp2 = null;
-                if(r === 0){
-                    // @ts-ignore
-                    pp1 = this.points[i-1]
-                    // @ts-ignore
+                if (r === 0) {
+                    pp1 = this.points[i - 1]
                     pp2 = this.points[i]
-                } else{
-                    // @ts-ignore
-                    pp2 = this.board?.create('point', [() => p2.X(), () => p2.Y()], {style: JXG.POINT_STYLE_X, color: this.pointColors[r]});
+                } else {
+                    pp2 = this.board?.create('point', [() => p2.X(), () => p2.Y()], {
+                        // @ts-ignore
+                        style: JXG.POINT_STYLE_X,
+                        color: this.pointColors[r]
+                    });
                 }
                 // @ts-ignore
                 //pp1?.hideElement()
@@ -120,24 +122,30 @@ class GraphDecasteljau extends GraphBase {
             }
         }
         const pointtt = this.decasteljauScheme[n - 1][0]
-        // @ts-ignore
-        var pp1 = this.board?.create('point', [() => pointtt.X(), () => pointtt.Y()], {style: JXG.POINT_STYLE_X, color: this.pointColors[n-1], trace:false});
+        this.board?.create('point', [() => pointtt.X(), () => pointtt.Y()], {
+            // @ts-ignore
+            style: JXG.POINT_STYLE_X,
+            color: this.pointColors[n - 1],
+            trace: false
+        });
     }
 
     private startAnimation() {
         // @ts-ignore
         this.slider?.startAnimation(1, 150, 30)
         this.segmentAnimation()
-        this.setState({animating : true})
+        this.setState({animating: true})
     }
-    private segmentAnimation(){
+
+    private segmentAnimation() {
         this.updateDecasteljauScheme(this.slider?.Value() as number)
         this.timeout = setTimeout(() => this.segmentAnimation(), 30)
     }
-    private stopAnimation(){
+
+    private stopAnimation() {
         clearTimeout(this.timeout)
         this.slider?.stopAnimation()
-        this.setState({animating : false})
+        this.setState({animating: false})
     }
 }
 

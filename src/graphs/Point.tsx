@@ -4,9 +4,10 @@ import {Point as JSXPoint} from "jsxgraph";
 /**
  * Class that wraps a JSXPoint into BezegPoint interface.
  */
-export class Point implements BezegPoint{
+export class Point implements BezegPoint {
     private point: JSXPoint;
-    constructor(point:JSXPoint){
+
+    constructor(point: JSXPoint) {
         this.point = point;
     }
 

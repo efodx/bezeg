@@ -1,11 +1,8 @@
-import React, {Component} from 'react';
+import React from 'react';
 import '../App.css';
-
-import {Board, JSXGraph} from "jsxgraph";
 import {BezierCurve} from "../bezeg/bezier-curve";
 import {Point} from "./Point";
 import {JGBox} from "../JGBox";
-import {Button} from "../inputs/Button";
 import GraphBase from "./GraphBase";
 import {Select} from "../inputs/Select";
 
@@ -29,7 +26,7 @@ class Graph extends GraphBase {
         this.points = [p, p2, p3, p4]
         this.bejzjer = new BezierCurve([pp, pp2, pp3, pp4])
 
-        const curve = this.board.create('curve',
+        this.board.create('curve',
             [(t: number) => {
                 // @ts-ignore
                 return this.bejzjer.calculatePointAtT(t).X();
@@ -46,20 +43,26 @@ class Graph extends GraphBase {
 
     render() {
         return <div><JGBox/>
-            <Select onChange={e=> this.onSelectChange(e)}
-                options={[
-                {"value": "1",
-                    "text": "Premikaj točke"},
-                {"value": "2",
-                "text": "Dodajaj točke"},
-                {"value": "3",
-                "text": "Briši točke"}
-            ]}/>
+            <Select onChange={e => this.onSelectChange(e)}
+                    options={[
+                        {
+                            "value": "1",
+                            "text": "Premikaj točke"
+                        },
+                        {
+                            "value": "2",
+                            "text": "Dodajaj točke"
+                        },
+                        {
+                            "value": "3",
+                            "text": "Briši točke"
+                        }
+                    ]}/>
         </div>;
     }
 
     handleDown(e: unknown) {
-        if(this.state.justMoving){
+        if (this.state.justMoving) {
             return
         }
         let canCreate = true,
@@ -94,8 +97,8 @@ class Graph extends GraphBase {
                     }
                 }
             )
-            if(deleted !== null){
-                this.points?.splice(deleted,1)
+            if (deleted !== null) {
+                this.points?.splice(deleted, 1)
             }
         }
 
@@ -103,28 +106,34 @@ class Graph extends GraphBase {
 
     private deletePoints() {
         this.setState(
-            {deletingPoints: true,
-                justMoving: false}
+            {
+                deletingPoints: true,
+                justMoving: false
+            }
         )
     }
 
-    private addPoints(){
+    private addPoints() {
         this.setState(
-            {deletingPoints: false,
-                    justMoving: false}
+            {
+                deletingPoints: false,
+                justMoving: false
+            }
         )
     }
 
-    private justMove(){
+    private justMove() {
         this.setState(
-            {deletingPoints: false,
-                justMoving: true}
+            {
+                deletingPoints: false,
+                justMoving: true
+            }
         )
     }
 
     private onSelectChange(e: React.ChangeEvent<HTMLSelectElement>) {
         let selectTool = e.target.value
-        switch (selectTool){
+        switch (selectTool) {
             case "1":
                 this.justMove()
                 return

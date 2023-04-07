@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import {Component} from 'react';
 import '../App.css';
 
 import {Board, JSXGraph} from "jsxgraph";
@@ -44,8 +44,6 @@ abstract class GraphBase extends Component<any, any> {
         this.points.push(point)
         return new Point(point);
     }
-
-
 
 
     getMouseCoords(e: unknown, i: number | undefined) {

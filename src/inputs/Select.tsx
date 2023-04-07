@@ -5,7 +5,7 @@ interface SelectProps {
 }
 
 
-export function Select(props:SelectProps) {
+export function Select(props: SelectProps) {
     let getOptions = () => props.options.map((option: { value: any; text: string }) =>
         <option value={option.value}>{option.text}</option>)
 
