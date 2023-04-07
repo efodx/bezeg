@@ -23,12 +23,16 @@ export class BezierCurve {
         this.points = points
     }
 
+    getPoints(){
+        return this.points
+    }
+
     /**
      * Calculates a point on this curve at parameter t.
      * @param {number} t
      * @returns {Point} point
      */
-    calculatePointAtT(t: number) {
+    calculatePointAtT(t: number): Point {
         const n = this.points.length
         const pointsAtT = this.points.map(point => new PointImpl(point.X(), point.Y()))
         for (let r = 1; r < n; r++) {
@@ -37,10 +41,18 @@ export class BezierCurve {
                 pointsAtT[i].setY((1 - t) * pointsAtT[i].Y() + t * pointsAtT[i + 1].Y())
             }
         }
+        if(pointsAtT[0]){}
+        else{console.log("WTF IS GOIN ON " + t)
+            console.log(this.points)}
+
         return pointsAtT[0]
     }
 
-    decasteljau(t: number) {
+    /**
+     * Returns the full decasteljau scheme for desired t.
+     * @param t
+     */
+    decasteljau(t: number): Point[][] {
         const decasteljauScheme = []
         const n = this.points.length
         const pointsAtT = this.points.map(point => new PointImpl(point.X(), point.Y()))
@@ -56,8 +68,32 @@ export class BezierCurve {
     }
 
     /**
+     * Returns a new bezier curve that is the extrapolated version of the current one.
+     * @param t
+     */
+    extrapolate(t: number): BezierCurve {
+        const decasteljauScheme = this.decasteljau(t)
+        const newPoints = decasteljauScheme.map((row, i) => row[0])
+        return new BezierCurve(newPoints)
+    }
+    /**
+     * Returns two bezier curves that together form the current one.
+     * @param t
+     */
+    subdivide(t:number): BezierCurve[]{
+        const decasteljauScheme = this.decasteljau(t)
+        const n = decasteljauScheme.length
+        const points1 = decasteljauScheme.map((row, i) => row[0])
+        const points2 = decasteljauScheme.map((row, i) => row[n - 1 - i]).reverse()
+        const bezierCurve1 = new BezierCurve(points1)
+        const bezierCurve2 = new BezierCurve(points2)
+        return [bezierCurve1, bezierCurve2]
+    };
+
+
+    /**
      * Removes control point with id. If id doesn't exist, nothing gets removed.
-     * @param {*} id
+     * @param point
      */
     removePoint(point: Point) {
         this.points = this.points.filter(point2 => point2 != point)

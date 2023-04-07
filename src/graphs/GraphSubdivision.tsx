@@ -5,109 +5,83 @@ import {Board, JSXGraph} from "jsxgraph";
 import {BezierCurve} from "../bezeg/bezier-curve";
 import {Point} from "./Point";
 import {PointImpl} from "../bezeg/point/point-impl";
+import {Button} from "../inputs/Button";
+import {JGBox} from "../JGBox";
+import GraphBase from "./GraphBase";
 
-class Graph extends Component<any, any> {
-    private board: Board | undefined;
-    private points: JXG.Point[] | undefined;
-    private bejzjer: BezierCurve | undefined;
+class Graph extends GraphBase {
+    private bezierCurves: BezierCurve[] = [];
     private doneAlready = false;
-    private curve: JXG.Curve | undefined;
+    private jxgCurves: JXG.Curve[] = [];
+    private slider: JXG.Slider | undefined;
+    private stepsDone: number = 0;
 
-    componentDidMount() {
-        this.board = JSXGraph.initBoard("jgboxxie", {boundingbox: [-5, 5, 5, -5], axis: true});
-        const p = this.board.create('point', [-3, 2]);
-        const pp = new Point(p);
-        const p2 = this.board.create('point', [0, -2]);
-        const pp2 = new Point(p2);
-        const p3 = this.board.create('point', [1,2]);
-        const pp3 = new Point(p3);
-        const p4 = this.board.create('point', [3,-2 ]);
-        const pp4 = new Point(p4);
-        this.points = [p,p2,p3,p4]
-        this.bejzjer = new BezierCurve([pp,pp2,pp3,pp4])
+    initialize() {
+        const p =  this.createJSXGraphPoint(-3, 2);
+        const p2 = this.createJSXGraphPoint(0, -2);
+        const p3 =  this.createJSXGraphPoint(1, 2);
+        const p4 =  this.createJSXGraphPoint(3, -2);
+        this.slider = this.board.create('slider', [[2, 2], [4, 2], [0, 0.5, 1]]);
+        this.bezierCurves.push(new BezierCurve([p, p2, p3, p4]))
+        this.createJSXGraphPoint(() => this.bezierCurves[0].calculatePointAtT(this.slider!.Value()).X(), () => this.bezierCurves[0].calculatePointAtT(this.slider!.Value()).Y());
 
-        this.curve = this.board.create('curve',
-            [(t: number) => {
-                // @ts-ignore
-                return this.bejzjer.calculatePointAtT(t).X();
-            },
-                (t: number) => {
-                    // @ts-ignore
-                    return this.bejzjer.calculatePointAtT(t).Y();
-                },
+        this.jxgCurves.push(this.board.create('curve',
+            [(t: number) => this.bezierCurves[0].calculatePointAtT(t).X(),
+                (t: number) => this.bezierCurves[0].calculatePointAtT(t).Y(),
                 0, 1]
-        );
-        this.board.on('down',(e) => this.handleDown(e));
+        ));
     }
 
     render() {
-        return <div id="jgboxxie" style={{width: 500, height: 500, background: "white"}}></div>;
+        return <div>
+            <JGBox/>
+            <Button text="Subdiviziraj" onClick={() => this.subdivide()}></Button>
+        </div>
     }
 
 
-
-     getMouseCoords(e: unknown, i: number | undefined) {
+    getMouseCoords(e: unknown, i: number | undefined) {
 
         // @ts-ignore
-         const pos = this.board.getMousePosition(e, i);
+        const pos = this.board.getMousePosition(e, i);
 
-         return new JXG.Coords(JXG.COORDS_BY_SCREEN, pos, this.board as Board);
+        return new JXG.Coords(JXG.COORDS_BY_SCREEN, pos, this.board as Board);
 
     }
 
-
-
-    handleDown (e: unknown) {
-        if(this.doneAlready){
+    subdivide() {
+        if (this.stepsDone > 5) {
             return
         }
+        this.stepsDone = this.stepsDone + 1
         // @ts-ignore
-        const decasteljauScheme = this.bejzjer.decasteljau(0.5)
-        const n = decasteljauScheme.length
-        const points1 = decasteljauScheme.map((row, i) => row[0]).map(point =>  this.createJSXGraphPoint(point.X(), point.Y()))
-        const points2 = decasteljauScheme.map((row, i) => row[n - 1 - i]).map(point => this.createJSXGraphPoint(point.X(), point.Y())).reverse()
-        const bezierCurve1 = new BezierCurve(points1)
-        const bezierCurve2 = new BezierCurve(points2)
-        this.doneAlready=true;
-        // @ts-ignore
-        // @ts-ignore
-        this.board?.removeObject(this.points?.concat(this.curve))
+        this.board?.removeObject(this.points)// ?.concat(this.jxgCurves)
+        const newBezierCurves = []
+        for(let bezierCurve of this.bezierCurves){
+            // @ts-ignore
+            const [curve1, curve2]:BezierCurve[] = bezierCurve.subdivide(this.slider!.Value());
 
+            curve1.setPoints(curve1.getPoints().map(point=>this.createJSXGraphPoint(point.X(),point.Y())))
+            curve2.setPoints(curve2.getPoints().map(point=>this.createJSXGraphPoint(point.X(),point.Y())))
 
+            newBezierCurves.push(curve1)
+            newBezierCurves.push(curve2)
 
-        // @ts-ignore
-        this.curve = this.board.create('curve',
-            [(t: number) => {
-                // @ts-ignore
-                return bezierCurve1.calculatePointAtT(t).X();
-            },
-                (t: number) => {
-                    // @ts-ignore
-                    return bezierCurve1.calculatePointAtT(t).Y();
-                },
-                0, 1]
-        );
+            // Think of how to handle this, we would still like to add new curves, but the process takes shitloads of time
 
-        // @ts-ignore
-        this.curve = this.board.create('curve',
-            [(t: number) => {
-                // @ts-ignore
-                return bezierCurve2.calculatePointAtT(t).X();
-            },
-                (t: number) => {
-                    // @ts-ignore
-                    return bezierCurve2.calculatePointAtT(t).Y();
-                },
-                0, 1]
-        );
+            // this.jxgCurves.push(this.board.create('curve',
+            //     [(t: number) => curve1.calculatePointAtT(t).X(),
+            //         (t: number) =>  curve1.calculatePointAtT(t).Y(),
+            //         0, 1]
+            // ))
+            // this.jxgCurves.push(this.board.create('curve',
+            //     [(t: number) => curve2.calculatePointAtT(t).X(),
+            //         (t: number) => curve2.calculatePointAtT(t).Y(),
+            //         0, 1]
+            // ))
+        }
+        this.bezierCurves = newBezierCurves;
     };
-
-    createJSXGraphPoint(x: unknown, y: unknown){
-        // @ts-ignore
-        return new Point(this.board.create('point', [x, y]));
-    }
-
-
 
 }
 
