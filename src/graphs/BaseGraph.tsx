@@ -8,7 +8,7 @@ import {Point} from "./Point";
  * Abstract class for creating graphs.
  * Every subclass of this class must render a JGBox element.
  */
-abstract class GraphBase extends Component<any, any> {
+abstract class BaseGraph extends Component<any, any> {
     protected board: Board;
     protected points: JXG.Point[] = [];
 
@@ -56,4 +56,4 @@ abstract class GraphBase extends Component<any, any> {
     }
 }
 
-export default GraphBase;
+export default BaseGraph;

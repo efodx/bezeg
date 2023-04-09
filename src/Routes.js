@@ -1,10 +1,12 @@
-import Graph from "./graphs/Graph";
-import GraphSubdivision from "./graphs/GraphSubdivision";
+import BezierCurveGraph from "./graphs/BezierCurveGraph";
+import GraphSubdivision from "./graphs/SubdivisionGraph";
 import {ErrorPage} from "./ErrorPage";
 import App from "./App";
 import {WelcomePage} from "./WelcomePage";
-import GraphExtrapolation from "./graphs/GraphExtrapolation";
-import GraphDecasteljau from "./graphs/GraphDecasteljau";
+import ExtrapolationGraph from "./graphs/ExtrapolationGraph";
+import GraphElevation from "./graphs/ExtrapolationGraph";
+import DecasteljauGraph from "./graphs/DecasteljauGraph";
+import RationalBezierCurveGraph from "./graphs/RationalBezierCurveGraph";
 
 const routes = [
     {
@@ -21,12 +23,12 @@ const routes = [
             },
             {
                 path: "/bezeg/curves",
-                element: <Graph/>,
+                element: <BezierCurveGraph/>,
                 title: "Bezierjeva Krivulja"
             },
             {
                 path: "/bezeg/decasteljau",
-                element: <GraphDecasteljau/>,
+                element: <DecasteljauGraph/>,
                 title: "Decasteljau"
             },
             {
@@ -36,8 +38,18 @@ const routes = [
             },
             {
                 path: "/bezeg/extrapolation",
-                element: <GraphExtrapolation/>,
+                element: <ExtrapolationGraph/>,
                 title: "Ekstrapolacija"
+            },
+            {
+                path: "/bezeg/elevation",
+                element: <GraphElevation/>,
+                title: "Dviganje Stopnje"
+            },
+            {
+                path: "/bezeg/rational",
+                element: <RationalBezierCurveGraph/>,
+                title: "Racionalna Bezierjeva Krivulja"
             },
         ],
     }

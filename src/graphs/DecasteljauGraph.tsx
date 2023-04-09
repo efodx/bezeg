@@ -4,9 +4,9 @@ import {BezierCurve} from "../bezeg/bezier-curve";
 import {Point} from "./Point";
 import {JGBox} from "../JGBox";
 import {Button} from "../inputs/Button";
-import GraphBase from "./GraphBase";
+import BaseGraph from "./BaseGraph";
 
-class GraphDecasteljau extends GraphBase {
+class DecasteljauGraph extends BaseGraph {
     private bejzjer: BezierCurve | undefined;
     private slider: JXG.Slider | undefined;
     private segments: any;
@@ -149,4 +149,4 @@ class GraphDecasteljau extends GraphBase {
     }
 }
 
-export default GraphDecasteljau;
+export default DecasteljauGraph;

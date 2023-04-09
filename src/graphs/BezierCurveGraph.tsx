@@ -3,10 +3,10 @@ import '../App.css';
 import {BezierCurve} from "../bezeg/bezier-curve";
 import {Point} from "./Point";
 import {JGBox} from "../JGBox";
-import GraphBase from "./GraphBase";
+import BaseGraph from "./BaseGraph";
 import {Select} from "../inputs/Select";
 
-class Graph extends GraphBase {
+class BezierCurveGraph extends BaseGraph {
     private bejzjer: BezierCurve | undefined;
 
     constructor(props: any) {
@@ -15,16 +15,11 @@ class Graph extends GraphBase {
     }
 
     initialize() {
-        const p = this.board.create('point', [-3, 2]);
-        const pp = new Point(p);
-        const p2 = this.board.create('point', [0, -2]);
-        const pp2 = new Point(p2);
-        const p3 = this.board.create('point', [1, 2]);
-        const pp3 = new Point(p3);
-        const p4 = this.board.create('point', [3, -2]);
-        const pp4 = new Point(p4);
-        this.points = [p, p2, p3, p4]
-        this.bejzjer = new BezierCurve([pp, pp2, pp3, pp4])
+        const p = this.createJSXGraphPoint(-3, 2);
+        const p2 = this.createJSXGraphPoint(0, -2);
+        const p3 = this.createJSXGraphPoint(1, 2);
+        const p4 = this.createJSXGraphPoint(3, -2);
+        this.bejzjer = new BezierCurve([p, p2, p3, p4])
 
         this.board.create('curve',
             [(t: number) => {
@@ -147,4 +142,4 @@ class Graph extends GraphBase {
     }
 }
 
-export default Graph;
+export default BezierCurveGraph;

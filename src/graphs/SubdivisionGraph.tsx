@@ -5,9 +5,9 @@ import {Board} from "jsxgraph";
 import {BezierCurve} from "../bezeg/bezier-curve";
 import {Button} from "../inputs/Button";
 import {JGBox} from "../JGBox";
-import GraphBase from "./GraphBase";
+import BaseGraph from "./BaseGraph";
 
-class Graph extends GraphBase {
+class Graph extends BaseGraph {
     private bezierCurves: BezierCurve[] = [];
     private jxgCurves: JXG.Curve[] = [];
     private slider: JXG.Slider | undefined;
@@ -60,24 +60,33 @@ class Graph extends GraphBase {
 
             // Think of how to handle this, we would still like to add new curves, but the process takes shitloads of time
 
-            // const jxgCurve1 = this.board.create('curve',
-            //     [(t: number) => curve1.calculatePointAtT(t).X(),
-            //         (t: number) =>  curve1.calculatePointAtT(t).Y(),
-            //         0, 1]
-            // )
-            // // @ts-ignore
-            // jxgCurve1.setAttribute({"doAdvancedPlot": true,
-            // "recursionDepthLow": 3,
-            // "recursionDepthHigh": 5})
-            // this.jxgCurves.push(jxgCurve1)
-            // const jxgCurve2 = this.board.create('curve',
-            //     [(t: number) => curve2.calculatePointAtT(t).X(),
-            //         (t: number) =>  curve2.calculatePointAtT(t).Y(),
-            //         0, 1]
-            // )
-            // // @ts-ignore
-            // jxgCurve2.setAttribute({"doAdvancedPlot": true})
-            // this.jxgCurves.push(jxgCurve2)
+            const jxgCurve1 = this.board.create('curve',
+                [(t: number) => curve1.calculatePointAtT(t).X(),
+                    (t: number) => curve1.calculatePointAtT(t).Y(),
+                    0, 1]
+            )
+            // @ts-ignore
+            // @ts-ignore
+            jxgCurve1.setAttribute({
+                // @ts-ignore
+                "numberPointsHigh": 30,
+                // @ts-ignore
+                "numberPointsLow": 30
+            })
+            this.jxgCurves.push(jxgCurve1)
+            const jxgCurve2 = this.board.create('curve',
+                [(t: number) => curve2.calculatePointAtT(t).X(),
+                    (t: number) => curve2.calculatePointAtT(t).Y(),
+                    0, 1]
+            )
+            // @ts-ignore
+            jxgCurve2.setAttribute({
+                // @ts-ignore
+                "numberPointsHigh": 30,
+                // @ts-ignore
+                "numberPointsLow": 30
+            })
+            this.jxgCurves.push(jxgCurve2)
         }
         this.bezierCurves = newBezierCurves;
     };
