@@ -67,7 +67,7 @@ class DecasteljauGraph extends BaseGraph {
 
     updateDecasteljauScheme(t: number) {
         // done like this to avoid redrawing segments every tick
-        const decasteljauScheme = this.bejzjer!.decasteljau(t)
+        const decasteljauScheme = this.bejzjer!.decasteljauScheme(t)
         this.segments = []
         const n = decasteljauScheme.length
         for (let r = 0; r < n; r++) {
@@ -80,8 +80,7 @@ class DecasteljauGraph extends BaseGraph {
     }
 
     generateLineSegments(t: number) {
-        // @ts-ignore
-        this.decasteljauScheme = this.bejzjer.decasteljau(t)
+        this.decasteljauScheme = this.bejzjer?.decasteljauScheme(t)
         // so we can delete them later if we want to add extra points
         this.segments = []
         const n = this.decasteljauScheme.length
@@ -112,9 +111,6 @@ class DecasteljauGraph extends BaseGraph {
                         color: this.pointColors[r]
                     });
                 }
-                // @ts-ignore
-                //pp1?.hideElement()
-                //pp2?.hideElement()
                 const segment = this.board?.create('segment', [pp1, pp2]);
                 this.segments.push(segment)
                 this.segments.push(pp1)

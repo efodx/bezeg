@@ -20,10 +20,13 @@ export class Point implements BezegPoint {
     }
 
     setX(x: number): void {
-        throw new Error("Cannot set values to JSXPoints.")
+        // this.point.moveTo([x, this.point.Y()])
+        this.point.setPositionDirectly(JXG.COORDS_BY_USER, [x, this.point.Y()]);
     }
 
     setY(y: number): void {
-        throw new Error("Cannot set values to JSXPoints.")
+        // @ts-ignore
+        //this.point.moveTo([this.point.X(), y])
+        this.point.setPositionDirectly(JXG.COORDS_BY_USER, [this.point.X(), y]);
     }
 }

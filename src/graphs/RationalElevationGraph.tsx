@@ -3,33 +3,24 @@ import '../App.css';
 import {Point} from "./Point";
 import {JGBox} from "../JGBox";
 import BaseGraph from "./BaseGraph";
-import {Select} from "../inputs/Select";
-import {RationalBezierCurve} from "../bezeg/rational-bezier-curve";
 import {Button} from "../inputs/Button";
+import {RationalBezierCurve} from "../bezeg/rational-bezier-curve";
 
-class RationalBezierCurveGraph extends BaseGraph {
+class Graph extends BaseGraph {
     private bejzjer: RationalBezierCurve | undefined;
-    private weightNumber: number = 1;
 
     constructor(props: any) {
         super(props);
-        this.state = {deletingPoints: false, justMoving: true, currentWeight: 2};
+        this.state = {deletingPoints: false, justMoving: true};
     }
 
     initialize() {
-        const p = this.board.create('point', [-3, 2]);
-        const pp = new Point(p);
-        const p2 = this.board.create('point', [0, -2]);
-        const pp2 = new Point(p2);
-        const p3 = this.board.create('point', [1, 2]);
-        const pp3 = new Point(p3);
-        const p4 = this.board.create('point', [3, -2]);
-        const pp4 = new Point(p4);
-        this.points = [p, p2, p3, p4]
-        this.bejzjer = new RationalBezierCurve([pp, pp2, pp3, pp4], [1, 2, 1, 1])
-        this.points[this.weightNumber].setAttribute({
-            color: "yellow"
-        })
+        const p = this.createJSXGraphPoint(-3, 2);
+        const p2 = this.createJSXGraphPoint(0, -2);
+        const p3 = this.createJSXGraphPoint(1, 2);
+        const p4 = this.createJSXGraphPoint(3, -2);
+        this.bejzjer = new RationalBezierCurve([p, p2, p3, p4], [1, 5, 1, 1])
+
         this.board.create('curve',
             [(t: number) => {
                 // @ts-ignore
@@ -47,58 +38,18 @@ class RationalBezierCurveGraph extends BaseGraph {
 
     render() {
         return <div><JGBox/>
-            <Select onChange={e => this.onSelectChange(e)}
-                    options={[
-                        {
-                            "value": "1",
-                            "text": "Premikaj točke"
-                        },
-                        {
-                            "value": "2",
-                            "text": "Dodajaj točke"
-                        },
-                        {
-                            "value": "3",
-                            "text": "Briši točke"
-                        }
-                    ]}/>
-            <div>
-                <Button onClick={() => this.changeWeight(1.1)} text={"Dodaj težo"}/>
-                <div style={{color: "white"}}>{this.state.currentWeight}</div>
-                <Button onClick={() => this.changeWeight(0.9)} text={"Zmanjšaj težo"}/>
-            </div>
-            <div>
-                <Button onClick={() => this.nextWeight()} text={"Naslednja Točka"}/>
-
-            </div>
+            <Button onClick={() => this.elevate()} text={"Dvigni stopnjo"}/>
         </div>;
     }
 
-    nextWeight() {
-        this.points[this.weightNumber].setAttribute({
-            color: "red"
-        })
-        if (this.weightNumber === this.bejzjer!.getWeights().length - 1) {
-            this.weightNumber = 0;
-        } else {
-            this.weightNumber = this.weightNumber + 1;
-        }
-
-        this.points[this.weightNumber].setAttribute({
-            color: "yellow  "
-        })
-        this.refreshWeightState()
+    elevate() {
+        const elevated = this.bejzjer!.elevate()
+        this.board?.removeObject(this.points)
+        this.points = []
+        const wrappedPoints = elevated.getPoints().map(point => this.createJSXGraphPoint(point.X(), point.Y()))
+        this.bejzjer?.setPoints(wrappedPoints);
+        this.bejzjer?.setWeights(elevated.getWeights())
         this.board.update()
-    }
-
-    changeWeight(dw: number) {
-        this.bejzjer!.getWeights()[this.weightNumber] = Math.round(100 * this.bejzjer!.getWeights()[this.weightNumber] * dw) / 100
-        this.board.update()
-        this.refreshWeightState()
-    }
-
-    refreshWeightState() {
-        this.setState({currentWeight: this.bejzjer!.getWeights()[this.weightNumber]})
     }
 
     handleDown(e: unknown) {
@@ -187,4 +138,4 @@ class RationalBezierCurveGraph extends BaseGraph {
     }
 }
 
-export default RationalBezierCurveGraph;
+export default Graph;
