@@ -107,9 +107,9 @@ class RationalBezierCurveGraph extends BaseGraph {
         }
         let canCreate = true,
 
-            i, coords: JXG.Coords, el;
+            coords: JXG.Coords, el;
 
-        coords = this.getMouseCoords(e, i);
+        coords = this.getMouseCoords(e);
 
         for (el in this.board.objects) {
             // @ts-ignore

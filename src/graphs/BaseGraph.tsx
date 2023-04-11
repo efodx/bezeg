@@ -46,10 +46,10 @@ abstract class BaseGraph extends Component<any, any> {
     }
 
 
-    getMouseCoords(e: unknown, i: number | undefined) {
+    getMouseCoords(e: unknown) {
 
         // @ts-ignore
-        const pos = this.board.getMousePosition(e, i);
+        const pos = this.board.getMousePosition(e);
 
         return new JXG.Coords(JXG.COORDS_BY_SCREEN, pos, this.board as Board);
 

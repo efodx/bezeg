@@ -60,11 +60,9 @@ class BezierCurveGraph extends BaseGraph {
         if (this.state.justMoving) {
             return
         }
-        let canCreate = true,
+        let canCreate = true, coords: JXG.Coords, el;
 
-            i, coords: JXG.Coords, el;
-
-        coords = this.getMouseCoords(e, i);
+        coords = this.getMouseCoords(e);
 
         for (el in this.board.objects) {
             // @ts-ignore

@@ -52,6 +52,7 @@ export class BezierCurve {
     }
 
     scale(xScale: number): void;
+    scale(xScale: number, yScale: number): void;
     scale(xScale: number, yScale?: number): void {
         if (yScale === undefined) {
             yScale = xScale

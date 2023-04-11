@@ -1,7 +1,5 @@
 import React from 'react';
 import '../App.css';
-
-import {Board} from "jsxgraph";
 import {BezierCurve} from "../bezeg/bezier-curve";
 import {Button} from "../inputs/Button";
 import {JGBox} from "../JGBox";
@@ -36,12 +34,6 @@ class Graph extends BaseGraph {
             <JGBox/>
             <Button text="Subdiviziraj" onClick={() => this.subdivide()}></Button>
         </div>
-    }
-
-    getMouseCoords(e: unknown, i: number | undefined) {
-        const pos = this.board.getMousePosition(e, i);
-
-        return new JXG.Coords(JXG.COORDS_BY_SCREEN, pos, this.board as Board);
     }
 
     subdivide() {
