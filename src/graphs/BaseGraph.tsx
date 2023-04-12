@@ -45,14 +45,10 @@ abstract class BaseGraph extends Component<any, any> {
         return new Point(point);
     }
 
-
-    getMouseCoords(e: unknown) {
-
-        // @ts-ignore
+    // TODO change e to pointerevent
+    getMouseCoords(e: any) {
         const pos = this.board.getMousePosition(e);
-
         return new JXG.Coords(JXG.COORDS_BY_SCREEN, pos, this.board as Board);
-
     }
 }
 
