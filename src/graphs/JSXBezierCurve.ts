@@ -52,6 +52,7 @@ export class JSXBezierCurve {
     }
 
     processMouseUp(e: PointerEvent) {
+        this.board.suspendUpdate()
         const newCoords = this.getMouseCoords(e);
         if (this.dragging) {
             this.stopDragging()
@@ -68,18 +69,19 @@ export class JSXBezierCurve {
             this.rotate(newCoords)
             return
         }
+        this.board.unsuspendUpdate()
     }
 
     processMouseDown(e: PointerEvent) {
+        console.time("Processing mouse down event")
+        this.board.suspendUpdate()
         this.coords = this.getMouseCoords(e);
         // @ts-ignore
         if (this.jxgCurve?.hasPoint(this.coords.scrCoords[1], this.coords.scrCoords[2]) && !this.jxgPoints.some(point => point.hasPoint(this.coords!.scrCoords[1], this.coords!.scrCoords[2]))) {
             this.select()
-            this.showBoundingBox()
         } else {
             if (!this.isMouseInsidePaddedBoundingBox()) {
                 this.deselect()
-                this.hideBoundingBox()
             }
             // @ts-ignore
             if (this.boundBoxPoints?.some(point => point.hasPoint(this.coords!.scrCoords[1], this.coords!.scrCoords[2])) && this.selected) {
@@ -91,9 +93,13 @@ export class JSXBezierCurve {
         if (this.selected && !this.resizing && !this.rotating) {
             this.startDragging()
         }
+        this.board.unsuspendUpdate()
+        console.timeEnd("Processing mouse down event")
     }
 
     processMouseMove(e: PointerEvent) {
+        console.time("Processing mouse move event")
+        this.board.suspendUpdate()
         const newCoords = this.getMouseCoords(e);
         if (this.dragging) {
             this.move(newCoords)
@@ -106,6 +112,8 @@ export class JSXBezierCurve {
         }
         this.board.update()
         this.coords = newCoords
+        this.board.unsuspendUpdate()
+        console.timeEnd("Processing mouse move event")
     }
 
     getResizingDir(): number[] {
@@ -151,10 +159,20 @@ export class JSXBezierCurve {
     }
 
     select() {
+        if (this.selected) {
+            return
+        }
+        this.jxgPoints.forEach(point => point.setAttribute({fixed: true}))
+        this.showBoundingBox()
         this.selected = true
     }
 
     deselect() {
+        if (!this.selected) {
+            return
+        }
+        this.jxgPoints.forEach(point => point.setAttribute({fixed: false}))
+        this.hideBoundingBox()
         this.selected = false
     }
 

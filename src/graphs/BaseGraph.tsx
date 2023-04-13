@@ -18,10 +18,12 @@ abstract class BaseGraph extends Component<any, any> {
     }
 
     componentDidMount() {
-        this.board = JSXGraph.initBoard("jgbox", {
-            showFullscreen: true, boundingbox: [-5, 5, 5, -5], axis: true
-        });
-        this.initialize()
+        if (this.board == null) {
+            this.board = JSXGraph.initBoard("jgbox", {
+                showFullscreen: true, boundingbox: [-5, 5, 5, -5], axis: true
+            });
+            this.initialize()
+        }
     }
 
     abstract initialize(): void;

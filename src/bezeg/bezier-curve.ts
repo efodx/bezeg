@@ -8,7 +8,6 @@ export class BezierCurve {
     /**
      * @constructor
      * @param {Array.<Point>} points - Curve's control points
-     * @param {*} id
      */
     constructor(points: Array<Point>) {
         this.points = points
@@ -22,7 +21,7 @@ export class BezierCurve {
         this.points = points
     }
 
-    getPoints() {
+    getPoints(): Point[] {
         return this.points
     }
 
@@ -151,7 +150,7 @@ export class BezierCurve {
      */
     extrapolate(t: number): this {
         const decasteljauScheme = this.decasteljauScheme(t)
-        const newPoints = decasteljauScheme.map((row, i) => row[0])
+        const newPoints = decasteljauScheme.map(row => row[0])
         return new BezierCurve(newPoints) as this
     }
 
@@ -162,7 +161,7 @@ export class BezierCurve {
     subdivide(t: number): this[] {
         const decasteljauScheme = this.decasteljauScheme(t)
         const n = decasteljauScheme.length
-        const points1 = decasteljauScheme.map((row, i) => row[0])
+        const points1 = decasteljauScheme.map(row => row[0])
         const points2 = decasteljauScheme.map((row, i) => row[n - 1 - i]).reverse()
         const bezierCurve1 = new BezierCurve(points1)
         const bezierCurve2 = new BezierCurve(points2)
@@ -174,7 +173,7 @@ export class BezierCurve {
      * @param point
      */
     removePoint(point: Point) {
-        this.points = this.points.filter(point2 => point2 != point)
+        this.points = this.points.filter(point2 => point2 !== point)
     }
 
     /**

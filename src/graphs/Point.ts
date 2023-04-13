@@ -25,7 +25,6 @@ export class Point implements BezegPoint {
     }
 
     setY(y: number): void {
-        // @ts-ignore
         //this.point.moveTo([this.point.X(), y])
         this.point.setPositionDirectly(JXG.COORDS_BY_USER, [this.point.X(), y]);
     }
