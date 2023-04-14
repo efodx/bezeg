@@ -1,13 +1,9 @@
 import React from 'react';
 import '../App.css';
-import {BezierCurve} from "../bezeg/bezier-curve";
-import {Point} from "./Point";
-import {JGBox} from "../JGBox";
 import {Button} from "../inputs/Button";
-import BaseGraph from "./BaseGraph";
+import {BaseCurveGraph} from "./BaseCurveGraph";
 
-class DecasteljauGraph extends BaseGraph {
-    private bejzjer: BezierCurve | undefined;
+class DecasteljauGraph extends BaseCurveGraph {
     private slider: JXG.Slider | undefined;
     private segments: any;
     private lastDrawn: number | undefined;
@@ -17,21 +13,16 @@ class DecasteljauGraph extends BaseGraph {
 
     constructor(props: any) {
         super(props);
-        this.state = {animating: false};
+        // set correct state
+        this.state = {
+            animating: false
+        };
     }
 
     initialize() {
-        const p = this.board.create('point', [-4, -3]);
-        const pp = new Point(p);
-        const p2 = this.board.create('point', [-3, 2]);
-        const pp2 = new Point(p2);
-        const p3 = this.board.create('point', [2, 2]);
-        const pp3 = new Point(p3);
-        const p4 = this.board.create('point', [3, -2]);
-        const pp4 = new Point(p4);
-        this.points = [p, p2, p3, p4]
-        this.bejzjer = new BezierCurve([pp, pp2, pp3, pp4])
-
+        const points = [[-4, -3], [-3, 2], [2, 2], [3, -2]]
+        this.createJSXBezierCurve(points)
+        this.graphJXGPoints = this.jsxBezierCurves[0].getJxgPoints()
         this.slider = this.board.create('slider', [[2, 3], [4, 3], [0, 0.1, 1]]);
         this.lastDrawn = Date.now();
         this.generateLineSegments(this.slider.Value())
@@ -39,35 +30,16 @@ class DecasteljauGraph extends BaseGraph {
             if (Date.now() - this.lastDrawn > 60) {
                 // @ts-ignore
                 this.lastDrawn = Date.now()
-                this.updateDecasteljauScheme(this.slider?.Value() as number)
+                this.updateDecasteljauScheme(this.slider!.Value())
+                this.jsxBezierCurves[0].setIntervalEnd(this.slider!.Value())
             }
         })
-
-        this.board.create('curve',
-            [(t: number) => {
-                // @ts-ignore
-                return this.bejzjer.calculatePointAtT(t).X();
-            },
-                (t: number) => {
-                    // @ts-ignore
-                    return this.bejzjer.calculatePointAtT(t).Y();
-                },
-                0, () => this.slider?.Value()]
-        );
-    }
-
-    render() {
-        return <div><JGBox/>
-            {this.state.animating ?
-                <Button onClick={() => this.stopAnimation()} text="Ustavi"/> :
-                <Button onClick={() => this.startAnimation()} text="Animiraj"/>}
-        </div>;
     }
 
 
     updateDecasteljauScheme(t: number) {
         // done like this to avoid redrawing segments every tick
-        const decasteljauScheme = this.bejzjer!.decasteljauScheme(t)
+        const decasteljauScheme = this.jsxBezierCurves[0].getBezierCurve()!.decasteljauScheme(t)
         this.segments = []
         const n = decasteljauScheme.length
         for (let r = 0; r < n; r++) {
@@ -80,7 +52,7 @@ class DecasteljauGraph extends BaseGraph {
     }
 
     generateLineSegments(t: number) {
-        this.decasteljauScheme = this.bejzjer?.decasteljauScheme(t)
+        this.decasteljauScheme = this.jsxBezierCurves[0].getBezierCurve()?.decasteljauScheme(t)
         // so we can delete them later if we want to add extra points
         this.segments = []
         const n = this.decasteljauScheme.length
@@ -90,11 +62,12 @@ class DecasteljauGraph extends BaseGraph {
                 const p2 = this.decasteljauScheme[r][i]
                 var pp1 = null;
                 if (i === 1 && r !== 0) {
-                    pp1 = this.board?.create('point', [() => p1.X(), () => p1.Y()], {
+                    this.createJSXGraphPoint(() => p1.X(), () => p1.Y(), {
                         // @ts-ignore
                         style: JXG.POINT_STYLE_X,
                         color: this.pointColors[r]
-                    });
+                    })
+                    pp1 = this.graphJXGPoints[this.graphJXGPoints.length - 1]
                 } else {
                     if (r !== 0) {
                         pp1 = this.segments[this.segments.length - 1]
@@ -102,14 +75,15 @@ class DecasteljauGraph extends BaseGraph {
                 }
                 var pp2 = null;
                 if (r === 0) {
-                    pp1 = this.points[i - 1]
-                    pp2 = this.points[i]
+                    pp1 = this.graphJXGPoints[i - 1]
+                    pp2 = this.graphJXGPoints[i]
                 } else {
-                    pp2 = this.board?.create('point', [() => p2.X(), () => p2.Y()], {
+                    this.createJSXGraphPoint(() => p2.X(), () => p2.Y(), {
                         // @ts-ignore
                         style: JXG.POINT_STYLE_X,
                         color: this.pointColors[r]
-                    });
+                    })
+                    pp2 = this.graphJXGPoints[this.graphJXGPoints.length - 1]
                 }
                 const segment = this.board?.create('segment', [pp1, pp2]);
                 this.segments.push(segment)
@@ -124,6 +98,12 @@ class DecasteljauGraph extends BaseGraph {
             color: this.pointColors[n - 1],
             trace: false
         });
+    }
+
+    protected getAdditionalCommands(): JSX.Element {
+        return this.state.animating ?
+            <Button onClick={() => this.stopAnimation()} text="Ustavi"/> :
+            <Button onClick={() => this.startAnimation()} text="Animiraj"/>;
     }
 
     private startAnimation() {

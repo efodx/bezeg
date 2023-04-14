@@ -5,7 +5,7 @@ import {Point as JSXPoint} from "jsxgraph";
  * Class that wraps a JSXPoint into BezegPoint interface.
  */
 export class Point implements BezegPoint {
-    private point: JSXPoint;
+    private readonly point: JSXPoint;
 
     constructor(point: JSXPoint) {
         this.point = point;
@@ -20,12 +20,10 @@ export class Point implements BezegPoint {
     }
 
     setX(x: number): void {
-        // this.point.moveTo([x, this.point.Y()])
         this.point.setPositionDirectly(JXG.COORDS_BY_USER, [x, this.point.Y()]);
     }
 
     setY(y: number): void {
-        //this.point.moveTo([this.point.X(), y])
         this.point.setPositionDirectly(JXG.COORDS_BY_USER, [this.point.X(), y]);
     }
 }
