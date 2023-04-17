@@ -15,7 +15,9 @@ class DecasteljauGraph extends BaseCurveGraph {
         super(props);
         // set correct state
         this.state = {
-            animating: false
+            animating: false,
+            jusMoving: true,
+            deletingPoints: false
         };
     }
 

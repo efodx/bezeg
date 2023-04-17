@@ -11,6 +11,9 @@ import RationalElevationGraph from "./graphs/RationalElevationGraph";
 import RationalExtrapolationGraph from "./graphs/RationalExtrapolationGraph";
 import RationalSubdivisionGraph from "./graphs/RationalSubdivisionGraph";
 import ScaleBezierCurveGraph from "./graphs/AffineTransformsBezierCurveGraph";
+import SplineGraph from "./graphs/C0SplineGraph";
+import C1SplineGraph from "./graphs/C1SplineGraph";
+import G1SplineGraph from "./graphs/G1SplineGraph";
 
 const routes = [
     {
@@ -74,6 +77,21 @@ const routes = [
                 path: "/bezeg/rational-subdivision",
                 element: <RationalSubdivisionGraph/>,
                 title: "Subdivizija Racionalne"
+            },
+            {
+                path: "/bezeg/spline",
+                element: <SplineGraph/>,
+                title: "C0 Zlepek"
+            },
+            {
+                path: "/bezeg/c1spline",
+                element: <C1SplineGraph/>,
+                title: "C1 Zlepek"
+            },
+            {
+                path: "/bezeg/g1spline",
+                element: <G1SplineGraph/>,
+                title: "G1 Zlepek"
             },
         ],
     }

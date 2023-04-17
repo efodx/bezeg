@@ -6,6 +6,7 @@ import {Point} from "./Point";
  * Class that wraps a BezierCurve with methods for dealing with JSXGraph
  */
 export abstract class AbstractJSXBezierCurve<T extends BezierCurve> {
+    coords: JXG.Coords | undefined;
     protected readonly bezierCurve: T
     protected readonly board: Board
     private jxgCurve: JXG.Curve
@@ -16,7 +17,6 @@ export abstract class AbstractJSXBezierCurve<T extends BezierCurve> {
     private dragging: boolean = false
     private rotating: boolean = false
     private resizing: boolean = false
-    private coords: JXG.Coords | undefined;
     private intervalStart: number = 0;
     private intervalEnd: number = 1;
 
@@ -92,7 +92,6 @@ export abstract class AbstractJSXBezierCurve<T extends BezierCurve> {
     }
 
     processMouseUp(e: PointerEvent) {
-        this.board.suspendUpdate()
         const newCoords = this.getMouseCoords(e);
         if (this.dragging) {
             this.stopDragging()
@@ -109,37 +108,33 @@ export abstract class AbstractJSXBezierCurve<T extends BezierCurve> {
             this.rotate(newCoords)
             return
         }
-        this.board.unsuspendUpdate()
+    }
+
+    isSelectable(e: PointerEvent) {
+        let coords = this.getMouseCoords(e);
+        // @ts-ignore
+        return this.jxgCurve?.hasPoint(coords.scrCoords[1], coords.scrCoords[2])
+        //&& !this.jxgPoints.some(point => point.hasPoint(coords.scrCoords[1], coords.scrCoords[2]))
     }
 
     processMouseDown(e: PointerEvent) {
         console.time("Processing mouse down event")
-        this.board.suspendUpdate()
         this.coords = this.getMouseCoords(e);
         // @ts-ignore
-        if (this.jxgCurve?.hasPoint(this.coords.scrCoords[1], this.coords.scrCoords[2]) && !this.jxgPoints.some(point => point.hasPoint(this.coords!.scrCoords[1], this.coords!.scrCoords[2]))) {
-            this.select()
-        } else {
-            if (!this.isMouseInsidePaddedBoundingBox()) {
-                this.deselect()
-            }
-            // @ts-ignore
-            if (this.boundBoxPoints?.some(point => point.hasPoint(this.coords!.scrCoords[1], this.coords!.scrCoords[2])) && this.selected) {
-                this.startResizing()
-            } else if (!this.isMouseInsideBoundingBox() && this.isMouseInsidePaddedBoundingBox() && this.selected) {
-                this.startRotating()
-            }
+        // @ts-ignore
+        if (this.boundBoxPoints?.some(point => point.hasPoint(this.coords!.scrCoords[1], this.coords!.scrCoords[2])) && this.selected) {
+            this.startResizing()
+        } else if (!this.isMouseInsideBoundingBox() && this.isMouseInsidePaddedBoundingBox() && this.selected) {
+            this.startRotating()
         }
         if (this.selected && !this.resizing && !this.rotating) {
             this.startDragging()
         }
-        this.board.unsuspendUpdate()
         console.timeEnd("Processing mouse down event")
     }
 
     processMouseMove(e: PointerEvent) {
         console.time("Processing mouse move event")
-        this.board.suspendUpdate()
         const newCoords = this.getMouseCoords(e);
         if (this.dragging) {
             this.move(newCoords)
@@ -152,7 +147,6 @@ export abstract class AbstractJSXBezierCurve<T extends BezierCurve> {
         }
         this.board.update()
         this.coords = newCoords
-        this.board.unsuspendUpdate()
         console.timeEnd("Processing mouse move event")
     }
 

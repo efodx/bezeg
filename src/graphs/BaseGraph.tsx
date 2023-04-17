@@ -23,6 +23,10 @@ abstract class BaseGraph<U extends BezierCurve, T extends AbstractJSXBezierCurve
         this.board = null as unknown as Board;
     }
 
+    getAllJxgPoints() {
+        return this.jsxBezierCurves.flatMap(c => c.getJxgPoints()).concat(this.graphJXGPoints)
+    }
+
     componentDidMount() {
         if (this.board == null) {
             this.board = JSXGraph.initBoard("jgbox", {
@@ -63,7 +67,6 @@ abstract class BaseGraph<U extends BezierCurve, T extends AbstractJSXBezierCurve
             point = this.board.create('point', [x, y]);
         }
         this.graphJXGPoints.push(point)
-        console.log("created point")
         return new Point(point);
     }
 
@@ -99,14 +102,33 @@ abstract class BaseGraph<U extends BezierCurve, T extends AbstractJSXBezierCurve
     }
 
     handleDown(e: PointerEvent) {
+        this.board.suspendUpdate()
+        let coords = this.getMouseCoords(e);
+        let selectedCurve, selectableCurve;
         if (this.state.justMoving) {
-            this.jsxBezierCurves[0].processMouseDown(e)
+            selectedCurve = this.getSelectedCurve()
+            if (selectedCurve) {
+                selectedCurve.coords = coords
+                if (selectedCurve.isMouseInsidePaddedBoundingBox()) {
+                    selectedCurve.processMouseDown(e)
+                } else {
+                    selectedCurve.deselect()
+                }
+            }
+            selectedCurve = this.getSelectedCurve()
+            if (!selectedCurve) {
+                // @ts-ignore
+                if (this.getAllJxgPoints().some(p => p.hasPoint(coords.scrCoords[1], coords.scrCoords[2]))) {
+                    return
+                } else {
+                    selectableCurve = this.jsxBezierCurves.filter(curve => curve.isSelectable(e))[0]
+                    selectableCurve?.select()
+                }
+            }
             return
         }
-        let canCreate = true,
-            coords: JXG.Coords, el;
+        let canCreate = true, el;
 
-        coords = this.getMouseCoords(e);
 
         for (el of this.board.objectsList) {
             // @ts-ignore
@@ -132,6 +154,7 @@ abstract class BaseGraph<U extends BezierCurve, T extends AbstractJSXBezierCurve
             )
         }
 
+        this.board.unsuspendUpdate()
     };
 
     protected abstract getAdditionalCommands(): JSX.Element;
@@ -164,18 +187,30 @@ abstract class BaseGraph<U extends BezierCurve, T extends AbstractJSXBezierCurve
     }
 
     private handleUp(e: PointerEvent) {
+        this.board.suspendUpdate()
         if (!this.state.justMoving) {
             // only handle when we're just moving shit
             return
         }
-        this.jsxBezierCurves[0].processMouseUp(e)
+
+        let selectedCurve = this.getSelectedCurve()
+        selectedCurve?.processMouseUp(e)
+        this.board.unsuspendUpdate()
+    }
+
+    private getSelectedCurve() {
+        return this.jsxBezierCurves.filter(curve => curve.isSelected())[0];
     }
 
     private handleMove(e: PointerEvent) {
-        if (!this.state.justMoving || !this.jsxBezierCurves[0].isSelected()) {
+        this.board.suspendUpdate()
+        if (!this.state.justMoving) {
             return
         }
-        this.jsxBezierCurves[0].processMouseMove(e)
+
+        let selectedCurve = this.getSelectedCurve()
+        selectedCurve?.processMouseMove(e)
+        this.board.unsuspendUpdate()
     }
 
     private onSelectChange(e: React.ChangeEvent<HTMLSelectElement>) {
