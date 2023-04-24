@@ -1,9 +1,9 @@
 import {Point} from "./point/point";
 import {BezierCurve} from "./bezier-curve";
 import {PointImpl} from "./point/point-impl";
+import {PointControlledCurve} from "./point-controlled-curve";
 
-export class BezierSpline {
-    private points: Array<Point>;
+export class BezierSpline extends PointControlledCurve {
     private degree: number;
     private continuity: number;
     private bezierCurves: BezierCurve[];
@@ -17,22 +17,29 @@ export class BezierSpline {
      * @param continuity
      */
     constructor(points: Array<Point>, degree: number, continuity: number) {
-        this.points = points
+        super(points)
         this.degree = degree
         this.continuity = continuity
         this.bezierCurves = []
 
         // TODO parameters correctness check
-        if (continuity === 0) {
-            let step = degree;
-            console.log(points.length) // 7
+        // TODO enum continuity
+        this.generateBezierCurves()
+    }
+
+
+    generateBezierCurves() {
+        this.bezierCurves = []
+        this.nonFreePoints = []
+        if (this.continuity === 0) {
+            let step = this.degree;
             for (let i = 0; i < this.points.length - step; i = i + step) {
                 let bezierCurvePoints = this.points.slice(i, i + step + 1)
                 this.bezierCurves.push(new BezierCurve(bezierCurvePoints))
             }
         }
-        if (continuity === 0.5) {
-            let step = degree;
+        if (this.continuity === 0.5) {
+            let step = this.degree;
             for (let i = 0; i < this.points.length - step + 1; i = i + step - 1) {
                 let bezierCurvePoints = this.points.slice(i, i + step)
                 let previousBezierCurve = this.bezierCurves[this.bezierCurves.length - 1]
@@ -52,8 +59,8 @@ export class BezierSpline {
                 }
             }
         }
-        if (continuity === 1) {
-            let step = degree;
+        if (this.continuity === 1) {
+            let step = this.degree;
             for (let i = 0; i < this.points.length - step + 1; i = i + step - 1) {
                 let bezierCurvePoints = this.points.slice(i, i + step)
                 let previousBezierCurve = this.bezierCurves[this.bezierCurves.length - 1]
@@ -70,12 +77,10 @@ export class BezierSpline {
                 }
             }
         }
-
     }
 
     calculatePointAtT(t: number): Point {
         // todo param check
-        // t = 0.5 moram dobit c = 2, t = 0.5
         if (t === 1) {
             return this.bezierCurves[this.bezierCurves.length - 1].calculatePointAtT(1)
         }
@@ -83,7 +88,14 @@ export class BezierSpline {
         let c = Math.floor(n * t)
         t = n * t - c
         return this.bezierCurves[c].calculatePointAtT(t)
+    }
 
+    setContinuity(continuity: number) {
+        this.continuity = continuity
+    }
+
+    setDegree(degree: number) {
+        this.degree = degree
     }
 
     setB(j: number, b: number) {
@@ -98,4 +110,29 @@ export class BezierSpline {
         return this.nonFreePoints
     }
 
+    override getBoundingBox() {
+        // TODO this is just a hacky solution
+        let maxX = -3000
+        let maxY = -3000
+        let minX = 3000
+        let minY = 3000
+        // we include non-free points for this so the curve is always inside the bounding box, might change it to actual curve min and max
+        const points = this.points.concat(this.getNonFreePoints())
+        points.forEach(point => {
+                if (point.X() > maxX) {
+                    maxX = point.X()
+                }
+                if (point.Y() > maxY) {
+                    maxY = point.Y()
+                }
+                if (point.X() < minX) {
+                    minX = point.X()
+                }
+                if (point.Y() < minY) {
+                    minY = point.Y()
+                }
+            }
+        )
+        return [minX, maxX, minY, maxY]
+    }
 }

@@ -10,7 +10,7 @@ export abstract class BaseRationalCurveGraph extends BaseGraph<RationalBezierCur
 
     createRationalJSXBezierCurve(points: number[][], weights: number[]): JSXRationalBezierCurve {
         let curve = super.createJSXBezierCurve(points);
-        curve.getBezierCurve().setWeights(weights)
+        curve.getCurve().setWeights(weights)
         return curve
     }
 

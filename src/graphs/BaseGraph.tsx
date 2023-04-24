@@ -5,13 +5,13 @@ import {Board, JSXGraph} from "jsxgraph";
 import {Point} from "./Point";
 import {JGBox} from "../JGBox";
 import {Select} from "../inputs/Select";
-import {BezierCurve} from "../bezeg/bezier-curve";
-import {AbstractJSXBezierCurve} from "./AbstractJSXBezierCurve";
+import {AbstractJSXPointControlledCurve} from "./AbstractJSXPointControlledCurve";
+import {PointControlledCurve} from "../bezeg/point-controlled-curve";
 
 /**
  * Abstract class for creating graphs.
  */
-abstract class BaseGraph<U extends BezierCurve, T extends AbstractJSXBezierCurve<U>> extends Component<any, any> {
+abstract class BaseGraph<U extends PointControlledCurve, T extends AbstractJSXPointControlledCurve<U>> extends Component<any, any> {
     protected board: Board;
     protected jsxBezierCurves: T[] = [];
     protected graphJXGPoints: JXG.Point[] = [];
@@ -21,6 +21,10 @@ abstract class BaseGraph<U extends BezierCurve, T extends AbstractJSXBezierCurve
         super(props);
         this.state = {deletingPoints: false, justMoving: true};
         this.board = null as unknown as Board;
+    }
+
+    getFirstCurve() {
+        return this.jsxBezierCurves[0]?.getCurve()
     }
 
     getAllJxgPoints() {
@@ -118,13 +122,12 @@ abstract class BaseGraph<U extends BezierCurve, T extends AbstractJSXBezierCurve
             selectedCurve = this.getSelectedCurve()
             if (!selectedCurve) {
                 // @ts-ignore
-                if (this.getAllJxgPoints().some(p => p.hasPoint(coords.scrCoords[1], coords.scrCoords[2]))) {
-                    return
-                } else {
+                if (!this.getAllJxgPoints().some(p => p.hasPoint(coords.scrCoords[1], coords.scrCoords[2]))) {
                     selectableCurve = this.jsxBezierCurves.filter(curve => curve.isSelectable(e))[0]
                     selectableCurve?.select()
                 }
             }
+            this.board.unsuspendUpdate()
             return
         }
         let canCreate = true, el;
@@ -146,7 +149,7 @@ abstract class BaseGraph<U extends BezierCurve, T extends AbstractJSXBezierCurve
                     // @ts-ignore
                     if (point.hasPoint(coords.scrCoords[1], coords.scrCoords[2])) {
                         this.board.removeObject(point)
-                        this.jsxBezierCurves[0].getBezierCurve().removePoint(this.jsxBezierCurves[0].getBezierCurve().getPoints()[i])
+                        this.getFirstCurve().removePoint(this.getFirstCurve().getPoints()[i])
                         return false
                     }
                     return true

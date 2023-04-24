@@ -14,6 +14,7 @@ import ScaleBezierCurveGraph from "./graphs/AffineTransformsBezierCurveGraph";
 import SplineGraph from "./graphs/C0SplineGraph";
 import C1SplineGraph from "./graphs/C1SplineGraph";
 import G1SplineGraph from "./graphs/G1SplineGraph";
+import G1AffineSplineGraph from "./graphs/G1AffineSplineGraph";
 
 const routes = [
     {
@@ -92,6 +93,11 @@ const routes = [
                 path: "/bezeg/g1spline",
                 element: <G1SplineGraph/>,
                 title: "G1 Zlepek"
+            },
+            {
+                path: "/bezeg/g1affinespline",
+                element: <G1AffineSplineGraph/>,
+                title: "G1 Afini Zlepek"
             },
         ],
     }

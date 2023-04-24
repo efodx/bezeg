@@ -7,7 +7,7 @@ import {AbstractJSXBezierCurve} from "./AbstractJSXBezierCurve";
 export class JSXBezierCurve extends AbstractJSXBezierCurve<BezierCurve> {
 
     subdivide(t: number): this {
-        const [curve1, curve2]: BezierCurve[] = this.bezierCurve.subdivide(t);
+        const [curve1, curve2]: BezierCurve[] = this.pointControlledCurve.subdivide(t);
         // Move this curve
         this.movePointsToNewPoints(curve1.getPoints())
 
@@ -17,14 +17,14 @@ export class JSXBezierCurve extends AbstractJSXBezierCurve<BezierCurve> {
     }
 
     elevate() {
-        const elevated = this.bezierCurve.elevate()
+        const elevated = this.pointControlledCurve.elevate()
         this.clearJxgPoints()
         const wrappedPoints = elevated.getPoints().map(point => this.createJSXGraphPoint(point.X(), point.Y()))
-        this.bezierCurve.setPoints(wrappedPoints);
+        this.pointControlledCurve.setPoints(wrappedPoints);
     }
 
     extrapolate(t: number) {
-        const extrapolatedBezier: BezierCurve = this.bezierCurve.extrapolate(t)
+        const extrapolatedBezier: BezierCurve = this.pointControlledCurve.extrapolate(t)
         this.movePointsToNewPoints(extrapolatedBezier.getPoints())
     }
 

@@ -14,11 +14,12 @@ class DecasteljauGraph extends BaseCurveGraph {
     constructor(props: any) {
         super(props);
         // set correct state
-        this.state = {
+
+        this.setState({
             animating: false,
             jusMoving: true,
             deletingPoints: false
-        };
+        });
     }
 
     initialize() {
@@ -41,7 +42,7 @@ class DecasteljauGraph extends BaseCurveGraph {
 
     updateDecasteljauScheme(t: number) {
         // done like this to avoid redrawing segments every tick
-        const decasteljauScheme = this.jsxBezierCurves[0].getBezierCurve()!.decasteljauScheme(t)
+        const decasteljauScheme = this.getFirstCurve()!.decasteljauScheme(t)
         this.segments = []
         const n = decasteljauScheme.length
         for (let r = 0; r < n; r++) {
@@ -54,7 +55,7 @@ class DecasteljauGraph extends BaseCurveGraph {
     }
 
     generateLineSegments(t: number) {
-        this.decasteljauScheme = this.jsxBezierCurves[0].getBezierCurve()?.decasteljauScheme(t)
+        this.decasteljauScheme = this.getFirstCurve()?.decasteljauScheme(t)
         // so we can delete them later if we want to add extra points
         this.segments = []
         const n = this.decasteljauScheme.length

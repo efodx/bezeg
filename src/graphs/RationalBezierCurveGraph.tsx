@@ -47,7 +47,7 @@ class RationalBezierCurveGraph extends BaseRationalCurveGraph {
         this.jsxBezierCurves[0].getJxgPoints()[this.weightNumber].setAttribute({
             color: "red"
         })
-        if (this.weightNumber === this.jsxBezierCurves[0].getBezierCurve()!.getWeights().length - 1) {
+        if (this.weightNumber === this.getFirstCurve()!.getWeights().length - 1) {
             this.weightNumber = 0;
         } else {
             this.weightNumber = this.weightNumber + 1;
@@ -61,13 +61,13 @@ class RationalBezierCurveGraph extends BaseRationalCurveGraph {
     }
 
     changeWeight(dw: number) {
-        this.jsxBezierCurves[0].getBezierCurve()!.getWeights()[this.weightNumber] = Math.round(100 * this.jsxBezierCurves[0].getBezierCurve()!.getWeights()[this.weightNumber] * dw) / 100
+        this.getFirstCurve()!.getWeights()[this.weightNumber] = Math.round(100 * this.getFirstCurve()!.getWeights()[this.weightNumber] * dw) / 100
         this.board.update()
         this.refreshWeightState()
     }
 
     refreshWeightState() {
-        this.setState({currentWeight: this.jsxBezierCurves[0].getBezierCurve()!.getWeights()[this.weightNumber]})
+        this.setState({currentWeight: this.getFirstCurve()!.getWeights()[this.weightNumber]})
     }
 
 }
