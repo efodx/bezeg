@@ -9,13 +9,13 @@ class Graph extends BaseSplineCurveGraph {
         this.createJSXSplineCurve(points, 3, 0.5)
     }
 
-    protected getAdditionalCommands(): JSX.Element {
-        return <div>
+    getGraphCommands(): JSX.Element[] {
+        return [
             <div><Button text={"Povečaj B1"} onClick={() => this.povecajB1()}></Button>
-                <Button text={"Zmanjšaj B1"} onClick={() => this.zmanjsajB1()}></Button></div>
+                <Button text={"Zmanjšaj B1"} onClick={() => this.zmanjsajB1()}></Button></div>,
             <div><Button text={"Povečaj B2"} onClick={() => this.povecajB2()}></Button>
                 <Button text={"Zmanjšaj B2"} onClick={() => this.zmanjsajB2()}></Button></div>
-        </div>
+        ]
     }
 
     private povecajB1() {

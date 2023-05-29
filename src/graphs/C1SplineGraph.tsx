@@ -1,4 +1,3 @@
-import React from "react";
 import {BaseSplineCurveGraph} from "./BaseSplineCurveGraph";
 
 class Graph extends BaseSplineCurveGraph {
@@ -7,9 +6,6 @@ class Graph extends BaseSplineCurveGraph {
         this.createJSXSplineCurve(points, 3, 1)
     }
 
-    protected getAdditionalCommands(): JSX.Element {
-        return <div></div>
-    }
 }
 
 export default Graph;

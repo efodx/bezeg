@@ -10,7 +10,7 @@ import RationalBezierCurveGraph from "./graphs/RationalBezierCurveGraph";
 import RationalElevationGraph from "./graphs/RationalElevationGraph";
 import RationalExtrapolationGraph from "./graphs/RationalExtrapolationGraph";
 import RationalSubdivisionGraph from "./graphs/RationalSubdivisionGraph";
-import ScaleBezierCurveGraph from "./graphs/AffineTransformsBezierCurveGraph";
+import AffineBezierGraph from "./graphs/AffineTransformsBezierCurveGraph";
 import SplineGraph from "./graphs/C0SplineGraph";
 import C1SplineGraph from "./graphs/C1SplineGraph";
 import G1SplineGraph from "./graphs/G1SplineGraph";
@@ -31,32 +31,55 @@ const routes = [
             },
             {
                 path: "/bezeg/curves",
-                element: <BezierCurveGraph/>,
+                element: <BezierCurveGraph areCurvesSelectable={true} allowSelectedCurveShrink={true}/>,
                 title: "Bezierjeva Krivulja"
             },
             {
                 path: "/bezeg/decasteljau",
-                element: <DecasteljauGraph/>,
+                element: <DecasteljauGraph
+                    allowSelectedCurveDecasteljau={false}
+                    allowSelectedCurveElevation={false}
+                    allowSelectedCurveExtrapolation={false}
+                    allowSelectedCurveSubdivision={false}
+                    allowSelectedCurveControlPolygon={false}/>,
                 title: "Decasteljau"
             },
             {
                 path: "/bezeg/affine",
-                element: <ScaleBezierCurveGraph/>,
+                element: <AffineBezierGraph
+                    allowSelectedCurveDecasteljau={false}
+                    allowSelectedCurveElevation={false}
+                    allowSelectedCurveExtrapolation={false}
+                    allowSelectedCurveSubdivision={false}/>,
                 title: "Afine Transformacije"
             },
             {
                 path: "/bezeg/subdivision",
-                element: <GraphSubdivision/>,
+                element: <GraphSubdivision
+                    allowSelectedCurveDecasteljau={false}
+                    allowSelectedCurveElevation={false}
+                    allowSelectedCurveExtrapolation={false}
+                    allowSelectedCurveSubdivision={false}/>,
                 title: "Subdivizija"
             },
             {
                 path: "/bezeg/extrapolation",
-                element: <ExtrapolationGraph/>,
+                element: <ExtrapolationGraph
+                    allowSelectedCurveDecasteljau={false}
+                    allowSelectedCurveElevation={false}
+                    allowSelectedCurveExtrapolation={false}
+                    allowSelectedCurveSubdivision={false}
+                    allowSelectedCurveControlPolygon={false}/>,
                 title: "Ekstrapolacija"
             },
             {
                 path: "/bezeg/elevation",
-                element: <ElevationGraph/>,
+                element: <ElevationGraph
+                    allowSelectedCurveDecasteljau={false}
+                    allowSelectedCurveElevation={false}
+                    allowSelectedCurveExtrapolation={false}
+                    allowSelectedCurveSubdivision={false}
+                    allowSelectedCurveControlPolygon={false}/>,
                 title: "Dvig Stopnje"
             },
             {

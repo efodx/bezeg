@@ -1,14 +1,18 @@
 import React from 'react';
 import '../App.css';
 import {Button} from "../inputs/Button";
-import {BaseRationalCurveGraph} from "./BaseRationalCurveGraph";
+import {
+    BaseRationalBezierCurveGraphProps,
+    BaseRationalBezierCurveGraphState,
+    BaseRationalCurveGraph
+} from "./BaseRationalCurveGraph";
 
-class Graph extends BaseRationalCurveGraph {
+class Graph extends BaseRationalCurveGraph<BaseRationalBezierCurveGraphProps, BaseRationalBezierCurveGraphState> {
     private slider: JXG.Slider | undefined;
     private stepsDone: number = 0;
 
     initialize() {
-        let curve = this.createRationalJSXBezierCurve([[-3, 2], [0, -2], [1, 2], [3, -2]], [1, 5, 1, 1])
+        this.createRationalJSXBezierCurve([[-3, 2], [0, -2], [1, 2], [3, -2]], [1, 5, 1, 1])
         this.slider = this.board.create('slider', [[2, 2], [4, 2], [0, 0.5, 1]]);
         //this.createJSXGraphPoint(() => curve.getBezierCurve().calculatePointAtT(this.slider!.Value()).X(), () => curve.getBezierCurve().calculatePointAtT(this.slider!.Value()).Y());
     }
@@ -27,8 +31,8 @@ class Graph extends BaseRationalCurveGraph {
         this.board.unsuspendUpdate()
     };
 
-    protected getAdditionalCommands(): JSX.Element {
-        return <Button text="Subdiviziraj" onClick={() => this.subdivide()}></Button>
+    getGraphCommands(): JSX.Element[] {
+        return [<Button text="Subdiviziraj" onClick={() => this.subdivide()}></Button>]
     }
 
 }

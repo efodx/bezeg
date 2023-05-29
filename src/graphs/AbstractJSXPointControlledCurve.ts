@@ -9,16 +9,18 @@ export abstract class AbstractJSXPointControlledCurve<T extends PointControlledC
     coords: JXG.Coords | undefined;
     protected readonly pointControlledCurve: T
     protected readonly board: Board
-    private jxgCurve: JXG.Curve
     private jxgPoints: JXG.Point[] = []
+    private jxgCurve: JXG.Curve
     private boundBoxPoints: JXG.Point[] = []
     private boundBoxSegments: JXG.Segment[] = []
     private selected: boolean = false
     private dragging: boolean = false
     private rotating: boolean = false
     private resizing: boolean = false
-    private intervalStart: number = 0;
-    private intervalEnd: number = 1;
+    private intervalStart: number | (() => number) = 0;
+    private intervalEnd: number | (() => number) = 1;
+    private controlPolygonSegments: JXG.Segment[] = []
+    private showingControlPolygon: boolean = false;
 
     constructor(points: number[][], board: Board) {
         this.board = board
@@ -30,17 +32,32 @@ export abstract class AbstractJSXPointControlledCurve<T extends PointControlledC
                 (t: number) => {
                     return this.pointControlledCurve.calculatePointAtT(t).Y();
                 },
-                () => this.intervalStart, () => this.intervalEnd]
+                () => {
+                    if (typeof this.intervalStart == "number") {
+                        return this.intervalStart
+                    }
+                    return this.intervalStart()
+                },
+                () => {
+                    if (typeof this.intervalEnd == "number") {
+                        return this.intervalEnd
+                    }
+                    return this.intervalEnd()
+                }]
         );
         this.addBoundingBox()
         this.hideBoundingBox()
     }
 
-    setIntervalStart(t: number) {
+    isShowingControlPolygon() {
+        return this.showingControlPolygon
+    }
+
+    setIntervalStart(t: number | (() => number)) {
         this.intervalStart = t
     }
 
-    setIntervalEnd(t: number) {
+    setIntervalEnd(t: number | (() => number)) {
         this.intervalEnd = t
     }
 
@@ -52,7 +69,7 @@ export abstract class AbstractJSXPointControlledCurve<T extends PointControlledC
     removePoint(i: number) {
         this.board.removeObject(this.jxgPoints[i])
         this.pointControlledCurve.removePoint(this.pointControlledCurve.getPoints()[i])
-        this.jxgPoints = this.jxgPoints.splice(i, 1)
+        this.jxgPoints.splice(i, 1)
     }
 
     move(newCoords: JXG.Coords) {
@@ -181,6 +198,16 @@ export abstract class AbstractJSXPointControlledCurve<T extends PointControlledC
         this.showBoundingBox()
     }
 
+    showControlPolygon() {
+        this.showControlPolygonInternal()
+        this.showingControlPolygon = true
+    }
+
+    hideControlPolygon() {
+        this.controlPolygonSegments.forEach(segment => segment.hide());
+        this.showingControlPolygon = false
+    }
+
     select() {
         if (this.selected) {
             return
@@ -288,6 +315,19 @@ export abstract class AbstractJSXPointControlledCurve<T extends PointControlledC
     protected clearJxgPoints() {
         this.board.removeObject(this.jxgPoints)
         this.jxgPoints = []
+    }
+
+    protected showControlPolygonInternal() {
+        if (this.controlPolygonSegments.length !== 0 && (this.controlPolygonSegments.length + 1 === this.pointControlledCurve.getPoints().length)) {
+            this.controlPolygonSegments.forEach(segment => segment.show())
+        } else {
+            this.board!.removeObject(this.controlPolygonSegments)
+            this.controlPolygonSegments = []
+            for (let i = 1; i < this.jxgPoints.length; i = i + 1) {
+                const segment = this.board.create('segment', [this.jxgPoints[i - 1], this.jxgPoints[i]]);
+                this.controlPolygonSegments.push(segment)
+            }
+        }
     }
 
     private addBoundingBox() {

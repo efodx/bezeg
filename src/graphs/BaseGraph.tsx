@@ -7,24 +7,57 @@ import {JGBox} from "../JGBox";
 import {Select} from "../inputs/Select";
 import {AbstractJSXPointControlledCurve} from "./AbstractJSXPointControlledCurve";
 import {PointControlledCurve} from "../bezeg/point-controlled-curve";
+import {Button} from "../inputs/Button";
+
+enum SelectedCurveOption {
+    MOVE_CURVE,
+    ADD_POINTS,
+    DELETE_POINTS
+}
+
+interface BaseGraphProps {
+    areCurvesSelectable?: boolean
+    allowSelectedCurveControlPolygon?: boolean
+}
+
+interface BaseGraphStates {
+    selectedCurveOption: SelectedCurveOption;
+    showingControlPolygon: boolean;
+    curveSelected: boolean;
+}
 
 /**
  * Abstract class for creating graphs.
  */
-abstract class BaseGraph<U extends PointControlledCurve, T extends AbstractJSXPointControlledCurve<U>> extends Component<any, any> {
+abstract class BaseGraph<U extends PointControlledCurve, T extends AbstractJSXPointControlledCurve<U>, P extends BaseGraphProps, S extends BaseGraphStates> extends Component<P, S> {
+    static defaultProps = {
+        areCurvesSelectable: true,
+        allowSelectedCurveControlPolygon: true
+    }
+    public readonly state = this.getInitialState();
     protected board: Board;
     protected jsxBezierCurves: T[] = [];
     protected graphJXGPoints: JXG.Point[] = [];
-    protected areCurvesSelectable: boolean = false;
 
-    protected constructor(props: any) {
+    constructor(props: P) {
         super(props);
-        this.state = {deletingPoints: false, justMoving: true};
         this.board = null as unknown as Board;
     }
 
+    getInitialState(): S {
+        return {
+            selectedCurveOption: SelectedCurveOption.MOVE_CURVE,
+            curveSelected: false,
+            showingControlPolygon: false
+        } as S
+    }
+
     getFirstCurve() {
-        return this.jsxBezierCurves[0]?.getCurve()
+        return this.getFirstJsxCurve()?.getCurve()
+    }
+
+    getFirstJsxCurve() {
+        return this.jsxBezierCurves[0]
     }
 
     getAllJxgPoints() {
@@ -84,47 +117,96 @@ abstract class BaseGraph<U extends PointControlledCurve, T extends AbstractJSXPo
         return <Select onChange={e => this.onSelectChange(e)}
                        options={[
                            {
-                               "value": "1",
-                               "text": "Premikaj točke"
+                               "value": "0",
+                               "text": "Operiraj s krivuljo"
                            },
                            {
-                               "value": "2",
+                               "value": "1",
                                "text": "Dodajaj točke"
                            },
                            {
-                               "value": "3",
+                               "value": "2",
                                "text": "Briši točke"
                            }
                        ]}/>
     }
 
     render() {
-        return <div><JGBox/>
-            {this.areCurvesSelectable ? this.getSelect() : null}
-            {this.getAdditionalCommands()}
+        return <div style={{display: "flex", flexDirection: "row"}}>
+            <div>
+                <JGBox/>
+                <div>
+                    {this.state.selectedCurveOption}
+                    {this.getGraphCommands()}
+                </div>
+            </div>
+            {this.props.areCurvesSelectable ? <div style={{
+                alignSelf: "center",
+                visibility: this.state.curveSelected ? "visible" : "hidden",
+                padding: "20px"
+            }}>
+                {this.getSelect()}
+                <div style={{
+                    alignSelf: "center",
+                    visibility: (this.state.curveSelected && this.state.selectedCurveOption === SelectedCurveOption.MOVE_CURVE) ? "visible" : "hidden",
+                    padding: "20px"
+                }}>
+                    {this.getSelectedCurveCommands()}
+                </div>
+            </div> : null
+            }
         </div>;
+    }
+
+    getSelectedCurveCommands(): JSX.Element[] {
+        if (this.props.allowSelectedCurveControlPolygon) {
+            return [<div>{!this.state.showingControlPolygon ?
+                <Button text={"Prikaži kontrolni poligon"}
+                        onClick={() => this.showControlPolygon()}></Button> :
+                <Button text={"Odstrani kontrolni poligon"}
+                        onClick={() => this.hideControlPolygon()}></Button>
+            }
+            </div>]
+        }
+        return []
+    }
+
+    showControlPolygon() {
+        this.board.suspendUpdate()
+        this.getSelectedCurve().showControlPolygon()
+        this.setState({...this.state, showingControlPolygon: true})
+        this.board.unsuspendUpdate()
+    }
+
+    hideControlPolygon() {
+        this.board.suspendUpdate()
+        this.getSelectedCurve().hideControlPolygon()
+        this.setState({...this.state, showingControlPolygon: false})
+        this.board.unsuspendUpdate()
     }
 
     handleDown(e: PointerEvent) {
         this.board.suspendUpdate()
         let coords = this.getMouseCoords(e);
         let selectedCurve, selectableCurve;
-        if (this.state.justMoving) {
+        if (this.state.selectedCurveOption === SelectedCurveOption.MOVE_CURVE) {
             selectedCurve = this.getSelectedCurve()
             if (selectedCurve) {
                 selectedCurve.coords = coords
                 if (selectedCurve.isMouseInsidePaddedBoundingBox()) {
                     selectedCurve.processMouseDown(e)
                 } else {
-                    selectedCurve.deselect()
+                    this.deselectSelectedCurve();
                 }
             }
             selectedCurve = this.getSelectedCurve()
             if (!selectedCurve) {
                 // @ts-ignore
-                if (!this.getAllJxgPoints().some(p => p.hasPoint(coords.scrCoords[1], coords.scrCoords[2]))) {
+                if (!this.getAllJxgPoints().some(p => p.hasPoint(coords.scrCoords[1], coords.scrCoords[2])) && this.props.areCurvesSelectable) {
                     selectableCurve = this.jsxBezierCurves.filter(curve => curve.isSelectable(e))[0]
-                    selectableCurve?.select()
+                    if (selectableCurve) {
+                        this.selectCurve(selectableCurve);
+                    }
                 }
             }
             this.board.unsuspendUpdate()
@@ -140,16 +222,15 @@ abstract class BaseGraph<U extends PointControlledCurve, T extends AbstractJSXPo
                 break;
             }
         }
-        if (canCreate && !this.state.deletingPoints) {
-            this.jsxBezierCurves[0].addPoint(coords.usrCoords[1], coords.usrCoords[2])
+        if (canCreate && this.state.selectedCurveOption === SelectedCurveOption.ADD_POINTS && this.getSelectedCurve()) {
+            this.getSelectedCurve().addPoint(coords.usrCoords[1], coords.usrCoords[2])
         }
-        if (!canCreate && this.state.deletingPoints) {
-            this.jsxBezierCurves[0].getJxgPoints().every(
+        if (!canCreate && this.state.selectedCurveOption === SelectedCurveOption.DELETE_POINTS && this.getSelectedCurve()) {
+            this.getSelectedCurve().getJxgPoints().every(
                 (point, i) => {
                     // @ts-ignore
                     if (point.hasPoint(coords.scrCoords[1], coords.scrCoords[2])) {
-                        this.board.removeObject(point)
-                        this.getFirstCurve().removePoint(this.getFirstCurve().getPoints()[i])
+                        this.getFirstJsxCurve().removePoint(i)
                         return false
                     }
                     return true
@@ -160,57 +241,40 @@ abstract class BaseGraph<U extends PointControlledCurve, T extends AbstractJSXPo
         this.board.unsuspendUpdate()
     };
 
-    protected abstract getAdditionalCommands(): JSX.Element;
-
-    private deletePoints() {
-        this.setState(
-            {
-                deletingPoints: true,
-                justMoving: false
-            }
-        )
+    getSelectedCurve() {
+        return this.jsxBezierCurves.filter(curve => curve.isSelected())[0];
     }
 
-    private addPoints() {
-        this.setState(
-            {
-                deletingPoints: false,
-                justMoving: false
-            }
-        )
+    getGraphCommands(): JSX.Element[] {
+        return []
     }
 
-    private justMove() {
-        this.setState(
-            {
-                deletingPoints: false,
-                justMoving: true
-            }
-        )
+    deselectSelectedCurve() {
+        this.getSelectedCurve().deselect()
+        this.setState({...this.state, curveSelected: false, showingControlPolygon: false})
+    }
+
+    protected selectCurve(selectableCurve: T) {
+        selectableCurve.select()
+        this.setState({...this.state, curveSelected: true})
     }
 
     private handleUp(e: PointerEvent) {
-        this.board.suspendUpdate()
-        if (!this.state.justMoving) {
-            // only handle when we're just moving shit
+        if (this.state.selectedCurveOption !== SelectedCurveOption.MOVE_CURVE) {
+            // only handle when we're just moving curve
             return
         }
-
+        this.board.suspendUpdate()
         let selectedCurve = this.getSelectedCurve()
         selectedCurve?.processMouseUp(e)
         this.board.unsuspendUpdate()
     }
 
-    private getSelectedCurve() {
-        return this.jsxBezierCurves.filter(curve => curve.isSelected())[0];
-    }
-
     private handleMove(e: PointerEvent) {
-        this.board.suspendUpdate()
-        if (!this.state.justMoving) {
+        if (this.state.selectedCurveOption !== SelectedCurveOption.MOVE_CURVE) {
             return
         }
-
+        this.board.suspendUpdate()
         let selectedCurve = this.getSelectedCurve()
         selectedCurve?.processMouseMove(e)
         this.board.unsuspendUpdate()
@@ -218,20 +282,10 @@ abstract class BaseGraph<U extends PointControlledCurve, T extends AbstractJSXPo
 
     private onSelectChange(e: React.ChangeEvent<HTMLSelectElement>) {
         let selectTool = e.target.value
-        switch (selectTool) {
-            case "1":
-                this.justMove()
-                return
-            case "2":
-                this.jsxBezierCurves[0].deselect()
-                this.addPoints()
-                return
-            case "3":
-                this.jsxBezierCurves[0].deselect()
-                this.deletePoints()
-                return
-        }
+        this.setState({...this.state, selectedCurveOption: Number(selectTool)})
     }
 }
 
 export default BaseGraph;
+export type {BaseGraphProps, BaseGraphStates};
+

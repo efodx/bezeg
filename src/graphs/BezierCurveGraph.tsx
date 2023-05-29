@@ -1,16 +1,11 @@
-import React from 'react';
 import '../App.css';
-import {BaseCurveGraph} from "./BaseCurveGraph";
+import {BaseCurveGraph, BaseCurveGraphProps} from "./BaseCurveGraph";
+import {BaseGraphStates} from "./BaseGraph";
 
-class BezierCurveGraph extends BaseCurveGraph {
-
+class BezierCurveGraph extends BaseCurveGraph<BaseCurveGraphProps, BaseGraphStates> {
     initialize() {
-        let points = [[-3, 2], [0, -2], [1, 2], [3, -2]]
+        const points = [[-4, -3], [-3, 2], [2, 2], [3, -2]]
         this.createJSXBezierCurve(points)
-    }
-
-    protected getAdditionalCommands(): JSX.Element {
-        return <div></div>;
     }
 }
 
