@@ -46,4 +46,12 @@ You can learn more in the [Create React App documentation](https://facebook.gith
 To learn React, check out the [React documentation](https://reactjs.org/).
 
 
+# Bezeg
+
+Popper needs to be installed for this app to work. It won't install on itself, so use the following command.
+
+npm install @popperjs/core --save
+
+## React router
+TODO Remove this if not needed?
 If you are using React Router you'll need to tell it to use the repo-name as the basename, for example <BrowserRouter basename="/repo-name" />.
