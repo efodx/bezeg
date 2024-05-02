@@ -48,11 +48,10 @@ export abstract class PointControlledCurve {
     }
 
     getBoundingBox() {
-        // TODO this is just a hacky solution
-        let maxX = -3000
-        let maxY = -3000
-        let minX = 3000
-        let minY = 3000
+        let maxX = -Infinity
+        let maxY = -Infinity
+        let minX = Infinity
+        let minY = Infinity
 
         this.points.forEach(point => {
                 if (point.X() > maxX) {

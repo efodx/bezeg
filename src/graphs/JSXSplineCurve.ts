@@ -2,12 +2,12 @@
  * Class that wraps a BezierCurve with methods for dealing with JSXGraph
  */
 import {AbstractJSXPointControlledCurve} from "./AbstractJSXPointControlledCurve";
-import {BezierSpline} from "../bezeg/bezier-spline";
+import {BezierSpline, Continuity} from "../bezeg/bezier-spline";
 import {Board} from "jsxgraph";
 
 export class JSXSplineCurve extends AbstractJSXPointControlledCurve<BezierSpline> {
 
-    constructor(points: number[][], continuity: number, degree: number, board: Board) {
+    constructor(points: number[][], continuity: Continuity, degree: number, board: Board) {
         super(points, board)
         this.pointControlledCurve.setContinuity(continuity)
         this.pointControlledCurve.setDegree(degree)

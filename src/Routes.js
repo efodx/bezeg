@@ -15,6 +15,7 @@ import SplineGraph from "./graphs/C0SplineGraph";
 import C1SplineGraph from "./graphs/C1SplineGraph";
 import G1SplineGraph from "./graphs/G1SplineGraph";
 import G1AffineSplineGraph from "./graphs/G1AffineSplineGraph";
+import C2SplineGraph from "./graphs/C2SplineGraph";
 
 const routes = [
     {
@@ -85,42 +86,56 @@ const routes = [
             {
                 path: "/bezeg/rational",
                 element: <RationalBezierCurveGraph/>,
-                title: "Racionalna Bezierjeva Krivulja"
+                title: "Racionalna Bezierjeva Krivulja",
+                group: "Racionalne Bezierjeve Krivulje"
             },
             {
                 path: "/bezeg/rational-elevation",
                 element: <RationalElevationGraph/>,
-                title: "Dvig Stopnje Racionalne"
+                title: "Dvig Stopnje Racionalne",
+                group: "Racionalne Bezierjeve Krivulje"
             },
             {
                 path: "/bezeg/rational-extrapolation",
                 element: <RationalExtrapolationGraph/>,
-                title: "Ekstrapolacija Racionalne"
+                title: "Ekstrapolacija Racionalne",
+                group: "Racionalne Bezierjeve Krivulje"
             },
             {
                 path: "/bezeg/rational-subdivision",
                 element: <RationalSubdivisionGraph/>,
-                title: "Subdivizija Racionalne"
+                title: "Subdivizija Racionalne",
+                group: "Racionalne Bezierjeve Krivulje"
             },
             {
                 path: "/bezeg/spline",
                 element: <SplineGraph/>,
-                title: "C0 Zlepek"
+                title: "C0 Zlepek",
+                group: "Zlepki"
             },
             {
                 path: "/bezeg/c1spline",
                 element: <C1SplineGraph/>,
-                title: "C1 Zlepek"
+                title: "C1 Zlepek",
+                group: "Zlepki"
             },
             {
                 path: "/bezeg/g1spline",
                 element: <G1SplineGraph/>,
-                title: "G1 Zlepek"
+                title: "G1 Zlepek",
+                group: "Zlepki"
+            },
+            {
+                path: "/bezeg/c2spline",
+                element: <C2SplineGraph/>,
+                title: "C2 Zlepek",
+                group: "Zlepki"
             },
             {
                 path: "/bezeg/g1affinespline",
                 element: <G1AffineSplineGraph/>,
-                title: "G1 Afini Zlepek"
+                title: "G1 Afini Zlepek",
+                group: "Zlepki"
             },
         ],
     }

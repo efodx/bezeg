@@ -1,12 +1,13 @@
 import React from "react";
 import {Button} from "../inputs/Button";
 import {BaseSplineCurveGraph} from "./BaseSplineCurveGraph";
+import {Continuity} from "../bezeg/bezier-spline";
 
 class Graph extends BaseSplineCurveGraph {
 
     initialize() {
-        let points = [[-3, 2], [-4, -1], [-3, -2], [-1, 1], [1, 2], [4, 2], [3, -1]]
-        this.createJSXSplineCurve(points, 3, 0.5)
+        let points = [[-3, 2], [-4, -1], [-3, -2], [-1, 1], [1, 2], [4, 2], [3, -1], [3, -1.3], [3, -1.9]]
+        this.createJSXSplineCurve(points, 3, Continuity.G1)
     }
 
     getGraphCommands(): JSX.Element[] {

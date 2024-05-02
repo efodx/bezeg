@@ -1,13 +1,13 @@
 import BaseGraph, {BaseGraphProps, BaseGraphStates} from "./BaseGraph";
 import {JSXSplineCurve} from "./JSXSplineCurve";
-import {BezierSpline} from "../bezeg/bezier-spline";
+import {BezierSpline, Continuity} from "../bezeg/bezier-spline";
 
 export abstract class BaseSplineCurveGraph extends BaseGraph<BezierSpline, JSXSplineCurve, BaseGraphProps, BaseGraphStates> {
     newJSXBezierCurve(points: number[][]): JSXSplineCurve {
-        return new JSXSplineCurve(points, 3, 1, this.board);
+        return new JSXSplineCurve(points, Continuity.C1, 1, this.board);
     }
 
-    createJSXSplineCurve(points: number[][], degree: number, continuity: number): JSXSplineCurve {
+    createJSXSplineCurve(points: number[][], degree: number, continuity: Continuity): JSXSplineCurve {
         let curve = super.createJSXBezierCurve(points);
         let spline = curve.getCurve()
         spline.setDegree(degree)
