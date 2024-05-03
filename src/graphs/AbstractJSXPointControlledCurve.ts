@@ -318,6 +318,8 @@ export abstract class AbstractJSXPointControlledCurve<T extends PointControlledC
     }
 
     protected showControlPolygonInternal() {
+        console.log(this.pointControlledCurve.getPoints().length)
+        console.log(this.jxgPoints.length)
         if (this.controlPolygonSegments.length !== 0 && (this.controlPolygonSegments.length + 1 === this.pointControlledCurve.getPoints().length)) {
             this.controlPolygonSegments.forEach(segment => segment.show())
         } else {

@@ -1,0 +1,31 @@
+import '../App.css';
+import {BaseCurveGraph, BaseCurveGraphProps} from "./BaseCurveGraph";
+import {BaseGraphStates} from "./BaseGraph";
+import {JSXPHBezierCurve} from "./JSXPHBezierCurve";
+import {PhBezierCurve} from "../bezeg/ph-bezier-curve";
+
+class PhBezierCurveGraph extends BaseCurveGraph<BaseCurveGraphProps, BaseGraphStates> {
+    initialize() {
+        const points = [[-4, -3], [-3, 2], [2, 2]]
+        this.createJSXBezierCurve(points)
+    }
+
+    override newJSXBezierCurve(points: number[][]): JSXPHBezierCurve {
+        // This is very hacky :/
+        // We create the curve
+        let phCurve = new JSXPHBezierCurve(points, this.board);
+        // We create a point on graph that represents the non-free point of the PH curve
+        this.createJSXGraphPoint(() => (phCurve.getCurve() as PhBezierCurve).getNonFreePoints()[0].X(), () => (phCurve.getCurve() as PhBezierCurve).getNonFreePoints()[0].Y(), {
+            fixed: true,
+            color: "blue"
+        })
+        // Then we fetch that same point and push it to the curve as it's own
+        // This is so that showing control polygon uses the non-free point as well.
+        //
+        // I may get rid of ph-bezier-curve.ts, and force the fixed point calculations on JSXPHBezierCurve level.
+        phCurve.getJxgPoints().push(this.graphJXGPoints[this.graphJXGPoints.length - 1])
+        return phCurve
+    }
+}
+
+export default PhBezierCurveGraph;

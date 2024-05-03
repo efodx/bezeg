@@ -16,6 +16,7 @@ import C1SplineGraph from "./graphs/C1SplineGraph";
 import G1SplineGraph from "./graphs/G1SplineGraph";
 import G1AffineSplineGraph from "./graphs/G1AffineSplineGraph";
 import C2SplineGraph from "./graphs/C2SplineGraph";
+import PhBezierCurveGraph from "./graphs/PhBezierCurveGraph";
 
 const routes = [
     {
@@ -136,6 +137,11 @@ const routes = [
                 element: <G1AffineSplineGraph/>,
                 title: "G1 Afini Zlepek",
                 group: "Zlepki"
+            },
+            {
+                path: "/bezeg/phcurves",
+                element: <PhBezierCurveGraph/>,
+                title: "Kubična PH Krivulja"
             },
         ],
     }

@@ -87,22 +87,26 @@ export abstract class PointControlledCurve {
         let [xCenter, yCenter] = center
 
         this.points.forEach(point => {
-            let x = point.X()
-            let y = point.Y()
-            x = x - xCenter
-            y = y - yCenter
-            let newX = A[0][0] * x + A[0][1] * y
-            let newY = A[1][0] * x + A[1][1] * y
-            newX = newX + xCenter
-            newY = newY + yCenter
-            if (b) {
-                newX = newX + b[0]
-                newY = newY + b[1]
-            }
-            point.setX(newX)
-            point.setY(newY)
+            this.transformPoint(point, xCenter, yCenter, A, b);
         })
 
+    }
+
+    transformPoint(point: Point, xCenter: number, yCenter: number, A: number[][], b: number[] | undefined) {
+        let x = point.X()
+        let y = point.Y()
+        x = x - xCenter
+        y = y - yCenter
+        let newX = A[0][0] * x + A[0][1] * y
+        let newY = A[1][0] * x + A[1][1] * y
+        newX = newX + xCenter
+        newY = newY + yCenter
+        if (b) {
+            newX = newX + b[0]
+            newY = newY + b[1]
+        }
+        point.setX(newX)
+        point.setY(newY)
     }
 
     /**
