@@ -1,8 +1,9 @@
 import BaseGraph, {BaseGraphProps, BaseGraphStates} from "./BaseGraph";
-import {BezierCurve} from "../bezeg/bezier-curve";
+import {BezierCurveImpl} from "../bezeg/bezier-curve-impl";
 import {JSXBezierCurve} from "./JSXBezierCurve";
 import Slider from "../inputs/Slider";
 import {Button} from "../inputs/Button";
+import {BezierCurve} from "../bezeg/interfaces/bezier-curve";
 
 const curveCommandStyle = {
     padding: "10px",

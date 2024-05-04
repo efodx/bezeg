@@ -1,9 +1,10 @@
 import {PointImpl} from "./point/point-impl";
-import {Point} from "./point/point";
-import {PointControlledCurve} from "./point-controlled-curve";
+import {Point} from "./interfaces/point";
+import {BezierCurve} from "./interfaces/bezier-curve";
+import {PointControlledCurveImpl} from "./point-controlled-curve-impl";
 
 
-export class BezierCurve extends PointControlledCurve {
+export class BezierCurveImpl extends PointControlledCurveImpl implements BezierCurve {
 
     elevate(): this {
         let newPoints = [];
@@ -15,7 +16,7 @@ export class BezierCurve extends PointControlledCurve {
             newPoints.push(new PointImpl(x, y))
         }
         newPoints.push(this.points[n - 1])
-        return new BezierCurve(newPoints) as this
+        return new BezierCurveImpl(newPoints) as this
     }
 
     /**
@@ -47,7 +48,7 @@ export class BezierCurve extends PointControlledCurve {
     extrapolate(t: number): this {
         const decasteljauScheme = this.decasteljauScheme(t)
         const newPoints = decasteljauScheme.map(row => row[0])
-        return new BezierCurve(newPoints) as this
+        return new BezierCurveImpl(newPoints) as this
     }
 
     /**
@@ -59,12 +60,12 @@ export class BezierCurve extends PointControlledCurve {
         const n = decasteljauScheme.length
         const points1 = decasteljauScheme.map(row => row[0])
         const points2 = decasteljauScheme.map((row, i) => row[n - 1 - i]).reverse()
-        const bezierCurve1 = new BezierCurve(points1)
-        const bezierCurve2 = new BezierCurve(points2)
+        const bezierCurve1 = new BezierCurveImpl(points1)
+        const bezierCurve2 = new BezierCurveImpl(points2)
         return [bezierCurve1, bezierCurve2] as this[]
     };
 
-    protected decasteljau(t: number, pointsAtT: number[][]): number[][][] {
+    decasteljau(t: number, pointsAtT: number[][]): number[][][] {
         // TODO think about removing pointsAtT argument
         const decasteljauScheme = []
         const n = this.points.length

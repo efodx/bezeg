@@ -6,8 +6,9 @@ import {Point} from "./Point";
 import {JGBox} from "../JGBox";
 import {Select} from "../inputs/Select";
 import {AbstractJSXPointControlledCurve} from "./AbstractJSXPointControlledCurve";
-import {PointControlledCurve} from "../bezeg/point-controlled-curve";
+import {PointControlledCurveImpl} from "../bezeg/point-controlled-curve-impl";
 import {Button} from "../inputs/Button";
+import {PointControlledCurve} from "../bezeg/interfaces/point-controlled-curve";
 
 enum SelectedCurveOption {
     MOVE_CURVE,

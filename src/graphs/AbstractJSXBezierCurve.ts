@@ -1,5 +1,5 @@
 import {AbstractJSXPointControlledCurve} from "./AbstractJSXPointControlledCurve";
-import {BezierCurve} from "../bezeg/bezier-curve";
+import {BezierCurve} from "../bezeg/interfaces/bezier-curve";
 
 export abstract class AbstractJSXBezierCurve<T extends BezierCurve> extends AbstractJSXPointControlledCurve<T> {
     /**

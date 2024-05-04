@@ -1,6 +1,6 @@
 import {Board} from "jsxgraph";
 import {Point} from "./Point";
-import {PointControlledCurve} from "../bezeg/point-controlled-curve";
+import {PointControlledCurve} from "../bezeg/interfaces/point-controlled-curve";
 
 /**
  * Class that wraps a PointControlledCurve with methods for dealing with JSXGraph
@@ -21,6 +21,7 @@ export abstract class AbstractJSXPointControlledCurve<T extends PointControlledC
     private intervalEnd: number | (() => number) = 1;
     private controlPolygonSegments: JXG.Segment[] = []
     private showingControlPolygon: boolean = false;
+    private rotationCenter: number[] | undefined;
 
     constructor(points: number[][], board: Board) {
         this.board = board
@@ -89,7 +90,7 @@ export abstract class AbstractJSXPointControlledCurve<T extends PointControlledC
     }
 
     rotate(newCoords: JXG.Coords) {
-        let [xCenter, yCenter] = this.pointControlledCurve.getBoundingBoxCenter()
+        let [xCenter, yCenter] = this.rotationCenter!
         let k1, k2
         k1 = (yCenter - newCoords.usrCoords[2]) / (xCenter - newCoords.usrCoords[1])
         k2 = (yCenter - this.coords!.usrCoords[2]) / (xCenter - this.coords!.usrCoords[1])
@@ -190,6 +191,7 @@ export abstract class AbstractJSXPointControlledCurve<T extends PointControlledC
 
     startRotating() {
         this.rotating = true
+        this.rotationCenter = this.pointControlledCurve.getBoundingBoxCenter()
         this.hideBoundingBox()
     }
 
@@ -318,8 +320,6 @@ export abstract class AbstractJSXPointControlledCurve<T extends PointControlledC
     }
 
     protected showControlPolygonInternal() {
-        console.log(this.pointControlledCurve.getPoints().length)
-        console.log(this.jxgPoints.length)
         if (this.controlPolygonSegments.length !== 0 && (this.controlPolygonSegments.length + 1 === this.pointControlledCurve.getPoints().length)) {
             this.controlPolygonSegments.forEach(segment => segment.show())
         } else {

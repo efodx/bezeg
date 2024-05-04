@@ -1,9 +1,9 @@
 import {PointImpl} from "./point/point-impl";
-import {Point} from "./point/point";
-import {BezierCurve} from "./bezier-curve";
+import {Point} from "./interfaces/point";
+import {BezierCurveImpl} from "./bezier-curve-impl";
 
 
-export class RationalBezierCurve extends BezierCurve {
+export class RationalBezierCurve extends BezierCurveImpl {
     private weights: Array<number>;
 
     /**
@@ -84,7 +84,7 @@ export class RationalBezierCurve extends BezierCurve {
      * @param t
      * @param pointsAtT
      */
-    protected decasteljau(t: number, pointsAtT: number[][]): number[][][] {
+    decasteljau(t: number, pointsAtT: number[][]): number[][][] {
         // TODO think about removing pointsAtT argument
         const decasteljauScheme = []
         const n = this.points.length

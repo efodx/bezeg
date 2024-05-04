@@ -1,4 +1,4 @@
-import {Point} from "./point";
+import {Point} from "../interfaces/point";
 
 export class PointImpl implements Point {
     private x: number | (() => number);
@@ -29,6 +29,14 @@ export class PointImpl implements Point {
 
     setY(y: number | (() => number)) {
         this.y = y;
+    }
+
+    isXFunction(): boolean {
+        return typeof this.x === "function"
+    }
+
+    isYFunction(): boolean {
+        return typeof this.y === "function"
     }
 
 }

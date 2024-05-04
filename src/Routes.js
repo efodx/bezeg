@@ -16,7 +16,8 @@ import C1SplineGraph from "./graphs/C1SplineGraph";
 import G1SplineGraph from "./graphs/G1SplineGraph";
 import G1AffineSplineGraph from "./graphs/G1AffineSplineGraph";
 import C2SplineGraph from "./graphs/C2SplineGraph";
-import PhBezierCurveGraph from "./graphs/PhBezierCurveGraph";
+import CubicPhBezierCurveGraph from "./graphs/CubicPhBezierCurveGraph";
+import QuinticPhBezierCurve from "./graphs/QuinticPhBezierCurveGraph";
 
 const routes = [
     {
@@ -139,9 +140,16 @@ const routes = [
                 group: "Zlepki"
             },
             {
-                path: "/bezeg/phcurves",
-                element: <PhBezierCurveGraph/>,
-                title: "Kubična PH Krivulja"
+                path: "/bezeg/phcurves/cubic",
+                element: <CubicPhBezierCurveGraph/>,
+                title: "Stopnje 3",
+                group: "PH Krivulje"
+            },
+            {
+                path: "/bezeg/phcurves/quintic",
+                element: <QuinticPhBezierCurve/>,
+                title: "Stopnje 5",
+                group: "PH Krivulje"
             },
         ],
     }

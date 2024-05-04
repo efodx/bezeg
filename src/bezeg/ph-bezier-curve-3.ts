@@ -1,5 +1,5 @@
-import {BezierCurve} from "./bezier-curve";
-import {Point} from "./point/point";
+import {BezierCurveImpl} from "./bezier-curve-impl";
+import {Point} from "./interfaces/point";
 import {PointImpl} from "./point/point-impl";
 
 /**
@@ -7,7 +7,7 @@ import {PointImpl} from "./point/point-impl";
  * The underlying curve is still a Bezier curve.
  * There are just certain restrictions.
  */
-export class PhBezierCurve extends BezierCurve {
+export class PhBezierCurve extends BezierCurveImpl {
     private nonFreePoints: Array<Point> = []
 
     /**

@@ -1,6 +1,7 @@
-import {BezierCurve} from "../bezeg/bezier-curve";
+import {BezierCurveImpl} from "../bezeg/bezier-curve-impl";
 import {AbstractJSXBezierCurve} from "./AbstractJSXBezierCurve";
-import {Point} from "../bezeg/point/point";
+import {Point} from "../bezeg/interfaces/point";
+import {BezierCurve} from "../bezeg/interfaces/bezier-curve";
 
 /**
  * Class that wraps a BezierCurve with methods for dealing with JSXGraph
@@ -228,7 +229,7 @@ export class JSXBezierCurve extends AbstractJSXBezierCurve<BezierCurve> {
 
     protected getStartingCurve(points: number[][]): BezierCurve {
         let jsxPoints = points.map(point => this.createJSXGraphPoint(point[0], point[1]))
-        return new BezierCurve(jsxPoints);
+        return new BezierCurveImpl(jsxPoints);
     }
 
     private generateCacheHash(t: number) {

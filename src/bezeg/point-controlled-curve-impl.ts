@@ -1,7 +1,8 @@
-import {Point} from "./point/point";
+import {Point} from "./interfaces/point";
+import {PointControlledCurve} from "./interfaces/point-controlled-curve";
 
-export abstract class PointControlledCurve {
-    protected points: Array<Point>;
+export abstract class PointControlledCurveImpl implements PointControlledCurve {
+    points: Array<Point>;
 
     constructor(points: Array<Point>) {
         this.points = points
@@ -105,8 +106,13 @@ export abstract class PointControlledCurve {
             newX = newX + b[0]
             newY = newY + b[1]
         }
-        point.setX(newX)
-        point.setY(newY)
+        // This is so that we don't override points that have their coordinated fixed by others
+        if (!point.isXFunction()) {
+            point.setX(newX)
+        }
+        if (!point.isYFunction()) {
+            point.setY(newY)
+        }
     }
 
     /**

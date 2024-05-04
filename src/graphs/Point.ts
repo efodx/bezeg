@@ -1,4 +1,4 @@
-import {Point as BezegPoint} from "../bezeg/point/point";
+import {Point as BezegPoint} from "../bezeg/interfaces/point";
 import {Point as JSXPoint} from "jsxgraph";
 
 /**
@@ -33,5 +33,13 @@ export class Point implements BezegPoint {
             throw "Not implemented yet"
         }
         this.point.setPositionDirectly(JXG.COORDS_BY_USER, [this.point.X(), y]);
+    }
+
+    isXFunction(): boolean {
+        return false;
+    }
+
+    isYFunction(): boolean {
+        return false;
     }
 }
