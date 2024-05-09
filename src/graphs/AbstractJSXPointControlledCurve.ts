@@ -96,6 +96,10 @@ export abstract class AbstractJSXPointControlledCurve<T extends PointControlledC
         k2 = (yCenter - this.coords!.usrCoords[2]) / (xCenter - this.coords!.usrCoords[1])
         let theta = Math.atan((k1 - k2) / (1 + k1 * k2))
         this.pointControlledCurve.rotate(theta)
+        //
+        // let newCenter = this.pointControlledCurve.getBoundingBoxCenter()
+        // let [dx, dy] = [newCenter[0] - this.rotationCenter![0], newCenter[1] - this.rotationCenter![1]]
+        // this.pointControlledCurve.moveFor(-dx, -dy)
     }
 
     processMouseUp(e: PointerEvent) {

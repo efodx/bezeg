@@ -1,18 +1,10 @@
 import BaseGraph, {BaseGraphProps, BaseGraphStates} from "./BaseGraph";
-import {BezierCurveImpl} from "../bezeg/bezier-curve-impl";
 import {JSXBezierCurve} from "./JSXBezierCurve";
 import Slider from "../inputs/Slider";
 import {Button} from "../inputs/Button";
 import {BezierCurve} from "../bezeg/interfaces/bezier-curve";
+import {CSSProperties} from "react";
 
-const curveCommandStyle = {
-    padding: "10px",
-    border: "white",
-    borderStyle: "solid",
-    borderRadius: "5px",
-    borderWidth: "2px",
-    margin: "5px"
-}
 
 interface BaseCurveGraphProps extends BaseGraphProps {
     allowSelectedCurveSubdivision: boolean,
@@ -30,6 +22,15 @@ export abstract class BaseCurveGraph<P extends BaseCurveGraphProps, S extends Ba
         allowSelectedCurveExtrapolation: true,
         allowSelectedCurveDecasteljau: true
     }
+    curveCommandStyle = {
+        padding: "10px",
+        border: "white",
+        borderStyle: "solid",
+        borderRadius: "5px",
+        borderWidth: "2px",
+        margin: "5px",
+        color: "white"
+    }
     private subdivisionT: number = 0.5;
     private extrapolationT: number = 1.2;
     private decasteljauT: number = 0.5;
@@ -45,7 +46,8 @@ export abstract class BaseCurveGraph<P extends BaseCurveGraphProps, S extends Ba
         this.createExtrapolationPoint()
         const selectedCurveCommands = super.getSelectedCurveCommands()
         if (this.props.allowSelectedCurveSubdivision) {
-            selectedCurveCommands.push(<div style={curveCommandStyle} onMouseEnter={() => this.showSubdivisionPoint()}
+            selectedCurveCommands.push(<div style={this.curveCommandStyle}
+                                            onMouseEnter={() => this.showSubdivisionPoint()}
                                             onMouseLeave={() => this.hideSubdivisionPoint()}>
                 <Slider min={0} max={1}
                         initialValue={this.subdivisionT}
@@ -55,7 +57,8 @@ export abstract class BaseCurveGraph<P extends BaseCurveGraphProps, S extends Ba
             </div>)
         }
         if (this.props.allowSelectedCurveExtrapolation) {
-            selectedCurveCommands.push(<div style={curveCommandStyle} onMouseEnter={() => this.showExtrapolationPoint()}
+            selectedCurveCommands.push(<div style={this.curveCommandStyle}
+                                            onMouseEnter={() => this.showExtrapolationPoint()}
                                             onMouseLeave={() => this.hideExtrapolationPoint()}>
                 <Slider min={1} max={1.5}
                         initialValue={this.extrapolationT}
@@ -65,7 +68,8 @@ export abstract class BaseCurveGraph<P extends BaseCurveGraphProps, S extends Ba
             </div>)
         }
         if (this.props.allowSelectedCurveShrink) {
-            selectedCurveCommands.push(<div style={curveCommandStyle} onMouseEnter={() => this.showSubdivisionPoint()}
+            selectedCurveCommands.push(<div style={this.curveCommandStyle}
+                                            onMouseEnter={() => this.showSubdivisionPoint()}
                                             onMouseLeave={() => this.hideSubdivisionPoint()}>
                 <Slider min={0} max={1}
                         initialValue={this.subdivisionT}
@@ -74,7 +78,7 @@ export abstract class BaseCurveGraph<P extends BaseCurveGraphProps, S extends Ba
                     text={"Skrči"} onClick={() => this.extrapolateSelectedCurve(this.subdivisionT)}></Button></div>)
         }
         if (this.props.allowSelectedCurveDecasteljau) {
-            selectedCurveCommands.push(<div style={curveCommandStyle}
+            selectedCurveCommands.push(<div style={this.curveCommandStyle}
                                             onMouseEnter={() => this.showSelectedCurveDecasteljauScheme()}
                                             onMouseLeave={() => this.hideSelectedCurveDecasteljauScheme()}>
                 <Slider min={0} max={1}
@@ -83,7 +87,7 @@ export abstract class BaseCurveGraph<P extends BaseCurveGraphProps, S extends Ba
             </div>)
         }
         if (this.props.allowSelectedCurveElevation) {
-            selectedCurveCommands.push(<div style={curveCommandStyle}>
+            selectedCurveCommands.push(<div style={this.curveCommandStyle}>
                 <Button text={"Dvigni stopnjo"} onClick={() => this.elevateSelectedCurve()}></Button></div>)
         }
         return selectedCurveCommands;
@@ -187,6 +191,9 @@ export abstract class BaseCurveGraph<P extends BaseCurveGraphProps, S extends Ba
         this.showSelectedCurveDecasteljauScheme()
     }
 
+    private getCurveCommandStyle(): CSSProperties {
+        return this.curveCommandStyle
+    }
 
 }
 

@@ -18,6 +18,7 @@ import G1AffineSplineGraph from "./graphs/G1AffineSplineGraph";
 import C2SplineGraph from "./graphs/C2SplineGraph";
 import CubicPhBezierCurveGraph from "./graphs/CubicPhBezierCurveGraph";
 import QuinticPhBezierCurve from "./graphs/QuinticPhBezierCurveGraph";
+import AlphaParamBezierCurveGraph from "./graphs/AlphaParamBezierCurveGraph";
 
 const routes = [
     {
@@ -141,16 +142,36 @@ const routes = [
             },
             {
                 path: "/bezeg/phcurves/cubic",
-                element: <CubicPhBezierCurveGraph/>,
+                element: <CubicPhBezierCurveGraph
+                    allowSelectedCurveDecasteljau={false}
+                    allowSelectedCurveElevation={false}
+                    allowSelectedCurveExtrapolation={false}
+                    allowSelectedCurveSubdivision={false}
+                    allowSelectedCurveControlPolygon={false}/>,
                 title: "Stopnje 3",
                 group: "PH Krivulje"
             },
             {
                 path: "/bezeg/phcurves/quintic",
-                element: <QuinticPhBezierCurve/>,
+                element: <QuinticPhBezierCurve
+                    allowSelectedCurveDecasteljau={false}
+                    allowSelectedCurveElevation={false}
+                    allowSelectedCurveExtrapolation={false}
+                    allowSelectedCurveSubdivision={false}
+                    allowSelectedCurveControlPolygon={false}/>,
                 title: "Stopnje 5",
                 group: "PH Krivulje"
             },
+            {
+                path: "/bezeg/alphaparam",
+                element: <AlphaParamBezierCurveGraph
+                    allowSelectedCurveDecasteljau={false}
+                    allowSelectedCurveElevation={false}
+                    allowSelectedCurveExtrapolation={false}
+                    allowSelectedCurveSubdivision={false}
+                    allowSelectedCurveControlPolygon={false}/>,
+                title: "Alpha Parametrizacija"
+            }
         ],
     }
 ]

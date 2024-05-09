@@ -6,7 +6,6 @@ import {Point} from "./Point";
 import {JGBox} from "../JGBox";
 import {Select} from "../inputs/Select";
 import {AbstractJSXPointControlledCurve} from "./AbstractJSXPointControlledCurve";
-import {PointControlledCurveImpl} from "../bezeg/point-controlled-curve-impl";
 import {Button} from "../inputs/Button";
 import {PointControlledCurve} from "../bezeg/interfaces/point-controlled-curve";
 
@@ -137,7 +136,6 @@ abstract class BaseGraph<U extends PointControlledCurve, T extends AbstractJSXPo
             <div>
                 <JGBox/>
                 <div>
-                    {this.state.selectedCurveOption}
                     {this.getGraphCommands()}
                 </div>
             </div>
@@ -283,7 +281,8 @@ abstract class BaseGraph<U extends PointControlledCurve, T extends AbstractJSXPo
 
     private onSelectChange(e: React.ChangeEvent<HTMLSelectElement>) {
         let selectTool = e.target.value
-        this.setState({...this.state, selectedCurveOption: Number(selectTool)})
+        let selectedCurveOption = Number(selectTool)
+        this.setState({...this.state, selectedCurveOption: selectedCurveOption})
     }
 }
 

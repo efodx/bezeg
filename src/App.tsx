@@ -4,22 +4,29 @@ import {Link, NavLink, Outlet} from "react-router-dom";
 import routes from "./Routes";
 import Logo from "./images/elderflower.png"
 
+
 function NavBar() {
     let normalChildren = routes.flatMap((mainEntry) => mainEntry.children)
         .filter((child) => !child.index && !child.group)
     let groupedChildren = {}
-    routes.flatMap((mainEntry) => mainEntry.children)
-        .filter((child) => !child.index && child.group)
-        .forEach((child) => {
-            // @ts-ignore
-            if (groupedChildren[child.group]) {
+    let children = routes.flatMap((mainEntry) => mainEntry.children)
+        .filter(child => !child.index)
+        .flatMap(child => {
+            if (child.group) {
                 // @ts-ignore
-                groupedChildren[child.group].push(child)
+                if (groupedChildren[child.group]) {
+                    // @ts-ignore
+                    groupedChildren[child.group].push(child)
+                } else {
+                    // @ts-ignore
+                    groupedChildren[child.group] = [child]
+                    return child.group!
+                }
             } else {
-                // @ts-ignore
-                groupedChildren[child.group] = [child]
+                return child!
             }
         })
+        .filter(child => typeof child != "undefined")
     return <nav className="navbar navbar-expand-lg navbar-light bg-light">
         <Link className="navbar-brand" style={{marginLeft: "1vw"}} to="/bezeg">
             <img src={Logo} width="30" height="30" alt=""/>
@@ -30,26 +37,30 @@ function NavBar() {
         </button>
         <div className="collapse navbar-collapse" id="navbarNav">
             <ul className="navbar-nav">
-                {normalChildren
-                    .map((child) => { // @ts-ignore
-                        return <li className="nav-item">
-                            <NavLink className="nav-link" to={child.path}>{child.title}</NavLink>
-                        </li>
+                {children
+                    .map((child) => {
+                        // We got the group key, so we take children from the group
+                        if (typeof child == "string") {
+                            return <li className="nav-item dropdown">
+                                <a className="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                                   aria-expanded="false">
+                                    {child}
+                                </a>
+                                <ul className="dropdown-menu">
+                                    {   // @ts-ignore
+                                        groupedChildren[child].map(child => <NavLink className="nav-link dropdown-item"
+                                                                                     to={child.path}>{child.title}</NavLink>
+                                        )}
+                                </ul>
+                            </li>
+                        } else {
+                            return <li className="nav-item">
+                                <NavLink className="nav-link" to={child!.path}>{child!.title}</NavLink>
+                            </li>
+                        }
+
                     })
                 }
-                {Object.entries(groupedChildren).map(([k, v]) =>
-                    <li className="nav-item dropdown">
-                        <a className="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
-                           aria-expanded="false">
-                            {k}
-                        </a>
-                        <ul className="dropdown-menu">
-                            {   // @ts-ignore
-                                v.map(child => <NavLink className="nav-link dropdown-item"
-                                                        to={child.path}>{child.title}</NavLink>
-                                )}
-                        </ul>
-                    </li>)}
             </ul>
         </div>
     </nav>
