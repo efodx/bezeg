@@ -19,6 +19,7 @@ import C2SplineGraph from "./graphs/C2SplineGraph";
 import CubicPhBezierCurveGraph from "./graphs/CubicPhBezierCurveGraph";
 import QuinticPhBezierCurve from "./graphs/QuinticPhBezierCurveGraph";
 import AlphaParamBezierCurveGraph from "./graphs/AlphaParamBezierCurveGraph";
+import PhParamBezierCurveGraph from "./graphs/PhParamBezierCurveGraph";
 
 const routes = [
     {
@@ -163,15 +164,28 @@ const routes = [
                 group: "PH Krivulje"
             },
             {
-                path: "/bezeg/alphaparam",
+                path: "/bezeg/param/alphaparam",
                 element: <AlphaParamBezierCurveGraph
                     allowSelectedCurveDecasteljau={false}
                     allowSelectedCurveElevation={false}
                     allowSelectedCurveExtrapolation={false}
                     allowSelectedCurveSubdivision={false}
                     allowSelectedCurveControlPolygon={false}/>,
-                title: "Alpha Parametrizacija"
+                title: "Alpha Parametrizacija",
+                group: "Parametrizacije"
+            },
+            {
+                path: "/bezeg/param/ph",
+                element: <PhParamBezierCurveGraph
+                    allowSelectedCurveDecasteljau={false}
+                    allowSelectedCurveElevation={false}
+                    allowSelectedCurveExtrapolation={false}
+                    allowSelectedCurveSubdivision={false}
+                    allowSelectedCurveControlPolygon={false}/>,
+                title: "PH Parametrizacija",
+                group: "Parametrizacije"
             }
+
         ],
     }
 ]

@@ -5,7 +5,7 @@ import {BezierCurveImpl} from "./bezier-curve-impl";
 
 export class RationalBezierCurve extends BezierCurveImpl {
     private weights: Array<number>;
-    // This is a work around since I didn't plan on this curve being reactive with regards to it's weights
+    // This is a work around since I didn't plan on this curve being reactive to it's weights
     // So in case we provide weights that are functions, we use those in decasteljau scheme for calculating
     // However other bezier curve methods won't work, since the original weights will be just the reactiveWeights evaluated at start
     private reactiveWeights: Array<() => number> | undefined = undefined
@@ -97,7 +97,7 @@ export class RationalBezierCurve extends BezierCurveImpl {
      * @param t
      * @param pointsAtT
      */
-    decasteljau(t: number, pointsAtT: number[][]): number[][][] {
+    override decasteljau(t: number, pointsAtT: number[][]): number[][][] {
         // TODO think about removing pointsAtT argument
         const decasteljauScheme = []
         const n = this.points.length
