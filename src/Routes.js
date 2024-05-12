@@ -1,25 +1,25 @@
-import BezierCurveGraph from "./graphs/BezierCurveGraph";
-import GraphSubdivision from "./graphs/SubdivisionGraph";
+import BezierCurveGraph from "./graphs/bezier/BezierCurveGraph";
+import GraphSubdivision from "./graphs/bezier/SubdivisionGraph";
 import {ErrorPage} from "./ErrorPage";
 import App from "./App";
 import {WelcomePage} from "./WelcomePage";
-import ExtrapolationGraph from "./graphs/ExtrapolationGraph";
-import ElevationGraph from "./graphs/ElevationGraph";
-import DecasteljauGraph from "./graphs/DecasteljauGraph";
-import RationalBezierCurveGraph from "./graphs/RationalBezierCurveGraph";
-import RationalElevationGraph from "./graphs/RationalElevationGraph";
-import RationalExtrapolationGraph from "./graphs/RationalExtrapolationGraph";
-import RationalSubdivisionGraph from "./graphs/RationalSubdivisionGraph";
-import AffineBezierGraph from "./graphs/AffineTransformsBezierCurveGraph";
-import SplineGraph from "./graphs/C0SplineGraph";
-import C1SplineGraph from "./graphs/C1SplineGraph";
-import G1SplineGraph from "./graphs/G1SplineGraph";
-import G1AffineSplineGraph from "./graphs/G1AffineSplineGraph";
-import C2SplineGraph from "./graphs/C2SplineGraph";
-import CubicPhBezierCurveGraph from "./graphs/CubicPhBezierCurveGraph";
-import QuinticPhBezierCurve from "./graphs/QuinticPhBezierCurveGraph";
-import AlphaParamBezierCurveGraph from "./graphs/AlphaParamBezierCurveGraph";
-import PhParamBezierCurveGraph from "./graphs/PhParamBezierCurveGraph";
+import ExtrapolationGraph from "./graphs/bezier/ExtrapolationGraph";
+import ElevationGraph from "./graphs/bezier/ElevationGraph";
+import DecasteljauGraph from "./graphs/bezier/DecasteljauGraph";
+import RationalBezierCurveGraph from "./graphs/rational/RationalBezierCurveGraph";
+import RationalElevationGraph from "./graphs/rational/RationalElevationGraph";
+import RationalExtrapolationGraph from "./graphs/rational/RationalExtrapolationGraph";
+import RationalSubdivisionGraph from "./graphs/rational/RationalSubdivisionGraph";
+import AffineBezierGraph from "./graphs/bezier/AffineTransformsBezierCurveGraph";
+import SplineGraph from "./graphs/spline/C0SplineGraph";
+import C1SplineGraph from "./graphs/spline/C1SplineGraph";
+import G1SplineGraph from "./graphs/spline/G1SplineGraph";
+import G1AffineSplineGraph from "./graphs/spline/G1AffineSplineGraph";
+import C2SplineGraph from "./graphs/spline/C2SplineGraph";
+import CubicPhBezierCurveGraph from "./graphs/ph/CubicPhBezierCurveGraph";
+import QuinticPhBezierCurve from "./graphs/ph/QuinticPhBezierCurveGraph";
+import AlphaParamBezierCurveGraph from "./graphs/parametrisations/AlphaParamBezierCurveGraph";
+import UniformParamBezierCurveGraph from "./graphs/parametrisations/UniformParamBezierCurveGraph";
 
 const routes = [
     {
@@ -175,14 +175,14 @@ const routes = [
                 group: "Parametrizacije"
             },
             {
-                path: "/bezeg/param/ph",
-                element: <PhParamBezierCurveGraph
+                path: "/bezeg/param/uniform",
+                element: <UniformParamBezierCurveGraph
                     allowSelectedCurveDecasteljau={false}
                     allowSelectedCurveElevation={false}
                     allowSelectedCurveExtrapolation={false}
                     allowSelectedCurveSubdivision={false}
                     allowSelectedCurveControlPolygon={false}/>,
-                title: "PH Parametrizacija",
+                title: "Enakomerna Parametrizacija",
                 group: "Parametrizacije"
             }
 
