@@ -8,6 +8,6 @@ export class JSXPHBezierCurve extends JSXBezierCurve {
 
     protected getStartingCurve(points: number[][]): PhBezierCurve {
         let jsxPoints = points.map(point => this.createJSXGraphPoint(point[0], point[1]))
-        return new PhBezierCurve(jsxPoints);
+        return new PhBezierCurve([jsxPoints[0]], jsxPoints.slice(1));
     }
 }

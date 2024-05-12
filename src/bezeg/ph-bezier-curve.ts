@@ -5,7 +5,6 @@ import {BezierCurveImpl} from "./bezier-curve-impl";
 import {RationalBezierCurve} from "./rational-bezier-curve";
 
 const deltaPravokoten = (p0: Point, p1: Point) => new PointImpl(() => p1.Y() - p0.Y(), () => p0.X() - p1.X())
-const s = (t: number) => 2
 
 /**
  * Represents a PH Bezier curve.
@@ -19,14 +18,16 @@ export class PhBezierCurve implements BezierCurve {
     private points: Point[]
     private underlyingCurveControlPoints: Point[];
     private offsetCurve: BezierCurve;
+    private w: Point[];
 
-    constructor(points: Point[]) {
+    constructor(points: Point[], w: Point[]) {
         this.points = points
+        this.w = w
+        this.degree = points.length + this.w.length
         this.underlyingCurveControlPoints = this.generatePointsForUnderlyingBezierCurve(points)
         this.underlyingBezierCurve = new BezierCurveImpl(this.underlyingCurveControlPoints)
         let [rpoints, rweights] = this.generatePointsForOffsetCurve(points)
         this.offsetCurve = new RationalBezierCurve(rpoints, rweights)
-        this.degree = points.length
     }
 
     tk(tkminus1: number, deltas: number, k: number) {
@@ -39,8 +40,8 @@ export class PhBezierCurve implements BezierCurve {
     }
 
     s(t: number) {
-        const w0 = this.points[1]
-        const w1 = this.points[2]
+        const w0 = this.w[0]
+        const w1 = this.w[1]
 
         const sigma0 = () => w0.X() ** 2 + w0.Y() ** 2
         const sigma1 = () => w0.X() * w1.X() + w0.Y() * w1.Y()
@@ -61,8 +62,8 @@ export class PhBezierCurve implements BezierCurve {
     }
 
     sigma(t: number) {
-        const w0 = this.points[1]
-        const w1 = this.points[2]
+        const w0 = this.w[0]
+        const w1 = this.w[1]
 
         const sigma0 = () => w0.X() ** 2 + w0.Y() ** 2
         const sigma1 = () => w0.X() * w1.X() + w0.Y() * w1.Y()
@@ -84,18 +85,17 @@ export class PhBezierCurve implements BezierCurve {
     }
 
     generatePointsForOffsetCurve(points: Array<Point>) {
-        const degree = points.length
-        if (degree == 3) {
+        if (this.degree === 3) {
             return this.generateOffsetCurvePointsForDegree3(points)
-        } else if (degree == 4) {
+        } else if (this.degree === 4) {
             return this.generateOffsetPointsForDegree5(points)
         }
         throw "Invalid points length. Must be of length 3 or 4."
     }
 
     generateOffsetCurvePointsForDegree3(points: Point[]): [Point[], Array<() => number>] {
-        const w0 = points[1]
-        const w1 = points[2]
+        const w0 = this.w[0]
+        const w1 = this.w[1]
 
         let [p0, p1, p2, p3] = this.underlyingCurveControlPoints
 
@@ -213,8 +213,8 @@ export class PhBezierCurve implements BezierCurve {
 
     generatePointsForDegree3(points: Point[]): Point[] {
         const p0 = points[0]
-        const w0 = points[1]
-        const w1 = points[2]
+        const w0 = this.w[0]
+        const w1 = this.w[1]
 
         const bp0 = p0
         const bp1 = new PointImpl(() => bp0.X() + 1 / 3 * (w0.X() ** 2 - w0.Y() ** 2),
@@ -247,11 +247,9 @@ export class PhBezierCurve implements BezierCurve {
     }
 
     generatePointsForUnderlyingBezierCurve(points: Array<Point>) {
-        const degree = points.length
-        if (degree == 3) {
+        if (this.degree === 3) {
             return this.generatePointsForDegree3(points)
-        } else if (degree == 4) {
-            // why quintics degree only have 4 free points?
+        } else if (this.degree === 4) {
             return this.generatePointsForDegree5(points)
         }
         throw "Invalid points length. Must be of length 3 or 4."
@@ -276,10 +274,9 @@ export class PhBezierCurve implements BezierCurve {
     }
 
     rotate(theta: number) {
-        let hodographPoints = this.points.slice(1)
         const rotationMatrix = [[Math.cos(theta), -Math.sin(theta)], [Math.sin(theta), Math.cos(theta)]]
         this.affineTransform(rotationMatrix)
-        hodographPoints.forEach(point => this.transformPoint(point, 0, 0, rotationMatrix, undefined))
+        this.w.forEach(point => this.transformPoint(point, 0, 0, rotationMatrix, undefined))
         this.underlyingBezierCurve.rotate(theta);
     }
 
@@ -293,6 +290,8 @@ export class PhBezierCurve implements BezierCurve {
 
     scale(xScale: number) {
         this.points.forEach(point => this.transformPoint(point, 0, 0, [[xScale, 0], [0, xScale]], undefined))
+        console.log(this.points)
+        this.w.forEach(point => this.transformPoint(point, 0, 0, [[xScale, 0], [0, xScale]], undefined))
     }
 
     moveFor(x: number, y: number) {

@@ -9,7 +9,6 @@ class QuinticPhBezierCurve extends BaseCurveGraph<BaseCurveGraphProps, BaseGraph
     initialize() {
         const points = [[0, 0], [-3, 2], [2, 2], [1, 3]]
         this.createJSXBezierCurve(points)
-
         const curve = this.getFirstCurve() as PhBezierCurve
         const offsetCurve = curve.getOffsetCurve()
         offsetCurve.getPoints().map(point => this.createJSXGraphPoint(() => point.X(), () => point.Y()))

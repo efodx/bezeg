@@ -19,8 +19,6 @@ class UniformParamBezierCurveGraph extends BaseCurveGraph<BaseCurveGraphProps, B
         const points = [[0, 0], [-3, 2], [2, 2]]
         this.createJSXBezierCurve(points)
         this.generateParamPoints()
-
-        const curve = this.getFirstCurve()
     }
 
     override getFirstCurve(): PhBezierCurve {
@@ -99,7 +97,6 @@ class UniformParamBezierCurveGraph extends BaseCurveGraph<BaseCurveGraphProps, B
         this.ts = range(1, this.numberOfPoints, 1).map(i => i * dt)
 
         if (this.alpha != 1) {
-
             this.ts = this.ts.map(t => this.alphaParam(t))
         } else {
             this.ts = this.getUniformParamTs()
