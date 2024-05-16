@@ -12,22 +12,33 @@ const deltaPravokoten = (p0: Point, p1: Point) => new PointImpl(() => p1.Y() - p
  * There are just certain restrictions.
  */
 export class PhBezierCurve implements BezierCurve {
-    private degree: number
     private d: number = 0.2;
     private underlyingBezierCurve: BezierCurve;
     private points: Point[]
     private underlyingCurveControlPoints: Point[];
     private offsetCurve: BezierCurve;
-    private w: Point[];
 
     constructor(points: Point[], w: Point[]) {
         this.points = points
-        this.w = w
-        this.degree = points.length + this.w.length
+        this._w = w
         this.underlyingCurveControlPoints = this.generatePointsForUnderlyingBezierCurve(points)
         this.underlyingBezierCurve = new BezierCurveImpl(this.underlyingCurveControlPoints)
         let [rpoints, rweights] = this.generatePointsForOffsetCurve(points)
         this.offsetCurve = new RationalBezierCurve(rpoints, rweights)
+    }
+
+    private _w: Point[];
+
+    get w(): Point[] {
+        return this._w;
+    }
+
+    set w(value: Point[]) {
+        this._w = value;
+    }
+
+    get degree() {
+        return this.points.length + this._w.length
     }
 
     tk(tkminus1: number, deltas: number, k: number) {
@@ -40,12 +51,9 @@ export class PhBezierCurve implements BezierCurve {
     }
 
     s(t: number) {
-        const w0 = this.w[0]
-        const w1 = this.w[1]
-
-        const sigma0 = () => w0.X() ** 2 + w0.Y() ** 2
-        const sigma1 = () => w0.X() * w1.X() + w0.Y() * w1.Y()
-        const sigma2 = () => w1.X() ** 2 + w1.Y() ** 2
+        const sigma0 = () => this._w[0].X() ** 2 + this._w[0].Y() ** 2
+        const sigma1 = () => this._w[0].X() * this._w[1].X() + this._w[0].Y() * this._w[1].Y()
+        const sigma2 = () => this._w[1].X() ** 2 + this._w[1].Y() ** 2
 
         const s0 = () => 0
         const s1 = () => 1 / 3 * (sigma0())
@@ -62,12 +70,9 @@ export class PhBezierCurve implements BezierCurve {
     }
 
     sigma(t: number) {
-        const w0 = this.w[0]
-        const w1 = this.w[1]
-
-        const sigma0 = () => w0.X() ** 2 + w0.Y() ** 2
-        const sigma1 = () => w0.X() * w1.X() + w0.Y() * w1.Y()
-        const sigma2 = () => w1.X() ** 2 + w1.Y() ** 2
+        const sigma0 = () => this._w[0].X() ** 2 + this._w[0].Y() ** 2
+        const sigma1 = () => this._w[0].X() * this._w[1].X() + this._w[0].Y() * this._w[1].Y()
+        const sigma2 = () => this._w[1].X() ** 2 + this._w[1].Y() ** 2
         const p1 = new PointImpl(sigma0, 1)
         const p2 = new PointImpl(sigma1, 1)
         const p3 = new PointImpl(sigma2, 1)
@@ -94,14 +99,11 @@ export class PhBezierCurve implements BezierCurve {
     }
 
     generateOffsetCurvePointsForDegree3(points: Point[]): [Point[], Array<() => number>] {
-        const w0 = this.w[0]
-        const w1 = this.w[1]
-
         let [p0, p1, p2, p3] = this.underlyingCurveControlPoints
 
-        const sigma0 = () => w0.X() ** 2 + w0.Y() ** 2
-        const sigma1 = () => w0.X() * w1.X() + w0.Y() * w1.Y()
-        const sigma2 = () => w1.X() ** 2 + w1.Y() ** 2
+        const sigma0 = () => this._w[0].X() ** 2 + this._w[0].Y() ** 2
+        const sigma1 = () => this._w[0].X() * this._w[1].X() + this._w[0].Y() * this._w[1].Y()
+        const sigma2 = () => this._w[1].X() ** 2 + this._w[1].Y() ** 2
 
         const deltaPravokotenP0 = deltaPravokoten(p0, p1)
         const deltaPravokotenP1 = deltaPravokoten(p1, p2)
@@ -138,17 +140,13 @@ export class PhBezierCurve implements BezierCurve {
     }
 
     generateOffsetPointsForDegree5(points: Array<Point>): [Point[], Array<() => number>] {
-        const w0 = points[1]
-        const w1 = points[2]
-        const w2 = points[3]
-
         let [p0, p1, p2, p3, p4, p5] = this.underlyingCurveControlPoints
 
-        const sigma0 = () => w0.X() ** 2 + w0.Y() ** 2
-        const sigma1 = () => w0.X() * w1.X() + w0.Y() * w1.Y()
-        const sigma2 = () => 2 / 3 * (w1.X() ** 2 + w1.Y() ** 2) + 1 / 3 * (w0.X() * w2.X() + w0.Y() * w2.Y())
-        const sigma3 = () => w1.X() * w2.X() + w1.Y() * w2.Y();
-        const sigma4 = () => w2.X() ** 2 + w2.Y() ** 2
+        const sigma0 = () => this._w[0].X() ** 2 + this._w[0].Y() ** 2
+        const sigma1 = () => this._w[0].X() * this._w[1].X() + this._w[0].Y() * this._w[1].Y()
+        const sigma2 = () => 2 / 3 * (this._w[1].X() ** 2 + this._w[1].Y() ** 2) + 1 / 3 * (this._w[0].X() * this._w[2].X() + this._w[0].Y() * this._w[2].Y())
+        const sigma3 = () => this._w[1].X() * this._w[2].X() + this._w[1].Y() * this._w[2].Y();
+        const sigma4 = () => this._w[2].X() ** 2 + this._w[2].Y() ** 2
 
         const deltaPravokotenP0 = deltaPravokoten(p0, p1)
         const deltaPravokotenP1 = deltaPravokoten(p1, p2)
@@ -213,36 +211,31 @@ export class PhBezierCurve implements BezierCurve {
 
     generatePointsForDegree3(points: Point[]): Point[] {
         const p0 = points[0]
-        const w0 = this.w[0]
-        const w1 = this.w[1]
 
         const bp0 = p0
-        const bp1 = new PointImpl(() => bp0.X() + 1 / 3 * (w0.X() ** 2 - w0.Y() ** 2),
-            () => bp0.Y() + 2 / 3 * w0.X() * w0.Y())
-        const bp2 = new PointImpl(() => bp1.X() + 1 / 3 * (w0.X() * w1.X() - w0.Y() * w1.Y()),
-            () => bp1.Y() + 1 / 3 * (w0.X() * w1.Y() + w0.Y() * w1.X()))
-        const bp3 = new PointImpl(() => bp2.X() + 1 / 3 * (w1.X() ** 2 - w1.Y() ** 2),
-            () => bp2.Y() + 2 / 3 * w1.X() * w1.Y())
+        const bp1 = new PointImpl(() => bp0.X() + 1 / 3 * (this._w[0].X() ** 2 - this._w[0].Y() ** 2),
+            () => bp0.Y() + 2 / 3 * this._w[0].X() * this._w[0].Y())
+        const bp2 = new PointImpl(() => bp1.X() + 1 / 3 * (this._w[0].X() * this._w[1].X() - this._w[0].Y() * this._w[1].Y()),
+            () => bp1.Y() + 1 / 3 * (this._w[0].X() * this._w[1].Y() + this._w[0].Y() * this._w[1].X()))
+        const bp3 = new PointImpl(() => bp2.X() + 1 / 3 * (this._w[1].X() ** 2 - this._w[1].Y() ** 2),
+            () => bp2.Y() + 2 / 3 * this._w[1].X() * this._w[1].Y())
         return [bp0, bp1, bp2, bp3];
     }
 
     generatePointsForDegree5(points: Array<Point>) {
         const p0 = points[0]
-        const w0 = points[1]
-        const w1 = points[2]
-        const w2 = points[3]
 
         const bp0 = p0
-        const bp1 = new PointImpl(() => bp0.X() + 1 / 5 * (w0.X() ** 2 - w0.Y() ** 2),
-            () => bp0.Y() + 2 / 5 * w0.X() * w0.Y())
-        const bp2 = new PointImpl(() => bp1.X() + 1 / 5 * (w0.X() * w1.X() - w0.Y() * w1.Y()),
-            () => bp1.Y() + 1 / 5 * (w0.X() * w1.Y() + w0.Y() * w1.X()))
-        const bp3 = new PointImpl(() => bp2.X() + 1 / 15 * (2 * (w1.X() ** 2 - w1.Y() ** 2) + (w0.X() * w2.X() - w0.Y() * w2.Y())),
-            () => bp2.Y() + 1 / 15 * (4 * w1.X() * w1.Y() + (w0.X() * w2.Y() + w0.Y() * w2.X())))
-        const bp4 = new PointImpl(() => bp3.X() + 1 / 5 * (w1.X() * w2.X() - w1.Y() * w2.Y()),
-            () => bp3.Y() + 1 / 5 * (w1.X() * w2.Y() + w1.Y() * w2.X()))
-        const bp5 = new PointImpl(() => bp4.X() + 1 / 5 * (w2.X() ** 2 - w2.Y() ** 2),
-            () => bp4.Y() + 2 / 5 * w2.X() * w2.Y())
+        const bp1 = new PointImpl(() => bp0.X() + 1 / 5 * (this._w[0].X() ** 2 - this._w[0].Y() ** 2),
+            () => bp0.Y() + 2 / 5 * this._w[0].X() * this._w[0].Y())
+        const bp2 = new PointImpl(() => bp1.X() + 1 / 5 * (this._w[0].X() * this._w[1].X() - this._w[0].Y() * this._w[1].Y()),
+            () => bp1.Y() + 1 / 5 * (this._w[0].X() * this._w[1].Y() + this._w[0].Y() * this._w[1].X()))
+        const bp3 = new PointImpl(() => bp2.X() + 1 / 15 * (2 * (this._w[1].X() ** 2 - this._w[1].Y() ** 2) + (this._w[0].X() * this._w[2].X() - this._w[0].Y() * this._w[2].Y())),
+            () => bp2.Y() + 1 / 15 * (4 * this._w[1].X() * this._w[1].Y() + (this._w[0].X() * this._w[2].Y() + this._w[0].Y() * this._w[2].X())))
+        const bp4 = new PointImpl(() => bp3.X() + 1 / 5 * (this._w[1].X() * this._w[2].X() - this._w[1].Y() * this._w[2].Y()),
+            () => bp3.Y() + 1 / 5 * (this._w[1].X() * this._w[2].Y() + this._w[1].Y() * this._w[2].X()))
+        const bp5 = new PointImpl(() => bp4.X() + 1 / 5 * (this._w[2].X() ** 2 - this._w[2].Y() ** 2),
+            () => bp4.Y() + 2 / 5 * this._w[2].X() * this._w[2].Y())
         return [bp0, bp1, bp2, bp3, bp4, bp5];
     }
 
@@ -276,7 +269,8 @@ export class PhBezierCurve implements BezierCurve {
     rotate(theta: number) {
         const rotationMatrix = [[Math.cos(theta), -Math.sin(theta)], [Math.sin(theta), Math.cos(theta)]]
         this.affineTransform(rotationMatrix)
-        this.w.forEach(point => this.transformPoint(point, 0, 0, rotationMatrix, undefined))
+        this._w.forEach(point => this.transformPoint(point, 0, 0, rotationMatrix, undefined))
+        // this.points.rotate!
         this.underlyingBezierCurve.rotate(theta);
     }
 
@@ -288,11 +282,39 @@ export class PhBezierCurve implements BezierCurve {
         return this.underlyingBezierCurve.decasteljauScheme(t);
     }
 
-    scale(xScale: number) {
-        this.points.forEach(point => this.transformPoint(point, 0, 0, [[xScale, 0], [0, xScale]], undefined))
-        console.log(this.points)
-        this.w.forEach(point => this.transformPoint(point, 0, 0, [[xScale, 0], [0, xScale]], undefined))
+    scale(xScale: number, yScale?: number) {
+        let [xCenter, yCenter] = this.getBoundingBoxCenter()
+
+        //  this.points.forEach(point => this.transformPoint(point, xCenter, yCenter, [[xScale, 0], [0, yScale!]], undefined))
+        // console.log(this.points)
+        // // 2x prevec gre watafek
+        // xScale = 1 + (xScale - 1) / 2
+        // if (yScale) {
+        //     yScale = 1 + (yScale - 1) / 2
+        // } else {
+        //     yScale = xScale
+        // }
+        let copyPoints = this.underlyingBezierCurve.getPoints()
+            .map(point => new PointImpl(point.X(), point.Y()))
+        copyPoints.forEach(point => this.transformPoint(point, 0, 0, [[xScale, 0], [0, yScale!]], undefined))
+
+        console.log("copypoints:" + copyPoints.length)
+        this._w.forEach(point => this.transformPoint(point, 0, 0, [[xScale, 0], [0, yScale!]], undefined))
+        //this.underlyingBezierCurve.scale(xScale, yScale)
+
+        // console.log("xScale: " + xScale)
+        // if (!yScale) {
+        //     yScale = xScale
+        // } else {
+        //     console.log("yScale:" + yScale)
+        // }
+        // console.log("CENTER: " + this.getBoundingBoxCenter())
+        // let [xCenter, yCenter] = this.getBoundingBoxCenter()
+        // this.w.forEach(point => this.transformPoint(point, 0, 0, [[xScale, 0], [0, yScale!]], undefined))
+        // this.points.forEach(point => this.transformPoint(point, xCenter, yCenter, [[xScale, 0], [0, yScale!]], undefined))
+        //this.underlyingBezierCurve.scale(xScale, yScale)
     }
+
 
     moveFor(x: number, y: number) {
         this.underlyingBezierCurve.moveFor(x, y);
