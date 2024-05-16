@@ -21,9 +21,9 @@ export class PhBezierCurve implements BezierCurve {
     constructor(points: Point[], w: Point[]) {
         this.points = points
         this._w = w
-        this.underlyingCurveControlPoints = this.generatePointsForUnderlyingBezierCurve(points)
+        this.underlyingCurveControlPoints = this.generatePointsForUnderlyingBezierCurve()
         this.underlyingBezierCurve = new BezierCurveImpl(this.underlyingCurveControlPoints)
-        let [rpoints, rweights] = this.generatePointsForOffsetCurve(points)
+        let [rpoints, rweights] = this.generatePointsForOffsetCurve()
         this.offsetCurve = new RationalBezierCurve(rpoints, rweights)
     }
 
@@ -93,16 +93,16 @@ export class PhBezierCurve implements BezierCurve {
         return this.d
     }
 
-    generatePointsForOffsetCurve(points: Array<Point>) {
+    generatePointsForOffsetCurve() {
         if (this.degree === 3) {
-            return this.generateOffsetCurvePointsForDegree3(points)
+            return this.generateOffsetCurvePointsForDegree3()
         } else if (this.degree === 4) {
-            return this.generateOffsetPointsForDegree5(points)
+            return this.generateOffsetPointsForDegree5()
         }
         throw "Invalid points length. Must be of length 3 or 4."
     }
 
-    generateOffsetCurvePointsForDegree3(points: Point[]): [Point[], Array<() => number>] {
+    generateOffsetCurvePointsForDegree3(): [Point[], Array<() => number>] {
         let [p0, p1, p2, p3] = this.underlyingCurveControlPoints
 
         const sigma0 = () => this._w[0].X() ** 2 + this._w[0].Y() ** 2
@@ -143,7 +143,7 @@ export class PhBezierCurve implements BezierCurve {
         return [[o0, o1, o2, o3, o4, o5], [ww0, ww1, ww2, ww3, ww4, ww5]];
     }
 
-    generateOffsetPointsForDegree5(points: Array<Point>): [Point[], Array<() => number>] {
+    generateOffsetPointsForDegree5(): [Point[], Array<() => number>] {
         let [p0, p1, p2, p3, p4, p5] = this.underlyingCurveControlPoints
 
         const sigma0 = () => this._w[0].X() ** 2 + this._w[0].Y() ** 2
@@ -213,10 +213,9 @@ export class PhBezierCurve implements BezierCurve {
         return [[o0, o1, o2, o3, o4, o5, o6, o7, o8, o9], [ww0, ww1, ww2, ww3, ww4, ww5, ww6, ww7, ww8, ww9]];
     }
 
-    generatePointsForDegree3(points: Point[]): Point[] {
-        const p0 = points[0]
+    generatePointsForDegree3(): Point[] {
+        const bp0 = this.points[0]
 
-        const bp0 = p0
         const bp1 = new PointImpl(() => bp0.X() + 1 / 3 * (this._w[0].X() ** 2 - this._w[0].Y() ** 2),
             () => bp0.Y() + 2 / 3 * this._w[0].X() * this._w[0].Y())
         const bp2 = new PointImpl(() => bp1.X() + 1 / 3 * (this._w[0].X() * this._w[1].X() - this._w[0].Y() * this._w[1].Y()),
@@ -226,10 +225,8 @@ export class PhBezierCurve implements BezierCurve {
         return [bp0, bp1, bp2, bp3];
     }
 
-    generatePointsForDegree5(points: Array<Point>) {
-        const p0 = points[0]
-
-        const bp0 = p0
+    generatePointsForDegree5(): Point[] {
+        const bp0 = this.points[0]
         const bp1 = new PointImpl(() => bp0.X() + 1 / 5 * (this._w[0].X() ** 2 - this._w[0].Y() ** 2),
             () => bp0.Y() + 2 / 5 * this._w[0].X() * this._w[0].Y())
         const bp2 = new PointImpl(() => bp1.X() + 1 / 5 * (this._w[0].X() * this._w[1].X() - this._w[0].Y() * this._w[1].Y()),
@@ -243,11 +240,11 @@ export class PhBezierCurve implements BezierCurve {
         return [bp0, bp1, bp2, bp3, bp4, bp5];
     }
 
-    generatePointsForUnderlyingBezierCurve(points: Array<Point>) {
+    generatePointsForUnderlyingBezierCurve() {
         if (this.degree === 3) {
-            return this.generatePointsForDegree3(points)
+            return this.generatePointsForDegree3()
         } else if (this.degree === 4) {
-            return this.generatePointsForDegree5(points)
+            return this.generatePointsForDegree5()
         }
         throw "Invalid points length. Must be of length 3 or 4."
     }
@@ -287,7 +284,7 @@ export class PhBezierCurve implements BezierCurve {
     }
 
     scale(xScale: number, yScale?: number) {
-        let [xCenter, yCenter] = this.getBoundingBoxCenter()
+        // let [xCenter, yCenter] = this.getBoundingBoxCenter()
 
         //  this.points.forEach(point => this.transformPoint(point, xCenter, yCenter, [[xScale, 0], [0, yScale!]], undefined))
         // console.log(this.points)

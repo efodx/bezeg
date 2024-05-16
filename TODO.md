@@ -2,10 +2,11 @@
 
 ### High Priority
 
+- [x] PH Krivulje naj imajo samo eno startno tocko + hodografe za konstruktor
+- [ ] Fix offset quintic PH krivulje!
 - [ ] Fix resizanje PH krivulj
 - [ ] Bezier krivulja, ki bo delovala na poljubnem stevilu dimenzij. Mogoce tako, da Point interface razsirim na
   poljubno stevilo.
-- [x] PH Krivulje naj imajo samo eno startno tocko + hodografe za konstruktor
 - [ ] Abstrahirat zadeve pri PH krivuljah, da se koda pouporabi
 - [ ] Hodografi PH krivulj naj bojo v locenem grafu, mogoce celo kot select curve command
 - [ ] Odstrani styles in uporabljaj bootstrap classe za oblikovanje
