@@ -89,6 +89,10 @@ export class PhBezierCurve implements BezierCurve {
         this.d = d
     }
 
+    getOffsetCurveDistance() {
+        return this.d
+    }
+
     generatePointsForOffsetCurve(points: Array<Point>) {
         if (this.degree === 3) {
             return this.generateOffsetCurvePointsForDegree3(points)

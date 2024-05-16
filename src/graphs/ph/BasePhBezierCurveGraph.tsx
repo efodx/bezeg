@@ -75,10 +75,11 @@ abstract class BasePhBezierCurveGraph extends BaseCurveGraph<BaseCurveGraphProps
         const commands = []
         commands.push(<Button text={this.showOffsetCurve ? "Skrij offset krivuljo" : "Prikaži offset krivuljo"}
                               onClick={() => this.showOffsetCurve = !this.showOffsetCurve}/>)
+
         if (this.showOffsetCurve) {
             commands.push(<Slider min={-3}
                                   max={3}
-                                  initialValue={0}
+                                  initialValue={this.getFirstCurveAsPHBezierCurve()?.getOffsetCurveDistance() ? this.getFirstCurveAsPHBezierCurve()?.getOffsetCurveDistance() : 0}
                                   step={0.1}
                                   onChange={e => this.setOffsetCurveDistance(e)}/>)
         }
