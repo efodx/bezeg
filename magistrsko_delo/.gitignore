@@ -1,0 +1,11 @@
+*.xmpi
+*.bbl
+*.bcf
+*.idx
+*.log
+*.out
+*.xml
+*.toc
+*.xmpdata
+*.aux
+*.blg
