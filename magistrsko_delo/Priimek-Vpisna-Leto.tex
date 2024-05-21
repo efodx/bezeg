@@ -176,14 +176,11 @@ the content and not the structure of your work.}
         \begin{enumerate}
             \item $\lilb{i}{n} = 0$ za $i<0$ ali $i>n$, interpolacija končnih točk \label{izrek:bernsteinovi_lastnosti:interpolacija}
             \item $\lilb{i}{n} \geq 0$ za $t\in[0,1]$, pozitivnost \label{izrek:bernsteinovi_lastnosti:pozitivnost}
+            \item $b_{i,n}(0) = \delta_{i,0} \quad \text{in} \quad  b_{i,n}(1) = \delta_{i,n}, \text{ kjer je }  \delta_{i,j} = \begin{cases}
+                                                                                                                                    1 & i=j \\
+                                                                                                                                    0 & 1\neq j
+            \end{cases}$
             \item $b_{i,n}(1-t) = \lilb{n-i}{n}$, simetrija \label{izrek:bernsteinovi_lastnosti:simetrija}
-            \item $b_{i,n}(0) = \delta_{i,0} \quad \text{in} \quad  b_{i,n}(1) = \delta_{i,n}, \quad kjer je  \delta_{i,j} =\[ \begin{cases}
-                                                                                                                                   1 & i=j \\
-                                                                                                                                   0 & 1\neq j
-            \end{cases}
-            \]
-
-            $
             \item $\bernsteinsumtridva{i}{n} = 1$, razčlenitev enote \label{izrek:bernsteinovi_lastnosti:enota}
             \item $\lilb{n}{i} = (1-t)\lilb{n-1}{i} + t\lilb{n-1}{i-1}$ \label{izrek:bernsteinovi_lastnosti:rekruzija}
             \item $b'_{i,n}(t)=n(\lilb{i-1}{n-1} - \lilb{i}{n-1})$ in  $\bigbo{n}=n\sum^{n-1}_{i=0}(\beta_{i+1}-\beta_{i})b_{i,n-1}(t)$ \label{izrek:bernsteinovi_lastnosti:odvod}
@@ -200,7 +197,7 @@ the content and not the structure of your work.}
         \noindent(4) Za $1 = 1^n = (1-t+t)^n = ((1-t) + t)^n$ uporabimo binomski izrek, dobimo
         \[\left((1-t) + t\right)^n = \sum_{i=0}^{n}\bernstein{n}{i} = \sum_{i=0}^n \lilb{i}{n}.\]
 
-        \noindent(5)
+        \noindent(5) Uporabili bomo lastnost binomskega simbola $ \binom{n-1}{i} + \binom{n-1}{i-1} = \binom{n}{i}.$
         \begin{align}
             &(1-t)\lilb{n-1}{i} + t\lilb{n-1}{i-1} = \nonumber \\
             &= (1-t)\binom{n-1}{i}t^{i}(1-t)^{n-i-1} + t\binom{n-1}{i-1}t^{i-1}(1-t)^{n-i} &= \nonumber \\
@@ -219,24 +216,60 @@ the content and not the structure of your work.}
     Tako bomo večdimenzionalne točke označili z $\mathbf{x}=(x_0,x_1,\dots,x_n)$, večdimenzionalne funkcije $f:\R\to\R^{n+1}$ pa z $\mathbf{f}(x)=\left( f_0(x),f_1(x),\dots,f_n(x) \right)$.
 
     \subsection{Bezierjeve krivulje}
-    Če v Bernsteinov polinom stopnje $n$ namesto realnega števila $\beta_i$ vstavimo točke $\p_i\in\R^2$ t.j.\ $\bigbb{n}=\bernsteinsump{i}{n}$, dobimo t.i.\ \textit{Bezierjevo krivuljo} stopnje $n$.
+    Če v Bernsteinov polinom stopnje $n$ namesto realnega števila $\beta_i$ vstavimo točke $\p_i\in\R^2$, dobimo t.i.\ \textit{Bezierjevo krivuljo} stopnje $n$  t.j.\ $\bigbb{n}=\bernsteinsump{i}{n}$.
+    Točkam $\p_i$ pravimo \textit{kontrolne točke}, poligonu, ki ga dobimo, če povežemo točke $\p_i$ in $\p_{i+1}$ za $i=[0,\dots,n-1]$, ter točki $\p_0$ in $\p_n$ pa \textit{kontrolni poligon}.
+
 
     \begin{izrek}{Lastnosti Bezierjevih krivulj}
         \begin{enumerate}
-            \item $\bigbbod{n}{0}=\p_0$ in $\bigbbod{n}{1}=\p_n$
+            \item $\bigbbod{n}{0}=\p_0$ in $\bigbbod{n}{1}=\p_n$, interpolacija končnih točk
             \item $\phi(\bernsteinsump{i}{n}) =\bernsteinsumtritri{i}{n}{\phi(\p_i)}$, afina invarianca
+            \item Krivulja leži znotraj konveksne ovojnice svojih kontrolnih točk.
         \end{enumerate}
     \end{izrek}
+    Preden izrek dokažemo, povejmo zakaj so zgornje lastnosti pomembne za potrebe grafičnega oblikovanja.
+    Interpolacija končnih točk in lastnost (3) sta pomembni, saj omogočajo enostavno kontrolo krivulje.
+    Afina invarianca pa je pomembna za enostavno premikanje, rotiranje itd.\ krivulje, saj lahko krivuljo transfomiramo tako, da transformacijo uporabimo na kontrolnih točkah.
+
 
     \begin{dokaz}
-        \noindent (1)   $\bigbbod{n}{0}=\sum_{i=0}^{n}\p_{i}b_{n,i}(0)$
+        ~\\
+        \noindent (1) $\bigbbod{n}{0}=\sum_{i=0}^{n}\p_{i}b_{n,i}(0) = \sum_{i=0}^{n}\p_{i}\delta_{0,i} = \p_0$.
+        Enako lahko naredimo tudi za $\bigbbod{n}{1}.$
+
+        \noindent (2) Naj bo $\phi$ afina preslikava, velja torej $\phi(x) = A\mathbf{x} + \mathbf{b}.$
+        \begin{align*}
+            \phi\left(\sum_{i=0}^{n}\p_{i}b_{n,i}(t)\right) &= A\left(\sum_{i=0}^{n}\p_{i}b_{n,i}(t)\right) + \mathbf{b} &&=  \sum_{i=0}^{n}A\p_{i}b_{n,i}(t) + \mathbf{b}  \\
+            &= \sum_{i=0}^{n}A\p_{i}b_{n,i}(t) + \sum_{i=0}^{n}\mathbf{b}b_{n,i}(t) &&= \sum_{i=0}^{n}(A\p_{i}+\mathbf{b})b_{n,i}(t) \\
+            &= \bernsteinsumtritri{i}{n}{\phi(\p_i)}
+        \end{align*}
+        \noindent (3) Konveksna ovojnica kontrolnih točk Bezierjeve krivulje je množica vseh konveksnih kombinacij teh točk t.j.\ $\sum_{i=0}^{n}\lambda_i\p_{i}$, kjer so $\lambda_i$ pozitivna realna števila za katere velja $\lambda_0 + \lambda_1 + \dots + \lambda_n = 1$.
+        Ker so Bernsteinovi polinomi za poljuben $t\in[0,1]$ razčlenitev enote in velja $\lilb{n}{i}\geq0$, lahko zapišemo $\lambda_i=\lilb{n}{i}$.
     \end{dokaz}
 
     \subsection{Decasteljau}
-    S pomočjo Decasteljaujevega algoritma lahko računamo točke Bezierjevih krivulj.
-    Naj bo $\bigbbt_{[\p_0,\p_1,\dots,\p_n]}$ Bezierjeva krivulja $n$-te stopnje s kontronlimi točkami $\p_0,\p_1,\dots,\p_n$.
-    Potem lahko njene točke rekurzivno računamo s pomočjo naslednjega izraza \[\bigbbt_{[\p_0,\p_1,\dots,\p_n]} = (1-t)\bigbbt_{[\p_0,\p_1,\dots,\p_{n-1}]} +t\bigbbt_{[\p_1,\dots,\p_n]}\]
+    Računanje Bernsteinovih polinomov direktno preko njihovih enačb je precej nestabilno****, za rabo v računalništvu pa je pomembno, da uporabljamo stabilne metode računanja.
+    S pomočjo Decasteljaujevega algoritma lahko računamo točke Bezierjevih krivulj stabilno****, zanj pa potrebujemo naslednji izrek.
 
+    \begin{izrek}
+        Naj bo $\bigbbt_{[\p_0,\p_1,\dots,\p_n]}$ Bezierjeva krivulja $n$-te stopnje s kontronlimi točkami $\p_0,\p_1,\dots,\p_n$.
+        Potem lahko njene točke rekurzivno računamo s pomočjo naslednjega izraza \[\bigbbt_{[\p_0,\p_1,\dots,\p_n]} = (1-t)\bigbbt_{[\p_0,\p_1,\dots,\p_{n-1}]} +t\bigbbt_{[\p_1,\dots,\p_n]}.\]
+    \end{izrek}
+
+    Izrek tudi dokažimo.
+
+    \begin{dokaz}
+        \begin{align*}
+        (1-t) &
+            \bigbbt_{[\p_0,\p_1,\dots,\p_{n-1}]}+t\bigbbt_{[\p_1,\dots,\p_n]} = \\
+            &= (1-t)\bernsteinsump{i}{n-1}+t\sum_{i=0}^{n-1} \p_{i+1}\lilb{n-1}{i} \\
+            &= (1-t)\bernsteinsump{i}{n-1}+ t\sum_{i=1}^{n} \p_{i}\lilb{n-1}{i-1} \\
+            &= \p_0(1-t)\lilb{0}{n-1} + \sum_{i=1}^{n-1}\p_{i}(1-t)\lilb{n-1}{i} +  \sum_{i=1}^{n-1} \p_{i}t\lilb{n-1}{i-1} + \p_n \lilb{n-1}{n-1} \\
+        &= \p_0(1-t)\lilb{0}{n-1} + \sum_{i=1}^{n-1}\left((1-t)\lilb{n-1}{i} + t\lilb{n-1}{i-1}\right)\p_{i} + \p_n \lilb{n-1}{n-1} \\
+        &= \p_0\lilb{n}{0} + \sum_{i=1}^{n-1}\p_{i}\lilb{n}{i} + \p_n \lilb{n}{n} \\
+        &= \sum_{i=0}^{n}\p_{i}\lilb{n}{i} \\
+        \end{align*}
+    \end{dokaz}
     \begin{algorithm}
         \caption{Decasteljau}
         \begin{algorithmic}
@@ -348,9 +381,9 @@ the content and not the structure of your work.}
     \begin{proof}
         Naštejmo nekaj primerov:
         \begin{align}
-            \omega &= (0, 0, 0, \dots), \label{eq:zero-kompleks} \\
-            \omega &= (1, i, -1, -i, 1, \ldots), \nonumber \\
-            \omega &= (0, 1, 2, 3, \ldots). \nonumber \qedhere  % postavi QED na zadnjo vrstico enačbe
+            \omega &= (0, 0, 0,& &= \dots), \label{eq:zero-kompleks} \\
+            \omega &= (1, i, & &=-1, -i, 1, \ldots), \nonumber \\
+            \omega &= (0,& &= 1, 2, 3, \ldots). \nonumber \qedhere  % postavi QED na zadnjo vrstico enačbe
         \end{align}
     \end{proof}
 
