@@ -21,7 +21,7 @@ class GraphExtrapolation extends BaseRationalCurveGraph<BaseRationalBezierCurveG
     }
 
     getGraphCommands(): JSX.Element[] {
-        return [<Button onClick={() => this.extrapolate()} text="Ekstrapoliraj"/>]
+        return super.getGraphCommands().concat([<Button onClick={() => this.extrapolate()} text="Ekstrapoliraj"/>])
     }
 
     private extrapolate() {

@@ -260,14 +260,15 @@ the content and not the structure of your work.}
 
     \begin{dokaz}
         \begin{align*}
-        (1-t) &
+        (1-t)
+            &
             \bigbbt_{[\p_0,\p_1,\dots,\p_{n-1}]}+t\bigbbt_{[\p_1,\dots,\p_n]} = \\
             &= (1-t)\bernsteinsump{i}{n-1}+t\sum_{i=0}^{n-1} \p_{i+1}\lilb{n-1}{i} \\
             &= (1-t)\bernsteinsump{i}{n-1}+ t\sum_{i=1}^{n} \p_{i}\lilb{n-1}{i-1} \\
             &= \p_0(1-t)\lilb{0}{n-1} + \sum_{i=1}^{n-1}\p_{i}(1-t)\lilb{n-1}{i} +  \sum_{i=1}^{n-1} \p_{i}t\lilb{n-1}{i-1} + \p_n \lilb{n-1}{n-1} \\
-        &= \p_0(1-t)\lilb{0}{n-1} + \sum_{i=1}^{n-1}\left((1-t)\lilb{n-1}{i} + t\lilb{n-1}{i-1}\right)\p_{i} + \p_n \lilb{n-1}{n-1} \\
-        &= \p_0\lilb{n}{0} + \sum_{i=1}^{n-1}\p_{i}\lilb{n}{i} + \p_n \lilb{n}{n} \\
-        &= \sum_{i=0}^{n}\p_{i}\lilb{n}{i} \\
+            &= \p_0(1-t)\lilb{0}{n-1} + \sum_{i=1}^{n-1}\left((1-t)\lilb{n-1}{i} + t\lilb{n-1}{i-1}\right)\p_{i} + \p_n \lilb{n-1}{n-1} \\
+            &= \p_0\lilb{n}{0} + \sum_{i=1}^{n-1}\p_{i}\lilb{n}{i} + \p_n \lilb{n}{n} \\
+            &= \sum_{i=0}^{n}\p_{i}\lilb{n}{i} \\
         \end{align*}
     \end{dokaz}
     \begin{algorithm}
@@ -286,10 +287,22 @@ the content and not the structure of your work.}
         \end{algorithmic}
     \end{algorithm}
 
+    Decasteljaujev algoritem ima tudi geometrijski pomen.
+    Predstavlja namreč nekakšno zaporedno interpolacijo točk.
+
     \subsection{Metode Bezierjevih krivulj}
+    V tem razdelku bomo predstavili nekaj metod Bezierjevih krivulj, ki so uporabne pri grafičnem oblikovanju.
 
     \subsubsection{Subdivizija}
-    Motivacija: Zelimo obdrzati le en kos krivulje/zelimo fiksirat le en del krivulje.
+    Recimo, da smo se kot računalniški grafik znašli v situaciji, ko bi želeli obdržati le en kos Bezierjeve krivulje.
+    Naj bo to kos krivulje, ki ga dobimo tako, da za prvotno krivuljo omejimo parameter $t$ na interval $[0,t_0]$ za neko fiksno realno število $t_0<1$.
+    Če se sedaj za trenutek vrnemo nazaj k
+    \begin{figure}
+        \centering
+        \includegraphics{images/subdivizija}
+        \caption{Subdivizija}
+        \label{fig:subdivizija}
+    \end{figure}
 
     \subsubsection{Ekstrapolacija}
     Motivacija: Zelimo podaljsati krivuljo

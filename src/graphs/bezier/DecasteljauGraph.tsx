@@ -25,10 +25,11 @@ class DecasteljauGraph extends BaseCurveGraph<BaseCurveGraphProps, DecasteljauGr
         this.board.update()
     }
 
-    getGraphCommands(): JSX.Element[] {
-        return [this.state.animating ?
+    override getGraphCommands(): JSX.Element[] {
+        return super.getGraphCommands().concat([this.state.animating ?
             <Button onClick={() => this.stopAnimation()} text="Ustavi"/> :
-            <Button onClick={() => this.startAnimation()} text="Animiraj"/>];
+            <Button onClick={() => this.startAnimation()} text="Animiraj"/>]
+        )
     }
 
     private startAnimation() {

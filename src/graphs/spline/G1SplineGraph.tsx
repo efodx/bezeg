@@ -11,12 +11,12 @@ class Graph extends BaseSplineCurveGraph {
     }
 
     getGraphCommands(): JSX.Element[] {
-        return [
+        return super.getGraphCommands().concat([
             <div><Button text={"Povečaj B1"} onClick={() => this.povecajB1()}></Button>
                 <Button text={"Zmanjšaj B1"} onClick={() => this.zmanjsajB1()}></Button></div>,
             <div><Button text={"Povečaj B2"} onClick={() => this.povecajB2()}></Button>
                 <Button text={"Zmanjšaj B2"} onClick={() => this.zmanjsajB2()}></Button></div>
-        ]
+        ])
     }
 
     private povecajB1() {

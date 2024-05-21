@@ -11,8 +11,8 @@ export default class AffineTransformBezierCurveGraph extends BaseCurveGraph<Base
         this.createJSXBezierCurve(points)
     }
 
-    getGraphCommands(): JSX.Element[] {
-        return [<div>
+    override getGraphCommands(): JSX.Element[] {
+        return super.getGraphCommands().concat([<div>
             <Button onClick={() => this.scale(1.2)} text={"Povečaj"}></Button>
             <Button onClick={() => this.scale(0.8)} text={"Pomanjšaj"}></Button></div>,
             <div><Button onClick={() => this.moveFor(-0.5, 0)} text={"Levo"}></Button>
@@ -23,7 +23,7 @@ export default class AffineTransformBezierCurveGraph extends BaseCurveGraph<Base
                 <Button onClick={() => this.rotate(-0.10 * Math.PI)} text={"Rotiraj desno"}></Button></div>,
             <div><Button onClick={() => this.flip(true, false)} text={"Zrcali Y"}></Button>
                 <Button onClick={() => this.flip(false, true)} text={"Zrcali X"}></Button></div>
-        ]
+        ])
     }
 
     private moveFor(x: number, y: number) {

@@ -15,8 +15,8 @@ class ElevationGraph extends BaseCurveGraph<BaseCurveGraphProps, BaseGraphStates
         this.board.unsuspendUpdate()
     }
 
-    getGraphCommands(): JSX.Element[] {
-        return [<Button onClick={() => this.elevate()} text={"Dvigni stopnjo"}/>];
+    override getGraphCommands(): JSX.Element[] {
+        return super.getGraphCommands().concat([<Button onClick={() => this.elevate()} text={"Dvigni stopnjo"}/>])
     }
 }
 

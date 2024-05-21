@@ -35,11 +35,11 @@ class Graph extends BaseCurveGraph<BaseCurveGraphProps, BaseGraphStates> {
         this.board.unsuspendUpdate()
     };
 
-    getGraphCommands(): JSX.Element[] {
-        return [<Button text="Subdiviziraj" onClick={() => this.subdivide()}></Button>,
+    override getGraphCommands(): JSX.Element[] {
+        return super.getGraphCommands().concat([<Button text="Subdiviziraj" onClick={() => this.subdivide()}></Button>,
             <Button text="Prikaži kontrolne poligone" onClick={() => this.showControlPolygons()}></Button>,
             <Button text="Skrij kontrolne poligone" onClick={() => this.hideControlPolygons()}></Button>
-        ]
+        ])
     }
 
     override getSelectedCurveCommands(): JSX.Element[] {

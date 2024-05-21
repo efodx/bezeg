@@ -14,8 +14,8 @@ class GraphExtrapolation extends BaseCurveGraph<BaseCurveGraphProps, BaseGraphSt
         //this.getFirstJsxCurve().showDecasteljauSchemeForSlider(this.slider)
     }
 
-    getGraphCommands(): JSX.Element[] {
-        return [<Button onClick={() => this.extrapolate()} text="Ekstrapoliraj"/>]
+    override getGraphCommands(): JSX.Element[] {
+        return super.getGraphCommands().concat([<Button onClick={() => this.extrapolate()} text="Ekstrapoliraj"/>])
     }
 
     private extrapolate() {

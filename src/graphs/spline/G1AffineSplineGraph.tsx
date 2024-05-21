@@ -10,7 +10,7 @@ class Graph extends BaseSplineCurveGraph {
     }
 
     getGraphCommands(): JSX.Element[] {
-        return [
+        return super.getGraphCommands().concat([
             <div><Button text={"Povečaj B1"} onClick={() => this.povecajB1()}></Button>
                 <Button text={"Zmanjšaj B1"} onClick={() => this.zmanjsajB1()}></Button></div>,
             <div><Button text={"Povečaj B2"} onClick={() => this.povecajB2()}></Button>
@@ -25,7 +25,7 @@ class Graph extends BaseSplineCurveGraph {
                 <Button onClick={() => this.rotate(-0.10 * Math.PI)} text={"Rotiraj desno"}></Button></div>,
             <div><Button onClick={() => this.flip(true, false)} text={"Zrcali Y"}></Button>
                 <Button onClick={() => this.flip(false, true)} text={"Zrcali X"}></Button></div>
-        ]
+        ])
     }
 
     private povecajB1() {

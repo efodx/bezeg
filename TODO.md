@@ -10,6 +10,7 @@
 - [ ] Abstrahirat zadeve pri PH krivuljah, da se koda pouporabi
 - [ ] Hodografi PH krivulj naj bojo v locenem grafu, mogoce celo kot select curve command
 - [ ] Odstrani styles in uporabljaj bootstrap classe za oblikovanje
+- [ ] RESIZABLE GRAF!!!
 
 ### Low Priority
 

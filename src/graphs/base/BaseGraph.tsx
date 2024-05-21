@@ -44,6 +44,20 @@ abstract class BaseGraph<U extends PointControlledCurve, T extends AbstractJSXPo
         this.board = null as unknown as Board;
     }
 
+    saveAsSVG() {
+        // @ts-ignore
+        var svg = new XMLSerializer().serializeToString(this.board.renderer.svgRoot);
+        const file = new File([svg], "slika.svg",{ type: "image/svg+xml" });
+        const link = document.createElement('a');
+
+        link.href = URL.createObjectURL(file);
+        link.download = 'izvoz.svg';
+
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    }
+
     getInitialState(): S {
         return {
             selectedCurveOption: SelectedCurveOption.MOVE_CURVE,
@@ -66,6 +80,7 @@ abstract class BaseGraph<U extends PointControlledCurve, T extends AbstractJSXPo
 
     componentDidMount() {
         if (this.board == null) {
+            JXG.Options.text.display = 'internal';
             this.board = JSXGraph.initBoard("jgbox", {
                 showFullscreen: true, boundingbox: [-5, 5, 5, -5], axis: true
             });
@@ -134,7 +149,7 @@ abstract class BaseGraph<U extends PointControlledCurve, T extends AbstractJSXPo
     render() {
         return <div style={{display: "flex", flexDirection: "row"}}>
             <div>
-                <JGBox/>
+                <JGBox onResize={(width, height)=>this.resizeBox(width, height)}/>
                 <div>
                     {this.getGraphCommands()}
                 </div>
@@ -245,7 +260,8 @@ abstract class BaseGraph<U extends PointControlledCurve, T extends AbstractJSXPo
     }
 
     getGraphCommands(): JSX.Element[] {
-        return []
+        console.log("GRAF KOMMANDS")
+        return [<Button text={"Izvozi kot SVG"} onClick={() => this.saveAsSVG()}/>]
     }
 
     deselectSelectedCurve() {
@@ -283,6 +299,11 @@ abstract class BaseGraph<U extends PointControlledCurve, T extends AbstractJSXPo
         let selectTool = e.target.value
         let selectedCurveOption = Number(selectTool)
         this.setState({...this.state, selectedCurveOption: selectedCurveOption})
+    }
+
+    private resizeBox(width:number, height:number) {
+        this.board.resizeContainer(width, height);
+        this.board.setBoundingBox(  this.board.getBoundingBox(), true)
     }
 }
 

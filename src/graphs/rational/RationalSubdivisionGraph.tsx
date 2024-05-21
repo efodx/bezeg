@@ -32,7 +32,7 @@ class Graph extends BaseRationalCurveGraph<BaseRationalBezierCurveGraphProps, Ba
     };
 
     getGraphCommands(): JSX.Element[] {
-        return [<Button text="Subdiviziraj" onClick={() => this.subdivide()}></Button>]
+        return super.getGraphCommands().concat([<Button text="Subdiviziraj" onClick={() => this.subdivide()}></Button>])
     }
 
 }

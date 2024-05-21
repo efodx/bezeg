@@ -19,8 +19,8 @@ class Graph extends BaseRationalCurveGraph<BaseRationalBezierCurveGraphProps, Ba
     }
 
     getGraphCommands(): JSX.Element[] {
-        return [<Button onClick={() => this.elevate()} text={"Dvigni stopnjo"}/>]
-    }
+        return super.getGraphCommands().concat([<Button onClick={() => this.elevate()} text={"Dvigni stopnjo"}/>]
+        )}
 }
 
 export default Graph;
