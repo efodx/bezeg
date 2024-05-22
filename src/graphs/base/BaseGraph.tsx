@@ -26,6 +26,12 @@ interface BaseGraphStates {
     curveSelected: boolean;
 }
 
+function Tools({tools}: { tools: JSX.Element[] }) {
+    return <div className={"container"}>
+        {tools}
+    </div>;
+}
+
 /**
  * Abstract class for creating graphs.
  */
@@ -35,24 +41,17 @@ abstract class BaseGraph<U extends PointControlledCurve, T extends AbstractJSXPo
         allowSelectedCurveControlPolygon: true
     }
     public readonly state = this.getInitialState();
-    protected board: Board;
+    protected board!: Board;
     protected jsxBezierCurves: T[] = [];
     protected graphJXGPoints: JXG.Point[] = [];
-
-    constructor(props: P) {
-        super(props);
-        this.board = null as unknown as Board;
-    }
 
     saveAsSVG() {
         // @ts-ignore
         var svg = new XMLSerializer().serializeToString(this.board.renderer.svgRoot);
-        const file = new File([svg], "slika.svg",{ type: "image/svg+xml" });
+        const file = new File([svg], "slika.svg", {type: "image/svg+xml"});
         const link = document.createElement('a');
-
         link.href = URL.createObjectURL(file);
         link.download = 'izvoz.svg';
-
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
@@ -82,7 +81,7 @@ abstract class BaseGraph<U extends PointControlledCurve, T extends AbstractJSXPo
         if (this.board == null) {
             JXG.Options.text.display = 'internal';
             this.board = JSXGraph.initBoard("jgbox", {
-                showFullscreen: true, boundingbox: [-5, 5, 5, -5], axis: true
+                showFullscreen: true, boundingbox: [-5, 5, 5, -5], axis: true, keepaspectratio: true
             });
             this.board.on('down', (e) => this.handleDown(e));
             this.board.on('up', (e) => this.handleUp(e));
@@ -147,9 +146,10 @@ abstract class BaseGraph<U extends PointControlledCurve, T extends AbstractJSXPo
     }
 
     render() {
-        return <div style={{display: "flex", flexDirection: "row"}}>
+        return <div className={"container-fluid"} style={{display: "flex", flexDirection: "row"}}>
+            <Tools tools={this.getTools()}/>
             <div>
-                <JGBox onResize={(width, height)=>this.resizeBox(width, height)}/>
+                <JGBox onResize={(width, height) => this.resizeBox(width, height)}/>
                 <div>
                     {this.getGraphCommands()}
                 </div>
@@ -260,7 +260,10 @@ abstract class BaseGraph<U extends PointControlledCurve, T extends AbstractJSXPo
     }
 
     getGraphCommands(): JSX.Element[] {
-        console.log("GRAF KOMMANDS")
+        return []
+    }
+
+    getTools(): JSX.Element[] {
         return [<Button text={"Izvozi kot SVG"} onClick={() => this.saveAsSVG()}/>]
     }
 
@@ -301,9 +304,9 @@ abstract class BaseGraph<U extends PointControlledCurve, T extends AbstractJSXPo
         this.setState({...this.state, selectedCurveOption: selectedCurveOption})
     }
 
-    private resizeBox(width:number, height:number) {
+    private resizeBox(width: number, height: number) {
         this.board.resizeContainer(width, height);
-        this.board.setBoundingBox(  this.board.getBoundingBox(), true)
+        this.board.setBoundingBox(this.board.getBoundingBox(), true)
     }
 }
 

@@ -5,7 +5,9 @@ interface JGBoxProps {
 }
 
 export function JGBox({onResize}: JGBoxProps) {
-    return <ResizableBox width={400} height={400} minConstraints={[100, 100]} maxConstraints={[1400, 1400]}
+    // let height = document.documentElement.clientHeight * 0.65;
+    // let width = document.documentElement.clientWidth * 0.65;
+    return <ResizableBox width={900} height={600} minConstraints={[100, 100]} maxConstraints={[3000, 1200]}
                          onResize={(event, {node, size, handle}) => onResize(size.width, size.height)} style={{
         marginTop: "2vh",
         marginBottom: "2vh", marginInline: "2vh"
@@ -14,9 +16,6 @@ export function JGBox({onResize}: JGBoxProps) {
             width: "100%",
             height: "100%",
             background: "white"
-            // marginTop: "2vh",
-            // marginBottom: "2vh",
-            // borderRadius: "10px"
         }}/>
     </ResizableBox>
 }
