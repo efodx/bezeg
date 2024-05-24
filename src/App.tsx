@@ -67,9 +67,7 @@ function NavBar() {
 }
 
 function Main(props: { children: ReactNode }) {
-    return <div style={{
-        display: "flex", justifyContent: "center", alignContent: "center", alignItems: "center"
-    }}>{props.children}</div>
+    return <div>{props.children}</div>
 }
 
 function App() {

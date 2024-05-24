@@ -157,12 +157,21 @@ export abstract class BaseRationalCurveGraph<P extends BaseRationalBezierCurveGr
         if (this.weightNumber > this.getSelectedCurve().getCurve().getWeights().length) {
             this.weightNumber = 0
         }
+        console.log("BEFORE")
+        console.log(JSON.stringify(this.getSelectedCurve().getCurve().getWeights()))
+        let newWeights = this.getSelectedCurve().getCurve().getWeights().map(i => i)
+        newWeights[this.weightNumber] = Math.round(100 * this.getSelectedCurve().getCurve().getWeights()[this.weightNumber] * dw) / 100
         this.getSelectedCurve().getCurve().getWeights()[this.weightNumber] = Math.round(100 * this.getSelectedCurve().getCurve().getWeights()[this.weightNumber] * dw) / 100
-        this.board.update()
+        this.getSelectedCurve().getCurve().setWeights(newWeights)
+        console.log("AFTER")
+        console.log(JSON.stringify(this.getSelectedCurve().getCurve().getWeights()))
         this.refreshWeightState()
+        this.board.update()
     }
 
     refreshWeightState() {
+        console.log("SETTIN STATE TO: ")
+        console.log(JSON.stringify(this.getSelectedCurve().getCurve().getWeights()[this.weightNumber]))
         this.setState({
             ...this.state,
             currentWeight: this.getSelectedCurve().getCurve()!.getWeights()[this.weightNumber]

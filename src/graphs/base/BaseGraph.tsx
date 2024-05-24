@@ -27,8 +27,13 @@ interface BaseGraphStates {
 }
 
 function Tools({tools}: { tools: JSX.Element[] }) {
-    return <div className={"container"}>
-        {tools}
+    return <div className={"col-2"}>
+        <div className={"card"}>
+            <div className="card-body">
+                <h4 className="card-title">Tools</h4>
+                {tools}
+            </div>
+        </div>
     </div>;
 }
 
@@ -81,11 +86,15 @@ abstract class BaseGraph<U extends PointControlledCurve, T extends AbstractJSXPo
         if (this.board == null) {
             JXG.Options.text.display = 'internal';
             this.board = JSXGraph.initBoard("jgbox", {
-                showFullscreen: true, boundingbox: [-5, 5, 5, -5], axis: true, keepaspectratio: true
+                showFullscreen: true,
+                boundingbox: [-5, 5, 5, -5],
+                axis: true,
+                keepaspectratio: true
             });
             this.board.on('down', (e) => this.handleDown(e));
             this.board.on('up', (e) => this.handleUp(e));
             this.board.on('move', (e) => this.handleMove(e));
+            // this.board.stopResizeObserver()
             this.initialize()
         }
     }
@@ -146,29 +155,17 @@ abstract class BaseGraph<U extends PointControlledCurve, T extends AbstractJSXPo
     }
 
     render() {
-        return <div className={"container-fluid"} style={{display: "flex", flexDirection: "row"}}>
-            <Tools tools={this.getTools()}/>
-            <div>
-                <JGBox onResize={(width, height) => this.resizeBox(width, height)}/>
-                <div>
-                    {this.getGraphCommands()}
+        return <div className={"container-fluid"}>
+            <div className="row  align-items-center">
+                <Tools tools={this.getTools()}/>
+                <div className={"col-8"}>
+                    <JGBox onResize={(width, height) => this.resizeBox(width, height)}/>
+                    <div>
+                        {this.getGraphCommands()}
+                    </div>
                 </div>
+                {this.props.areCurvesSelectable ? this.getSelectableCurveArea() : null}
             </div>
-            {this.props.areCurvesSelectable ? <div style={{
-                alignSelf: "center",
-                visibility: this.state.curveSelected ? "visible" : "hidden",
-                padding: "20px"
-            }}>
-                {this.getSelect()}
-                <div style={{
-                    alignSelf: "center",
-                    visibility: (this.state.curveSelected && this.state.selectedCurveOption === SelectedCurveOption.MOVE_CURVE) ? "visible" : "hidden",
-                    padding: "20px"
-                }}>
-                    {this.getSelectedCurveCommands()}
-                </div>
-            </div> : null
-            }
         </div>;
     }
 
@@ -275,6 +272,26 @@ abstract class BaseGraph<U extends PointControlledCurve, T extends AbstractJSXPo
     protected selectCurve(selectableCurve: T) {
         selectableCurve.select()
         this.setState({...this.state, curveSelected: true})
+    }
+
+    private getSelectableCurveArea() {
+        return <div className={"col"} style={{
+            visibility: this.state.curveSelected ? "visible" : "hidden"
+        }}>
+            <div className={"card"}>
+                <div className={"card-body"}>
+                    <h4 className="card-title">Izbrana krivulja</h4>
+                    {this.getSelect()}
+                    <div style={{
+                        alignSelf: "center",
+                        visibility: (this.state.curveSelected && this.state.selectedCurveOption === SelectedCurveOption.MOVE_CURVE) ? "visible" : "hidden",
+                        padding: "20px"
+                    }}>
+                        {this.getSelectedCurveCommands()}
+                    </div>
+                </div>
+            </div>
+        </div>
     }
 
     private handleUp(e: PointerEvent) {

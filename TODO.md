@@ -2,6 +2,7 @@
 
 ### High Priority
 
+- [ ] Fix set weights racionalne
 - [x] PH Krivulje naj imajo samo eno startno tocko + hodografe za konstruktor
 - [ ] Fix offset quintic PH krivulje!
 - [ ] Fix resizanje PH krivulj
