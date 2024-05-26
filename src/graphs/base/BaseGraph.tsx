@@ -317,7 +317,10 @@ abstract class BaseGraph<U extends PointControlledCurve, T extends AbstractJSXPo
         return this.getGraphCommands().length > 0 ? <Card>
             <CardBody>
                 <CardTitle>Ukazi na grafu</CardTitle>
-                {this.getGraphCommands()}
+                <ListGroup variant="flush">
+                    {this.getGraphCommands().map(command =>
+                        <ListGroup.Item>{command}</ListGroup.Item>)}
+                </ListGroup>
             </CardBody>
         </Card> : null
     }
