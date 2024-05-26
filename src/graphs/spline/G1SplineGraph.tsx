@@ -1,7 +1,7 @@
 import React from "react";
-import {Button} from "../../inputs/Button";
 import {BaseSplineCurveGraph} from "./BaseSplineCurveGraph";
 import {Continuity} from "../../bezeg/bezier-spline";
+import {Button} from "react-bootstrap";
 
 class Graph extends BaseSplineCurveGraph {
 
@@ -12,10 +12,10 @@ class Graph extends BaseSplineCurveGraph {
 
     getGraphCommands(): JSX.Element[] {
         return super.getGraphCommands().concat([
-            <div><Button text={"Povečaj B1"} onClick={() => this.povecajB1()}></Button>
-                <Button text={"Zmanjšaj B1"} onClick={() => this.zmanjsajB1()}></Button></div>,
-            <div><Button text={"Povečaj B2"} onClick={() => this.povecajB2()}></Button>
-                <Button text={"Zmanjšaj B2"} onClick={() => this.zmanjsajB2()}></Button></div>
+            <div><Button variant={"dark"} onClick={() => this.povecajB1()}>Povečaj B1</Button>
+                <Button variant={"dark"} onClick={() => this.zmanjsajB1()}>Zmanjšaj B1</Button></div>,
+            <div><Button variant={"dark"} onClick={() => this.povecajB2()}>Povečaj B2</Button>
+                <Button variant={"dark"} onClick={() => this.zmanjsajB2()}>Zmanjšaj B2</Button></div>
         ])
     }
 

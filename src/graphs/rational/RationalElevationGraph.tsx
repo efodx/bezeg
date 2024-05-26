@@ -1,11 +1,11 @@
 import React from 'react';
 import '../../App.css';
-import {Button} from "../../inputs/Button";
 import {
     BaseRationalBezierCurveGraphProps,
     BaseRationalBezierCurveGraphState,
     BaseRationalCurveGraph
 } from "./BaseRationalCurveGraph";
+import {Button} from "react-bootstrap";
 
 class Graph extends BaseRationalCurveGraph<BaseRationalBezierCurveGraphProps, BaseRationalBezierCurveGraphState> {
     initialize() {
@@ -19,8 +19,10 @@ class Graph extends BaseRationalCurveGraph<BaseRationalBezierCurveGraphProps, Ba
     }
 
     getGraphCommands(): JSX.Element[] {
-        return super.getGraphCommands().concat([<Button onClick={() => this.elevate()} text={"Dvigni stopnjo"}/>]
-        )}
+        return super.getGraphCommands().concat([<Button variant={"dark"} onClick={() => this.elevate()}>Dvigni
+            stopnjo</Button>]
+        )
+    }
 }
 
 export default Graph;

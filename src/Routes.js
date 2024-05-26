@@ -21,6 +21,10 @@ import QuinticPhBezierCurve from "./graphs/ph/QuinticPhBezierCurveGraph";
 import AlphaParamBezierCurveGraph from "./graphs/parametrisations/AlphaParamBezierCurveGraph";
 import UniformParamBezierCurveGraph from "./graphs/parametrisations/UniformParamBezierCurveGraph";
 
+const PATH_RATIONAL_CURVES = "/bezeg/rational"
+const PATH_SPLINE_CURVES = "/bezeg/spline"
+const PATH_PH_CURVES = "/bezeg/ph"
+const PATH_PARAM = "/bezeg/param"
 const routes = [
     {
         title: "Bezierjeve Krivulje",
@@ -88,61 +92,71 @@ const routes = [
                 title: "Dvig Stopnje"
             },
             {
-                path: "/bezeg/rational",
+                group: "Racionalne Bezierjeve Krivulje",
+                group_path: PATH_RATIONAL_CURVES,
+                path: PATH_RATIONAL_CURVES + "/base",
                 element: <RationalBezierCurveGraph/>,
-                title: "Racionalna Bezierjeva Krivulja",
-                group: "Racionalne Bezierjeve Krivulje"
+                title: "Racionalna Bezierjeva Krivulja"
             },
             {
-                path: "/bezeg/rational-elevation",
+                group: "Racionalne Bezierjeve Krivulje",
+                group_path: PATH_RATIONAL_CURVES,
+                path: PATH_RATIONAL_CURVES + "/rational-elevation",
                 element: <RationalElevationGraph/>,
-                title: "Dvig Stopnje Racionalne",
-                group: "Racionalne Bezierjeve Krivulje"
+                title: "Dvig Stopnje Racionalne"
             },
             {
-                path: "/bezeg/rational-extrapolation",
+                group_path: PATH_RATIONAL_CURVES,
+                path: PATH_RATIONAL_CURVES + "/rational-extrapolation",
                 element: <RationalExtrapolationGraph/>,
                 title: "Ekstrapolacija Racionalne",
                 group: "Racionalne Bezierjeve Krivulje"
             },
             {
-                path: "/bezeg/rational-subdivision",
+                group_path: PATH_RATIONAL_CURVES,
+                path: PATH_RATIONAL_CURVES + "/rational-subdivision",
                 element: <RationalSubdivisionGraph/>,
                 title: "Subdivizija Racionalne",
                 group: "Racionalne Bezierjeve Krivulje"
             },
             {
-                path: "/bezeg/spline",
+                group_path: PATH_SPLINE_CURVES,
+                path: PATH_SPLINE_CURVES + "/spline",
                 element: <SplineGraph/>,
                 title: "C0 Zlepek",
                 group: "Zlepki"
             },
             {
-                path: "/bezeg/c1spline",
+                group_path: PATH_SPLINE_CURVES,
+                path: PATH_SPLINE_CURVES + "/c1spline",
                 element: <C1SplineGraph/>,
                 title: "C1 Zlepek",
                 group: "Zlepki"
             },
             {
-                path: "/bezeg/g1spline",
+                group_path: PATH_SPLINE_CURVES,
+                path: PATH_SPLINE_CURVES + "/g1spline",
                 element: <G1SplineGraph/>,
                 title: "G1 Zlepek",
                 group: "Zlepki"
             },
             {
-                path: "/bezeg/c2spline",
+                group_path: PATH_SPLINE_CURVES,
+                path: PATH_SPLINE_CURVES + "/c2spline",
                 element: <C2SplineGraph/>,
                 title: "C2 Zlepek",
                 group: "Zlepki"
             },
             {
-                path: "/bezeg/g1affinespline",
+                group_path: PATH_SPLINE_CURVES,
+                path: PATH_SPLINE_CURVES + "/g1affinespline",
                 element: <G1AffineSplineGraph/>,
                 title: "G1 Afini Zlepek",
                 group: "Zlepki"
             },
             {
-                path: "/bezeg/phcurves/cubic",
+                group_path: PATH_PH_CURVES,
+                path: PATH_PH_CURVES + "/cubic",
                 element: <CubicPhBezierCurveGraph
                     allowSelectedCurveDecasteljau={false}
                     allowSelectedCurveElevation={false}
@@ -153,7 +167,8 @@ const routes = [
                 group: "PH Krivulje"
             },
             {
-                path: "/bezeg/phcurves/quintic",
+                group_path: PATH_PH_CURVES,
+                path: PATH_PH_CURVES + "/phcurves/quintic",
                 element: <QuinticPhBezierCurve
                     allowSelectedCurveDecasteljau={false}
                     allowSelectedCurveElevation={false}
@@ -164,7 +179,8 @@ const routes = [
                 group: "PH Krivulje"
             },
             {
-                path: "/bezeg/param/alphaparam",
+                group_path: PATH_PARAM,
+                path: PATH_PARAM + "/param/alphaparam",
                 element: <AlphaParamBezierCurveGraph
                     allowSelectedCurveDecasteljau={false}
                     allowSelectedCurveElevation={false}
@@ -175,7 +191,8 @@ const routes = [
                 group: "Parametrizacije"
             },
             {
-                path: "/bezeg/param/uniform",
+                group_path: PATH_PARAM,
+                path: PATH_PARAM + "/param/uniform",
                 element: <UniformParamBezierCurveGraph
                     allowSelectedCurveDecasteljau={false}
                     allowSelectedCurveElevation={false}

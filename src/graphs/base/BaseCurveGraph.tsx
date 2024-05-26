@@ -1,9 +1,9 @@
 import BaseGraph, {BaseGraphProps, BaseGraphStates} from "./BaseGraph";
 import {JSXBezierCurve} from "../bezier/JSXBezierCurve";
 import Slider from "../../inputs/Slider";
-import {Button} from "../../inputs/Button";
 import {BezierCurve} from "../../bezeg/interfaces/bezier-curve";
 import {CSSProperties} from "react";
+import {Button} from "react-bootstrap";
 
 
 interface BaseCurveGraphProps extends BaseGraphProps {
@@ -52,8 +52,7 @@ export abstract class BaseCurveGraph<P extends BaseCurveGraphProps, S extends Ba
                 <Slider min={0} max={1}
                         initialValue={this.subdivisionT}
                         onChange={(t) => this.setSubdivisionT(t)}></Slider>
-                <Button
-                    text={"Subdiviziraj"} onClick={() => this.subdivideSelectedCurve()}></Button>
+                <Button variant={"dark"} onClick={() => this.subdivideSelectedCurve()}>Subdiviziraj</Button>
             </div>)
         }
         if (this.props.allowSelectedCurveExtrapolation) {
@@ -63,8 +62,8 @@ export abstract class BaseCurveGraph<P extends BaseCurveGraphProps, S extends Ba
                 <Slider min={1} max={1.5}
                         initialValue={this.extrapolationT}
                         onChange={(t) => this.setExtrapolationT(t)}></Slider>
-                <Button
-                    text={"Ekstrapoliraj"} onClick={() => this.extrapolateSelectedCurve(this.extrapolationT)}></Button>
+                <Button variant={"dark"}
+                        onClick={() => this.extrapolateSelectedCurve(this.extrapolationT)}>Ekstrapoliraj</Button>
             </div>)
         }
         if (this.props.allowSelectedCurveShrink) {
@@ -74,8 +73,8 @@ export abstract class BaseCurveGraph<P extends BaseCurveGraphProps, S extends Ba
                 <Slider min={0} max={1}
                         initialValue={this.subdivisionT}
                         onChange={(t) => this.setSubdivisionT(t)}></Slider>
-                <Button
-                    text={"Skrči"} onClick={() => this.extrapolateSelectedCurve(this.subdivisionT)}></Button></div>)
+                <Button variant={"dark"} onClick={() => this.extrapolateSelectedCurve(this.subdivisionT)}>Skrči</Button>
+            </div>)
         }
         if (this.props.allowSelectedCurveDecasteljau) {
             selectedCurveCommands.push(<div style={this.curveCommandStyle}
@@ -88,7 +87,7 @@ export abstract class BaseCurveGraph<P extends BaseCurveGraphProps, S extends Ba
         }
         if (this.props.allowSelectedCurveElevation) {
             selectedCurveCommands.push(<div style={this.curveCommandStyle}>
-                <Button text={"Dvigni stopnjo"} onClick={() => this.elevateSelectedCurve()}></Button></div>)
+                <Button variant={"dark"} onClick={() => this.elevateSelectedCurve()}>Dvigni stopnjo</Button></div>)
         }
         return selectedCurveCommands;
     }

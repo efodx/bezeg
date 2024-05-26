@@ -4,7 +4,7 @@ interface ButtonProps {
     text?: any;
 }
 
-export function Button(props: ButtonProps) {
+export function ButtonTwo(props: ButtonProps) {
 
     return <div className={`btn btn-dark ${props.disabled ? "disabled" : ""}`}
                 onClick={() => props.onClick ? props.onClick() : ""}>

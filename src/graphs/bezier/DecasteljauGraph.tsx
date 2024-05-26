@@ -1,8 +1,8 @@
 import React from 'react';
 import '../../App.css';
-import {Button} from "../../inputs/Button";
 import {BaseCurveGraph, BaseCurveGraphProps} from "../base/BaseCurveGraph";
 import {BaseGraphStates} from "../base/BaseGraph";
+import {Button} from "react-bootstrap";
 
 interface DecasteljauGraphState extends BaseGraphStates {
     animating: boolean
@@ -27,8 +27,8 @@ class DecasteljauGraph extends BaseCurveGraph<BaseCurveGraphProps, DecasteljauGr
 
     override getGraphCommands(): JSX.Element[] {
         return super.getGraphCommands().concat([this.state.animating ?
-            <Button onClick={() => this.stopAnimation()} text="Ustavi"/> :
-            <Button onClick={() => this.startAnimation()} text="Animiraj"/>]
+            <Button variant={"dark"} onClick={() => this.stopAnimation()}>Ustavi</Button> :
+            <Button variant={"dark"} onClick={() => this.startAnimation()}>Animiraj</Button>]
         )
     }
 

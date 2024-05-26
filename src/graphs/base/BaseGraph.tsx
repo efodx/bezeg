@@ -6,8 +6,8 @@ import {Point} from "./Point";
 import {JGBox} from "../../JGBox";
 import {Select} from "../../inputs/Select";
 import {AbstractJSXPointControlledCurve} from "./AbstractJSXPointControlledCurve";
-import {Button} from "../../inputs/Button";
 import {PointControlledCurve} from "../../bezeg/interfaces/point-controlled-curve";
+import {Button, Card, CardBody, CardTitle, Col, Container, ListGroup, Row} from "react-bootstrap";
 
 enum SelectedCurveOption {
     MOVE_CURVE,
@@ -27,14 +27,12 @@ interface BaseGraphStates {
 }
 
 function Tools({tools}: { tools: JSX.Element[] }) {
-    return <div className={"col-2"}>
-        <div className={"card"}>
-            <div className="card-body">
-                <h4 className="card-title">Tools</h4>
-                {tools}
-            </div>
-        </div>
-    </div>;
+    return <Card>
+        <CardBody>
+            <CardTitle>Orodja</CardTitle>
+            {tools}
+        </CardBody>
+    </Card>
 }
 
 /**
@@ -155,27 +153,22 @@ abstract class BaseGraph<U extends PointControlledCurve, T extends AbstractJSXPo
     }
 
     render() {
-        return <div className={"container-fluid"}>
-            <div className="row  align-items-center">
-                <Tools tools={this.getTools()}/>
-                <div className={"col-8"}>
-                    <JGBox onResize={(width, height) => this.resizeBox(width, height)}/>
-                    <div>
-                        {this.getGraphCommands()}
-                    </div>
-                </div>
-                {this.props.areCurvesSelectable ? this.getSelectableCurveArea() : null}
-            </div>
-        </div>;
+        return <Container fluid>
+            <Row className={"align-items-center"} style={{height: "92vh"}}>
+                <Col xs={2}><Tools tools={this.getTools()}/></Col>
+                <Col xs={8}><JGBox/></Col>
+                <Col
+                    xs={2}>{this.state.curveSelected ? this.getSelectableCurveArea() : this.getGraphCommandsArea()}</Col>
+            </Row>
+        </Container>;
     }
 
     getSelectedCurveCommands(): JSX.Element[] {
         if (this.props.allowSelectedCurveControlPolygon) {
             return [<div>{!this.state.showingControlPolygon ?
-                <Button text={"Prikaži kontrolni poligon"}
-                        onClick={() => this.showControlPolygon()}></Button> :
-                <Button text={"Odstrani kontrolni poligon"}
-                        onClick={() => this.hideControlPolygon()}></Button>
+                <Button variant={"dark"} onClick={() => this.showControlPolygon()}>Prikaži kontrolni
+                    poligon</Button> :
+                <Button variant={"dark"} onClick={() => this.hideControlPolygon()}>Odstrani kontrolni poligon</Button>
             }
             </div>]
         }
@@ -261,7 +254,7 @@ abstract class BaseGraph<U extends PointControlledCurve, T extends AbstractJSXPo
     }
 
     getTools(): JSX.Element[] {
-        return [<Button text={"Izvozi kot SVG"} onClick={() => this.saveAsSVG()}/>]
+        return [<Button variant={"dark"} onClick={() => this.saveAsSVG()}>Izvozi kot SVG</Button>]
     }
 
     deselectSelectedCurve() {
@@ -275,23 +268,17 @@ abstract class BaseGraph<U extends PointControlledCurve, T extends AbstractJSXPo
     }
 
     private getSelectableCurveArea() {
-        return <div className={"col"} style={{
-            visibility: this.state.curveSelected ? "visible" : "hidden"
-        }}>
-            <div className={"card"}>
-                <div className={"card-body"}>
-                    <h4 className="card-title">Izbrana krivulja</h4>
-                    {this.getSelect()}
-                    <div style={{
-                        alignSelf: "center",
-                        visibility: (this.state.curveSelected && this.state.selectedCurveOption === SelectedCurveOption.MOVE_CURVE) ? "visible" : "hidden",
-                        padding: "20px"
-                    }}>
-                        {this.getSelectedCurveCommands()}
-                    </div>
-                </div>
-            </div>
-        </div>
+        return <Card>
+            <CardBody>
+                <CardTitle>Izbrana krivulja</CardTitle>
+                {this.getSelect()}
+
+                <ListGroup variant="flush">
+                    {(this.state.selectedCurveOption === SelectedCurveOption.MOVE_CURVE) ? this.getSelectedCurveCommands().map(command =>
+                        <ListGroup.Item>{command}</ListGroup.Item>) : null}
+                </ListGroup>
+            </CardBody>
+        </Card>
     }
 
     private handleUp(e: PointerEvent) {
@@ -324,6 +311,15 @@ abstract class BaseGraph<U extends PointControlledCurve, T extends AbstractJSXPo
     private resizeBox(width: number, height: number) {
         this.board.resizeContainer(width, height);
         this.board.setBoundingBox(this.board.getBoundingBox(), true)
+    }
+
+    private getGraphCommandsArea() {
+        return this.getGraphCommands().length > 0 ? <Card>
+            <CardBody>
+                <CardTitle>Ukazi na grafu</CardTitle>
+                {this.getGraphCommands()}
+            </CardBody>
+        </Card> : null
     }
 }
 

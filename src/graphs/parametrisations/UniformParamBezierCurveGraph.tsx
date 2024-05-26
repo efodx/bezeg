@@ -4,7 +4,7 @@ import {BaseGraphStates} from "../base/BaseGraph";
 import {JSXPHBezierCurve} from "../ph/JSXPHBezierCurve";
 import {PhBezierCurve} from "../../bezeg/ph-bezier-curve";
 import Slider from "../../inputs/Slider";
-import {Button} from "../../inputs/Button";
+import {Button} from "react-bootstrap";
 
 const range = (start: number, stop: number, step: number) => Array.from({length: (stop - start) / step + 1}, (_, i) => start + i * step);
 
@@ -77,7 +77,7 @@ class UniformParamBezierCurveGraph extends BaseCurveGraph<BaseCurveGraphProps, B
     }
 
     phParamButton() {
-        return <Button text={"PH Parametrizacija"} onClick={() => this.setPhParam()}/>
+        return <Button variant={"dark"} onClick={() => this.setPhParam()}>PH Parametrizacija</Button>
     }
 
     numberOfPointsSlider() {

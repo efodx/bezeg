@@ -1,4 +1,5 @@
 import {useState} from "react";
+import Form from 'react-bootstrap/Form';
 
 interface SliderProps {
     min: number;
@@ -11,13 +12,14 @@ interface SliderProps {
 export default function Slider(props: SliderProps) {
     const [value, setValue] = useState(props.initialValue)
     const {step = (props.max - props.min) / 100} = props
-    return <div><input type="range" min={props.min}
-                       max={props.max} value={value}
-                       step={step}
-                       onChange={e => {
-                           setValue(Number(e.target.value))
-                           props.onChange(Number(e.target.value))
-                       }}></input>
-        <div style={{color: "white"}}>{value}</div>
-    </div>
+    return <Form>
+        <Form.Range min={props.min}
+                    max={props.max} value={value}
+                    step={step}
+                    onChange={e => {
+                        setValue(Number(e.target.value))
+                        props.onChange(Number(e.target.value))
+                    }}></Form.Range>
+        <Form.Text>{value}</Form.Text>
+    </Form>
 }

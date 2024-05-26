@@ -1,11 +1,11 @@
 import React from 'react';
 import '../../App.css';
-import {Button} from "../../inputs/Button";
 import {
     BaseRationalBezierCurveGraphProps,
     BaseRationalBezierCurveGraphState,
     BaseRationalCurveGraph
 } from "./BaseRationalCurveGraph";
+import {Button} from "react-bootstrap";
 
 class Graph extends BaseRationalCurveGraph<BaseRationalBezierCurveGraphProps, BaseRationalBezierCurveGraphState> {
     private slider: JXG.Slider | undefined;
@@ -32,7 +32,8 @@ class Graph extends BaseRationalCurveGraph<BaseRationalBezierCurveGraphProps, Ba
     };
 
     getGraphCommands(): JSX.Element[] {
-        return super.getGraphCommands().concat([<Button text="Subdiviziraj" onClick={() => this.subdivide()}></Button>])
+        return super.getGraphCommands().concat([<Button variant={"dark"}
+                                                        onClick={() => this.subdivide()}>Subdiviziraj</Button>])
     }
 
 }

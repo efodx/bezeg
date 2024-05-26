@@ -1,11 +1,11 @@
 import React from 'react';
 import '../../App.css';
-import {Button} from "../../inputs/Button";
 import {
     BaseRationalBezierCurveGraphProps,
     BaseRationalBezierCurveGraphState,
     BaseRationalCurveGraph
 } from "./BaseRationalCurveGraph";
+import {Button} from "react-bootstrap";
 
 class GraphExtrapolation extends BaseRationalCurveGraph<BaseRationalBezierCurveGraphProps, BaseRationalBezierCurveGraphState> {
     private slider: JXG.Slider | undefined;
@@ -21,7 +21,8 @@ class GraphExtrapolation extends BaseRationalCurveGraph<BaseRationalBezierCurveG
     }
 
     getGraphCommands(): JSX.Element[] {
-        return super.getGraphCommands().concat([<Button onClick={() => this.extrapolate()} text="Ekstrapoliraj"/>])
+        return super.getGraphCommands().concat([<Button variant={"dark"}
+                                                        onClick={() => this.extrapolate()}>Ekstrapoliraj</Button>])
     }
 
     private extrapolate() {

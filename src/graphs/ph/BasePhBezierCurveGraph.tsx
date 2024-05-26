@@ -6,7 +6,8 @@ import {PhBezierCurve} from "../../bezeg/ph-bezier-curve";
 import Slider from "../../inputs/Slider";
 import {HodographInputbox} from "./HodographInputBox";
 import {Point} from "../base/Point";
-import {Button} from "../../inputs/Button";
+import React from "react";
+import {Button} from "react-bootstrap";
 
 interface BasePhBezierCurveGraphStates extends BaseGraphStates {
     showOffsetCurve: boolean
@@ -73,8 +74,8 @@ abstract class BasePhBezierCurveGraph extends BaseCurveGraph<BaseCurveGraphProps
 
     override getGraphCommands(): JSX.Element[] {
         const commands = []
-        commands.push(<Button text={this.showOffsetCurve ? "Skrij offset krivuljo" : "Prikaži offset krivuljo"}
-                              onClick={() => this.showOffsetCurve = !this.showOffsetCurve}/>)
+        commands.push(<Button variant={"dark"}
+                              onClick={() => this.showOffsetCurve = !this.showOffsetCurve}>{this.showOffsetCurve ? "Skrij offset krivuljo" : "Prikaži offset krivuljo"}</Button>)
 
         if (this.showOffsetCurve) {
             commands.push(<Slider min={-3}
@@ -88,9 +89,9 @@ abstract class BasePhBezierCurveGraph extends BaseCurveGraph<BaseCurveGraphProps
 
     override getSelectedCurveCommands(): JSX.Element[] {
         return super.getSelectedCurveCommands().concat(<HodographInputbox
-                setRef={board => this.setHodographBoard(board)}/>, <Button text={"POVEČAJ"}
-                                                                           onClick={() => this.scale(1.2)}></Button>,
-            <Button text={"POMANJŠAJ"} onClick={() => this.scale(0.8)}></Button>);
+                setRef={board => this.setHodographBoard(board)}/>, <Button variant={"dark"}
+                                                                           onClick={() => this.scale(1.2)}>Povečaj</Button>,
+            <Button variant={"dark"} onClick={() => this.scale(0.8)}>Pomanjšaj</Button>);
     }
 
     getFirstCurveAsPHBezierCurve() {

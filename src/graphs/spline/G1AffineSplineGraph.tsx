@@ -1,7 +1,7 @@
 import React from "react";
-import {Button} from "../../inputs/Button";
 import {BaseSplineCurveGraph} from "./BaseSplineCurveGraph";
 import {Continuity} from "../../bezeg/bezier-spline";
+import {Button} from "react-bootstrap";
 
 class Graph extends BaseSplineCurveGraph {
 
@@ -11,20 +11,20 @@ class Graph extends BaseSplineCurveGraph {
 
     getGraphCommands(): JSX.Element[] {
         return super.getGraphCommands().concat([
-            <div><Button text={"Povečaj B1"} onClick={() => this.povecajB1()}></Button>
-                <Button text={"Zmanjšaj B1"} onClick={() => this.zmanjsajB1()}></Button></div>,
-            <div><Button text={"Povečaj B2"} onClick={() => this.povecajB2()}></Button>
-                <Button text={"Zmanjšaj B2"} onClick={() => this.zmanjsajB2()}></Button>
-                <Button onClick={() => this.scale(1.2)} text={"Povečaj"}></Button>
-                <Button onClick={() => this.scale(0.8)} text={"Pomanjšaj"}></Button></div>,
-            <div><Button onClick={() => this.moveFor(-0.5, 0)} text={"Levo"}></Button>
-                <Button onClick={() => this.moveFor(0.5, 0)} text={"Desno"}></Button></div>,
-            <div><Button onClick={() => this.moveFor(0, 0.5)} text={"Gor"}></Button>
-                <Button onClick={() => this.moveFor(0, -0.5)} text={"Dol"}></Button></div>,
-            <div><Button onClick={() => this.rotate(0.10 * Math.PI)} text={"Rotiraj levo"}></Button>
-                <Button onClick={() => this.rotate(-0.10 * Math.PI)} text={"Rotiraj desno"}></Button></div>,
-            <div><Button onClick={() => this.flip(true, false)} text={"Zrcali Y"}></Button>
-                <Button onClick={() => this.flip(false, true)} text={"Zrcali X"}></Button></div>
+            <div><Button variant={"dark"} onClick={() => this.povecajB1()}>Povečaj B1</Button>
+                <Button variant={"dark"} onClick={() => this.zmanjsajB1()}>Zmanjšaj B1</Button></div>,
+            <div><Button variant={"dark"} onClick={() => this.povecajB2()}>Povečaj B2</Button>
+                <Button variant={"dark"} onClick={() => this.zmanjsajB2()}>Zmanjšaj B2</Button>
+                <Button variant={"dark"} onClick={() => this.scale(1.2)}>Povečaj</Button>
+                <Button variant={"dark"} onClick={() => this.scale(0.8)}>Pomanjšaj</Button></div>,
+            <div><Button variant={"dark"} onClick={() => this.moveFor(-0.5, 0)}>Levo</Button>
+                <Button variant={"dark"} onClick={() => this.moveFor(0.5, 0)}>Desno</Button></div>,
+            <div><Button variant={"dark"} onClick={() => this.moveFor(0, 0.5)}>Gor</Button>
+                <Button variant={"dark"} onClick={() => this.moveFor(0, -0.5)}>Dol</Button></div>,
+            <div><Button variant={"dark"} onClick={() => this.rotate(0.10 * Math.PI)}>Rotiraj levo</Button>
+                <Button variant={"dark"} onClick={() => this.rotate(-0.10 * Math.PI)}>Rotiraj desno</Button></div>,
+            <div><Button variant={"dark"} onClick={() => this.flip(true, false)}>Zrcali Y</Button>
+                <Button variant={"dark"} onClick={() => this.flip(false, true)}>Zrcali X</Button></div>
         ])
     }
 

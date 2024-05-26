@@ -1,8 +1,8 @@
 import React from 'react';
 import '../../App.css';
-import {Button} from "../../inputs/Button";
 import {BaseCurveGraph, BaseCurveGraphProps} from "../base/BaseCurveGraph";
 import {BaseGraphStates} from "../base/BaseGraph";
+import {Button} from "react-bootstrap";
 
 class Graph extends BaseCurveGraph<BaseCurveGraphProps, BaseGraphStates> {
     private slider: JXG.Slider | undefined;
@@ -36,18 +36,16 @@ class Graph extends BaseCurveGraph<BaseCurveGraphProps, BaseGraphStates> {
     };
 
     override getGraphCommands(): JSX.Element[] {
-        return super.getGraphCommands().concat([<Button text="Subdiviziraj" onClick={() => this.subdivide()}></Button>,
-            <Button text="Prikaži kontrolne poligone" onClick={() => this.showControlPolygons()}></Button>,
-            <Button text="Skrij kontrolne poligone" onClick={() => this.hideControlPolygons()}></Button>
+        return super.getGraphCommands().concat([<Button onClick={() => this.subdivide()}>Subdiviziraj</Button>,
+            <Button variant={"dark"} onClick={() => this.showControlPolygons()}>Prikaži kontrolne poligone</Button>,
+            <Button variant={"dark"} onClick={() => this.hideControlPolygons()}>Skrij kontrolne poligone</Button>
         ])
     }
 
     override getSelectedCurveCommands(): JSX.Element[] {
         return super.getSelectedCurveCommands().concat([
-            <Button text="Prikaži Decasteljau shemo"
-                    onClick={() => this.showDecasteljauScheme()}></Button>,
-            <Button text="Odstrani Decasteljau shemo"
-                    onClick={() => this.hideDecasteljauScheme()}></Button>]);
+            <Button variant={"dark"} onClick={() => this.showDecasteljauScheme()}>Prikaži Decasteljau shemo</Button>,
+            <Button variant={"dark"} onClick={() => this.hideDecasteljauScheme()}>Odstrani Decasteljau shemo</Button>]);
     }
 
     private hideControlPolygons() {

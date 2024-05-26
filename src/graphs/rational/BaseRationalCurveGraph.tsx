@@ -2,8 +2,8 @@ import BaseGraph, {BaseGraphProps, BaseGraphStates} from "../base/BaseGraph";
 import {RationalBezierCurve} from "../../bezeg/rational-bezier-curve";
 import {JSXRationalBezierCurve} from "./JSXRationalBezierCurve";
 import Slider from "../../inputs/Slider";
-import {Button} from "../../inputs/Button";
 import React from "react";
+import {Button, ButtonGroup} from "react-bootstrap";
 
 const curveCommandStyle = {
     padding: "10px",
@@ -44,29 +44,29 @@ export abstract class BaseRationalCurveGraph<P extends BaseRationalBezierCurveGr
         this.createSubdivisionPoint()
         this.createExtrapolationPoint()
         return super.getSelectedCurveCommands().concat([
-            <div style={curveCommandStyle} onMouseEnter={() => this.showSubdivisionPoint()}
+            <div onMouseEnter={() => this.showSubdivisionPoint()}
                  onMouseLeave={() => this.hideSubdivisionPoint()}><Slider min={0} max={1}
                                                                           initialValue={this.subdivisionT}
                                                                           onChange={(t) => this.setSubdivisionT(t)}></Slider>
-                <Button
-                    text={"Subdiviziraj"} onClick={() => this.subdivideSelectedCurve()}></Button></div>,
-            <div style={curveCommandStyle} onMouseEnter={() => this.showExtrapolationPoint()}
+                <Button variant={"dark"} onClick={() => this.subdivideSelectedCurve()}>Subdiviziraj</Button></div>,
+            <div onMouseEnter={() => this.showExtrapolationPoint()}
                  onMouseLeave={() => this.hideExtrapolationPoint()}>
                 <Slider min={1} max={1.5}
                         initialValue={this.extrapolationT}
                         onChange={(t) => this.setExtrapolationT(t)}></Slider>
-                <Button
-                    text={"Ekstrapoliraj"} onClick={() => this.extrapolateSelectedCurve()}></Button></div>,
-            <div style={curveCommandStyle}>
-                <Button text={"Dvigni stopnjo"} onClick={() => this.elevateSelectedCurve()}></Button></div>,
+                <Button variant={"dark"} onClick={() => this.extrapolateSelectedCurve()}>Ekstrapoliraj</Button></div>,
+            <div>
+                <Button variant={"dark"} onClick={() => this.elevateSelectedCurve()}>Dvigni stopnjo</Button></div>,
 
-            <div style={curveCommandStyle}>
-                <div style={{display: "flex", flexDirection: "row"}}>
-                    <Button onClick={() => this.changeWeight(1.1)} text={"Dodaj težo"}/>
-                    <div style={{color: "white"}}>{this.state.currentWeight}</div>
-                    <Button onClick={() => this.changeWeight(0.9)} text={"Zmanjšaj težo"}/>
-                </div>
-                <Button onClick={() => this.nextWeight()} text={"Naslednja Točka"}/>
+            <div>
+                <ButtonGroup>
+                    <Button variant={"dark"} className="btn-block" onClick={() => this.changeWeight(1.1)}>+</Button>
+                    <Button onClick={() => this.changeWeight(1)}
+                            className="btn-block">{this.state.currentWeight}</Button>
+                    <Button variant={"dark"} onClick={() => this.changeWeight(0.9)}
+                            className="btn-block">-</Button>
+                </ButtonGroup>
+                <Button variant={"dark"} onClick={() => this.nextWeight()}>Naslednja Utež</Button>
             </div>
         ]);
     }
@@ -157,21 +157,15 @@ export abstract class BaseRationalCurveGraph<P extends BaseRationalBezierCurveGr
         if (this.weightNumber > this.getSelectedCurve().getCurve().getWeights().length) {
             this.weightNumber = 0
         }
-        console.log("BEFORE")
-        console.log(JSON.stringify(this.getSelectedCurve().getCurve().getWeights()))
         let newWeights = this.getSelectedCurve().getCurve().getWeights().map(i => i)
         newWeights[this.weightNumber] = Math.round(100 * this.getSelectedCurve().getCurve().getWeights()[this.weightNumber] * dw) / 100
         this.getSelectedCurve().getCurve().getWeights()[this.weightNumber] = Math.round(100 * this.getSelectedCurve().getCurve().getWeights()[this.weightNumber] * dw) / 100
         this.getSelectedCurve().getCurve().setWeights(newWeights)
-        console.log("AFTER")
-        console.log(JSON.stringify(this.getSelectedCurve().getCurve().getWeights()))
         this.refreshWeightState()
         this.board.update()
     }
 
     refreshWeightState() {
-        console.log("SETTIN STATE TO: ")
-        console.log(JSON.stringify(this.getSelectedCurve().getCurve().getWeights()[this.weightNumber]))
         this.setState({
             ...this.state,
             currentWeight: this.getSelectedCurve().getCurve()!.getWeights()[this.weightNumber]

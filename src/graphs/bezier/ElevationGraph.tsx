@@ -1,8 +1,8 @@
 import React from 'react';
 import '../../App.css';
-import {Button} from "../../inputs/Button";
 import {BaseCurveGraph, BaseCurveGraphProps} from "../base/BaseCurveGraph";
 import {BaseGraphStates} from "../base/BaseGraph";
+import {Button} from "react-bootstrap";
 
 class ElevationGraph extends BaseCurveGraph<BaseCurveGraphProps, BaseGraphStates> {
     initialize() {
@@ -16,7 +16,8 @@ class ElevationGraph extends BaseCurveGraph<BaseCurveGraphProps, BaseGraphStates
     }
 
     override getGraphCommands(): JSX.Element[] {
-        return super.getGraphCommands().concat([<Button onClick={() => this.elevate()} text={"Dvigni stopnjo"}/>])
+        return super.getGraphCommands().concat([<Button variant={"dark"} onClick={() => this.elevate()}>Dvigni
+            stopnjo</Button>])
     }
 }
 

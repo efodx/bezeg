@@ -1,14 +1,22 @@
-import React, {ReactNode} from 'react';
+import React from 'react';
 import './App.css';
-import {Link, NavLink, Outlet} from "react-router-dom";
+import {NavLink, Outlet} from "react-router-dom";
 import routes from "./Routes";
 import Logo from "./images/elderflower.png"
-
+import {Container, Nav, Navbar, NavDropdown} from "react-bootstrap";
+import {LinkContainer} from 'react-router-bootstrap'
 
 function NavBar() {
     let normalChildren = routes.flatMap((mainEntry) => mainEntry.children)
         .filter((child) => !child.index && !child.group)
     let groupedChildren = {}
+    // @ts-ignore
+    const getGroupPath = (group) => {
+        // @ts-ignore
+        console.log("GP:" + groupedChildren[group][0].group_path)
+        // @ts-ignore
+        return groupedChildren[group][0].group_path
+    }
     let children = routes.flatMap((mainEntry) => mainEntry.children)
         .filter(child => !child.index)
         .flatMap(child => {
@@ -27,56 +35,47 @@ function NavBar() {
             }
         })
         .filter(child => typeof child != "undefined")
-    return <nav className="navbar navbar-expand-lg navbar-light bg-light">
-        <Link className="navbar-brand" style={{marginLeft: "1vw"}} to="/bezeg">
-            <img src={Logo} width="30" height="30" alt=""/>
-        </Link>
-        <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span className="navbar-toggler-icon"></span>
-        </button>
-        <div className="collapse navbar-collapse" id="navbarNav">
-            <ul className="navbar-nav">
-                {children
-                    .map((child) => {
-                        // We got the group key, so we take children from the group
-                        if (typeof child == "string") {
-                            return <li className="nav-item dropdown">
-                                <a className="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
-                                   aria-expanded="false">
-                                    {child}
-                                </a>
-                                <ul className="dropdown-menu">
+    return <Navbar expand="lg" className="bg-body-tertiary">
+        <Container className={"w-100"}>
+            <LinkContainer to="/bezeg">
+                <Navbar.Brand style={{marginLeft: "1vw"}}>
+                    <img src={Logo} width="30" height="30" alt=""/>
+                </Navbar.Brand>
+            </LinkContainer>
+            <Navbar.Toggle aria-controls="basic-navbar-nav"/>
+            <Navbar.Collapse id="basic-navbar-nav">
+                <Nav className="me-auto">
+                    {children
+                        .map((child) => {
+                            // We got the group key, so we take children from the group
+                            if (typeof child == "string") {
+                                return <NavDropdown
+                                    title={child}
+                                    id="basic-nav-dropdown">
                                     {   // @ts-ignore
-                                        groupedChildren[child].map(child => <NavLink className="nav-link dropdown-item"
-                                                                                     to={child.path}>{child.title}</NavLink>
+                                        groupedChildren[child].map(child => <LinkContainer to={child.path}>
+                                                <NavDropdown.Item>{child.title}</NavDropdown.Item>
+                                            </LinkContainer>
                                         )}
-                                </ul>
-                            </li>
-                        } else {
-                            return <li className="nav-item">
-                                <NavLink className="nav-link" to={child!.path}>{child!.title}</NavLink>
-                            </li>
-                        }
-
-                    })
-                }
-            </ul>
-        </div>
-    </nav>
-}
-
-function Main(props: { children: ReactNode }) {
-    return <div>{props.children}</div>
+                                </NavDropdown>
+                            } else {
+                                return <li className="nav-item">
+                                    <NavLink className="nav-link" to={child!.path}>{child!.title}</NavLink>
+                                </li>
+                            }
+                        })
+                    }
+                </Nav>
+            </Navbar.Collapse>
+        </Container>
+    </Navbar>
 }
 
 function App() {
     return (
-        <div className="App" style={{height: "100vh"}}>
+        <div className="App">
             <NavBar/>
-            <Main>
-                <Outlet/>
-            </Main>
+            <Outlet/>
         </div>
     );
 }
