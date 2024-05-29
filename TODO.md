@@ -2,16 +2,16 @@
 
 ### High Priority
 
-- [ ] Fix set weights racionalne
+- [x] Fix set weights racionalne
 - [x] PH Krivulje naj imajo samo eno startno tocko + hodografe za konstruktor
 - [ ] Fix offset quintic PH krivulje!
-- [ ] Fix resizanje PH krivulj
+- [ ] Fix resizanje PH krivulj - TOLE MOGOCE CELO NE GRE, dobro razmisli ce strig ohrani PH...
 - [ ] Bezier krivulja, ki bo delovala na poljubnem stevilu dimenzij. Mogoce tako, da Point interface razsirim na
   poljubno stevilo.
-- [ ] Abstrahirat zadeve pri PH krivuljah, da se koda pouporabi
-- [ ] Hodografi PH krivulj naj bojo v locenem grafu, mogoce celo kot select curve command
-- [ ] Odstrani styles in uporabljaj bootstrap classe za oblikovanje
-- [ ] RESIZABLE GRAF!!!
+- [x] Abstrahirat zadeve pri PH krivuljah, da se koda pouporabi
+- [x] Hodografi PH krivulj naj bojo v locenem grafu, mogoce celo kot select curve command
+- [x] Odstrani styles in uporabljaj bootstrap classe za oblikovanje
+- [x] RESIZABLE GRAF!!! - **resizas okno, ostane pa aspect ratio!**
 
 ### Low Priority
 

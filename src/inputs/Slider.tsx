@@ -13,6 +13,7 @@ export default function Slider(props: SliderProps) {
     const [value, setValue] = useState(props.initialValue)
     const {step = (props.max - props.min) / 100} = props
     return <Form>
+        <Form.Text>{value.toFixed(2)}</Form.Text>
         <Form.Range min={props.min}
                     max={props.max} value={value}
                     step={step}
@@ -20,6 +21,5 @@ export default function Slider(props: SliderProps) {
                         setValue(Number(e.target.value))
                         props.onChange(Number(e.target.value))
                     }}></Form.Range>
-        <Form.Text>{value}</Form.Text>
     </Form>
 }

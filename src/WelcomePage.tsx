@@ -2,7 +2,7 @@ import React from "react";
 import Logo from "./images/elderflower.png"
 
 export function WelcomePage() {
-    return <div className="jumbotron">
+    return <div>
         <h1 style={{color: "white"}} className="display-4">
             Dobrodošel na Bezgu!
             <img src={Logo} width="30" height="30" alt=""></img></h1>

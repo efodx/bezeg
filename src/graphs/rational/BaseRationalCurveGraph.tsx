@@ -62,7 +62,7 @@ export abstract class BaseRationalCurveGraph<P extends BaseRationalBezierCurveGr
                 <ButtonGroup>
                     <Button variant={"dark"} className="btn-block" onClick={() => this.changeWeight(1.1)}>+</Button>
                     <Button onClick={() => this.changeWeight(1)}
-                            className="btn-block">{this.state.currentWeight}</Button>
+                            className="btn-block">{this.state.currentWeight.toFixed(2)}</Button>
                     <Button variant={"dark"} onClick={() => this.changeWeight(0.9)}
                             className="btn-block">-</Button>
                 </ButtonGroup>
@@ -158,8 +158,7 @@ export abstract class BaseRationalCurveGraph<P extends BaseRationalBezierCurveGr
             this.weightNumber = 0
         }
         let newWeights = this.getSelectedCurve().getCurve().getWeights().map(i => i)
-        newWeights[this.weightNumber] = Math.round(100 * this.getSelectedCurve().getCurve().getWeights()[this.weightNumber] * dw) / 100
-        this.getSelectedCurve().getCurve().getWeights()[this.weightNumber] = Math.round(100 * this.getSelectedCurve().getCurve().getWeights()[this.weightNumber] * dw) / 100
+        newWeights[this.weightNumber] = Math.round(100 * newWeights[this.weightNumber] * dw) / 100
         this.getSelectedCurve().getCurve().setWeights(newWeights)
         this.refreshWeightState()
         this.board.update()

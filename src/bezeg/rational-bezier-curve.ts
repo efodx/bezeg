@@ -9,6 +9,7 @@ export class RationalBezierCurve extends BezierCurveImpl {
     // So in case we provide weights that are functions, we use those in decasteljau scheme for calculating
     // However other bezier curve methods won't work, since the original weights will be just the reactiveWeights evaluated at start
     private reactiveWeights: Array<() => number> | undefined = undefined
+    private id = Math.random()
 
     /**
      * @constructor
@@ -17,14 +18,20 @@ export class RationalBezierCurve extends BezierCurveImpl {
      */
     constructor(points: Array<Point>, weights: Array<() => number> | Array<number>) {
         super(points)
-        this.weights = weights.map(w => {
-            if (typeof w == 'number') {
-                return w
-            }
-            return w()
-        })
+        if (typeof weights[0] == 'number') {
+            this.weights = weights as Array<number>
+        }
+        // this.weights = weights.map(w => {
+        //     if (typeof w == 'number') {
+        //         return w
+        //     }
+        //     return w()
+        // })
         if (typeof weights[0] == 'function') {
             this.reactiveWeights = weights as Array<() => number>
+            this.weights = this.reactiveWeights.map(w => w())
+        } else {
+            this.weights = weights as Array<number>
         }
     }
 
@@ -101,7 +108,7 @@ export class RationalBezierCurve extends BezierCurveImpl {
         // TODO think about removing pointsAtT argument
         const decasteljauScheme = []
         const n = this.points.length
-        const weightsAtT = this.reactiveWeights ? this.reactiveWeights.map(w => w()) : this.weights
+        const weightsAtT = this.reactiveWeights ? this.reactiveWeights.map(w => w()) : this.weights.map(w => w)
         decasteljauScheme.push(pointsAtT.map(row => [...row]))
         let w1, w2;
         for (let r = 1; r < n; r++) {

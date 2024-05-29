@@ -284,36 +284,11 @@ export class PhBezierCurve implements BezierCurve {
     }
 
     scale(xScale: number, yScale?: number) {
-        // let [xCenter, yCenter] = this.getBoundingBoxCenter()
-
-        //  this.points.forEach(point => this.transformPoint(point, xCenter, yCenter, [[xScale, 0], [0, yScale!]], undefined))
-        // console.log(this.points)
-        // // 2x prevec gre watafek
-        // xScale = 1 + (xScale - 1) / 2
-        // if (yScale) {
-        //     yScale = 1 + (yScale - 1) / 2
-        // } else {
-        //     yScale = xScale
-        // }
         let copyPoints = this.underlyingBezierCurve.getPoints()
             .map(point => new PointImpl(point.X(), point.Y()))
         copyPoints.forEach(point => this.transformPoint(point, 0, 0, [[xScale, 0], [0, yScale!]], undefined))
-
-        console.log("copypoints:" + copyPoints.length)
+        
         this._w.forEach(point => this.transformPoint(point, 0, 0, [[xScale, 0], [0, yScale!]], undefined))
-        //this.underlyingBezierCurve.scale(xScale, yScale)
-
-        // console.log("xScale: " + xScale)
-        // if (!yScale) {
-        //     yScale = xScale
-        // } else {
-        //     console.log("yScale:" + yScale)
-        // }
-        // console.log("CENTER: " + this.getBoundingBoxCenter())
-        // let [xCenter, yCenter] = this.getBoundingBoxCenter()
-        // this.w.forEach(point => this.transformPoint(point, 0, 0, [[xScale, 0], [0, yScale!]], undefined))
-        // this.points.forEach(point => this.transformPoint(point, xCenter, yCenter, [[xScale, 0], [0, yScale!]], undefined))
-        //this.underlyingBezierCurve.scale(xScale, yScale)
     }
 
 
