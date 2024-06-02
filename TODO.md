@@ -4,8 +4,8 @@
 
 - [x] Fix set weights racionalne
 - [x] PH Krivulje naj imajo samo eno startno tocko + hodografe za konstruktor
-- [ ] Fix offset quintic PH krivulje!
-- [ ] Fix resizanje PH krivulj - TOLE MOGOCE CELO NE GRE, dobro razmisli ce strig ohrani PH...
+- [x] Fix offset quintic PH krivulje!
+- [x] Fix resizanje PH krivulj
 - [ ] Bezier krivulja, ki bo delovala na poljubnem stevilu dimenzij. Mogoce tako, da Point interface razsirim na
   poljubno stevilo.
 - [x] Abstrahirat zadeve pri PH krivuljah, da se koda pouporabi
@@ -24,6 +24,7 @@
 - [ ] JSX/JXG imenovanje na pravih mestih pravo!
 - [ ] Uporabi Javascript get/set ne nekih svojih pisat!
 - [ ] Make JGBox self-initiating! it should be possible!
+- [ ] Resizanje v obe smeri za PH krivulje...TOLE MOGOCE CELO NE GRE, dobro razmisli ce strig ohrani PH...
 
 - [ ] 
 - [x]

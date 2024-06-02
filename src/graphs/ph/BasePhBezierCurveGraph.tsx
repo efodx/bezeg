@@ -18,8 +18,6 @@ abstract class BasePhBezierCurveGraph extends BaseCurveGraph<BaseCurveGraphProps
 
     private hodographBoard!: JXG.Board;
     private jsxOffsetCurve!: JXG.Curve;
-    private hodographBoardElement = <HodographInputbox setRef={board => this.setHodographBoard(board)}/>
-
 
     get showOffsetCurve(): boolean {
         return this.state.showOffsetCurve;
