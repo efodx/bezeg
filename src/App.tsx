@@ -7,16 +7,7 @@ import {Container, Nav, Navbar, NavDropdown} from "react-bootstrap";
 import {LinkContainer} from 'react-router-bootstrap'
 
 function NavBar() {
-    let normalChildren = routes.flatMap((mainEntry) => mainEntry.children)
-        .filter((child) => !child.index && !child.group)
     let groupedChildren = {}
-    // @ts-ignore
-    const getGroupPath = (group) => {
-        // @ts-ignore
-        console.log("GP:" + groupedChildren[group][0].group_path)
-        // @ts-ignore
-        return groupedChildren[group][0].group_path
-    }
     let children = routes.flatMap((mainEntry) => mainEntry.children)
         .filter(child => !child.index)
         .flatMap(child => {
@@ -49,14 +40,11 @@ function NavBar() {
                         .map((child) => {
                             // We got the group key, so we take children from the group
                             if (typeof child == "string") {
-                                return <NavDropdown
-                                    title={child}
-                                    id="basic-nav-dropdown">
-                                    {   // @ts-ignore
-                                        groupedChildren[child].map(child => <LinkContainer to={child.path}>
-                                                <NavDropdown.Item>{child.title}</NavDropdown.Item>
-                                            </LinkContainer>
-                                        )}
+                                return <NavDropdown title={child}>{   // @ts-ignore
+                                    groupedChildren[child].map(child => <LinkContainer to={child.path}>
+                                            <NavDropdown.Item>{child.title}</NavDropdown.Item>
+                                        </LinkContainer>
+                                    )}
                                 </NavDropdown>
                             } else {
                                 return <li className="nav-item">

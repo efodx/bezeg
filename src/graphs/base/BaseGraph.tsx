@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {Component, useContext, useState} from 'react';
 import '../../App.css';
 
 import {Board, JSXGraph} from "jsxgraph";
@@ -7,7 +7,8 @@ import {JGBox} from "../../JGBox";
 import {Select} from "../../inputs/Select";
 import {AbstractJSXPointControlledCurve} from "./AbstractJSXPointControlledCurve";
 import {PointControlledCurve} from "../../bezeg/interfaces/point-controlled-curve";
-import {Button, Card, CardBody, CardTitle, Col, Container, ListGroup, Row} from "react-bootstrap";
+import {Button, Card, CardBody, CardTitle, Col, Container, Form, ListGroup, Row} from "react-bootstrap";
+import {CacheContext, RefreshContext} from "../../Contexts";
 
 enum SelectedCurveOption {
     MOVE_CURVE,
@@ -27,12 +28,49 @@ interface BaseGraphStates {
 }
 
 function Tools({tools}: { tools: JSX.Element[] }) {
+    return <Commands commands={tools} title={"Orodja"}></Commands>
+}
+
+function Commands(props: { commands: JSX.Element[], title: String }) {
     return <Card>
         <CardBody>
-            <CardTitle>Orodja</CardTitle>
-            {tools}
+            <CardTitle>{props.title}</CardTitle>
+            <ListGroup variant="flush">
+                {props.commands.map((command) => <ListGroup.Item>{command}</ListGroup.Item>)}
+            </ListGroup>
         </CardBody>
-    </Card>
+    </Card>;
+}
+
+function ResetButton() {
+    let refreshContext = useContext(RefreshContext)
+    return refreshContext ? <Button variant={"dark"} onClick={refreshContext}>Ponastavi</Button> : null
+}
+
+function ShowAxis(props: { board: () => Board }) {
+    const [checked, setChecked] = useState(true)
+
+    return <Form> <Form.Check // prettier-ignore
+        type="switch"
+        id="custom-switch"
+        label="Prikaži mrežo"
+        checked={checked}
+        onChange={(e) => {
+            props.board().objectsList.forEach(el => {
+                // @ts-ignore
+                if (el.elType == "axis" || el.elType == "ticks") {
+                    if (e.target.checked) {
+                        // @ts-ignore
+                        el.show()
+                    } else {
+                        // @ts-ignore
+                        el.hide()
+                    }
+                }
+            })
+            setChecked(e.target.checked)
+        }}/>
+    </Form>
 }
 
 /**
@@ -87,12 +125,16 @@ abstract class BaseGraph<U extends PointControlledCurve, T extends AbstractJSXPo
                 showFullscreen: true,
                 boundingbox: [-5, 5, 5, -5],
                 axis: true,
-                keepaspectratio: true
+                keepaspectratio: true,
+                showScreenshot: true
             });
             this.board.on('down', (e) => this.handleDown(e));
             this.board.on('up', (e) => this.handleUp(e));
             this.board.on('move', (e) => this.handleMove(e));
-            // this.board.stopResizeObserver()
+            this.board.on('update', (e) => {
+                CacheContext.context = CacheContext.context + 1
+            });
+
             this.initialize()
         }
     }
@@ -164,29 +206,33 @@ abstract class BaseGraph<U extends PointControlledCurve, T extends AbstractJSXPo
     }
 
     getSelectedCurveCommands(): JSX.Element[] {
+
         if (this.props.allowSelectedCurveControlPolygon) {
-            return [<div>{!this.state.showingControlPolygon ?
-                <Button variant={"dark"} onClick={() => this.showControlPolygon()}>Prikaži kontrolni
-                    poligon</Button> :
-                <Button variant={"dark"} onClick={() => this.hideControlPolygon()}>Odstrani kontrolni poligon</Button>
-            }
-            </div>]
+            return [<Form> <Form.Check // prettier-ignore
+                type="switch"
+                id="custom-switch"
+                label="Prikaži kontrolni poligon"
+                checked={this.getSelectedCurve().isShowingControlPolygon()}
+                onChange={(e) => this.showControlPolygon(e.target.checked)}/>
+            </Form>]
         }
         return []
     }
 
-    showControlPolygon() {
+    showControlPolygon(show: boolean) {
         this.board.suspendUpdate()
-        this.getSelectedCurve().showControlPolygon()
-        this.setState({...this.state, showingControlPolygon: true})
-        this.board.unsuspendUpdate()
+        if (show) {
+            this.getSelectedCurve().showControlPolygon()
+        } else {
+            this.getSelectedCurve().hideControlPolygon()
+        }
+        this.setState({...this.state, showingControlPolygon: show})
+        this.unsuspendBoardUpdate()
     }
 
-    hideControlPolygon() {
-        this.board.suspendUpdate()
-        this.getSelectedCurve().hideControlPolygon()
-        this.setState({...this.state, showingControlPolygon: false})
+    unsuspendBoardUpdate() {
         this.board.unsuspendUpdate()
+        this.board.update()
     }
 
     handleDown(e: PointerEvent) {
@@ -213,7 +259,7 @@ abstract class BaseGraph<U extends PointControlledCurve, T extends AbstractJSXPo
                     }
                 }
             }
-            this.board.unsuspendUpdate()
+            this.unsuspendBoardUpdate()
             return
         }
         let canCreate = true, el;
@@ -242,7 +288,7 @@ abstract class BaseGraph<U extends PointControlledCurve, T extends AbstractJSXPo
             )
         }
 
-        this.board.unsuspendUpdate()
+        this.unsuspendBoardUpdate()
     };
 
     getSelectedCurve() {
@@ -254,7 +300,10 @@ abstract class BaseGraph<U extends PointControlledCurve, T extends AbstractJSXPo
     }
 
     getTools(): JSX.Element[] {
-        return [<Button variant={"dark"} onClick={() => this.saveAsSVG()}>Izvozi kot SVG</Button>]
+        return [
+            <Button variant={"dark"} onClick={() => this.saveAsSVG()}>Izvozi kot SVG</Button>,
+            <ResetButton/>,
+            <ShowAxis board={() => this.board}></ShowAxis>]
     }
 
     deselectSelectedCurve() {
@@ -262,23 +311,17 @@ abstract class BaseGraph<U extends PointControlledCurve, T extends AbstractJSXPo
         this.setState({...this.state, curveSelected: false, showingControlPolygon: false})
     }
 
-    protected selectCurve(selectableCurve: T) {
+    protected selectCurve(selectableCurve: T, additionalState = {}) {
         selectableCurve.select()
-        this.setState({...this.state, curveSelected: true})
+        this.setState({...this.state, curveSelected: true, ...additionalState})
     }
 
     private getSelectableCurveArea() {
-        return <Card>
-            <CardBody>
-                <CardTitle>Izbrana krivulja</CardTitle>
-                {this.getSelect()}
-
-                <ListGroup variant="flush">
-                    {(this.state.selectedCurveOption === SelectedCurveOption.MOVE_CURVE) ? this.getSelectedCurveCommands().map(command =>
-                        <ListGroup.Item>{command}</ListGroup.Item>) : null}
-                </ListGroup>
-            </CardBody>
-        </Card>
+        let commands = [this.getSelect()]
+        if (this.state.selectedCurveOption === SelectedCurveOption.MOVE_CURVE) {
+            commands = commands.concat(this.getSelectedCurveCommands())
+        }
+        return <Commands commands={commands} title={"Izbrana krivulja"}></Commands>
     }
 
     private handleUp(e: PointerEvent) {
@@ -289,7 +332,7 @@ abstract class BaseGraph<U extends PointControlledCurve, T extends AbstractJSXPo
         this.board.suspendUpdate()
         let selectedCurve = this.getSelectedCurve()
         selectedCurve?.processMouseUp(e)
-        this.board.unsuspendUpdate()
+        this.unsuspendBoardUpdate()
     }
 
     private handleMove(e: PointerEvent) {
@@ -299,7 +342,7 @@ abstract class BaseGraph<U extends PointControlledCurve, T extends AbstractJSXPo
         this.board.suspendUpdate()
         let selectedCurve = this.getSelectedCurve()
         selectedCurve?.processMouseMove(e)
-        this.board.unsuspendUpdate()
+        this.unsuspendBoardUpdate()
     }
 
     private onSelectChange(e: React.ChangeEvent<HTMLSelectElement>) {
@@ -308,21 +351,9 @@ abstract class BaseGraph<U extends PointControlledCurve, T extends AbstractJSXPo
         this.setState({...this.state, selectedCurveOption: selectedCurveOption})
     }
 
-    private resizeBox(width: number, height: number) {
-        this.board.resizeContainer(width, height);
-        this.board.setBoundingBox(this.board.getBoundingBox(), true)
-    }
-
     private getGraphCommandsArea() {
-        return this.getGraphCommands().length > 0 ? <Card>
-            <CardBody>
-                <CardTitle>Ukazi na grafu</CardTitle>
-                <ListGroup variant="flush">
-                    {this.getGraphCommands().map(command =>
-                        <ListGroup.Item>{command}</ListGroup.Item>)}
-                </ListGroup>
-            </CardBody>
-        </Card> : null
+        return this.getGraphCommands().length > 0 ?
+            <Commands commands={this.getGraphCommands()} title={"Ukazi na grafu"}/> : null
     }
 }
 

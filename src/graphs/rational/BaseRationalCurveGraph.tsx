@@ -5,15 +5,6 @@ import Slider from "../../inputs/Slider";
 import React from "react";
 import {Button, ButtonGroup} from "react-bootstrap";
 
-const curveCommandStyle = {
-    padding: "10px",
-    border: "white",
-    borderStyle: "solid",
-    borderRadius: "5px",
-    borderWidth: "2px",
-    margin: "5px"
-}
-
 interface BaseRationalBezierCurveGraphProps extends BaseGraphProps {
 
 }
@@ -92,7 +83,7 @@ export abstract class BaseRationalCurveGraph<P extends BaseRationalBezierCurveGr
     extrapolateSelectedCurve() {
         this.board.suspendUpdate()
         this.getSelectedCurve().extrapolate(this.extrapolationT)
-        this.board.unsuspendUpdate()
+        this.unsuspendBoardUpdate()
     }
 
     subdivideSelectedCurve() {
@@ -100,7 +91,7 @@ export abstract class BaseRationalCurveGraph<P extends BaseRationalBezierCurveGr
         let newCurve = this.getSelectedCurve().subdivide(this.subdivisionT)
         this.jsxBezierCurves.push(newCurve);
         this.deselectSelectedCurve()
-        this.board.unsuspendUpdate()
+        this.unsuspendBoardUpdate()
     }
 
     elevateSelectedCurve() {
@@ -109,7 +100,7 @@ export abstract class BaseRationalCurveGraph<P extends BaseRationalBezierCurveGr
         if (this.getSelectedCurve().isShowingControlPolygon()) {
             this.getSelectedCurve().showControlPolygon()
         }
-        this.board.unsuspendUpdate()
+        this.unsuspendBoardUpdate()
     }
 
     override deselectSelectedCurve() {
@@ -147,7 +138,7 @@ export abstract class BaseRationalCurveGraph<P extends BaseRationalBezierCurveGr
     }
 
     override selectCurve(selectableCurve: JSXRationalBezierCurve) {
-        super.selectCurve(selectableCurve)
+        super.selectCurve(selectableCurve, {currentWeight: selectableCurve.getCurve()!.getWeights()[this.weightNumber]})
         selectableCurve.getJxgPoints()[this.weightNumber].setAttribute({
             color: "yellow"
         })

@@ -25,7 +25,7 @@ class AlphaParamBezierCurveGraph extends BaseCurveGraph<BaseCurveGraphProps, Bas
     setAlpha(alpha: number) {
         this.board.suspendUpdate()
         this.alpha = alpha
-        this.board.unsuspendUpdate()
+        this.unsuspendBoardUpdate()
     }
 
     setNumberOfPoints(numberOfPoints: number) {
@@ -33,7 +33,7 @@ class AlphaParamBezierCurveGraph extends BaseCurveGraph<BaseCurveGraphProps, Bas
         this.numberOfPoints = numberOfPoints
         this.clearPoints()
         this.generateParamPoints()
-        this.board.unsuspendUpdate()
+        this.unsuspendBoardUpdate()
     }
 
     alphaParamSlider() {

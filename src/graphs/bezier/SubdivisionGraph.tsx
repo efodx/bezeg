@@ -2,7 +2,7 @@ import React from 'react';
 import '../../App.css';
 import {BaseCurveGraph, BaseCurveGraphProps} from "../base/BaseCurveGraph";
 import {BaseGraphStates} from "../base/BaseGraph";
-import {Button} from "react-bootstrap";
+import {Button, Form} from "react-bootstrap";
 
 class Graph extends BaseCurveGraph<BaseCurveGraphProps, BaseGraphStates> {
     private slider: JXG.Slider | undefined;
@@ -32,12 +32,22 @@ class Graph extends BaseCurveGraph<BaseCurveGraphProps, BaseGraphStates> {
 
             this.jsxBezierCurves.push(newCurve);
         }
-        this.board.unsuspendUpdate()
+        this.unsuspendBoardUpdate()
     };
 
     override getGraphCommands(): JSX.Element[] {
         return super.getGraphCommands().concat([<Button variant={"dark"}
                                                         onClick={() => this.subdivide()}>Subdiviziraj</Button>,
+            <Form> <Form.Check // prettier-ignore
+                type="switch"
+                id="custom-switch"
+                label="Prikaži kontrolne poligone"
+                checked={this.getFirstJsxCurve()?.isShowingControlPolygon()}
+                onChange={(e) => {
+                    console.log("lol")
+                    this.hideControlPolygons()
+                }}/>
+            </Form>,
             <Button variant={"dark"} onClick={() => this.showControlPolygons()}>Prikaži kontrolne poligone</Button>,
             <Button variant={"dark"} onClick={() => this.hideControlPolygons()}>Skrij kontrolne poligone</Button>
         ])
@@ -52,13 +62,13 @@ class Graph extends BaseCurveGraph<BaseCurveGraphProps, BaseGraphStates> {
     private hideControlPolygons() {
         this.board.suspendUpdate()
         this.jsxBezierCurves.forEach(curve => curve.hideDecasteljauScheme())
-        this.board.unsuspendUpdate()
+        this.unsuspendBoardUpdate()
     }
 
     private showControlPolygons() {
         this.board.suspendUpdate()
         this.jsxBezierCurves.forEach(curve => curve.showControlPolygon())
-        this.board.unsuspendUpdate()
+        this.unsuspendBoardUpdate()
     }
 
     private showDecasteljauScheme() {
@@ -66,7 +76,7 @@ class Graph extends BaseCurveGraph<BaseCurveGraphProps, BaseGraphStates> {
         if (this.getSelectedCurve()) {
             this.getSelectedCurve().showDecasteljauSchemeForSlider(this.slider!)
         }
-        this.board.unsuspendUpdate()
+        this.unsuspendBoardUpdate()
     }
 
     private hideDecasteljauScheme() {
@@ -74,7 +84,7 @@ class Graph extends BaseCurveGraph<BaseCurveGraphProps, BaseGraphStates> {
         if (this.getSelectedCurve()) {
             this.getSelectedCurve().hideDecasteljauScheme()
         }
-        this.board.unsuspendUpdate()
+        this.unsuspendBoardUpdate()
     }
 }
 

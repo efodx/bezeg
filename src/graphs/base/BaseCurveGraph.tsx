@@ -101,7 +101,7 @@ export abstract class BaseCurveGraph<P extends BaseCurveGraphProps, S extends Ba
     extrapolateSelectedCurve(t: number) {
         this.board.suspendUpdate()
         this.getSelectedCurve().extrapolate(t)
-        this.board.unsuspendUpdate()
+        this.unsuspendBoardUpdate()
     }
 
     subdivideSelectedCurve() {
@@ -109,7 +109,7 @@ export abstract class BaseCurveGraph<P extends BaseCurveGraphProps, S extends Ba
         let newCurve = this.getSelectedCurve().subdivide(this.subdivisionT)
         this.jsxBezierCurves.push(newCurve);
         this.deselectSelectedCurve()
-        this.board.unsuspendUpdate()
+        this.unsuspendBoardUpdate()
     }
 
     elevateSelectedCurve() {
@@ -118,7 +118,7 @@ export abstract class BaseCurveGraph<P extends BaseCurveGraphProps, S extends Ba
         if (this.getSelectedCurve().isShowingControlPolygon()) {
             this.getSelectedCurve().showControlPolygon()
         }
-        this.board.unsuspendUpdate()
+        this.unsuspendBoardUpdate()
     }
 
     override deselectSelectedCurve() {
@@ -163,14 +163,14 @@ export abstract class BaseCurveGraph<P extends BaseCurveGraphProps, S extends Ba
     private showSelectedCurveDecasteljauScheme() {
         this.board.suspendUpdate()
         this.getSelectedCurve().showDecasteljauSchemeForT(this.decasteljauT)
-        this.board.unsuspendUpdate()
+        this.unsuspendBoardUpdate()
 
     }
 
     private hideSelectedCurveDecasteljauScheme() {
         this.board.suspendUpdate()
         this.getSelectedCurve().hideDecasteljauScheme()
-        this.board.unsuspendUpdate()
+        this.unsuspendBoardUpdate()
     }
 
     private setDecasteljauT(t: number) {

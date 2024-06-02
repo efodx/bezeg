@@ -28,7 +28,7 @@ class Graph extends BaseRationalCurveGraph<BaseRationalBezierCurveGraphProps, Ba
             let newCurve = bezierCurve.subdivide(this.slider!.Value())
             this.jsxBezierCurves.push(newCurve);
         }
-        this.board.unsuspendUpdate()
+        this.unsuspendBoardUpdate()
     };
 
     getGraphCommands(): JSX.Element[] {

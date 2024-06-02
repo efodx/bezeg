@@ -40,14 +40,14 @@ class UniformParamBezierCurveGraph extends BaseCurveGraph<BaseCurveGraphProps, B
         this.alpha = alpha
         const dt = 1 / (this.numberOfPoints + 1)
         this.ts = range(1, this.numberOfPoints, 1).map(i => i * dt).map(t => this.alphaParam(t))
-        this.board.unsuspendUpdate()
+        this.unsuspendBoardUpdate()
     }
 
     setPhParam() {
         this.board.suspendUpdate()
         this.alpha = 1
         this.ts = this.getUniformParamTs()
-        this.board.unsuspendUpdate()
+        this.unsuspendBoardUpdate()
     }
 
     getUniformParamTs() {
@@ -68,7 +68,7 @@ class UniformParamBezierCurveGraph extends BaseCurveGraph<BaseCurveGraphProps, B
         this.numberOfPoints = numberOfPoints
         this.clearPoints()
         this.generateParamPoints()
-        this.board.unsuspendUpdate()
+        this.unsuspendBoardUpdate()
     }
 
     alphaParamSlider() {

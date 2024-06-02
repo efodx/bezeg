@@ -7,7 +7,8 @@ import Slider from "../../inputs/Slider";
 import {HodographInputbox} from "./HodographInputBox";
 import {Point} from "../base/Point";
 import React from "react";
-import {Button} from "react-bootstrap";
+import {Button, Form} from "react-bootstrap";
+import {CacheContext} from "../../Contexts";
 
 interface BasePhBezierCurveGraphStates extends BaseGraphStates {
     showOffsetCurve: boolean
@@ -17,6 +18,7 @@ abstract class BasePhBezierCurveGraph extends BaseCurveGraph<BaseCurveGraphProps
 
     private hodographBoard!: JXG.Board;
     private jsxOffsetCurve!: JXG.Curve;
+    private hodographBoardElement = <HodographInputbox setRef={board => this.setHodographBoard(board)}/>
 
 
     get showOffsetCurve(): boolean {
@@ -24,6 +26,7 @@ abstract class BasePhBezierCurveGraph extends BaseCurveGraph<BaseCurveGraphProps
     }
 
     set showOffsetCurve(show: boolean) {
+        CacheContext.context = CacheContext.context + 1
         if (show) {
             this.jsxOffsetCurve.show()
         } else {
@@ -64,7 +67,6 @@ abstract class BasePhBezierCurveGraph extends BaseCurveGraph<BaseCurveGraphProps
             ]
         );
         this.jsxOffsetCurve.hide()
-        this.initializeHodographs(hodographs)
     }
 
 
@@ -74,8 +76,14 @@ abstract class BasePhBezierCurveGraph extends BaseCurveGraph<BaseCurveGraphProps
 
     override getGraphCommands(): JSX.Element[] {
         const commands = []
-        commands.push(<Button variant={"dark"}
-                              onClick={() => this.showOffsetCurve = !this.showOffsetCurve}>{this.showOffsetCurve ? "Skrij offset krivuljo" : "Prikaži offset krivuljo"}</Button>)
+        commands.push(<Form> <Form.Check // prettier-ignore
+            type="switch"
+            id="custom-switch"
+            label="Offset krivulja"
+            checked={this.showOffsetCurve}
+            onChange={() => this.showOffsetCurve = !this.showOffsetCurve}/>
+        </Form>)
+
 
         if (this.showOffsetCurve) {
             commands.push(<Slider min={-3}
@@ -89,8 +97,11 @@ abstract class BasePhBezierCurveGraph extends BaseCurveGraph<BaseCurveGraphProps
 
     override getSelectedCurveCommands(): JSX.Element[] {
         return super.getSelectedCurveCommands().concat(<HodographInputbox
-                setRef={board => this.setHodographBoard(board)}/>, <Button variant={"dark"}
-                                                                           onClick={() => this.scale(1.2)}>Povečaj</Button>,
+                setRef={board => {
+                    this.setHodographBoard(board)
+                    this.initializeHodographs(this.getFirstCurveAsPHBezierCurve().w.map(p => [p.X(), p.Y()]))
+                }}/>, <Button variant={"dark"}
+                              onClick={() => this.scale(1.2)}>Povečaj</Button>,
             <Button variant={"dark"} onClick={() => this.scale(0.8)}>Pomanjšaj</Button>);
     }
 
@@ -117,17 +128,20 @@ abstract class BasePhBezierCurveGraph extends BaseCurveGraph<BaseCurveGraphProps
     private setOffsetCurveDistance(e: number) {
         this.board.suspendUpdate()
         this.getFirstCurveAsPHBezierCurve().setOffsetCurveDistance(e);
-        this.board.unsuspendUpdate()
+        this.unsuspendBoardUpdate()
     }
 
     private setHodographBoard(board: JXG.Board) {
+        if (this.hodographBoard) {
+            this.board.removeChild(this.hodographBoard)
+        }
         this.hodographBoard = board
     }
 
     private scale(number: number) {
         this.board.suspendUpdate()
         this.getSelectedCurve().getCurve().scale(number, number)
-        this.board.unsuspendUpdate()
+        this.unsuspendBoardUpdate()
     }
 }
 

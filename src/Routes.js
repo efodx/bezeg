@@ -20,6 +20,8 @@ import CubicPhBezierCurveGraph from "./graphs/ph/CubicPhBezierCurveGraph";
 import QuinticPhBezierCurve from "./graphs/ph/QuinticPhBezierCurveGraph";
 import AlphaParamBezierCurveGraph from "./graphs/parametrisations/AlphaParamBezierCurveGraph";
 import UniformParamBezierCurveGraph from "./graphs/parametrisations/UniformParamBezierCurveGraph";
+import {useState} from "react";
+import {RefreshContext} from "./Contexts";
 
 const PATH_RATIONAL_CURVES = "/bezeg/rational"
 const PATH_SPLINE_CURVES = "/bezeg/spline"
@@ -206,5 +208,15 @@ const routes = [
         ],
     }
 ]
+
+
+function Refresher(props) {
+    const [key, setKey] = useState(1)
+    return <RefreshContext.Provider value={() => setKey(key + 1)}>
+        <div key={key}>{props.children}</div>
+    </RefreshContext.Provider>
+}
+
+routes[0].children.forEach(route => route.element = <Refresher>{route.element}</Refresher>)
 
 export default routes

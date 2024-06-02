@@ -15,7 +15,7 @@ class Graph extends BaseRationalCurveGraph<BaseRationalBezierCurveGraphProps, Ba
     elevate() {
         this.board.suspendUpdate()
         this.getFirstJsxCurve().elevate()
-        this.board.unsuspendUpdate()
+        this.unsuspendBoardUpdate()
     }
 
     getGraphCommands(): JSX.Element[] {

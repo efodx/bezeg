@@ -2,9 +2,12 @@ import {PointImpl} from "./point/point-impl";
 import {Point} from "./interfaces/point";
 import {BezierCurve} from "./interfaces/bezier-curve";
 import {PointControlledCurveImpl} from "./point-controlled-curve-impl";
+import {CacheContext} from "../Contexts";
 
 
 export class BezierCurveImpl extends PointControlledCurveImpl implements BezierCurve {
+    private lastCacheContext: number | undefined;
+    private cachedPointAtT: PointImpl | undefined;
 
     elevate(): this {
         let newPoints = [];
@@ -25,10 +28,15 @@ export class BezierCurveImpl extends PointControlledCurveImpl implements BezierC
      * @returns {Point} point
      */
     calculatePointAtT(t: number): Point {
-        const pointsAtT = this.points.map(point => [point.X(), point.Y()])
-        const decasteljauInternal = this.decasteljau(t, pointsAtT)
-        const [x, y] = decasteljauInternal[decasteljauInternal.length - 1][0]
-        return new PointImpl(x, y);
+        const currentContext = CacheContext.context + t
+        if (!this.cachedPointAtT || currentContext !== this.lastCacheContext) {
+            this.lastCacheContext = currentContext
+            const pointsAtT = this.points.map(point => [point.X(), point.Y()])
+            const decasteljauInternal = this.decasteljau(t, pointsAtT)
+            const [x, y] = decasteljauInternal[decasteljauInternal.length - 1][0]
+            this.cachedPointAtT = new PointImpl(x, y);
+        }
+        return this.cachedPointAtT
     }
 
     /**

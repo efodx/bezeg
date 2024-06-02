@@ -5,8 +5,9 @@ import reportWebVitals from './reportWebVitals';
 import {createBrowserRouter, RouterProvider} from "react-router-dom";
 import routes from "./Routes";
 
-import 'bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
+// TODO Is there a better way to import this?
+import '../node_modules/jsxgraph/distrib/jsxgraph.css';
 
 const router = createBrowserRouter(routes);
 const root = ReactDOM.createRoot(

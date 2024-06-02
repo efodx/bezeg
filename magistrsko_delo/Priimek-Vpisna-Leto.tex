@@ -107,6 +107,7 @@ the content and not the structure of your work.}
 \usepackage{algorithmicx}
 \usepackage{mathtools}
 \usepackage{hyperref}
+\usepackage{graphics}
 \floatname{algorithm}{Algoritem}
 \renewcommand{\listalgorithmname}{Kazalo algoritmov}
 
@@ -294,21 +295,54 @@ the content and not the structure of your work.}
     V tem razdelku bomo predstavili nekaj metod Bezierjevih krivulj, ki so uporabne pri grafičnem oblikovanju.
 
     \subsubsection{Subdivizija}
-    Recimo, da smo se kot računalniški grafik znašli v situaciji, ko bi želeli obdržati le en kos Bezierjeve krivulje.
-    Naj bo to kos krivulje, ki ga dobimo tako, da za prvotno krivuljo omejimo parameter $t$ na interval $[0,t_0]$ za neko fiksno realno število $t_0<1$.
-    Če se sedaj za trenutek vrnemo nazaj k
-    \begin{figure}
+    Recimo, da smo se kot računalniški grafik znašli v situaciji, ko bi želeli obdržati le en kos Bezierjeve krivulje $B$.
+    Naj bo to kos krivulje, ki ga dobimo tako, da za prvotno krivuljo $B$ omejimo parameter $t$ na interval $[0,t_0]$ za neko fiksno realno število $t_0<1$.
+    Označimo ga z $B_{t_0}$, zanj pa velja $B_{t_0}(t)=B(t_{0}t)$.
+    Vrnimo se nazaj k sliki sheme Decasteljaujevega algoritma\ref{fig:subdivizija}.
+    Na njej lahko opazimo, da pri parametru $t_0$ točke označene z A,F,J,M in O tvorijo kontrolni poligon bezierjeve krivulje $B_{t_0}$.
+    Pokažimo, da je to res.
+
+    \begin{figure}[h!]
         \centering
-        \includegraphics{images/subdivizija}
+        \includegraphics[width=0.8\textwidth]{images/subidivizja.png}
         \caption{Subdivizija}
         \label{fig:subdivizija}
     \end{figure}
+
+    \[B_{t_0}(t) = B(t_{0}t) = \sum_{i=0}^{n}\mathbf{p}_{i}\binom{n}{i}(t_{0}t)^i(1-tt_0)^{n-i} \]
+    \[ \sum_{i=0}^{n}\mathbf{p}_{i}t_0^{i}\left(\frac{1-tt_0}{1-t}\right)^{n-i}\binom{n}{i}t^i(1-t)^{n-i} \]
 
     \subsubsection{Ekstrapolacija}
     Motivacija: Zelimo podaljsati krivuljo
 
     \subsubsection{Dvig stopnje}
-    Motivacija: Zelimo primerjati dve krivulji, pa sta razlicne stopnje.
+    Nekateri algoritmi, ki delajo z Bezierjevimi krivuljami, za vhod potrebujejo dve Bezierjevi krivulji iste stopnje.
+    Recimo, da imamo Bezierjevo krivuljo $B$ stopnje $n$, ki jo želimo spraviti na stopnjo $n+1$.
+    Ker velja $1-t+t=1$ lahko Bezierjevo krivuljo $B(t)$ zapišemo tudi kot $B(t) = (1-t)B(t)+tB(t) = \sum_{i=0}^{n}\mathbf{p}_{i}(1-t)\lilb{i}{n} +\sum_{i=0}^{n}\mathbf{p}_{i}t\lilb{i}{n} $.
+    Razpišimo najprej prvi del.
+    \begin{align*}
+    (1-t)
+        \lilb{i}{n} &= (1-t)\binom{n}{i}t^i(1-t)^{n-i} \\
+        &= \frac{n!}{(n-i)!i!}t^i(1-t)^{n+1-i} \\
+        &=\frac{n+1-i}{n+1}\frac{(n+1)!}{(n+1-i)!i!}t^i(1-t)^{n+1-i}\\
+        &=\frac{n+1-i}{n+1} \binom{n+1}{i}t^i(1-t)^{n+1-i} \\
+        &=\frac{n+1-i}{n+1}\lilb{i}{n+1}
+    \end{align*}
+    Sedaj pa še za drugega.
+    \begin{align*}
+        t\lilb{i}{n} &= t\binom{n}{i}t^i(1-t)^{n-i} \\
+        &= \frac{n!}{(n-i)!i!}t^{i+1}(1-t)^{n+1-i-1} \\
+        &= \frac{i+1}{n+1}\frac{(n+1)!}{(n-i)!(i+1)!}t^{i+1}(1-t)^{n+1-i-1} \\
+        &= \frac{i+1}{n+1}\lilb{n+1}{i+1}
+    \end{align*}
+
+    Vstavimo v $B(t)$.
+
+    \begin{align*}
+        B(t) &= \sum_{i=0}^{n}\mathbf{p}_{i}\frac{n+1-i}{n+1}\lilb{i}{n+1} +\sum_{i=0}^{n}\mathbf{p}_{i}\frac{i+1}{n+1}\lilb{i+1}{n+1}\\
+        &= \sum_{i=0}^{n}\mathbf{p}_{i}\frac{n+1-i}{n+1}\lilb{i}{n+1} +\sum_{i=1}^{n+1}\mathbf{p}_{i-1}\frac{i}{n+1}\lilb{i}{n+1} \\
+        &=\mathbf{p}_{0} + \sum_{i=1}^{n}\left(\mathbf{p}_{i}\frac{n+1-i}{n+1} + \mathbf{p}_{i-1}\frac{i}{n+1}\right)\lilb{i}{n+1}+\mathbf{p}_{n}
+    \end{align*}
 
     \subsection{Racionalne Bezierjeve krivulje}
 

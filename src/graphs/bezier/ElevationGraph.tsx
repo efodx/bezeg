@@ -12,7 +12,7 @@ class ElevationGraph extends BaseCurveGraph<BaseCurveGraphProps, BaseGraphStates
     elevate() {
         this.board.suspendUpdate()
         this.getFirstJsxCurve().elevate()
-        this.board.unsuspendUpdate()
+        this.unsuspendBoardUpdate()
     }
 
     override getGraphCommands(): JSX.Element[] {

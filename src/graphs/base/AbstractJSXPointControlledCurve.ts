@@ -1,6 +1,7 @@
 import {Board} from "jsxgraph";
 import {Point} from "./Point";
 import {PointControlledCurve} from "../../bezeg/interfaces/point-controlled-curve";
+import {CacheContext} from "../../Contexts"
 
 /**
  * Class that wraps a PointControlledCurve with methods for dealing with JSXGraph
@@ -158,6 +159,8 @@ export abstract class AbstractJSXPointControlledCurve<T extends PointControlledC
         }
         this.board.update()
         this.coords = newCoords
+        CacheContext.context = CacheContext.context + 1
+        // console.log(CacheContext.context)
         console.timeEnd("Processing mouse move event")
     }
 

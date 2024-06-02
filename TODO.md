@@ -15,7 +15,7 @@
 
 ### Low Priority
 
-- [ ] Caching za kak izracun tock? Vsaj za tiste hodografe v PH (offset) krivuljah, se vseeno more bit vse skupaj
+- [x] Caching za kak izracun tock? Vsaj za tiste hodografe v PH (offset) krivuljah, se vseeno more bit vse skupaj
   reaktivno, ampak ce se le da, da se ne racunajo tolko hard vsak korak.
 - [ ] Selected curve commands bi se morali prebrat direktno iz krivulje. Tako bi lahko vec razlicnih krivulj na isti
   graf risal in bi dejansko vsaka svoje renderirala...
@@ -23,6 +23,7 @@
   drugace pa ne.
 - [ ] JSX/JXG imenovanje na pravih mestih pravo!
 - [ ] Uporabi Javascript get/set ne nekih svojih pisat!
+- [ ] Make JGBox self-initiating! it should be possible!
 
 - [ ] 
 - [x]
