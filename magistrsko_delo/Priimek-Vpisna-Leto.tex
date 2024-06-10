@@ -382,8 +382,29 @@ the content and not the structure of your work.}
 
 
     \section{PH Krivulje}
+    Motivacija: fajn so nam takšne parametrizacije, da se isto hitro premikamo po njih. (ce karkoli rises recimo)
+    V poglavju se bomo osredotočili (mogoce celo samo govorili?) o krivuljah v $\R^2$.
 
-    \subsection{Racionalna dolžina krivulje}
+    \subsection{Dolžina krivulje kot racionalna funkcija}
+    Dolžina krivulje podane s parametrizacijo  $\mathbf{r}(t) = \left(x(t),y(t)\right)$ je definirana z enačbo $\int_0^t \sqrt {x^{'2}(t)+y^{'2}(t)}$.
+    Integrandu v enačbi pravimo \textit{parametrična hitrost} krivulje, označimo ga z $v(t)$.
+    Idealno bi bilo, da je hitrost $v(t) = 1$ za vsak $t\in [0,t_0]$, saj bi v tem primeru veljalo $s(t)=t$.
+    Takšna parametrizacija je zlahka dosegljiva za ravne črte(daljice?***), tudi za odseke krožnice (z rabo trigonometričnih funkcij), v splošnem pa ne.
+    Dokaz da nobena krivulja ne more biti parametrizirana z racionalnimi funkcijami svoje dolzine.???
+
+    \subsection{Polinomska parametrična hitrost}
+    Kot smo zgoraj dokazali, ne moremo doseči racionalne parametrizacije krivulje, ki bi imela hitrost enako $1$.
+    Če krivulje nekoliko omejimo, lahko dosežemo, da bo funkcija hitrosti vsaj polinom.
+    To dosežemo tako, da zahtevamo, da je $x^{'2}(t)+y^{'2}(t)$ popoln kvadrat.
+    V takšnem primeru se namreč koren v integrandu pokrajša, pod integralom pa ostane polinom.
+    Krivuljam za katere to drži pravimo \textit{krivulje s pitagorejskimi hodografi} oziroma \textit{PH krivulje}.
+    To so krivulje, ki jim lahko dolžino izračunamo tako, da evalviramo polinom.
+
+    \\
+
+    \textit{Hodograf} krivulje podane s parametrizacijo $\mathbf{r}(t)\in \R^n$ je krivulja katere parametrizacija je odvod parametrizacije prvotne krivulje.
+    V primeru, da komponente parametrizacije hodografa krivulje tvorijo
+    Krivulja podana s parametrizacijo $\mathbf{r}(t)\in \R^n$ je krivulja s pitagorejskim hodografom, če komponente hodografa tvorijo pitagorejsko $(n+1)$-terko. (???????????????? se tako rece?)
 
     \subsection{Racionalni odmik krivulje}
 
