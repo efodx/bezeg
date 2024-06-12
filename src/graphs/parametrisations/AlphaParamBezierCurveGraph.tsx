@@ -37,14 +37,14 @@ class AlphaParamBezierCurveGraph extends BaseCurveGraph<BaseCurveGraphProps, Bas
     }
 
     alphaParamSlider() {
-        return <div style={this.curveCommandStyle}>Alfa<Slider min={0} max={1} initialValue={this.alpha}
-                                                               onChange={(alpha) => this.setAlpha(alpha)}/></div>
+        return <div>Alfa<Slider min={0} max={1} initialValue={this.alpha}
+                                onChange={(alpha) => this.setAlpha(alpha)}/></div>
     }
 
     numberOfPointsSlider() {
-        return <div style={this.curveCommandStyle}>Število točk <Slider min={1} max={40} step={1}
-                                                                        initialValue={this.numberOfPoints}
-                                                                        onChange={(num) => this.setNumberOfPoints(num)}/>
+        return <div>Število točk <Slider min={1} max={40} step={1}
+                                         initialValue={this.numberOfPoints}
+                                         onChange={(num) => this.setNumberOfPoints(num)}/>
         </div>
     }
 

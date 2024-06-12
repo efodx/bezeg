@@ -90,7 +90,7 @@ const routes = [
                     allowSelectedCurveElevation={false}
                     allowSelectedCurveExtrapolation={false}
                     allowSelectedCurveSubdivision={false}
-                    allowSelectedCurveControlPolygon={false}/>,
+                    allowSelectedCurveControlPolygon={true}/>,
                 title: "Dvig Stopnje"
             },
             {

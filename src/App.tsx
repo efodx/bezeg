@@ -26,7 +26,7 @@ function NavBar() {
             }
         })
         .filter(child => typeof child != "undefined")
-    return <Navbar expand="lg" className="bg-body-tertiary">
+    return <Navbar expand="xl" className="bg-body-tertiary">
         <Container className={"w-100"}>
             <LinkContainer to="/bezeg">
                 <Navbar.Brand style={{marginLeft: "1vw"}}>

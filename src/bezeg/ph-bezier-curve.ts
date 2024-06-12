@@ -17,12 +17,16 @@ export class PhBezierCurve implements BezierCurve {
     private points: Point[]
     private underlyingCurveControlPoints: Point[];
     private offsetCurve: BezierCurve;
+    private sigmas: Array<() => number>
+    private bezierCurveS: BezierCurve | undefined;
+    private bezierCurveSigma: BezierCurve | undefined;
 
     constructor(points: Point[], w: Point[]) {
         this.points = points
         this._w = w
         this.underlyingCurveControlPoints = this.generatePointsForDegree(this.degree)
         this.underlyingBezierCurve = new BezierCurveImpl(this.underlyingCurveControlPoints)
+        this.sigmas = this.generateSigmas(this.degree)
         let [rpoints, rweights] = this.generateOffsetCurvePoints(this.degree)
         this.offsetCurve = new RationalBezierCurve(rpoints, rweights)
     }
@@ -51,34 +55,26 @@ export class PhBezierCurve implements BezierCurve {
     }
 
     s(t: number) {
-        const sigma0 = () => this._w[0].X() ** 2 + this._w[0].Y() ** 2
-        const sigma1 = () => this._w[0].X() * this._w[1].X() + this._w[0].Y() * this._w[1].Y()
-        const sigma2 = () => this._w[1].X() ** 2 + this._w[1].Y() ** 2
+        if (!this.bezierCurveS) {
+            const s = []
+            const lastS = this.sigmas.reduce((acc, sigma) => {
+                    // The intermediate ones are calculated here
+                    s.push(acc)
+                    return () => acc() + 1 / this.degree * sigma()
+                },
+                () => 0)
+            s.push(lastS)
+            this.bezierCurveS = new BezierCurveImpl(s.map(p => new PointImpl(p, 1)))
+        }
+        return this.bezierCurveS.calculatePointAtT(t).X()
 
-        const s0 = () => 0
-        const s1 = () => 1 / 3 * (sigma0())
-        const s2 = () => 1 / 3 * (sigma0() + sigma1())
-        const s3 = () => 1 / 3 * (sigma0() + sigma1() + sigma2())
-
-        const p1 = new PointImpl(s0, 1)
-        const p2 = new PointImpl(s1, 1)
-        const p3 = new PointImpl(s2, 1)
-        const p4 = new PointImpl(s3, 1)
-
-        const bezierCurveS = new BezierCurveImpl([p1, p2, p3, p4])
-        return bezierCurveS.calculatePointAtT(t).X()
     }
 
     sigma(t: number) {
-        const sigma0 = () => this._w[0].X() ** 2 + this._w[0].Y() ** 2
-        const sigma1 = () => this._w[0].X() * this._w[1].X() + this._w[0].Y() * this._w[1].Y()
-        const sigma2 = () => this._w[1].X() ** 2 + this._w[1].Y() ** 2
-        const p1 = new PointImpl(sigma0, 1)
-        const p2 = new PointImpl(sigma1, 1)
-        const p3 = new PointImpl(sigma2, 1)
-
-        const bezierCurveSigma = new BezierCurveImpl([p1, p2, p3])
-        return bezierCurveSigma.calculatePointAtT(t).X()
+        if (!this.bezierCurveSigma) {
+            this.bezierCurveSigma = new BezierCurveImpl(this.sigmas.map(sigma => new PointImpl(sigma, 1)))
+        }
+        return this.bezierCurveSigma.calculatePointAtT(t).X()
     }
 
     getOffsetCurve() {
@@ -115,7 +111,7 @@ export class PhBezierCurve implements BezierCurve {
     generateOffsetCurvePoints(n: number): [Point[], Array<() => number>] {
         const p: Point[] = this.underlyingCurveControlPoints
 
-        const sigma = this.generateSigmas(n)
+        const sigma = this.sigmas
         const deltaPravokotenP = p.slice(1).map((pp, i) => deltaPravokoten(p[i], pp))
 
         const numOfPoints = 2 * n
@@ -128,7 +124,7 @@ export class PhBezierCurve implements BezierCurve {
             const wSumParts: Point[] = []
             for (let j = sumStartId; j <= sumEndId; j++) {
                 const scalar = bin(n - 1, j) / bin(2 * n - 1, k) * bin(n, k - j)
-                // We make these points to make use of the caching system behind them
+                // We make these into points to make use of the caching system behind them
                 const sumPart = new PointImpl(() => scalar * (sigma[j]() * p[k - j].X() + this.d * n * deltaPravokotenP[j].X()),
                     () => scalar * (sigma[j]() * p[k - j].Y() + this.d * n * deltaPravokotenP[j].Y()))
                 sumParts.push(sumPart)

@@ -126,7 +126,8 @@ abstract class BaseGraph<U extends PointControlledCurve, T extends AbstractJSXPo
                 boundingbox: [-5, 5, 5, -5],
                 axis: true,
                 keepaspectratio: true,
-                showScreenshot: true
+                showScreenshot: true,
+                showCopyright: false
             });
             this.board.on('down', (e) => this.handleDown(e));
             this.board.on('up', (e) => this.handleUp(e));
