@@ -1,18 +1,18 @@
 import '../../App.css';
-import {BaseCurveGraph, BaseCurveGraphProps} from "../base/BaseCurveGraph";
-import {BaseGraphStates} from "../base/BaseGraph";
-import {JSXPHBezierCurve} from "../ph/JSXPHBezierCurve";
+import {BaseCurveGraphProps} from "../base/BaseCurveGraph";
 import {PhBezierCurve} from "../../bezeg/ph-bezier-curve";
 import Slider from "../../inputs/Slider";
 import Form from 'react-bootstrap/Form';
+import BasePhBezierCurveGraph, {BasePhBezierCurveGraphStates} from "../ph/BasePhBezierCurveGraph";
+import React from "react";
 
-interface UniformParamBezierCurveGraphStates extends BaseGraphStates {
+interface UniformParamBezierCurveGraphStates extends BasePhBezierCurveGraphStates {
     isAlphaParam: boolean
 }
 
 const range = (start: number, stop: number, step: number) => Array.from({length: (stop - start) / step + 1}, (_, i) => start + i * step);
 
-class UniformParamBezierCurveGraph extends BaseCurveGraph<BaseCurveGraphProps, UniformParamBezierCurveGraphStates> {
+class UniformParamBezierCurveGraph extends BasePhBezierCurveGraph<BaseCurveGraphProps, UniformParamBezierCurveGraphStates> {
     numberOfPoints: number = 10;
     alpha: number = 0.5;
     private ts!: any[];
@@ -24,20 +24,23 @@ class UniformParamBezierCurveGraph extends BaseCurveGraph<BaseCurveGraphProps, U
         };
     }
 
+    getStartingHodographs(): number[][] {
+        return [[-3, 2], [2, 2]];
+    }
+
+    getStartingPoints(): number[][] {
+        return [[0, 0]];
+    }
+
     alphaParam: (t: number) => number = (t: number) => (1 - this.alpha) * t / (this.alpha * (1 - t) + (1 - this.alpha) * t);
 
-    initialize() {
-        const points = [[0, 0], [-3, 2], [2, 2]]
-        this.createJSXBezierCurve(points)
+    override initialize() {
+        super.initialize()
         this.generateParamPoints()
     }
 
     override getFirstCurve(): PhBezierCurve {
         return super.getFirstCurve() as PhBezierCurve
-    }
-
-    override newJSXBezierCurve(points: number[][]): JSXPHBezierCurve {
-        return new JSXPHBezierCurve(points, this.board);
     }
 
     override getGraphCommands(): JSX.Element[] {
@@ -116,7 +119,6 @@ class UniformParamBezierCurveGraph extends BaseCurveGraph<BaseCurveGraphProps, U
                     () => this.getFirstCurve()!.calculatePointAtT(this.ts[i - 1]).Y()))
     }
 
-
     private selectParam(select: React.SyntheticEvent<HTMLSelectElement>) {
         // @ts-ignore
         const param = select.target.value
@@ -127,7 +129,7 @@ class UniformParamBezierCurveGraph extends BaseCurveGraph<BaseCurveGraphProps, U
         this.setState({...this.state, isAlphaParam: isAlphaParam})
         this.board.suspendUpdate()
         this.clearPoints()
-        // we need to pass isAlphaParam as a parameter, otherwise this would get ran with the previous state!
+        // we need to pass isAlphaParam as a parameter, otherwise this would get ran with the previous state - this is probably anti-react
         this.generateParamPoints(isAlphaParam)
         this.unsuspendBoardUpdate()
     }

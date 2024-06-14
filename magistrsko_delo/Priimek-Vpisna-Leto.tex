@@ -21,10 +21,10 @@
 \avtor{Kevin Štampar}
 
 % - naslov dela v slovenščini
-\naslov{Orodje za uvod v Bezierjeve krivulje}
+\naslov{Orodje za grafični prikaz konceptov Bezierjevih in PH krivulj}
 
 % - naslov dela v angleščini
-\title{Tool for introduction into Bezier curves}
+\title{Tool for graphically displaying concepts of Bezier and PH curves}
 
 % - ime mentorja/mentorice s polnim nazivom:
 %   - doc.~dr.~Ime Priimek
@@ -171,7 +171,7 @@ the content and not the structure of your work.}
     V tem razdelku bomo predstavili nekaj njihovih osnovnih lastnosti, ki so ključne za delovanje Bezierjevih krivulj.
     $i$-ti \textit{Bernsteinov bazni polinom} stopnje $n$ definiramo kot $\lilb{i}{n} \coloneqq\bernstein{n}{i}$.
     Linearni kombinaciji takšnih polinomov t.j.\ $\bigb{n} \coloneqq \bsum$, pravimo \textit{Bernsteinov polinom} stopnje $n$.
-    V izreku\ref{izrek:bernsteinovi_lastnosti} naštejemo nekaj lastnosti Bernsteinovih polinomov.
+    V izreku~\ref{izrek:bernsteinovi_lastnosti} naštejemo nekaj lastnosti Bernsteinovih polinomov.
 %    Takšni polinomi so bili prvič uporabljeni v konstruktivnem(????) dokazu Weierstrassovega aproksimacijskega izreka.
 
     \begin{izrek}{Lastnosti Bernsteinovih polinomov}
@@ -189,6 +189,10 @@ the content and not the structure of your work.}
             \item $\lilb{n}{i} = (1-t)\lilb{n-1}{i} + t\lilb{n-1}{i-1}$ \label{izrek:bernsteinovi_lastnosti:rekruzija}
             \item $b'_{i,n}(t)=n(\lilb{i-1}{n-1} - \lilb{i}{n-1})$ in  $\bigbo{n}=n\sum^{n-1}_{i=0}(\beta_{i+1}-\beta_{i})b_{i,n-1}(t)$ \label{izrek:bernsteinovi_lastnosti:odvod}
             \item $\int b_{i,n}(t)dt= \frac{1}{n+1}\sum^{n+1}_{j=i+1}b_{j,n+1}(t)$ \label{izrek:bernsteinovi_lastnosti:integral}
+            \item{\label{izrek:bernsteinovi_lastnosti:mnozenje} Naj bosta $A_m$ in $B_n$ Bernsteinova polinoma stopnje $m$ in $n$ ter skalarji $\beta_i$ in $\alpha_i$ KAKO SE ZE RECE RESPECTIVELY....
+            Potem za njun zmnožek velja
+                \[ A_m(t)B_n(t) = \sum_{i=0}^{m+n}\left(\sum_{j=\max(0,i-n)}^{\min(m,i)} \frac{\binom{m}{j}\binom{n}{i-j}}{\binom{m+n}{i}} \alpha_i\beta_{i-j} \right)b_{i,m+n}(t)\]
+            }
         \end{enumerate}
     \end{izrek}
     \begin{dokaz}
@@ -222,7 +226,7 @@ the content and not the structure of your work.}
     Tako bomo večdimenzionalnost točke označili z $\mathbf{x}=(x_0,x_1,\dots,x_n)$, večdimenzionalnost funkcije $f:\R\to\R^{n+1}$ pa z $\mathbf{f}(x)=\left( f_0(x),f_1(x),\dots,f_n(x) \right)$.
 
     \subsection{Bezierjeve krivulje}
-    Če v Bernsteinov polinom stopnje $n$ namesto realnega števila $\beta_i$ vstavimo točke $\p_i\in\R^d$, dobimo predpis za parametrizacijo \textit{Bezierjeve krivulje} stopnje $n$ v $\R^d$ t.j.\ $\bigbb{n}=\bernsteinsump{i}{n}$.
+    Če v Bernsteinov polinom stopnje $n$ namesto skalarjev $\beta_i$ vstavimo točke $\p_i\in\R^d$, dobimo predpis za parametrizacijo \textit{Bezierjeve krivulje} stopnje $n$ v $\R^d$ t.j.\ $\bigbb{n}=\bernsteinsump{i}{n}$.
     Točkam $\p_i$ pravimo \textit{kontrolne točke}, poligonu, ki ga dobimo, če povežemo točke $\p_i$ in $\p_{i+1}$ za $i=[0,\dots,n-1]$, ter točki $\p_0$ in $\p_n$ pa \textit{kontrolni poligon}.
     Opomba: pri slikovnem prikazovanju raznih konceptov Bezierjevih krivulj, se bomo omejili na $d=2$, torej na Bezierjeve krivulje v ravnini.
 
@@ -307,7 +311,7 @@ the content and not the structure of your work.}
     Recimo, da smo se kot računalniški grafik znašli v situaciji, ko bi želeli obdržati le en kos Bezierjeve krivulje $B$.
     Naj bo to kos krivulje, ki ga dobimo tako, da za prvotno krivuljo $B$ omejimo parameter $t$ na interval $[0,t_0]$ za neko fiksno realno število $t_0<1$.
     Označimo ga z $B_{t_0}$, zanj pa velja $B_{t_0}(t)=B(t_{0}t)$.
-    Vrnimo se nazaj k sliki sheme Decasteljaujevega algoritma\ref{fig:subdivizija}.
+    Vrnimo se nazaj k sliki sheme Decasteljaujevega algoritma~\ref{fig:subdivizija}.
     Na njej lahko opazimo, da pri parametru $t_0$ točke označene z A,F,J,M in O tvorijo kontrolni poligon bezierjeve krivulje $B_{t_0}$.
     Pokažimo, da je to res.
 
@@ -355,12 +359,12 @@ the content and not the structure of your work.}
     \end{align*}
 
     Oglejmo si kako dvig stopnje izgleda na neki krivulji.
-    Na sliki\ref{fig:višanje} imamo na prvem grafu narisano začetno Bezierjevo krivuljo stopnje $3$.
+    Na sliki~\ref{fig:višanje} imamo na prvem grafu narisano začetno Bezierjevo krivuljo stopnje $3$.
     Na drugem grafu, smo stopnjo začetne krivulje zvišali za $1$.
     Na tretjem, pa smo naredili $20$ višanj stopnje začetne krivulje.
     Krivulja je na vseh grafih enaka, imamo le več kontrolnih točk.
     Opaziti je tudi možno, da so kontrolne točke z vsakim višanjem bližje začetni krivulji, njihov kontrolni poligon pa se zato z vsakim višanjem bolj prilega začetni krivulji.
-    Slednje je možno videti na sliki\ref{fig:višanje-poligon}.
+    Slednje je možno videti na sliki~\ref{fig:višanje-poligon}.
 
 
     \begin{figure}[h]
@@ -393,7 +397,7 @@ the content and not the structure of your work.}
     Točkam $\p_i$ tudi tukaj pravimo kontrolne točke, realnim številom $w_i$ pa pravimo \textit{uteži}.
     Uteži so prosti parametri, ki jih lahko uporabimo pri oblikovanju.
     Da bi se izognili težavam pri deljenju z $0$ ponavadi privzamemo, da so vse uteži pozitivne.
-    Vpliv uteži si poglejmo na sliki\ref{fig:uteži}.
+    Vpliv uteži si poglejmo na sliki~\ref{fig:uteži}.
     Utež spreminjamo le pri rumeni točki, vse ostale uteži puščamo enake $1$.
     Na grafu (a) je utež nastavljena na število $1$, krivulja na sliki je zato navadna Bezierjeva krivulja.
     Na grafu (b) je utež nastavljena na število $2$, krivulja je zato bližje rumeni točki kakor na grafu (a).
@@ -411,11 +415,11 @@ the content and not the structure of your work.}
         \label{fig:uteži}
     \end{figure}
 
-    Lastnosti Bezierjevih krivulj, ki smo jih podali v izreku\ref{izrek:lastnosti-bezierjevih-krivulj} veljajo tudi za racionalne Bezierjeve krivulje s pozitivnimi utežmi.
-    Interpolacijo točk lahko dokažemo na podoben način, kakor smo to storili pri dokazu izreka\ref{izrek:lastnosti-bezierjevih-krivulj}.
+    Lastnosti Bezierjevih krivulj, ki smo jih podali v izreku~\ref{izrek:lastnosti-bezierjevih-krivulj} veljajo tudi za racionalne Bezierjeve krivulje s pozitivnimi utežmi.
+    Interpolacijo točk lahko dokažemo na podoben način, kakor smo to storili pri dokazu izreka~\ref{izrek:lastnosti-bezierjevih-krivulj}.
     Da dokažemo, da je racionalna Bezierjeva krivulja afino invariantna, ter da leži znotraj konveksne ovojnice svojih kontrolnih točk, pa posežemo po naslednjem zapisu.
     \[\mathbf{R}(t)=\sum^n_{i=0}\p_i N^n_i, \quad N^n_i(t)\coloneqq \frac{w_i b^n_i(t)}{\sum^n_{i=0}w_i b^n_i(t)}\]
-    Če pri dokazu izreka\ref{izrek:lastnosti-bezierjevih-krivulj} namesto Bernsteinovih polinomov $b_{n,i}$ vstavimo funkcijo $N^n_i$ iz zgornjega zapisa, dobimo dokaz lastnosti za racionalne Bezierjeve krivulje.
+    Če pri dokazu izreka~\ref{izrek:lastnosti-bezierjevih-krivulj} namesto Bernsteinovih polinomov $b_{n,i}$ vstavimo funkcijo $N^n_i$ iz zgornjega zapisa, dobimo dokaz lastnosti za racionalne Bezierjeve krivulje.
 
     \subsubsection{Metode racionalnih Bezierjevih krivulj}
     Racionalne Bezierjeve krivulje $\in\R^d$ so projekcije Bezierjevih krivulj $\in\R^{d+1}$.
@@ -447,26 +451,31 @@ the content and not the structure of your work.}
 
 
     \section{Zlepki Bezierjevih krivulj}
-    Računanje Bezierjevih točk krivulj je pri visokih številih $n$ lahko zamudno.
-    Če si ponovno ogledamo Decasteljaujev algoritem\ref{alg:decasteljau}, lahko hitro opazimo, da je časovna kompleksnost algoritma O($n^2$).
-    Bezierjeve krivulje z veliko kontrolnimi točkami so zato v grafičnem oblikovanju neuporabne.
+    Če si ponovno ogledamo Decasteljaujev algoritem~\ref{alg:decasteljau}, lahko hitro opazimo, da je časovna kompleksnost algoritma $O(n^2)$.
+    Računanje točk Bezierjevih krivulj pri visokih stopnjah $n$ je zato lahko zamudno.
+    Takšne krivulje se zato v CAD sistemih izkažejo za neuporabne.
     Da bi ohranili čim večjo kontrolo krivulj s čim manj računanja, posežemo po zlepkih Bezierjevih krivulj.
-
     \begin{definicija}
-        Zlepek $s:[a,b]\to \R $  stopnje $n$ nad zaporedjem stičnih točk \[a=u_0 < u\_1 < \cdots < u_{m-1} < u_m = b\]
-        je odsekoma polinomska funkcija, za katero velja $s|_{[u_{l-1},u_l]} \in \Pn$.
+        Zlepek krivulj  $\mathbf{S}:[a,b]\to \R^d$ stopnje $n$ nad zaporedjem stičnih točk $a=u_0 < u\_1 < \cdots < u_{m-1} < u_m = b$
+        je odsekoma polinomska krivulja, za katero velja $\mathbf{S}|_{[u_{l-1},u_l]} \in \Pn^d$.
     \end{definicija}
-
-    \begin{definicija}
-        Zlepek krivulj stopnje $n$ je krivulja s parametrizacijo $\mathbf{S}:[a,b]\to \R^d$.
-        nad zaporedjem stičnih točk \[a=u_0 < u\_1 < \cdots < u_{m-1} < u_m = b\]
-        je odsekoma polinomska krivulja, za katere velja $S_i|_{[u_{l-1},u_l]} \in \Pn$, kjer so polinomi $S_i$ komponente....*****
-    \end{definicija}
-
     Želimo si tudi, da bi bili naši zlepki gladki.
-    Krivulja je na posameznih odsekih polinomska in zato tudi gladka, problem je le v stičnih točkah.
-    V naslednjih podrazdelkih bomo predstavili nekaj osnovnih zlepkov Bezierjevih krivulj različnih stopenj gladkosti????.
-    $$S_{[u_{l-1},u_l]} \in \Pn$$,
+    Krivulja je po definiciji na posameznih odsekih polinomska in zato tudi gladka, problem je le v stičnih točkah.
+    Naj bo
+    \[\mathbf{s}(u) = \begin{dcases}
+                          \mathbf{s_1}(u) = \sum_{i=0}^n \p_i^{(1)}b_{i,n}(\frac{u-u_0}{\Delta u_0}), & u \in [u_0,u_1),  \\
+                          \mathbf{s_2}(u) = \sum_{i=0}^n \p_i^{(2)}b_{i,n}(\frac{u-u_1}{\Delta u_1}), & u \in [u_1,u_2]
+    \end{dcases}\]
+    zlepek dveh Bezierjevih krivulj.
+    Da bo zlepek zvezen, mora v stični točki $u_1$ veljati $\mathbf{s}_1(1) = \mathbf{s}_2(0)$ oziroma $\p_n^{(1)} = \p_0^{(2)}$.
+    Takšen zlepek, si lahko ogledamo na sliki ~\ref{fig:zlepek-c0}.
+    Na sliki lahko vidimo, da zlepejk+
+    \begin{figure}[h]
+        \centering
+        \includegraphics[width = 0.50\textwidth]{images/zlepek-c0}
+        \caption{$C^0$ zlepek dveh Bezierjevih krivulj}
+        \label{fig:zlepek-c0}
+    \end{figure}
 
     \subsection{C0}
 
@@ -489,9 +498,9 @@ the content and not the structure of your work.}
 
     \subsection{Dolžina krivulje kot racionalna funkcija}
     Dolžina krivulje podane s parametrizacijo  $\mathbf{r}(t) = \left(x(t),y(t)\right)$ je definirana z enačbo $\int_0^t \sqrt {x^{'2}(t)+y^{'2}(t)}$.
-    Integrandu v enačbi pravimo \textit{parametrična hitrost} krivulje, označimo ga z $v(t)$.
-    Idealno bi bilo, da je hitrost $v(t) = 1$ za vsak $t\in [0,t_0]$, saj bi v tem primeru veljalo $s(t)=t$.
-    Takšna parametrizacija je zlahka dosegljiva za ravne črte(daljice?***), tudi za odseke krožnice (z rabo trigonometričnih funkcij), v splošnem pa ne.
+    Integrandu v enačbi pravimo \textit{parametrična hitrost} krivulje, označimo ga z $\sigma(t)$.
+    Idealno bi bilo, da je hitrost $\sigma(t) = 1$ za vsak $t\in [0,t_0]$, saj bi v tem primeru veljalo $s(t)=t$.
+    Takšna parametrizacija je zlahka dosegljiva za preme črte, tudi za odseke krožnice (z rabo trigonometričnih funkcij), v splošnem pa ne.
     Dokaz da nobena krivulja ne more biti parametrizirana z racionalnimi funkcijami svoje dolzine.???
 
     \subsection{Polinomska parametrična hitrost}
@@ -515,7 +524,7 @@ the content and not the structure of your work.}
         \begin{align}
             a^2(t)+b^2(t)=c^2(t), \label{eq:abc}
         \end{align}
-        natanko tedaj, ko obstajata relativno praštevilska polinoma $u$ in $v$ ter nek polinom  $w$ za katere velja
+        natanko tedaj, ko obstajata tuja si polinoma $u$ in $v$ ter nek polinom  $w$ za katere velja
         \vspace{-0.3cm}
         \begin{align}
             &a(t)=[u^2(t)-v^2(t)]w(t), \nonumber \\
@@ -530,17 +539,20 @@ the content and not the structure of your work.}
         \mbox{}\\
         ($\Leftarrow$) Dokaz je enostaven, saj lahko vrednosti polinomov $a$,$b$ in $c$ iz enačbe ~\eqref{eq:uvw} vstavimo v enačbo ~\eqref{eq:abc} in preverimo. \\
         ($\Rightarrow$) Najprej definiramo polinom $w(t)=\gcd(a(t),b(t),c(t))$.
-        Pri tako definiranem polinomu $w$, so polinomi $\tilde{a}(t)=\frac{a(t)}{w(t)}, \tilde{b}(t)=\frac{b(t)}{w(t)}, \tilde{c}(t)=\frac{c(t)}{w(t)}$ relativno praštevilski in zadoščajo enačbi $\tilde{a}^2(t)+\tilde{b}^2(t)=\tilde{c}^2(t)$.
+        Pri tako definiranem polinomu $w$, so si polinomi $\tilde{a}(t)=\frac{a(t)}{w(t)}, \tilde{b}(t)=\frac{b(t)}{w(t)}, \tilde{c}(t)=\frac{c(t)}{w(t)}$ tuji in zadoščajo enačbi $\tilde{a}^2(t)+\tilde{b}^2(t)=\tilde{c}^2(t)$.
         Enačbo zapišemo nekoliko drugače \[\tilde{b}^2(t)= \tilde{c}^2(t)-\tilde{a}^2(t) = [\tilde{c}(t)+\tilde{a}(t)][\tilde{c}(t)-\tilde{a}(t)].\]
         Polinoma $\tilde{c}(t)+\tilde{a}(t)$ in $\tilde{c}(t)-\tilde{a}(t)$ ne moreta imeti skupnih ničel, saj bi to impliciralo skupne ničle polinomov $\tilde{a},\tilde{b},\tilde{c}$, kar bi bilo v nasprotju z njihovo definicijo.
         Ker skupnih ničel nimata, mora biti vsaka ničla polinoma $\tilde{b}$ tudi ničla sode stopnje enega izmed polinomov $\tilde{c}(t)+\tilde{a}(t)$ ali $\tilde{c}(t)-\tilde{a}(t)$.
-        Tako lahko definiramo relativno praštevilska polinoma $u$ in $v$, da velja $\tilde{c}(t)+\tilde{a}(t)=2u^2(t)$ in $\tilde{c}(t)-\tilde{a}(t)=2v^2(t)$.
+        Tako lahko definiramo tuja si polinoma $u$ in $v$, da velja $\tilde{c}(t)+\tilde{a}(t)=2u^2(t)$ in $\tilde{c}(t)-\tilde{a}(t)=2v^2(t)$.
         Iz enačb potem hitro sledi \[\tilde{a}=u^2(t)-v^2(t),\quad\tilde{b}(t)=2u(t)v(t), \quad\tilde{c}(t)=u^2(t)+v^2(t).\]
         Če enačbe pomnožimo s polinomom $w$ dobimo željeno obliko~\eqref{eq:uvw}. \qedhere
     \end{dokaz}
     Iz konstrukcije dokaza lahko hitro vidimo, da je za pitagorejske trojice pri katerih je največji skupni delitelj konstanta, konstanten tudi polinom $w$ ter $\gcd(u(t),v(t))$.
     Takšnim trojicam pravimo \textit{primitivne pitagorejske trojice}.
-    Parametrizacijo ravninske PH krivulje $\mathbf{r}(t)=(x(t),y(t))$ lahko dobimo tako, da vstavimo relativno praštevilska polinoma $u,v$ in polinom $w$ v izraza \[x'(t)=[u^2(t)-v^2(t)]w(t),\quad y'(t)=2u(t)v(t)w(t)\] in integriramo.
+    Parametrizacijo ravninske PH krivulje $\mathbf{r}(t)=(x(t),y(t))$ lahko dobimo tako, da vstavimo tuja si polinoma $u,v$ in polinom $w$ v izraza
+    \begin{align}
+        x'(t)=[u^2(t)-v^2(t)]w(t),\quad y'(t)=2u(t)v(t)w(t)  \label{eq:hodograf-splosni}
+    \end{align} in integriramo.
     Brez izgube splošnosti lahko $x'$ oziroma $y'$ asociramo z $a$ ali $b$****** (pac kateri izraz kateremo pripopamo, ma je treba to dokazat).
     Nekateri izbori polinomov $u,v,w$ porodijo izrojene(????) krivulje, takšne izbore bi radi izločili.
     Izbori, ki porodijo izrojene krivulje so sledeči:
@@ -550,9 +562,9 @@ the content and not the structure of your work.}
         \item $w(t)=0$ ali $u(t)=v(t)=0$, hodograf je v takšnem primeru enak $x'(t)=y'(t)=0$.
         Takšen hodograf ne definira krivulje ampak točko.
         \item  Če so polinomi $w(t),u(t),v(t)$ konstantni in ne ustrezajo točki (a), potem je konstanten tudi hodograf.
-        Takšen hodograf definira enakomerno parametrizirano ravno črto.
+        Takšen hodograf definira enakomerno parametrizirano premo črto.
         \item  Če sta polinoma $u$ in $v$ konstantna ter vsaj en neničelen, polinom $w$ pa ni konstanten.
-        Potem hodograf spet definira ravno črto, a tokrat parametrizacija ni enakomerna. (hitrost ni konstanta)
+        Potem hodograf spet definira premo črto, a tokrat parametrizacija ni enakomerna. (hitrost ni konstanta)
         \item Enako kot v točki (c) dobimo tudi v primeru, ko je polinom $w$ neničelen in en izmed polinomov $u$ in $v$ je ničelen.
     \end{enumerate}
     \vspace{-0.3cm}
@@ -577,10 +589,10 @@ the content and not the structure of your work.}
     Takšni hodografi definirajo regularne PH krivulje, saj za njih velja $\mathbf{r}(t) \neq 0$ pri vsakem realnem številu $t$.
     Tako dobljene PH krivulje so lihe stopnje $n=2\mu+1$.
 
-    Najbolj osnovne netrivialne PH krivulje dobimo tako, da za polinoma $u$ in $v$ vzamemo Bernsteinova polinoma
+    Najbolj osnovne netrivialne PH krivulje dobimo tako, da za polinoma $u$ in $v$ izberemo Bernsteinova polinoma
     \[u(t)=u_0b_{0,1}(t)+u_1b_{1,1}(t),\quad v(t)=v_0b_{0,1}(t)+v_1b_{1,1}(t)\]
     pri katerih mora veljati $u_0v_1-u_1v_0\neq 0$ in $(u_1-u_0)^2+(v_1-v_0)^2\neq 0$, da sta si polinoma $u$ in $v$ tuja, ter da vsaj en od njiju ni konstanten.
-    Za polinom $w$ vzamemo konstanten polinom $w(t)=1$.
+    Za polinom $w$ izberemo konstanten polinom $w(t)=1$.
     Ko polinome vstavimo v enačbo REFERENCANAENACBO, dobimo hodograf
     % Realno to ni tako ocitno, bi blo fajn dejansko izpeljat!
     \begin{align*}
@@ -610,11 +622,140 @@ the content and not the structure of your work.}
 
     Kontrolni poligoni, karakterizirani z enačbo~\eqref{eq:ph-kontrolne} imajo tudi geometrijsko interpretacijo....
 
+    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     Kam zdej zapeljat? Se bomo sli kompleksnih stevil ali ne? Mater tezka odlocitev.... pogledat je treba racionalne odmike in shit, ce je slucjano treba dejansko nujno zapeljat v kompleksne vode.... sej so lepe samo nocem prevec balasta.
+    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
-    \subsection{Racionalni odmik krivulje}
+    Kot smo v prejšnjem razdelku povedali, ima PH krivulja $n$-te stopnje $n-2$ parametrov, ki jih definirajo obliko.
+    Pri pravkar definiranih krivuljah to pomeni, da ima krivulja le en prosti parameter, ki jih definira obliko.
+    Takšne krivulje so v CAD sistemih neuporabne, saj uporabniku ne nudijo dovolj kontrole.
+    Če želimo podoben nivo kontrole, kakor pri kubičnih Bezierjevih krivuljah, moramo poseči po \textit{kvintičnih} Bezierjevih PH krivuljah.
+    Podobno kakor prej, za polinom $w$ izberemo $w(t)=1$, za polinoma $u$ in $v$ pa izberemo Bernsteinova polinoma, le da tokrat izberemo polinoma stopnje $2$
+    \[u(t)=u_0b_{0,2}(t)+u_1b_{1,2}(t)+u_2b_{2,2}(t),\quad v(t)=v_0b_{0,2}(t)+v_1b_{1,2}(t)+v_2b_{2,2}(t).\]
+    Da sta si polinoma $u$ in $v$ tuja, mora tukaj veljati $(u_2 v_0 -u_0 v_2)^2 \neq 4(u_0 v_1 - u_1 v_0)(u_1 v_2-u_2v_1)$.
+    Vstavimo ju v hodograf in integriramo, da dobimo Bezierjevo krivuljo z naslednjimi kontrolnimi točkami
+    \begin{align}
+        \p_1 &=\p_0+\frac{1}{5}(u_0^2-v_0^2,2u_0v_0), \nonumber\\
+        \p_2 &= \p_1+\frac{1}{5}(u_0u_1-v_0v_1, u_0v_1+u_1v_0),\nonumber\\
+        \p_3 &= \p_2 + \frac{2}{5}(u_1^2-v_1^2, 2u_1v_1) + \frac{1}{5}(u_0u_2-v_0v_2, u_0v_2+u_2v_0) \nonumber \\
+        \p_4 &= \p_3+\frac{1}{5}(u_1u_2-v_1v_2, u_1v_2+u_2v_1),\nonumber\\
+        \p_5 &=\p_4+\frac{1}{5}(u_2^2-v_2^2,2u_2v_2).  \label{eq:ph-kontrolne-5}
+    \end{align}
+
+    \begin{lema}
+        Kvintična Bezierjeva PH krivulja, definirana s kontrolnimi točkami podanimi z izrazi~\eqref{eq:ph-kontrolne-5} ima ali dva prevoja, ali pa prevoja nima, odvisno od pozitivnosti števila \[\Delta = (u_2v_0-u_0v_2)^2 - 4(u_0v_1-u_1v_0)(u_1v_1-u_2v_1).\]
+    \end{lema}
+
+    \begin{dokaz}
+        DRUGAČE, referenciraj se na hodograf kvintične krivulje.... Odvajaj tisto.... bedno bo, tak je lajf.
+
+
+        Ker smo za polinom $w$ izbrali konstanten polinom $w(t)=1$, velja $x'(t)=u^2(t)-v^2(t),\quad y'(t)=2u(t)v(t)$.
+        Če polinoma $x'$ in $y'$ odvajamo, dobimo $x''(t) = 2(u(t)-v(t))$ in $y''(t) = 2(u'(t)v(t)+u(t)v'(t))$.
+        Polinome $x',y',x''$ in $y''$ vstavimo v enačbo za ukrivljenost $k=\frac{x'y''-y'x''}{(x'^2+y'^2)^{\frac{3}{2}}}$.
+        Ker je imenovalec zmeraj pozitiven, nas zanima le števec.
+        \begin{align*}
+            x'(t)y''(t)-y'(t)x''(t) &= 2(u^2(t)-v^2(t))(u'(t)v(t)+u(t)v'(t)) - 4u(t)v(t)(u(t)-v(t))
+        \end{align*}
+
+    \end{dokaz}
+
+    \subsection{Parametrična hitrost in dolžina krivulje}
+
+    Parametrična hitrost PH krivulje podane s parametrizacijo $\mathbf{r}(t)=(x(t),y(t))$ je dana s polinomom
+    \[\sigma(t) = |\mathbf{r}'(t)| = \sqrt{x'^2(t)+y'^2(t)} = u^2(t)+v^2(t).\]
+    Če je krivulja stopnje $n$, potem morata biti polinoma $u$ in $v$ stopnje $m=\frac{1}{2}(n-1)$.
+    Zapišimo polinome $u,v$ in $\sigma$ v Bernsteinovi obliki \[u(t)=\sum_{j=0}^{m}u_j b_{j,m}, \quad v(t)=\sum_{j=0}^{m}v_j b_{j,m}, \quad \sigma(t)=\sum_{j=0}^{n-1}\sigma_j b_{j,m}\]
+    S pomočjo pravila za množenje Bernsteinovih polinomov iz izreka~\ref{izrek:bernsteinovi_lastnosti}, lahko koeficiente $\sigma_j$ izrazimo s koeficienti polinomov $u$ in $v$:
+    \[\sigma_j = \sum_{k=\max(0,j-m)}^{\min(m,j)} = \frac{\binom{m}{k}\binom{m}{j-k}}{\binom{n-1}{j}}(u_k u_{j-k}+v_k v_{j-k}).\]
+    Pridobili smo funkcijo parametrične hitrosti PH krivulje, ki je zapisana v Bernsteinovi bazi.
+    To je zelo super(enadrugabeseda dej), saj znamo vrednosti takšnih polinomov računati hitro*** in stabilno******, poleg tega pa takšen zapis dopušča enostavno integracijo v zaprte sisteme.
+    Izpeljimo še funkcijo dolžine PH krivulje.
+    Da pridobimo dolžino PH krivulje moramo izračunati določeni itegral polinoma hitrosti $\int_0^t\sigma(\tau)d\tau=s(t)$.
+    Integral izračunamo s pomočjo integracijskega pravila iz izreka~\ref{izrek:bernsteinovi_lastnosti:mnozenje}.
+    Tako dobimo dolžino PH krivulje izraženo kot polinom v Bernsteinovi bazi
+    \[s(t)=\sum_{k=0}^n s_k \binom{n}{k}(1-t)^{n-k}t^k,\]
+    kjer je koeficient $s_0=0$ in koeficienti $s_k = \frac{1}{n}\sum^{k-1}_{j=0}\sigma_j$.
+    Iz zapisa je hitro mogoče videti, da je dolžina Bezierjeve PH krivulje enaka $s(1)=\frac{\sigma_0+\sigma_1+\cdots+\sigma_{n-1}}{n}$.
+    Ker velja $\int_a^b \sigma(t)dt = \int_0^b\sigma(t)dt - \int_0^a\sigma(t)dt = s(b)-s(a)$, lahko dolžino odseka izračunamo tako, da Bernsteinov polinom $s$ evalviramo v točkah $b$ in $a$ ter vzamemo razliko.
+    To je seveda spet super, ker je takšno računanje hitro in natančno (pri navadnih polinomih ponavadi uporabljamo aproksimacije).
+    Lastnosti funkcije $s$ bomo v naslednjem podrazdelku uporabili tudi pri enakomerni parametrizaciji.
 
     \subsection{Enakomerna parametrizacija}
+    MOTIVACIJA: Želimo definirati enakomerno oddaljene točke na krivulji. Takšni problemi se naravno porodijo pri ...... \newline
+
+    Krivuljo želimo s parametri $\{t_i\}_{i=0}^{N}$ razdeliti na $N$ kosov.
+    Če to naredimo tako, da parametre $t_i$ postavimo ekvidistantno, t.j. $\Delta t=t_i-t_{i-1}$ je enak za vse $i$, točke na krivulji ne bodo enako oddaljene druga od druge (glede na dolžino odseka med njima), ker parametrična hitrost krivulje $\sigma(t)$ ni konstantna.
+    Slednje lahko vidimo na sliki~\ref{fig:enakomerni-t}.
+    \begin{figure}[h]
+        \centering
+        \includegraphics[width = 0.80\textwidth]{images/enakomerni-t}
+        \caption{20 točk na krivulji pri ekvidistantnih $t_i$}
+        \label{fig:enakomerni-t}
+    \end{figure}
+    Čeprav parametrična hitrost PH krivulje niti ni konstantna, lahko njen enostaven izračun izkoristimo, da najdemo parametre $\{t_i\}^{N}_{i=0}$  za katere velja $s(t_k)=k\Delta s$, kjer je $\Delta s = \frac{s(1)}{N}$.
+    Ker je parametrična hitrost $\sigma(t)=s'(t)$ pozitivna za vsa realna števila $t\in[0,1]$(ko sta u,v tuja\ldots ampak a ni da to smo mi ze privzeli prej(?) :/),
+    je funkcija dolžine krivulje pri parametru $t$, $s(t)$, strogo naraščajoča.
+    Parametri $t_i$ so zato enolično določeni in ležijo med $t_{i-1}$ in $1$.
+    Uporabimo lahko Newton-Raphsonovo iteracijo.
+    Za začetni približek vzamemo $t_k^{(0)} = t_{k-1} + \frac{\Delta s}{\sigma(t_{k-1})}$ popravljamo pa ga z iteriranjem
+    \[ t_k^{(r)} = t_k^{r-1} - \frac{s(t_k^{(r-1)})}{\sigma(t_k^{(r-1)})}, \quad r=1,2,\ldots .\]
+    Takšna iteracija pri začetnih približkih, ki so dovolj blizu parametra $t_k$, konvergira s kvadratično hitrostjo. (referenca na bor plestenjak? :D)
+    Za večino primerov zato izračun približka $t_k$, do natančnosti reda $10^{-12}$, potrebuje le dva do tri korake iteracije.
+    V praksi so takšni približki ponavadi zadovoljivi.
+    Točke na PH krivulji pridobljene s takšnimi približki si lahko ogledamo na sliki~\ref{fig:enakomerni-s}.
+    \begin{figure}[h]
+        \centering
+        \includegraphics[width = 0.80\textwidth]{images/enakomerni-s}
+        \caption{20 točk na krivulji pri ekvidistantnih $t_i$}
+        \label{fig:enakomerni-s}
+    \end{figure}
+
+    \subsection{Tangenta, normala in ukrivljenost}
+    V prejšnjem razdelku smo pokazali, da je parametrična hitrost PH krivulje (pridobljene tocno s tistim integralom...) $\sigma$ polinom.
+    V tem razdelku bomo pa pokazali, da so tangenta, normala in ukrivljenost PH krivulje racionalne funkcije.
+
+    \begin{izrek}
+        Tangenta, normala in ukrivljenost PH krivulje, glede na parameter $t$ so izražene kot racionalne funkcije
+        \[\mathbf{t}=\frac{(u^2-v^2,2uv)}{\sigma}, \quad \mathbf{n}=\frac{(2uv,v^2-u^2)}{\sigma},\quad \mathbf{\kappa}=2\frac{uv'-u'v}{\sigma^2}.\]
+    \end{izrek}
+    Izrek tudi dokažimo.
+    \begin{dokaz}
+        Dokaza za tangento in normalo sta enostavna, saj hodograf REFNAHODOGRAF le vstavimo v enačbi in upoštevamo, da je polinom $\sigma = u^2+v^2$ da dobimo željeno.
+        Dokažimo za ukrivljenost $\kappa$.
+        V enačbo za ukrivljenost  $\kappa = \frac{x'y''-y'x''}{(x'^2+y'^2)^{3/2}}$ vstavimo hodograf REFNAHODOGRAF, ter druga odvoda $x'' = 2(uu'-vv')$ in $y'' = 2(u'v+uv')$.
+        \begin{align*}
+            \kappa &= 2\frac{(u^2-v^2)(u'v+uv') - 2uv(uu'-vv')}{(\sigma^2)^{3/2}}\\
+            &= 2\frac{u^2vu' + u^3v' - v^3u' - v^2uv' - 2u^2vu'+2uv^2v'}{\sigma^{3}} \\
+            &= 2\frac{(u^2-v^2+2v^2)uv' - (-u^2+v^2+2u^2)u'v}{\sigma^{3}} \\
+            &= 2\frac{(u^2+v^2)uv' - (u^2+v^2)u'v}{\sigma^{3}} \\
+            &= 2\frac{(u^2+v^2)(uv' - u'v)}{\sigma^{3}} = 2\frac{uv' - u'v}{\sigma^{2}}
+        \end{align*}
+    \end{dokaz}
+
+    \subsection{Racionalne odmične krivulje}
+    Odmična krivulja z razdaljo $d$ od krivulje $\mathbf{r}(t)$, je krivulja podana s parametrizacijo \[\mathbf{r}_d(t)=\mathbf{r}(t) + d\mathbf{n}(t).\]
+    Takšne krivulje v splošnem niso racionalne, saj v imenovalcu enačbe za smer normale $\mathbf{n}(t)$ nastopa koren.
+    V prejšnjem razdelku smo pokazali, da je smer normale $\mathbf{n}(t)$ za PH krivulje racionalna funkcija, iz česar sledi, da je tudi odmična krivulja PH krivulje racionalna funkcija.
+    Še več, takšno odmično krivuljo lahko izrazimo kot racionalno Bezierjevo krivuljo s kontrolnimi točkami, ki jih lahko izrazimo s kontrolnimi točkami PH krivulje.
+    Zapišimo kontrolne točke $PH$ krivulje $\mathbf{r}(t)$ v homogenih koordinatah
+    \[\mathbf{P}_k = (W_k,X_k,Y_k) = (1,x_k,y_k), \quad k=0,1\ldots,n. \]
+    Preme diference takšnih točk izgledajo takole
+    \[\Delta\mathbf{P}_k = \mathbf{P}_{k+1}-\mathbf{P}_k = (0,\Delta x_k,\Delta y_k), \quad k=0,1,\ldots,n-1.\]
+    Označimo še pravokotno smer $\Delta\mathbf{P}_k^{\perp} =  (0,\Delta y_k, -\Delta x_k)$.
+    Parametrizacijo odmične krivulje lahko izrazimo kot
+    \[\mathbf{r}_d(t)=\left(\frac{X(t)}{W(t)}, \frac{Y(t)}{W(t)}\right),\]
+    kjer so polinomi $W,X$ in $Y$ stopnje $2n-1$, njihovi koeficienti (v Bernsteinovi bazi??)
+    \[\mathbf{O}_k=(W_k,X_k,Y_k),\quad k=0,\ldots,2n-1  \]
+    pa definirajo kontrolne točke odmične racionalne Bezierjeve krivulje v homogenih koordinatah.
+    Homogene koordinate odmične krivulje $\mathbf{O}_k$ lahko v zaključeni obliki izrazimo s kontrolnimi točkami prvotne krivulje
+
+    \[\mathbf{O}_k= \sum_{j=\max(0,k-n)}^{\min(n-1,k)} \frac{\binom{n-1}{j}\binom{n}{k-j} }{\binom{2n-1}{k}}(\sigma_j\mathbf{P}_{k-j} + dn\Delta \mathbf{P}_j^{\perp}),\quad k=0,\ldots,2n-1.        \]
+
+
+    Tukaj lahko razpišem $\mathbf{O}_k$ za kvintične in kubične PH.
+    Dodam slike različnih offsetov in kontrolne poligone.
+    Lahko dodam v program, da se narisejo te crtkane crte po katerih se premikajo kontrolne točke te odmične krivulje...
 
 
     \section{Orodje za uvod v Bezierjeve krivulje - Bezeg}

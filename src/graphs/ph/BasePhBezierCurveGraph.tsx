@@ -10,11 +10,11 @@ import React from "react";
 import {Button, Form} from "react-bootstrap";
 import {CacheContext} from "../../Contexts";
 
-interface BasePhBezierCurveGraphStates extends BaseGraphStates {
+export interface BasePhBezierCurveGraphStates extends BaseGraphStates {
     showOffsetCurve: boolean
 }
 
-abstract class BasePhBezierCurveGraph extends BaseCurveGraph<BaseCurveGraphProps, BasePhBezierCurveGraphStates> {
+abstract class BasePhBezierCurveGraph<P extends BaseCurveGraphProps, S extends BasePhBezierCurveGraphStates> extends BaseCurveGraph<P, S> {
 
     private hodographBoard!: JXG.Board;
     private jsxOffsetCurve!: JXG.Curve;
@@ -40,7 +40,7 @@ abstract class BasePhBezierCurveGraph extends BaseCurveGraph<BaseCurveGraphProps
 
     abstract getStartingHodographs(): number[][];
 
-    override getInitialState(): BasePhBezierCurveGraphStates {
+    override getInitialState(): S {
         return {
             ...super.getInitialState(),
             showOffsetCurve: false

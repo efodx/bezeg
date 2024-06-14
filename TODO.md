@@ -12,9 +12,12 @@
 - [x] Hodografi PH krivulj naj bojo v locenem grafu, mogoce celo kot select curve command
 - [x] Odstrani styles in uporabljaj bootstrap classe za oblikovanje
 - [x] RESIZABLE GRAF!!! - **resizas okno, ostane pa aspect ratio!**
+- [ ] Prikaz kontrolnega poligona offset krivulje
 
 ### Low Priority
 
+- [ ] Morda dodamo dolžino krivulje nekam na graf PH krivulj? Glede na to da o tem govorim v delu, bi se najbrz
+  spodoblo.
 - [x] Caching za kak izracun tock? Vsaj za tiste hodografe v PH (offset) krivuljah, se vseeno more bit vse skupaj
   reaktivno, ampak ce se le da, da se ne racunajo tolko hard vsak korak.
 - [ ] Selected curve commands bi se morali prebrat direktno iz krivulje. Tako bi lahko vec razlicnih krivulj na isti
@@ -25,6 +28,6 @@
 - [ ] Uporabi Javascript get/set ne nekih svojih pisat!
 - [ ] Make JGBox self-initiating! it should be possible!
 - [ ] Resizanje v obe smeri za PH krivulje...TOLE MOGOCE CELO NE GRE, dobro razmisli ce strig ohrani PH...
-
+- [ ] Poglej še enkrat Decasteljau, tisto je bilo pisano DOLGO nazaj. Mogoče lahko tudi dam uporabiš caching sistem.
 - [ ] 
 - [x]
