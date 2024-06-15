@@ -8,7 +8,7 @@ import {
 import {Button} from "react-bootstrap";
 
 class GraphExtrapolation extends BaseRationalCurveGraph<BaseRationalBezierCurveGraphProps, BaseRationalBezierCurveGraphState> {
-    private slider: JXG.Slider | undefined;
+    private slider?: JXG.Slider;
 
     initialize() {
         this.createRationalJSXBezierCurve([[-3, 2], [0, -2], [1, 2], [3, -2]], [1, 5, 1, 1])

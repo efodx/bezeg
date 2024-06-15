@@ -11,7 +11,7 @@ export function HodographInputbox(props: HodographInputBoxProps) {
             showFullscreen: false, boundingbox: [-5, 5, 5, -5], axis: true, showNavigation: false, showCopyright: false
         })
         props.setRef(board)
-    }, [])
+    })
 
     return <div id="hodograph-input-box" style={{
         width: "100%",

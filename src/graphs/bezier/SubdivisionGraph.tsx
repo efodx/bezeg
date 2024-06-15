@@ -2,10 +2,15 @@ import React from 'react';
 import '../../App.css';
 import {BaseCurveGraph, BaseCurveGraphProps} from "../base/BaseCurveGraph";
 import {BaseGraphStates} from "../base/BaseGraph";
-import {Button, Form} from "react-bootstrap";
+import {Button} from "react-bootstrap";
+import {OnOffSwitch} from "../../inputs/OnOffSwitch";
+
+function ShowControlPolygons(props: { onChange: (checked: boolean) => void }) {
+    return <OnOffSwitch label="Kontrolni poligoni" onChange={props.onChange}/>
+}
 
 class Graph extends BaseCurveGraph<BaseCurveGraphProps, BaseGraphStates> {
-    private slider: JXG.Slider | undefined;
+    private slider?: JXG.Slider;
     private stepsDone: number = 0;
 
     initialize() {
@@ -14,6 +19,10 @@ class Graph extends BaseCurveGraph<BaseCurveGraphProps, BaseGraphStates> {
         this.slider = this.board.create('slider', [[2, 3], [4, 3], [0, 0.5, 1]]);
         this.getFirstJsxCurve().showDecasteljauSchemeForSlider(this.slider)
         // this.createJSXGraphPoint(() => this.bezierCurves[0].calculatePointAtT(this.slider!.Value()).X(), () => this.bezierCurves[0].calculatePointAtT(this.slider!.Value()).Y());
+    }
+
+    override getAllJxgPoints() {
+        return super.getAllJxgPoints().concat(this.jsxBezierCurves.flatMap(curve => curve.getJsxDecasteljauPoints()))
     }
 
     subdivide() {
@@ -38,30 +47,30 @@ class Graph extends BaseCurveGraph<BaseCurveGraphProps, BaseGraphStates> {
     override getGraphCommands(): JSX.Element[] {
         return super.getGraphCommands().concat([<Button variant={"dark"}
                                                         onClick={() => this.subdivide()}>Subdiviziraj</Button>,
-            <Form> <Form.Check // prettier-ignore
-                type="switch"
-                id="custom-switch"
-                label="Prikaži kontrolne poligone"
-                checked={this.getFirstJsxCurve()?.isShowingControlPolygon()}
-                onChange={(e) => {
-                    console.log("lol")
+            <ShowControlPolygons onChange={(checked) => {
+                if (checked) {
+                    this.showControlPolygons()
+                } else {
                     this.hideControlPolygons()
-                }}/>
-            </Form>,
-            <Button variant={"dark"} onClick={() => this.showControlPolygons()}>Prikaži kontrolne poligone</Button>,
-            <Button variant={"dark"} onClick={() => this.hideControlPolygons()}>Skrij kontrolne poligone</Button>
+                }
+            }}/>
         ])
     }
 
     override getSelectedCurveCommands(): JSX.Element[] {
-        return super.getSelectedCurveCommands().concat([
-            <Button variant={"dark"} onClick={() => this.showDecasteljauScheme()}>Prikaži Decasteljau shemo</Button>,
-            <Button variant={"dark"} onClick={() => this.hideDecasteljauScheme()}>Odstrani Decasteljau shemo</Button>]);
+        return super.getSelectedCurveCommands().concat([<OnOffSwitch onChange={checked => {
+            if (checked) {
+                this.showDecasteljauScheme()
+            } else {
+                this.hideDecasteljauScheme()
+            }
+        }} label={"Decasteljaujeva shema"}/>])
     }
 
     private hideControlPolygons() {
         this.board.suspendUpdate()
         this.jsxBezierCurves.forEach(curve => curve.hideDecasteljauScheme())
+        this.jsxBezierCurves.forEach(curve => curve.hideControlPolygon())
         this.unsuspendBoardUpdate()
     }
 

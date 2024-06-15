@@ -38,7 +38,7 @@ export interface PointControlledCurve {
 
     affineTransform(A: number[][], b?: number[], center?: number[]): void;
 
-    transformPoint(point: Point, xCenter: number, yCenter: number, A: number[][], b: number[] | undefined): void;
+    transformPoint(point: Point, xCenter: number, yCenter: number, A: number[][], b?: number[]): void;
 
     /**
      * Removes control point with id. If id doesn't exist, nothing gets removed.

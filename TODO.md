@@ -12,7 +12,8 @@
 - [x] Hodografi PH krivulj naj bojo v locenem grafu, mogoce celo kot select curve command
 - [x] Odstrani styles in uporabljaj bootstrap classe za oblikovanje
 - [x] RESIZABLE GRAF!!! - **resizas okno, ostane pa aspect ratio!**
-- [ ] Prikaz kontrolnega poligona offset krivulje
+- [x] Prikaz kontrolnih točk offset krivulje
+- [ ] Select za krivuljo samo tam, kjer ima smisel!
 
 ### Low Priority
 
@@ -29,5 +30,5 @@
 - [ ] Make JGBox self-initiating! it should be possible!
 - [ ] Resizanje v obe smeri za PH krivulje...TOLE MOGOCE CELO NE GRE, dobro razmisli ce strig ohrani PH...
 - [ ] Poglej še enkrat Decasteljau, tisto je bilo pisano DOLGO nazaj. Mogoče lahko tudi dam uporabiš caching sistem.
-- [ ] 
+- [ ] Dodajanje točk zlepkom
 - [x]

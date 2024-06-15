@@ -164,19 +164,19 @@ const routes = [
                     allowSelectedCurveElevation={false}
                     allowSelectedCurveExtrapolation={false}
                     allowSelectedCurveSubdivision={false}
-                    allowSelectedCurveControlPolygon={false}/>,
+                    allowSelectedCurveControlPolygon={true}/>,
                 title: "Stopnje 3",
                 group: "PH Krivulje"
             },
             {
                 group_path: PATH_PH_CURVES,
-                path: PATH_PH_CURVES + "/phcurves/quintic",
+                path: PATH_PH_CURVES + "/quintic",
                 element: <QuinticPhBezierCurve
                     allowSelectedCurveDecasteljau={false}
                     allowSelectedCurveElevation={false}
                     allowSelectedCurveExtrapolation={false}
                     allowSelectedCurveSubdivision={false}
-                    allowSelectedCurveControlPolygon={false}/>,
+                    allowSelectedCurveControlPolygon={true}/>,
                 title: "Stopnje 5",
                 group: "PH Krivulje"
             },

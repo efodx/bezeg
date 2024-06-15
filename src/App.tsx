@@ -21,6 +21,7 @@ function NavBar() {
                     groupedChildren[child.group] = [child]
                     return child.group!
                 }
+                return []
             } else {
                 return child!
             }

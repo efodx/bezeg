@@ -103,7 +103,7 @@ class UniformParamBezierCurveGraph extends BasePhBezierCurveGraph<BaseCurveGraph
     }
 
     generateParamPoints(isAlphaParam?: boolean) {
-        if (isAlphaParam == undefined) {
+        if (isAlphaParam === undefined) {
             isAlphaParam = this.state.isAlphaParam
         }
         const dt = 1 / (this.numberOfPoints + 1)

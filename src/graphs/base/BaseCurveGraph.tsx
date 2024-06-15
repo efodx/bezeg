@@ -2,16 +2,21 @@ import BaseGraph, {BaseGraphProps, BaseGraphStates} from "./BaseGraph";
 import {JSXBezierCurve} from "../bezier/JSXBezierCurve";
 import Slider from "../../inputs/Slider";
 import {BezierCurve} from "../../bezeg/interfaces/bezier-curve";
-import {CSSProperties} from "react";
+import React, {CSSProperties} from "react";
 import {Button} from "react-bootstrap";
+import {OnOffSwitch} from "../../inputs/OnOffSwitch";
 
+function ShowControlPoints(props: { onChange: (checked: boolean) => void }) {
+    return <OnOffSwitch onChange={props.onChange} label="Kontrolne točke"/>
+}
 
 interface BaseCurveGraphProps extends BaseGraphProps {
     allowSelectedCurveSubdivision: boolean,
     allowSelectedCurveExtrapolation: boolean,
     allowSelectedCurveDecasteljau: boolean,
     allowSelectedCurveElevation: boolean,
-    allowSelectedCurveShrink: boolean
+    allowSelectedCurveShrink: boolean,
+    allowSelectedCurveShowPoints: boolean
 }
 
 export abstract class BaseCurveGraph<P extends BaseCurveGraphProps, S extends BaseGraphStates> extends BaseGraph<BezierCurve, JSXBezierCurve, P, S> {
@@ -20,7 +25,8 @@ export abstract class BaseCurveGraph<P extends BaseCurveGraphProps, S extends Ba
         allowSelectedCurveSubdivision: true,
         allowSelectedCurveElevation: true,
         allowSelectedCurveExtrapolation: true,
-        allowSelectedCurveDecasteljau: true
+        allowSelectedCurveDecasteljau: true,
+        allowSelectedCurveShowPoints: true
     }
     curveCommandStyle = {}
     private subdivisionT: number = 0.5;
@@ -77,6 +83,10 @@ export abstract class BaseCurveGraph<P extends BaseCurveGraphProps, S extends Ba
             selectedCurveCommands.push(<div>
                 <Button variant={"dark"} onClick={() => this.elevateSelectedCurve()}>Dvigni stopnjo</Button></div>)
         }
+        if (this.props.allowSelectedCurveShowPoints) {
+            selectedCurveCommands.push(<ShowControlPoints
+                onChange={checked => this.showJxgPointsOfSelectedCurve(checked)}/>)
+        }
         return selectedCurveCommands;
     }
 
@@ -117,6 +127,16 @@ export abstract class BaseCurveGraph<P extends BaseCurveGraphProps, S extends Ba
         this.getSelectedCurve().elevate()
         if (this.getSelectedCurve().isShowingControlPolygon()) {
             this.getSelectedCurve().showControlPolygon()
+        }
+        this.unsuspendBoardUpdate()
+    }
+
+    showJxgPointsOfSelectedCurve(show: boolean) {
+        this.board.suspendUpdate()
+        if (show) {
+            this.getSelectedCurve().showJxgPoints()
+        } else {
+            this.getSelectedCurve().hideJxgPoints()
         }
         this.unsuspendBoardUpdate()
     }

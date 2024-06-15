@@ -5,8 +5,8 @@ export class PointImpl implements Point {
     private x: number | (() => number);
     private y: number | (() => number);
     private lastCacheContextX = CacheContext.context
-    private cachedX: number | undefined = undefined
-    private cachedY: number | undefined = undefined
+    private cachedX?: number = undefined
+    private cachedY?: number = undefined
     private lastCacheContextY: number = CacheContext.context;
 
     constructor(x: number | (() => number), y: number | (() => number)) {

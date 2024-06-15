@@ -8,8 +8,7 @@ export class RationalBezierCurve extends BezierCurveImpl {
     // This is a work around since I didn't plan on this curve being reactive to it's weights
     // So in case we provide weights that are functions, we use those in decasteljau scheme for calculating
     // However other bezier curve methods won't work, since the original weights will be just the reactiveWeights evaluated at start
-    private reactiveWeights: Array<() => number> | undefined = undefined
-    private id = Math.random()
+    private reactiveWeights?: Array<() => number> = undefined
 
     /**
      * @constructor

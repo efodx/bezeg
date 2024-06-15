@@ -8,7 +8,7 @@ import {
 import {Button} from "react-bootstrap";
 
 class Graph extends BaseRationalCurveGraph<BaseRationalBezierCurveGraphProps, BaseRationalBezierCurveGraphState> {
-    private slider: JXG.Slider | undefined;
+    private slider?: JXG.Slider;
     private stepsDone: number = 0;
 
     initialize() {

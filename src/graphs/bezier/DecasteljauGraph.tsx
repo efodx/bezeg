@@ -9,19 +9,16 @@ interface DecasteljauGraphState extends BaseGraphStates {
 }
 
 class DecasteljauGraph extends BaseCurveGraph<BaseCurveGraphProps, DecasteljauGraphState> {
-    private slider: JXG.Slider | undefined;
-    private lastDrawn: number | undefined;
+    private slider?: JXG.Slider;
 
     initialize() {
         const points = [[-4, -3], [-3, 2], [0, 3], [3, 2], [4, -3]]
         this.createJSXBezierCurve(points)
         this.graphJXGPoints = this.getFirstJsxCurve().getJxgPoints()
         this.slider = this.board.create('slider', [[2, 3], [4, 3], [0, 0.1, 1]]);
-        this.lastDrawn = Date.now();
         this.getFirstJsxCurve().setIntervalEnd(() => this.slider!.Value())
         this.getFirstJsxCurve().showDecasteljauSchemeForSlider(this.slider)
         this.slider.setAttribute({moveOnUp: true})
-        this.lastDrawn = Date.now()
         this.board.update()
     }
 

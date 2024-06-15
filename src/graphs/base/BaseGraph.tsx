@@ -9,6 +9,7 @@ import {AbstractJSXPointControlledCurve} from "./AbstractJSXPointControlledCurve
 import {PointControlledCurve} from "../../bezeg/interfaces/point-controlled-curve";
 import {Button, Card, CardBody, CardTitle, Col, Container, Form, ListGroup, Row} from "react-bootstrap";
 import {CacheContext, RefreshContext} from "../../Contexts";
+import {OnOffSwitch} from "../../inputs/OnOffSwitch";
 
 enum SelectedCurveOption {
     MOVE_CURVE,
@@ -53,12 +54,12 @@ function ShowAxis(props: { board: () => Board }) {
     return <Form> <Form.Check // prettier-ignore
         type="switch"
         id="custom-switch"
-        label="Prikaži mrežo"
+        label="Mreža"
         checked={checked}
         onChange={(e) => {
             props.board().objectsList.forEach(el => {
                 // @ts-ignore
-                if (el.elType == "axis" || el.elType == "ticks") {
+                if (el.elType === "axis" || el.elType === "ticks") {
                     if (e.target.checked) {
                         // @ts-ignore
                         el.show()
@@ -212,7 +213,7 @@ abstract class BaseGraph<U extends PointControlledCurve, T extends AbstractJSXPo
             return [<Form> <Form.Check // prettier-ignore
                 type="switch"
                 id="custom-switch"
-                label="Prikaži kontrolni poligon"
+                label="Kontrolni poligon"
                 checked={this.getSelectedCurve().isShowingControlPolygon()}
                 onChange={(e) => this.showControlPolygon(e.target.checked)}/>
             </Form>]
@@ -304,7 +305,8 @@ abstract class BaseGraph<U extends PointControlledCurve, T extends AbstractJSXPo
         return [
             <Button variant={"dark"} onClick={() => this.saveAsSVG()}>Izvozi kot SVG</Button>,
             <ResetButton/>,
-            <ShowAxis board={() => this.board}></ShowAxis>]
+            <ShowAxis board={() => this.board}></ShowAxis>,
+            <OnOffSwitch label="Oznake točk" onChange={checked => this.showPointLabels(checked)}/>]
     }
 
     deselectSelectedCurve() {
@@ -355,6 +357,12 @@ abstract class BaseGraph<U extends PointControlledCurve, T extends AbstractJSXPo
     private getGraphCommandsArea() {
         return this.getGraphCommands().length > 0 ?
             <Commands commands={this.getGraphCommands()} title={"Ukazi na grafu"}/> : null
+    }
+
+    private showPointLabels(show: boolean) {
+        this.board.suspendUpdate()
+        this.getAllJxgPoints().forEach(point => point.setAttribute({label: {visible: show}}))
+        this.unsuspendBoardUpdate()
     }
 }
 

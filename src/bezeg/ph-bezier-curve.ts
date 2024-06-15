@@ -5,7 +5,7 @@ import {BezierCurveImpl} from "./bezier-curve-impl";
 import {RationalBezierCurve} from "./rational-bezier-curve";
 
 const deltaPravokoten = (p0: Point, p1: Point) => new PointImpl(() => p1.Y() - p0.Y(), () => p0.X() - p1.X())
-const bin = (n: number, k: number): number => k == 0 ? 1 : (n * bin(n - 1, k - 1)) / k
+const bin = (n: number, k: number): number => k === 0 ? 1 : (n * bin(n - 1, k - 1)) / k
 
 /**
  * Represents a PH Bezier curve.
@@ -16,10 +16,10 @@ export class PhBezierCurve implements BezierCurve {
     private underlyingBezierCurve: BezierCurve;
     private points: Point[]
     private underlyingCurveControlPoints: Point[];
-    private offsetCurve: BezierCurve;
+    private offsetCurves: BezierCurve[] = [];
     private sigmas: Array<() => number>
-    private bezierCurveS: BezierCurve | undefined;
-    private bezierCurveSigma: BezierCurve | undefined;
+    private bezierCurveS?: BezierCurve;
+    private bezierCurveSigma?: BezierCurve;
 
     constructor(points: Point[], w: Point[]) {
         this.points = points
@@ -27,8 +27,10 @@ export class PhBezierCurve implements BezierCurve {
         this.underlyingCurveControlPoints = this.generatePointsForDegree(this.degree)
         this.underlyingBezierCurve = new BezierCurveImpl(this.underlyingCurveControlPoints)
         this.sigmas = this.generateSigmas(this.degree)
-        let [rpoints, rweights] = this.generateOffsetCurvePoints(this.degree)
-        this.offsetCurve = new RationalBezierCurve(rpoints, rweights)
+        this.addOffsetCurve()
+        this.addOffsetCurve()
+        this.addOffsetCurve()
+        this.addOffsetCurve()
     }
 
     private _w: Point[];
@@ -43,6 +45,16 @@ export class PhBezierCurve implements BezierCurve {
 
     get degree() {
         return 2 * this._w.length - 1
+    }
+
+    addOffsetCurve() {
+        const len = this.offsetCurves.length
+        let [rpoints2, rweights2] = this.generateOffsetCurvePoints(this.degree, () => (len + 1) * this.d)
+        this.offsetCurves.push(new RationalBezierCurve(rpoints2, rweights2))
+    }
+
+    removeOffsetCurve() {
+        this.offsetCurves.pop()
     }
 
     tk(tkminus1: number, deltas: number, k: number) {
@@ -77,8 +89,8 @@ export class PhBezierCurve implements BezierCurve {
         return this.bezierCurveSigma.calculatePointAtT(t).X()
     }
 
-    getOffsetCurve() {
-        return this.offsetCurve
+    getOffsetCurves() {
+        return this.offsetCurves
     }
 
     setOffsetCurveDistance(d: number) {
@@ -108,7 +120,7 @@ export class PhBezierCurve implements BezierCurve {
         return sigma
     }
 
-    generateOffsetCurvePoints(n: number): [Point[], Array<() => number>] {
+    generateOffsetCurvePoints(n: number, d: () => number): [Point[], Array<() => number>] {
         const p: Point[] = this.underlyingCurveControlPoints
 
         const sigma = this.sigmas
@@ -125,8 +137,8 @@ export class PhBezierCurve implements BezierCurve {
             for (let j = sumStartId; j <= sumEndId; j++) {
                 const scalar = bin(n - 1, j) / bin(2 * n - 1, k) * bin(n, k - j)
                 // We make these into points to make use of the caching system behind them
-                const sumPart = new PointImpl(() => scalar * (sigma[j]() * p[k - j].X() + this.d * n * deltaPravokotenP[j].X()),
-                    () => scalar * (sigma[j]() * p[k - j].Y() + this.d * n * deltaPravokotenP[j].Y()))
+                const sumPart = new PointImpl(() => scalar * (sigma[j]() * p[k - j].X() + d() * n * deltaPravokotenP[j].X()),
+                    () => scalar * (sigma[j]() * p[k - j].Y() + d() * n * deltaPravokotenP[j].Y()))
                 sumParts.push(sumPart)
 
                 // We also pack the calculation of w in a point for some caching, ideally Point would be of any dimension
@@ -216,7 +228,7 @@ export class PhBezierCurve implements BezierCurve {
         return this.underlyingBezierCurve.getBoundingBox();
     }
 
-    transformPoint(point: Point, xCenter: number, yCenter: number, A: number[][], b: number[] | undefined) {
+    transformPoint(point: Point, xCenter: number, yCenter: number, A: number[][], b?: number[]) {
         this.underlyingBezierCurve.transformPoint(point, xCenter, yCenter, A, b);
     }
 

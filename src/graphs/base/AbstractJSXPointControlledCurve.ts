@@ -7,7 +7,7 @@ import {CacheContext} from "../../Contexts"
  * Class that wraps a PointControlledCurve with methods for dealing with JSXGraph
  */
 export abstract class AbstractJSXPointControlledCurve<T extends PointControlledCurve> {
-    coords: JXG.Coords | undefined;
+    coords?: JXG.Coords;
     protected readonly pointControlledCurve: T
     protected readonly board: Board
     private jxgPoints: JXG.Point[] = []
@@ -22,7 +22,8 @@ export abstract class AbstractJSXPointControlledCurve<T extends PointControlledC
     private intervalEnd: number | (() => number) = 1;
     private controlPolygonSegments: JXG.Segment[] = []
     private showingControlPolygon: boolean = false;
-    private rotationCenter: number[] | undefined;
+    private showingJxgPoints: boolean = true;
+    private rotationCenter?: number[];
 
     constructor(points: number[][], board: Board) {
         this.board = board
@@ -160,7 +161,6 @@ export abstract class AbstractJSXPointControlledCurve<T extends PointControlledC
         this.board.update()
         this.coords = newCoords
         CacheContext.context = CacheContext.context + 1
-        // console.log(CacheContext.context)
         console.timeEnd("Processing mouse move event")
     }
 
@@ -281,6 +281,20 @@ export abstract class AbstractJSXPointControlledCurve<T extends PointControlledC
         return (x < maxX && x > minX && y < maxY && y > minY)
     }
 
+    hideJxgPoints() {
+        this.getJxgPoints().forEach(point => point.hide())
+        this.showingJxgPoints = false
+    }
+
+    showJxgPoints() {
+        this.getJxgPoints().forEach(point => point.show())
+        this.showingJxgPoints = true
+    }
+
+    isShowingJxgPoints() {
+        return this.showingJxgPoints
+    }
+
     hasPoint(x: number, y: number) {
         return this.jxgCurve.hasPoint(x, y)
     }
@@ -337,6 +351,7 @@ export abstract class AbstractJSXPointControlledCurve<T extends PointControlledC
                 this.controlPolygonSegments.push(segment)
             }
         }
+        this.showingControlPolygon = true
     }
 
     private addBoundingBox() {

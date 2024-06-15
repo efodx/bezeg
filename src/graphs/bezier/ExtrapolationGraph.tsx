@@ -5,7 +5,7 @@ import {BaseGraphStates} from "../base/BaseGraph";
 import {Button} from "react-bootstrap";
 
 class GraphExtrapolation extends BaseCurveGraph<BaseCurveGraphProps, BaseGraphStates> {
-    private slider: JXG.Slider | undefined;
+    private slider?: JXG.Slider;
 
     initialize() {
         this.createJSXBezierCurve([[-3, 2], [0, -2], [1, 2], [3, -2]])
@@ -13,7 +13,7 @@ class GraphExtrapolation extends BaseCurveGraph<BaseCurveGraphProps, BaseGraphSt
         this.getFirstJsxCurve().setIntervalEnd(() => this.slider!.Value())
         //this.getFirstJsxCurve().showDecasteljauSchemeForSlider(this.slider)
     }
- 
+
     override getGraphCommands(): JSX.Element[] {
         return super.getGraphCommands().concat([<Button variant={"dark"}
                                                         onClick={() => this.extrapolate()}>Ekstrapoliraj</Button>])

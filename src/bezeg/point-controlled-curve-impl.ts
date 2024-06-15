@@ -93,7 +93,7 @@ export abstract class PointControlledCurveImpl implements PointControlledCurve {
 
     }
 
-    transformPoint(point: Point, xCenter: number, yCenter: number, A: number[][], b: number[] | undefined) {
+    transformPoint(point: Point, xCenter: number, yCenter: number, A: number[][], b?: number[]) {
         let x = point.X()
         let y = point.Y()
         x = x - xCenter

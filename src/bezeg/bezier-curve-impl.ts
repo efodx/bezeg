@@ -6,8 +6,8 @@ import {CacheContext} from "../Contexts";
 
 
 export class BezierCurveImpl extends PointControlledCurveImpl implements BezierCurve {
-    private lastCacheContext: number | undefined;
-    private cachedPointAtT: PointImpl | undefined;
+    private lastCacheContext?: number;
+    private cachedPointAtT?: PointImpl;
 
     elevate(): this {
         let newPoints = [];
