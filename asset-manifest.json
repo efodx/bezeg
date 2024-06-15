@@ -1,15 +1,15 @@
 {
   "files": {
     "main.css": "/bezeg/static/css/main.be437fba.css",
-    "main.js": "/bezeg/static/js/main.a4659e49.js",
+    "main.js": "/bezeg/static/js/main.f3985faa.js",
     "static/js/787.28d82508.chunk.js": "/bezeg/static/js/787.28d82508.chunk.js",
     "index.html": "/bezeg/index.html",
     "main.be437fba.css.map": "/bezeg/static/css/main.be437fba.css.map",
-    "main.a4659e49.js.map": "/bezeg/static/js/main.a4659e49.js.map",
+    "main.f3985faa.js.map": "/bezeg/static/js/main.f3985faa.js.map",
     "787.28d82508.chunk.js.map": "/bezeg/static/js/787.28d82508.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.be437fba.css",
-    "static/js/main.a4659e49.js"
+    "static/js/main.f3985faa.js"
   ]
 }
