@@ -190,7 +190,7 @@ abstract class BasePhBezierCurveGraph<P extends BaseCurveGraphProps, S extends B
     private generateLinesBetweenOffsetCurvePoints() {
         const numOfLines = this.getFirstCurveAsPHBezierCurve().getOffsetCurves()[0].getPoints().length
         for (let i = 0; i < numOfLines; i++) {
-            const offsetLine = this.board.create('line', [this.jxgOffsetControlPoints[i], this.jxgOffsetControlPoints[i + 6]]);
+            const offsetLine = this.board.create('line', [this.jxgOffsetControlPoints[i], this.jxgOffsetControlPoints[i + numOfLines]]);
             this.jxgOffsetControlPointsLines.push(offsetLine)
         }
     }
