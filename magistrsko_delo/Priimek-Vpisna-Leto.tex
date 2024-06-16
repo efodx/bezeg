@@ -218,8 +218,16 @@ the content and not the structure of your work.}
             &= \binom{n}{i}t^{i}(1-t)^{n-i} &= \nonumber \\
             &= \lilb{n}{i}
         \end{align}
-
         \noindent \mycomment{Dodaj dokaze!!}
+
+        \noindent(9) Naj bosta $A_m(t)=\sum_{i=0}^{m}\alpha_i\lilb{n}{i}$ in $B_n(t)\sum_{i=0}^{n}\beta_i\lilb{n}{i}$ Bernsteinova polinoma.
+        \begin{align*}
+            A_m(t)B_n(t) &=\sum_{i=0}^{m}\alpha_i\lilb{m}{i}\sum_{j=0}^{n}\beta_j\lilb{n}{j} = \sum_{k=0}^{m+n}\sum_{l=0}^k \alpha_l\lilb{m}{l}\beta_{k-l}\lilb{n}{k-l} \\
+            &= \sum_{k=0}^{m+n}\sum_{l=0}^k \alpha_l \binom{m}{l}t^{l}(1-t)^{m-l} \beta_{k-l} \binom{n}{k-l}t^{k-l}(1-t)^{n-k+l} \\
+            &= \sum_{k=0}^{m+n}\sum_{l=0}^k \alpha_l \beta_{k-l} \binom{m}{l}\binom{n}{k-l}t^{k}(1-t)^{m+n-k} \\
+            &= \sum_{k=0}^{m+n} \left(\sum_{l=0}^k  \alpha_l \beta_{k-l}\frac{\binom{m}{l}\binom{n}{k-l}}{\binom{m+n}{k}}\right) \binom{m+n}{k} t^{k}(1-t)^{m+n-k}.
+        \end{align*}
+        V primerih, ko velja $l>m$ ali $k-l>n$ imamo v števcu ulomka $0$, kar privede do zapisa iz izreka.
     \end{dokaz}
 
     \subsection{Večdimenzionalne oznake}
@@ -229,7 +237,7 @@ the content and not the structure of your work.}
 
     \subsection{Bezierjeve krivulje}
     Če v Bernsteinov polinom stopnje $n$ namesto skalarjev $\beta_i$ vstavimo točke $\p_i\in\R^d$, dobimo predpis za parametrizacijo \textit{Bezierjeve krivulje} stopnje $n$ v $\R^d$ t.j.\ $\bigbb{n}=\bernsteinsump{i}{n}$.
-    Točkam $\p_i$ pravimo \textit{kontrolne točke}, poligonu, ki ga dobimo, če povežemo točke $\p_i$ in $\p_{i+1}$ za $i=[0,\dots,n-1]$, ter točki $\p_0$ in $\p_n$ pa \textit{kontrolni poligon}.
+    Točkam $\p_i$ pravimo \textit{kontrolne točke}, poligonu, ki ga dobimo, če povežemo točke $\p_i$ in $\p_{i+1}$ za $i=0,\dots,n-1$, ter točki $\p_0$ in $\p_n$ pa \textit{kontrolni poligon}.
     Opomba: pri slikovnem prikazovanju raznih konceptov Bezierjevih krivulj, se bomo omejili na $d=2$, torej na Bezierjeve krivulje v ravnini.
 
     \begin{izrek}{Lastnosti Bezierjevih krivulj}
@@ -304,7 +312,58 @@ the content and not the structure of your work.}
     Decasteljaujev algoritem ima tudi geometrijski pomen.
     Predstavlja namreč nekakšno zaporedno interpolacijo točk.
 
-    SLIKEEEEEEE
+    \begin{figure}[h!]
+        \captionsetup[subfigure]{labelformat=empty}
+        \centering
+        \subfloat[$t=0.25$]{\includegraphics[width = 0.45\textwidth]{images/decasteljau-n-1-t-025}}
+        \qquad
+        \subfloat[$t=0.5$]{\includegraphics[width = 0.45\textwidth]{images/decasteljau-n-1-t-05}}
+        \qquad
+        \subfloat[$t=0.75$]{\includegraphics[width = 0.45\textwidth]{images/decasteljau-n-1-t-075}}
+        \qquad
+        \subfloat[$t=1$]{\includegraphics[width = 0.45\textwidth]{images/decasteljau-n-1-t-1}}
+        \caption{Decasteljaujev algoritem za $n=1$}
+        \label{fig:dec-alg-n1}
+    \end{figure}
+    \begin{figure}[h!]
+        \captionsetup[subfigure]{labelformat=empty}
+        \centering
+        \subfloat[$t=0.25$]{\includegraphics[width = 0.45\textwidth]{images/decasteljau-n-2-t-025}}
+        \qquad
+        \subfloat[$t=0.5$]{\includegraphics[width = 0.45\textwidth]{images/decasteljau-n-2-t-05}}
+        \qquad
+        \subfloat[$t=0.75$]{\includegraphics[width = 0.45\textwidth]{images/decasteljau-n-2-t-075}}
+        \qquad
+        \subfloat[$t=1$]{\includegraphics[width = 0.45\textwidth]{images/decasteljau-n-2-t-1}}
+        \caption{Decasteljaujev algoritem za $n=2$}
+        \label{fig:dec-alg-n2}
+    \end{figure}
+    \begin{figure}[h!]
+        \captionsetup[subfigure]{labelformat=empty}
+        \centering
+        \subfloat[$t=0.25$]{\includegraphics[width = 0.45\textwidth]{images/decasteljau-n-3-t-025}}
+        \qquad
+        \subfloat[$t=0.5$]{\includegraphics[width = 0.45\textwidth]{images/decasteljau-n-3-t-05}}
+        \qquad
+        \subfloat[$t=0.75$]{\includegraphics[width = 0.45\textwidth]{images/decasteljau-n-3-t-075}}
+        \qquad
+        \subfloat[$t=1$]{\includegraphics[width = 0.45\textwidth]{images/decasteljau-n-3-t-1}}
+        \caption{Decasteljaujev algoritem za $n=3$}
+        \label{fig:dec-alg-n3}
+    \end{figure}
+    \begin{figure}[h!]
+        \captionsetup[subfigure]{labelformat=empty}
+        \centering
+        \subfloat[$t=0.25$]{\includegraphics[width = 0.45\textwidth]{images/decasteljau-n-5-t-025}}
+        \qquad
+        \subfloat[$t=0.5$]{\includegraphics[width = 0.45\textwidth]{images/decasteljau-n-5-t-05}}
+        \qquad
+        \subfloat[$t=0.75$]{\includegraphics[width = 0.45\textwidth]{images/decasteljau-n-5-t-075}}
+        \qquad
+        \subfloat[$t=1$]{\includegraphics[width = 0.45\textwidth]{images/decasteljau-n-5-t-1}}
+        \caption{Decasteljaujev algoritem za $n=5$}
+        \label{fig:dec-alg-n5}
+    \end{figure}
 
     \subsection{Metode Bezierjevih krivulj}
     V tem razdelku bomo predstavili nekaj metod Bezierjevih krivulj, ki so uporabne pri grafičnem oblikovanju.
@@ -324,13 +383,26 @@ the content and not the structure of your work.}
         \label{fig:subdivizija}
     \end{figure}
 
+    \begin{figure}[h]
+        \centering
+        \subfloat[Začetna krivulja s kontrolnim poligonom]{\includegraphics[width = 0.45\textwidth]{images/subdivizija-k-0}}
+        \qquad
+        \subfloat[$2$ krivulji, pridobljeni s subdivizijo]{\includegraphics[width = 0.45\textwidth]{images/subdivizija-k-1}}
+
+        \subfloat[$4$ krivulje, pridobljene s subdivizijo]{\includegraphics[width = 0.45\textwidth]{images/subdivizija-k-2}}
+        \qquad
+        \subfloat[$8$ krivulj, pridobljenih s subdivizijo]{\includegraphics[width = 0.45\textwidth]{images/subdivizija-k-3}}
+        \caption{Ponavljanje subdivizije na krivulji}
+        \label{fig:subdivizija-ponavljanje}
+    \end{figure}
+
     \[B_{t_0}(t) = B(t_{0}t) = \sum_{i=0}^{n}\mathbf{p}_{i}\binom{n}{i}(t_{0}t)^i(1-tt_0)^{n-i} \]
     \[ \sum_{i=0}^{n}\mathbf{p}_{i}t_0^{i}\left(\frac{1-tt_0}{1-t}\right)^{n-i}\binom{n}{i}t^i(1-t)^{n-i} \]
 
     \subsubsection{Ekstrapolacija}
     Motivacija: Zelimo podaljsati krivuljo
 
-    \subsubsection{Dvig stopnje}
+    \subsubsection{Višanje stopnje}
     TODO: DOKAZ NI PRAVILEN, nekje sem neki zajebal, malce zamakjeno bi moralo bit!
     Nekateri algoritmi, ki delajo z Bezierjevimi krivuljami, za vhod potrebujejo dve Bezierjevi krivulji iste stopnje.
     Recimo, da imamo Bezierjevo krivuljo $B$ stopnje $n$, ki jo želimo spraviti na stopnjo $n+1$.
@@ -360,7 +432,7 @@ the content and not the structure of your work.}
         &=\mathbf{p}_{0} + \sum_{i=1}^{n}\left(\mathbf{p}_{i}\frac{n+1-i}{n+1} + \mathbf{p}_{i-1}\frac{i}{n+1}\right)\lilb{i}{n+1}+\mathbf{p}_{n}
     \end{align*}
 
-    Oglejmo si kako dvig stopnje izgleda na neki krivulji.
+    Oglejmo si kako višanje stopnje izgleda na neki krivulji.
     Na sliki~\ref{fig:višanje} imamo na prvem grafu narisano začetno Bezierjevo krivuljo stopnje $3$.
     Na drugem grafu, smo stopnjo začetne krivulje zvišali za $1$.
     Na tretjem, pa smo naredili $20$ višanj stopnje začetne krivulje.
@@ -391,7 +463,7 @@ the content and not the structure of your work.}
 
     \subsection{Racionalne Bezierjeve krivulje}
     Vseh krivulj se ne da opisati z navadnimi Bezierjevimi krivuljami.
-    Med njimi so tudi takšne, ki so za računalniško grafiko zelo pomembne, na primer razni izseki krožnice.
+    Med njimi so tudi takšne, ki so za CAGD sisteme zelo pomembne, na primer razni izseki krožnice.
     Za opis takšnih krivulj, lahko posežemo po racionalnih Bezierjevih krivuljah.
     \textit{Racionalno Bezierjevo krivuljo} stopnje $n$ v $\R^d$ dobimo tako, da polinomsko Bezierjevo krivuljo stopnje $n$ v $\R^{d+1}$ projiciramo na hiperravnino $w=1$.
     Projekcijo definiramo s predpisom $(w,\mathbf{x})\to(1,\frac{\mathbf{x}}{w})$.
@@ -530,7 +602,9 @@ the content and not the structure of your work.}
     \mycomment{NE
     NE
     NE
-    Tisto je bilo nekaj drugega. Te alfa parametrizacije so za zlepke!! Ma mentor je najbrz mislil, da bi ne o tem a?}
+    Tisto je bilo nekaj drugega. Te alfa parametrizacije so za zlepke!! Ma mentor je najbrz mislil, da bi ne o tem a?
+    Ker to bi prislo prav, ce naredim tudi zlepke PH krivulj (kar naceloma ne bi smelo bit tako problematicno...).
+    }
 
 
     \section{PH Krivulje}
@@ -790,8 +864,16 @@ the content and not the structure of your work.}
     Homogene koordinate odmične krivulje $\mathbf{O}_k$ lahko v zaključeni obliki izrazimo s kontrolnimi točkami prvotne krivulje
 
     \[\mathbf{O}_k= \sum_{j=\max(0,k-n)}^{\min(n-1,k)} \frac{\binom{n-1}{j}\binom{n}{k-j} }{\binom{2n-1}{k}}(\sigma_j\mathbf{P}_{k-j} + dn\Delta \mathbf{P}_j^{\perp}),\quad k=0,\ldots,2n-1.        \]
-
-
+    Za pokušino si sedaj oglejmo kako izgledajo kontrolne točke odmične krivulje kubične PH krivulje.
+    \mycomment{Ostalih stopenj ne bomo razpisali, saj bomo v nadaljevanju predstavili zapis, ki bo vse to olajšal.}
+    \begin{align*}
+        \mathbf{O}_0 &= \sigma_0\mathbf{P}_0+3d\Delta\mathbf{P}_0^{\perp},  \\
+        \mathbf{O}_1 &= \frac{1}{5} \left[ 2\sigma_1\mathbf{P}_0+ 3\sigma_0\mathbf{P}_1 + 3d(3\Delta\mathbf{P}_0^{\perp} + 2\Delta\mathbf{P}_1^{\perp})\right], \\
+        \mathbf{O}_2 &= \frac{1}{10} \left[\sigma_2\mathbf{P}_0+ 6\sigma_1\mathbf{P}_1 + 3\sigma_0\mathbf{P}_2 + 3d(3\Delta\mathbf{P}_0^{\perp} + 6\Delta\mathbf{P}_1^{\perp}+\Delta\mathbf{P}_2^{\perp})\right], \\
+        \mathbf{O}_3 &= \frac{1}{10} \left[3\sigma_2\mathbf{P}_1+ 6\sigma_1\mathbf{P}_2 + 3\sigma_0\mathbf{P}_3 + 3d(\Delta\mathbf{P}_0^{\perp} + 6\Delta\mathbf{P}_1^{\perp}+3\Delta\mathbf{P}_2^{\perp})\right], \\
+        \mathbf{O}_4 &= \frac{1}{5} \left[3\sigma_2\mathbf{P}_2+ 2\sigma_1\mathbf{P}_3 + 3d(2\Delta\mathbf{P}_1^{\perp} + 3\Delta\mathbf{P}_2^{\perp})\right], \\
+        \mathbf{O}_5 &= \sigma_2\mathbf{P}_3+3d\Delta\mathbf{P}_2^{\perp}
+    \end{align*}
     \mycomment{Tukaj lahko razpišem $\mathbf{O}_k$ za kvintične in kubične PH.
     Dodam slike različnih offsetov in kontrolne poligone.
     Lahko dodam v program, da se narisejo te crtkane crte po katerih se premikajo kontrolne točke te odmične krivulje...}
@@ -803,27 +885,19 @@ the content and not the structure of your work.}
         \caption{Odmične krivulje (levo) skupaj z njihovimi kontrolnimi točkami (desno)}
         \label{fig:kontrolne-točke-offset}
     \end{figure}
-
     Na sliki~\ref{fig:kontrolne-točke-offset} lahko vidimo, da se kontrolne točke odmične krivulje v odvisnosti od razdalje premikajo po premicah.
 
 
-    \section{Orodje za uvod v Bezierjeve krivulje - Bezeg}
+    \section{Orodje za grafični prikaz konceptov}
     Vsi koncepti predstavljeni v magistrskem delu so tudi implementirani na spletni strani.
-    Za graf sem uporabil jsxgraph. Za oblikovanje bootstrap. Za ogrodje pa React.
+    Slikovno gradivo skozi magistrsko delo je bilo ustvarjeno s pomočjo orodja.
+    Za graf sem uporabil odprtokodno knjižnico JsxGraph.
+    Za oblikovanje bootstrap.
+    Za ogrodje pa React.
 
     \subsection{Implementacija konceptov magistrskega dela}
 
 
-
-
-
-
-    \newpage
-
-
-
-    \newpage
-    \newpage
     \newpage
 
 
@@ -850,67 +924,4 @@ the content and not the structure of your work.}
             \omega &= (0,& &= 1, 2, 3, \ldots). \nonumber \qedhere  % postavi QED na zadnjo vrstico enačbe
         \end{align}
     \end{proof}
-
-
-    \section{Tehnični napotki za pisanje}
-
-    \subsection{Sklicevanje in citiranje}
-    Za sklice uporabljamo \verb|\ref|, za sklice na enačbe \verb|~\eqref|, za citate \verb|\cite|. Pri
-    sklicevanju in citiranju sklicano številko povežemo s prejšnjo besedo z nedeljivim presledkom
-    $\sim$, kot npr.\ \verb|iz trditve~\ref{trd:obstoj-omega} vidimo|.
-
-    \begin{primer}
-        Zaporedje~\eqref{eq:zero-kompleks} iz dokaza trditve~\ref{trd:obstoj-omega} na
-        strani~\pageref{trd:obstoj-omega} lahko najdemo tudi v Spletni enciklopediji zaporedij~\cite{oeis}.
-        Citiramo lahko tudi bolj natančno~\cite[trditev 2.1, str.\ 23]{lebedev2009introduction}.
-    \end{primer}
-
-    \subsection{Okrajšave}
-    Pri uporabi okrajšav \LaTeX{} za piko vstavi predolg presledek, kot npr. tukaj. Zato se za vsako
-    piko, ki ni konec stavka doda presledek običajne širine z ukazom \verb*|\ |, kot npr.\ tukaj.
-    Primerjaj z okrajšavo zgoraj za razliko.
-
-    \subsection{Vstavljanje slik}
-    Sliko vstavimo v plavajočem okolju \texttt{figure}. Plavajoča okolja \emph{plavajo} po tekstu, in
-    jih lahko postavimo na vrh strani z opcijskim parametrom `\texttt{t}', na lokacijo, kjer je v kodi s
-    `\texttt{h}', in če to ne deluje, potem pa lahko rečete \LaTeX u, da ga \emph{res} želite tukaj,
-    kjer ste napisali, s `\texttt{h!}'. Lepo je da so vstavljene slike vektorske (recimo \texttt{.pdf}
-    ali \texttt{.eps} ali \texttt{.svg}) ali pa \texttt{.png} visoke resolucije (več kot
-    \unit[300]{dpi}). Pod vsako sliko je napis in na vsako sliko se skličemo v besedilu. Primer
-    vektorske slike je na sliki~\ref{fig:sample}. Vektorsko sliko prepoznate tako, da močno
-    zoomate v sliko, in še vedno ostane gladka. Več informacij je na voljo na
-    \url{https://en.wikibooks.org/wiki/LaTeX/Floats,_Figures_and_Captions}. Če so slike bitne, kot na
-    primer slika~\ref{fig:image}, poskrbite, da so v dovolj visoki resoluciji.
-
-    \begin{figure}[h]
-        \centering
-        \includegraphics[width=0.6\textwidth]{images/sample.pdf}
-% \caption[caption za v kazalo]{Dolg caption pod sliko}
-        \caption[Primer vektorske slike.]{Primer vektorske slike z oznakami v enaki pisavi, kot jo
-        uporablja \LaTeX{}. Narejena je s programom Inkscape, \LaTeX{} oznake so importane v
-        Inkscape iz pomožnega PDF.}
-        \label{fig:sample}
-    \end{figure}
-
-    \begin{figure}[h]
-        \centering
-        \includegraphics[width=0.8\textwidth]{images/image.png}
-        \caption[Primer bitne slike.]{Primer bitne slike, izvožene iz Matlaba. Poskrbite, da so slike v
-        dovolj visoki resoluciji in da ne vsebujejo prosojnih elementov (to zahteva PDF/A-1b format).}
-        \label{fig:image}
-    \end{figure}
-
-    \subsection{Kako narediti stvarno kazalo}
-    Dodate ukaze \verb|\index{polje}| na besede, kjer je pojavijo, kot tukaj\index{tukaj}.
-    Več o stvarnih kazalih je na voljo na \url{https://en.wikibooks.org/wiki/LaTeX/Indexing}.
-
-    \subsection{Navajanje literature}
-    Članke citiramo z uporabo \verb|\cite{label}|, \verb|\cite[text]{label}| ali pa več naenkrat s
-    \verb|\cite\{label1, label2}|. Tudi tukaj predhodno besedo in citat povežemo z nedeljivim presledkom
-    $\sim$. Na primer~\cite{chen2006meshless,liu2001point}, ali pa \cite{kibriya2007empirical},\cite{kibriya2007empirical}, ali pa
-    \cite[str.\ 12]{trobec2015parallel}, \cite[enačba (2.3)]{pereira2016convergence}.
-    Vnosi iz \verb|.bib| datoteke, ki niso citirani, se ne prikažejo v seznamu literature, zato jih
-    tukaj citiram.~\cite{vene2000categorical}, \cite{gregoric2017stopniceni}, \cite{slak2015induktivni},
-    \cite{nsphere}, \cite{kearsley1975linearly}, \cite{STtemplate}, \cite{NunbergerTand}, \cite{vanoosten2008realizability}.
-
 \end{document}
