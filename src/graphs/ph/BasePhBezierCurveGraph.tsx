@@ -22,6 +22,7 @@ abstract class BasePhBezierCurveGraph<P extends BaseCurveGraphProps, S extends B
     private hodographBoard!: JXG.Board;
     private jsxOffsetCurves!: JXG.Curve[];
     private jxgOffsetControlPoints: JXG.Point[] = [];
+    private jxgOffsetControlPointsLines: JXG.Line[] = [];
 
     get showOffsetCurve(): boolean {
         return this.state.showOffsetCurve;
@@ -160,7 +161,9 @@ abstract class BasePhBezierCurveGraph<P extends BaseCurveGraphProps, S extends B
 
     private showOffsetCurveControlPoints(checked: boolean) {
         this.board.removeObject(this.jxgOffsetControlPoints)
+        this.board.removeObject(this.jxgOffsetControlPointsLines)
         this.jxgOffsetControlPoints = []
+        this.jxgOffsetControlPointsLines = []
         if (checked) {
             this.generateJxgOffsetCurveControlPoints();
         }
@@ -183,6 +186,15 @@ abstract class BasePhBezierCurveGraph<P extends BaseCurveGraphProps, S extends B
         this.board.unsuspendUpdate()
     }
 
+
+    private generateLinesBetweenOffsetCurvePoints() {
+        const numOfLines = this.getFirstCurveAsPHBezierCurve().getOffsetCurves()[0].getPoints().length
+        for (let i = 0; i < numOfLines; i++) {
+            const offsetLine = this.board.create('line', [this.jxgOffsetControlPoints[i], this.jxgOffsetControlPoints[i + 6]]);
+            this.jxgOffsetControlPointsLines.push(offsetLine)
+        }
+    }
+
     private generateJxgOffsetCurveControlPoints() {
         this.getFirstCurveAsPHBezierCurve().getOffsetCurves().forEach(curve => {
             let jxgOffsetControlPoints = curve.getPoints().map((point, r) => this.board.create('point', [() => point.X(), () => point.Y()], {
@@ -193,6 +205,7 @@ abstract class BasePhBezierCurveGraph<P extends BaseCurveGraphProps, S extends B
             // @ts-ignore
             this.jxgOffsetControlPoints.push(...jxgOffsetControlPoints)
         })
+        this.generateLinesBetweenOffsetCurvePoints()
     }
 }
 
