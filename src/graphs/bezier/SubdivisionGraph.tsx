@@ -58,7 +58,8 @@ class Graph extends BaseCurveGraph<BaseCurveGraphProps, BaseGraphStates> {
     }
 
     override getSelectedCurveCommands(): JSX.Element[] {
-        return super.getSelectedCurveCommands().concat([<OnOffSwitch onChange={checked => {
+        return super.getSelectedCurveCommands().concat([<OnOffSwitch
+            initialState={this.getSelectedCurve().isShowingDecasteljauScheme()} onChange={checked => {
             if (checked) {
                 this.showDecasteljauScheme()
             } else {

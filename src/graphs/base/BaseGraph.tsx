@@ -361,7 +361,9 @@ abstract class BaseGraph<U extends PointControlledCurve, T extends AbstractJSXPo
 
     private showPointLabels(show: boolean) {
         this.board.suspendUpdate()
-        this.getAllJxgPoints().forEach(point => point.setAttribute({label: {visible: show}}))
+        console.log(this.getAllJxgPoints().map(point => point.getAttribute("visible")))
+        this.getAllJxgPoints().filter(point => !show || point.getAttribute("visible"))
+            .forEach(point => point.setAttribute({label: {visible: show}}))
         this.unsuspendBoardUpdate()
     }
 }

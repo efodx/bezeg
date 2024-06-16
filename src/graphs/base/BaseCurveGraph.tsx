@@ -6,8 +6,8 @@ import React, {CSSProperties} from "react";
 import {Button} from "react-bootstrap";
 import {OnOffSwitch} from "../../inputs/OnOffSwitch";
 
-function ShowControlPoints(props: { onChange: (checked: boolean) => void }) {
-    return <OnOffSwitch onChange={props.onChange} label="Kontrolne točke"/>
+function ShowControlPoints(props: { initialState?: boolean, onChange: (checked: boolean) => void }) {
+    return <OnOffSwitch initialState={props.initialState} onChange={props.onChange} label="Kontrolne točke"/>
 }
 
 interface BaseCurveGraphProps extends BaseGraphProps {
@@ -85,6 +85,7 @@ export abstract class BaseCurveGraph<P extends BaseCurveGraphProps, S extends Ba
         }
         if (this.props.allowSelectedCurveShowPoints) {
             selectedCurveCommands.push(<ShowControlPoints
+                initialState={this.getFirstJsxCurve().isShowingJxgPoints()}
                 onChange={checked => this.showJxgPointsOfSelectedCurve(checked)}/>)
         }
         return selectedCurveCommands;

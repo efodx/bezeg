@@ -146,6 +146,10 @@ the content and not the structure of your work.}
 \newcommand{\bernsteinsumtridva}[2]{\sum_{#1=0}^{#2} \lilb{#1}{#2}}
 
 \newcommand{\bsum}{\bernsteinsum{i}{n}}
+
+% Komentarji znotraj vsebine
+\newcommand{\mycomment}[1]{\textbf{\textcolor{red}{#1}}}
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % ZAČETEK VSEBINE
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -189,7 +193,7 @@ the content and not the structure of your work.}
             \item $\lilb{n}{i} = (1-t)\lilb{n-1}{i} + t\lilb{n-1}{i-1}$ \label{izrek:bernsteinovi_lastnosti:rekruzija}
             \item $b'_{i,n}(t)=n(\lilb{i-1}{n-1} - \lilb{i}{n-1})$ in  $\bigbo{n}=n\sum^{n-1}_{i=0}(\beta_{i+1}-\beta_{i})b_{i,n-1}(t)$ \label{izrek:bernsteinovi_lastnosti:odvod}
             \item $\int b_{i,n}(t)dt= \frac{1}{n+1}\sum^{n+1}_{j=i+1}b_{j,n+1}(t)$ \label{izrek:bernsteinovi_lastnosti:integral}
-            \item{\label{izrek:bernsteinovi_lastnosti:mnozenje} Naj bosta $A_m$ in $B_n$ Bernsteinova polinoma stopnje $m$ in $n$ ter skalarji $\beta_i$ in $\alpha_i$ KAKO SE ZE RECE RESPECTIVELY....
+            \item{\label{izrek:bernsteinovi_lastnosti:mnozenje} Naj bosta $A_m$ in $B_n$ Bernsteinova polinoma stopnje $m$ in $n$ s skalarji $\beta_i$ in $\alpha_i$ \mycomment{KAKO SE ZE RECE RESPECTIVELY....}
             Potem za njun zmnožek velja
                 \[ A_m(t)B_n(t) = \sum_{i=0}^{m+n}\left(\sum_{j=\max(0,i-n)}^{\min(m,i)} \frac{\binom{m}{j}\binom{n}{i-j}}{\binom{m+n}{i}} \alpha_i\beta_{i-j} \right)b_{i,m+n}(t)\]
             }
@@ -215,9 +219,7 @@ the content and not the structure of your work.}
             &= \lilb{n}{i}
         \end{align}
 
-        \noindent(6) Dodaj dokaz!
-        Lahko tudi vecdimenzionalno ane\\
-        \noindent(7) Dodaj dokaz!
+        \noindent \mycomment{Dodaj dokaze!!}
     \end{dokaz}
 
     \subsection{Večdimenzionalne oznake}
@@ -430,7 +432,7 @@ the content and not the structure of your work.}
     Točke racionalnih Bezierjevih krivulj bi lahko računali tako, kakor smo pokazali za metode.<slabtekstneberi
     Takšno računanje je nestabilno*****, zato tudi tukaj podamo stabilnejši način računanja, ki je razširitev Decasteljaujevega algoritma.
 
-    \begin{algorithm}
+    \begin{algorithm}[h!]
         \caption{Racionalni Decasteljaujev algoritem}
         \begin{algorithmic}
             \State $\p \gets \p_0,\p_1,\dots,\p_n$
@@ -459,7 +461,7 @@ the content and not the structure of your work.}
         Zlepek krivulj  $\mathbf{S}:[a,b]\to \R^d$ stopnje $n$ nad zaporedjem stičnih točk $a=u_0 < u\_1 < \cdots < u_{m-1} < u_m = b$
         je odsekoma polinomska krivulja, za katero velja $\mathbf{S}|_{[u_{l-1},u_l]} \in \Pn^d$.
     \end{definicija}
-    Želimo si tudi, da bi bili naši zlepki gladki.
+    Želimo si tudi, da bi naši zlepki tvorili neprekinjeno krivuljo brez kolen, saj so takšne krivulje v CAGD sistemih najbolj uporabne.
     Krivulja je po definiciji na posameznih odsekih polinomska in zato tudi gladka, problem je le v stičnih točkah.
     Naj bo
     \[\mathbf{s}(u) = \begin{dcases}
@@ -467,29 +469,68 @@ the content and not the structure of your work.}
                           \mathbf{s_2}(u) = \sum_{i=0}^n \p_i^{(2)}b_{i,n}(\frac{u-u_1}{\Delta u_1}), & u \in [u_1,u_2]
     \end{dcases}\]
     zlepek dveh Bezierjevih krivulj.
-    Da bo zlepek zvezen, mora v stični točki $u_1$ veljati $\mathbf{s}_1(1) = \mathbf{s}_2(0)$ oziroma $\p_n^{(1)} = \p_0^{(2)}$.
-    Takšen zlepek, si lahko ogledamo na sliki ~\ref{fig:zlepek-c0}.
-    Na sliki lahko vidimo, da zlepejk+
+    Da bo zlepek zvezen, mora v stični točki $u_1$ veljati $\mathbf{s}_1(u_1) = \mathbf{s}_2(u_1)$ oziroma $\p_n^{(1)} = \p_0^{(2)}$.
+    Takšen zlepek, si lahko ogledamo na sliki~\ref{fig:zlepek-c0}.
+    Vidimo lahko, da takšen zlepek v CAGD sistemih ne bo najbolj uporaben, saj ima v stični točki t.i.\ koleno.
+    Če želimo, da bo zlepek vsaj zvezno odvedljiv, mora veljati prejšnje, morata pa v stični točki sovpadati tudi odvoda $\mathbf{s_1}'(u_1) = \mathbf{s_2}'(u_1)$.
+    Iz REFBEZIERODVOD sledi, da mora zato veljati $\p_{n}^{(1)} - \p_{n-1}^{(1)} = \p_{1}^{(2)} - \p_{0}^{(2)}$.
+    Upoštevajoč $\p_n^{(1)} = \p_0^{(2)}$, lahko enačbo zapišemo tudi kot $\p_{n}^{(1)} =  \p_{0}^{(2)}  = \frac{\p_{1}^{(2)}+ \p_{n-1}^{(1)}}{2}$.
+    Na sliki~\ref{fig:zlepek-c1} si lahko ogledamo takšen zlepek.
+    Opaziti je možno tudi geometrijski pomen pogoja, saj stična kontrolna točka leži točno na sredini med kontrolnima točkama.
+    Kaj pa, če točka ne bi bila točno na sredini?
+    Izkaže se, da za to, da kolena v stični točki ne bi bilo, ne potrebujemo zvezne odvedljivosti v analitičnem pomenu, dovolj je zvezna odvedljivost v geometrijskem pomenu.
+    \begin{definicija}
+        \label{def:geometrijska-zveznost}
+        Zlepek krivulj \[\mathbf{s}(u) = \begin{cases}
+                                             \mathbf{s_1}(u), & u \in [u_0,u_1),  \\
+                                             \mathbf{s_2}(u), & u \in [u_1,u_2]
+        \end{cases}\] je $n$-krat geometrijsko zvezno odvedljiv, če lahko krivulji reparametriziramo v takšni parametrizaciji $\mathbf{\tilde{s}_1}$ in $\mathbf{\tilde{s}_2}$, da je zlepek krivulj
+        \[\mathbf{\tilde{s}}(u) = \begin{cases}
+                                      \mathbf{\tilde{s}_2}(u), & u \in [u_0,u_1),  \\
+                                      \mathbf{\tilde{s}_2}(u), & u \in [u_1,u_2]
+        \end{cases}\] $n$-krat zvezno odvedljiv.
+    \end{definicija}
+    Takšna definicija, nam ne pomaga. \mycomment{<- ne bomo tako pustili .. :D.}
+    Pogoje za geometrijsko zveznost lahko prevedemo na enačbe imenovane \textit{beta pogoji}.
+    Zapišimo sedaj beta pogoje za geometrijsko odvedljivost stopnje $2$.
+    Zlepek iz definicije~\ref{def:geometrijska-zveznost} je
+    \begin{enumerate}
+        \item $G^0$, natanko tedaj, ko je zvezen v analitičnem smislu.
+        \item $G^1$, natanko tedaj, ko velja (1) in obstaja realno število $\beta_1>0$, da velja $\mathbf{s_1'}(u_1) =\beta_1\mathbf{s_2}(u_1)$.
+        \item $G^2$, natanko tedaj, ko velja (2) in obstaja realno število $\beta_2$, da velja $\mathbf{s_1''}(u_1) =\beta_1^2\mathbf{s_2''}(u_1) + \beta_2\mathbf{s_2''}(u_1)$.
+    \end{enumerate}
+    \mycomment{Bom dokazal to? Nevem..... Verjetno samo ustvarim parametrizacijo na podlagi pogoja (t-> bt) vstavim not in bo?}
+    Pogoj za $G^1$ nam pogoj za zveznost \mycomment{**dodajref} spremeni v to, da mora stična točka ležati na daljici med drugima kontrolnima točkama \mycomment{nekako referencirat prave}.
+    S tem, smo pridobili prosti parameter, ki ga lahko v CAGD sistemih uporabimo za dodatno kontrolo nad krivuljo.
+    $G^1$ zlepek si lahko ogledamo na sliki~\ref{fig:zlepek-g1}.
+
+
     \begin{figure}[h]
         \centering
         \includegraphics[width = 0.50\textwidth]{images/zlepek-c0}
         \caption{$C^0$ zlepek dveh Bezierjevih krivulj}
         \label{fig:zlepek-c0}
     \end{figure}
-
-    \subsection{C0}
-
-    \subsection{C1}
-
-    \subsection{C2}
-
-    \subsection{G1}
+    \begin{figure}[h]
+        \centering
+        \includegraphics[width = 0.50\textwidth]{images/zlepek-c1}
+        \caption{$C^1$ zlepek dveh Bezierjevih krivulj}
+        \label{fig:zlepek-c1}
+    \end{figure}
+    \begin{figure}[h]
+        \centering
+        \subfloat[$\beta_1=0.5$]{\includegraphics[width = 0.45\textwidth]{images/zlepek-g1}}
+        \qquad
+        \subfloat[$\beta_1=2$]{\includegraphics[width = 0.45\textwidth]{images/zlepek-g1-2}}
+        \caption{Vpliv izbora $\beta_1$ pri $G^1$ zlepku}
+        \label{fig:zlepek-g1}
+    \end{figure}
 
     \subsection{Alfa parametrizacije}
+    \mycomment{NE
     NE
     NE
-    NE
-    Tisto je bilo nekaj drugega. Te alfa parametrizacije so za zlepke!! Ma mentor je najbrz mislil, da bi ne o tem a?
+    Tisto je bilo nekaj drugega. Te alfa parametrizacije so za zlepke!! Ma mentor je najbrz mislil, da bi ne o tem a?}
 
 
     \section{PH Krivulje}
@@ -622,9 +663,7 @@ the content and not the structure of your work.}
 
     Kontrolni poligoni, karakterizirani z enačbo~\eqref{eq:ph-kontrolne} imajo tudi geometrijsko interpretacijo....
 
-    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-    Kam zdej zapeljat? Se bomo sli kompleksnih stevil ali ne? Mater tezka odlocitev.... pogledat je treba racionalne odmike in shit, ce je slucjano treba dejansko nujno zapeljat v kompleksne vode.... sej so lepe samo nocem prevec balasta.
-    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    \mycomment{ Kam zdej zapeljat? Se bomo sli kompleksnih stevil ali ne? Mater tezka odlocitev.... pogledat je treba racionalne odmike in shit, ce je slucjano treba dejansko nujno zapeljat v kompleksne vode.... sej so lepe samo nocem prevec balasta.}
 
     Kot smo v prejšnjem razdelku povedali, ima PH krivulja $n$-te stopnje $n-2$ parametrov, ki jih definirajo obliko.
     Pri pravkar definiranih krivuljah to pomeni, da ima krivulja le en prosti parameter, ki jih definira obliko.
@@ -647,7 +686,7 @@ the content and not the structure of your work.}
     \end{lema}
 
     \begin{dokaz}
-        DRUGAČE, referenciraj se na hodograf kvintične krivulje.... Odvajaj tisto.... bedno bo, tak je lajf.
+        \mycomment{DRUGAČE, referenciraj se na hodograf kvintične krivulje.... Odvajaj tisto.... bedno bo, tak je lajf.}
 
 
         Ker smo za polinom $w$ izbrali konstanten polinom $w(t)=1$, velja $x'(t)=u^2(t)-v^2(t),\quad y'(t)=2u(t)v(t)$.
@@ -753,9 +792,19 @@ the content and not the structure of your work.}
     \[\mathbf{O}_k= \sum_{j=\max(0,k-n)}^{\min(n-1,k)} \frac{\binom{n-1}{j}\binom{n}{k-j} }{\binom{2n-1}{k}}(\sigma_j\mathbf{P}_{k-j} + dn\Delta \mathbf{P}_j^{\perp}),\quad k=0,\ldots,2n-1.        \]
 
 
-    Tukaj lahko razpišem $\mathbf{O}_k$ za kvintične in kubične PH.
+    \mycomment{Tukaj lahko razpišem $\mathbf{O}_k$ za kvintične in kubične PH.
     Dodam slike različnih offsetov in kontrolne poligone.
-    Lahko dodam v program, da se narisejo te crtkane crte po katerih se premikajo kontrolne točke te odmične krivulje...
+    Lahko dodam v program, da se narisejo te crtkane crte po katerih se premikajo kontrolne točke te odmične krivulje...}
+    \begin{figure}[h]
+        \centering
+        \subfloat{\includegraphics[width = 0.45\textwidth]{images/ph-cubic-offsets}}
+        \qquad
+        \subfloat{\includegraphics[width = 0.45\textwidth]{images/ph-cubic-offsets-w-controlpoints}}
+        \caption{Odmične krivulje (levo) skupaj z njihovimi kontrolnimi točkami (desno)}
+        \label{fig:kontrolne-točke-offset}
+    \end{figure}
+
+    Na sliki~\ref{fig:kontrolne-točke-offset} lahko vidimo, da se kontrolne točke odmične krivulje v odvisnosti od razdalje premikajo po premicah.
 
 
     \section{Orodje za uvod v Bezierjeve krivulje - Bezeg}

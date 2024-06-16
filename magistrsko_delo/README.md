@@ -9,7 +9,7 @@ TODO:
   krivulje? a lahko to lepo nekje napisem da je
   enako in je to dovolj?
 
-- Konsistentno rabi "racunalnisko podprto oblikovanje".
+- Konsistentno rabi "racunalnisko podprto oblikovanje" ali CAD...
 
 - KAKO ZAVRAGA SE BOŠ NAVEZOVAL NA PARAMETRIČNO PODANE KRIVULJE0?!?!
   A lahko nekje napišem, da "Včasih bomo zapis 'krivulja podana s parametrizacijo r(t)' skrajšali v krivulja r(t).".
@@ -17,7 +17,7 @@ TODO:
 - Relativno praštevilska?!?" haha, tuja števila.... a se ta pojem tudi pri polinomih uporablja? Če ne, ga bomo
   definirali!
 
-- Line........ PremicA? ampak ni premica, daljica? ampak se ne ukvarjamo s tem... ravna črta? črta???
+- Line........ PremicA? ampak ni premica, daljica? ampak se ne ukvarjamo s tem... ravna črta? črta??? PREMA ČRTA!!!
 - Prostostni parametri? parametri prostosti? prosti parametri?
 
 
@@ -39,4 +39,12 @@ TODO:
 
 - Preme diference bi blo prav da definiram...
 
+- Pokaži, da se jih da povečat ce povecas vse hodografe w!
 
+- Hmmmmmmmmm, kako se ze rece tistim razredom odvedljivosti funkcij? n-krat zvezno odvedljive funkcije?
+- $\mathbf{s_1'}(u) =\beta\mathbf{s_2}(u)$ <- Takih zadev ne vem ce lahko delam tam pri zlepkih... ker ni nujno, da
+  \mathbf{s_1'}(u) obstaja, vazno da limitra k \mathbf{s_2'}(u) pravi stvari...
+  -https://link.springer.com/article/10.1007/BF02925094
+
+- HMMMMM, iskanje optimalnega alpha pri parametrizaciji? zna bit fun. Potem bi lahko to pri bezierjevih krivuljah
+  pokazal, potem pa pri PH krivuljah pokazal za enakomerno.
