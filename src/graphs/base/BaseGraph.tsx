@@ -314,6 +314,10 @@ abstract class BaseGraph<U extends PointControlledCurve, T extends AbstractJSXPo
         this.setState({...this.state, curveSelected: false, showingControlPolygon: false})
     }
 
+    getAllJxgCurves() {
+        return this.jsxBezierCurves.map(curve => curve.getJxgCurve());
+    }
+
     protected selectCurve(selectableCurve: T, additionalState = {}) {
         selectableCurve.select()
         this.setState({...this.state, curveSelected: true, ...additionalState})

@@ -48,3 +48,5 @@ TODO:
 
 - HMMMMM, iskanje optimalnega alpha pri parametrizaciji? zna bit fun. Potem bi lahko to pri bezierjevih krivuljah
   pokazal, potem pa pri PH krivuljah pokazal za enakomerno.
+
+- Kaj pa ce dodam risanje kroga z racionalnimi bez krivuljami?

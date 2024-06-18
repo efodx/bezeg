@@ -133,7 +133,7 @@ the content and not the structure of your work.}
 %Bernstein
 \newcommand{\bernsteinbase}[3]{\binom{#1}{#2}t^{#1}(1-t)^{#2}}
 \newcommand{\bernstein}[2]{\binom{#1}{#2}t^{#2}(1-t)^{#1-#2}}
-\newcommand{\lilb}[2]{b_{#1,#2}(t)}
+\newcommand{\lilb}[2]{B_{#1}^{#2}(t)}
 \newcommand{\bigb}[1]{B_{#1}(t)}
 \newcommand{\bigbb}[1]{\textbf{B}_{#1}(t)}
 \newcommand{\bigbbod}[2]{\textbf{B}_{#1}(#2)}
@@ -163,39 +163,42 @@ the content and not the structure of your work.}
 
 
     \section{Bezierjeve krivulje}\label{sec:bezierjeve-krivulje}
-    V tem razdelku bomo predstavili osnove Bezierjevih krivulj.
+    V tem razdelku bomo predstavili Bezierjeve krivulje in njihove ključne lastnosti za rabo v CAGD sistemih.
     Začeli bomo z Bernsteinovimi polinomi, ki jih bomo uporabili pri definiciji Bezierjevih krivulj.
-    Predstavili bomo Decasteljaujev algoritem, ki je ključen za stabilen način računanja točk Bezierjevih krivulj.
+    Predstavili bomo Decasteljaujev algoritem, ki omogoča stabilno računanje točk Bezierjevih krivulj.
     Nadaljevali pa bomo z nekaj metodami na Bezierjevih krivuljah, ki so ključne za njihovo rabo v računalniško podprtem grafičnem oblikovanju.
 
     \subsection{Bernsteinovi polinomi}\label{subsec:bernsteinovi-polinomi}
     Bernsteinove polinome je najprej uporabil Sergei Bernstein pri dokazu Weierstrassovega izreka.
     Kasneje jih je Pierre Bezier uporabil pri definiciji Bezierjeve krivulje.
     %izumil za rabo RPGO!!
-    V tem razdelku bomo predstavili nekaj njihovih osnovnih lastnosti, ki so ključne za delovanje Bezierjevih krivulj.
-    $i$-ti \textit{Bernsteinov bazni polinom} stopnje $n$ definiramo kot $\lilb{i}{n} \coloneqq\bernstein{n}{i}$.
-    Linearni kombinaciji takšnih polinomov t.j.\ $\bigb{n} \coloneqq \bsum$, pravimo \textit{Bernsteinov polinom} stopnje $n$.
-    V izreku~\ref{izrek:bernsteinovi_lastnosti} naštejemo nekaj lastnosti Bernsteinovih polinomov.
+    V tem razdelku bomo predstavili nekaj njihovih osnovnih lastnosti, ki jih bomo uporabili pri Bezierjevih krivuljah.
+    Dejmo jih najprej definirati.
+    \begin{definicija}
+        Za pozitivno naravno število $n$ je $i$-ti \textit{Bernsteinov bazni polinom} enak \[B_i^n(t)\coloneqq\bernstein{n}{i}.\]
+    \end{definicija}
+    \noindent Linearni kombinaciji takšnih polinomov t.j.\ $\bsum$, pravimo \textit{Bernsteinov polinom} stopnje $n$.
+    V izreku~\ref{izrek:bernsteinovi_lastnosti} naštejemo nekaj lastnosti Bernsteinovih baznih polinomov, ki so ključne za rabo v CAD sistemih\mycomment{(zato da so bez krivulje sploh uporabne).}
 %    Takšni polinomi so bili prvič uporabljeni v konstruktivnem(????) dokazu Weierstrassovega aproksimacijskega izreka.
 
     \begin{izrek}{Lastnosti Bernsteinovih polinomov}
         \label{izrek:bernsteinovi_lastnosti}
 
         \begin{enumerate}
-            \item $\lilb{i}{n} = 0$ za $i<0$ ali $i>n$, interpolacija končnih točk \label{izrek:bernsteinovi_lastnosti:interpolacija}
-            \item $\lilb{i}{n} \geq 0$ za $t\in[0,1]$, pozitivnost \label{izrek:bernsteinovi_lastnosti:pozitivnost}
-            \item $b_{i,n}(0) = \delta_{i,0} \quad \text{in} \quad  b_{i,n}(1) = \delta_{i,n}, \text{ kjer je }  \delta_{i,j} = \begin{cases}
-                                                                                                                                    1 & i=j \\
-                                                                                                                                    0 & 1\neq j
+            \item $B_i^n(t) = 0$ za $i<0$ ali $i>n$, interpolacija končnih točk \label{izrek:bernsteinovi_lastnosti:interpolacija}
+            \item $B_i^n(t) \geq 0$ za $t\in[0,1]$, pozitivnost \label{izrek:bernsteinovi_lastnosti:pozitivnost}
+            \item $B_i^n(0) = \delta_{i,0} \quad \text{in} \quad  B_i^n(1) = \delta_{i,n}, \text{ kjer je }  \delta_{i,j} = \begin{cases}
+                                                                                                                                1 & i=j \\
+                                                                                                                                0 & 1\neq j
             \end{cases}$
-            \item $b_{i,n}(1-t) = \lilb{n-i}{n}$, simetrija \label{izrek:bernsteinovi_lastnosti:simetrija}
-            \item $\bernsteinsumtridva{i}{n} = 1$, razčlenitev enote \label{izrek:bernsteinovi_lastnosti:enota}
-            \item $\lilb{n}{i} = (1-t)\lilb{n-1}{i} + t\lilb{n-1}{i-1}$ \label{izrek:bernsteinovi_lastnosti:rekruzija}
-            \item $b'_{i,n}(t)=n(\lilb{i-1}{n-1} - \lilb{i}{n-1})$ in  $\bigbo{n}=n\sum^{n-1}_{i=0}(\beta_{i+1}-\beta_{i})b_{i,n-1}(t)$ \label{izrek:bernsteinovi_lastnosti:odvod}
-            \item $\int b_{i,n}(t)dt= \frac{1}{n+1}\sum^{n+1}_{j=i+1}b_{j,n+1}(t)$ \label{izrek:bernsteinovi_lastnosti:integral}
-            \item{\label{izrek:bernsteinovi_lastnosti:mnozenje} Naj bosta $A_m$ in $B_n$ Bernsteinova polinoma stopnje $m$ in $n$ s skalarji $\beta_i$ in $\alpha_i$ \mycomment{KAKO SE ZE RECE RESPECTIVELY....}
-            Potem za njun zmnožek velja
-                \[ A_m(t)B_n(t) = \sum_{i=0}^{m+n}\left(\sum_{j=\max(0,i-n)}^{\min(m,i)} \frac{\binom{m}{j}\binom{n}{i-j}}{\binom{m+n}{i}} \alpha_i\beta_{i-j} \right)b_{i,m+n}(t)\]
+            \item $B_i^n(1-t) = B^n_{n-i}(t)$, simetrija \label{izrek:bernsteinovi_lastnosti:simetrija}
+            \item $\sum_{i=0}^{n}B_{i}^{n}(t) = 1$, razčlenitev enote \label{izrek:bernsteinovi_lastnosti:enota}
+            \item $B_i^n(t) = (1-t)B_i^{n-1} + tB_{i-1}^{n-1}$ \label{izrek:bernsteinovi_lastnosti:rekruzija}
+            \item $B_{i}^{n}'(t)=n(B_{i-1}^{n-1} - B_{i}^{n-1})$ \label{izrek:bernsteinovi_lastnosti:odvod}
+            \item $\int B_i^n(t)dt= \frac{1}{n+1}\sum^{n+1}_{j=i+1}B_{j}^{n+1}(t)$ \label{izrek:bernsteinovi_lastnosti:integral}
+            \item{\label{izrek:bernsteinovi_lastnosti:mnozenje} Naj bo $f(t)=\sum_{i=0}^{m}B_i^m(t)$ in $g(t)=\sum_{i=0}^{n}B_i^n(t)$.
+            Za njun zmnožek velja
+                \[ f(t)g(t) = \sum_{i=0}^{m+n}\left(\sum_{j=\max(0,i-n)}^{\min(m,i)} \frac{\binom{m}{j}\binom{n}{i-j}}{\binom{m+n}{i}} \alpha_i\beta_{i-j} \right)B_{i}^{m+n}(t)\]
             }
         \end{enumerate}
     \end{izrek}
@@ -203,26 +206,27 @@ the content and not the structure of your work.}
         Točki (1) in (2) očitno izhajata iz lastnosti binomskega simbola.
         Dokažimo ostale.
 
-        \noindent(3) Namesto spremenljivke $t$ v enačbo za bernsteinov bazni polinom $\lilb{i}{n}$ vstavimo izraz $1-t$ in uporabimo lastnost binomskega simbola $\binom{n}{i} = \binom{n}{n-i}$, dobimo
+        \noindent(3) $B_0^n(0) = ....$\\
+        \noindent(4) Namesto spremenljivke $t$ v enačbo za bernsteinov bazni polinom $B_i^n(t)$ vstavimo izraz $1-t$ in uporabimo lastnost binomskega simbola $\binom{n}{i} = \binom{n}{n-i}$, dobimo
 
-        \[b_{i,n}(1-t) = \binom{n}{i}(1-t)^i(1-(1-t))^{n-i} =  \binom{n}{n-i}(1-t)^it^{n-i} = b_{n-i,i}(t).\]
+        \[B_i^n(1-t) = \binom{n}{i}(1-t)^i(1-(1-t))^{n-i} =  \binom{n}{n-i}(1-t)^it^{n-i} = B_^{n-i}_{i}(t).\]
 
-        \noindent(4) Za $1 = 1^n = (1-t+t)^n = ((1-t) + t)^n$ uporabimo binomski izrek, dobimo
-        \[\left((1-t) + t\right)^n = \sum_{i=0}^{n}\bernstein{n}{i} = \sum_{i=0}^n \lilb{i}{n}.\]
+        \noindent(5) Za $1 = 1^n = (1-t+t)^n = ((1-t) + t)^n$ uporabimo binomski izrek, dobimo
+        \[\left((1-t) + t\right)^n = \sum_{i=0}^{n}\bernstein{n}{i} = \sum_{i=0}^n B_i^n(t).\]
 
-        \noindent(5) Uporabili bomo lastnost binomskega simbola $ \binom{n-1}{i} + \binom{n-1}{i-1} = \binom{n}{i}.$
+        \noindent(6) Uporabili bomo lastnost binomskega simbola $ \binom{n-1}{i} + \binom{n-1}{i-1} = \binom{n}{i}.$
         \begin{align}
-            &(1-t)\lilb{n-1}{i} + t\lilb{n-1}{i-1} = \nonumber \\
+            &(1-t)B_i^{n-1} + tB_{i-1}^{n-1} = \nonumber \\
             &= (1-t)\binom{n-1}{i}t^{i}(1-t)^{n-i-1} + t\binom{n-1}{i-1}t^{i-1}(1-t)^{n-i} &= \nonumber \\
             &= \binom{n-1}{i}t^{i}(1-t)^{n-i} + \binom{n-1}{i-1}t^{i}(1-t)^{n-i} &= \nonumber \\
             &= \binom{n}{i}t^{i}(1-t)^{n-i} &= \nonumber \\
-            &= \lilb{n}{i}
+            &= B_i^n(t)
         \end{align}
         \noindent \mycomment{Dodaj dokaze!!}
 
-        \noindent(9) Naj bosta $A_m(t)=\sum_{i=0}^{m}\alpha_i\lilb{n}{i}$ in $B_n(t)\sum_{i=0}^{n}\beta_i\lilb{n}{i}$ Bernsteinova polinoma.
+        \noindent(9) Naj bosta $f(t)=\sum_{i=0}^{m}\alpha_iB_i^n(t)$ in $g(t)\sum_{i=0}^{n}\beta_iB_i^n(t)$ Bernsteinova polinoma.
         \begin{align*}
-            A_m(t)B_n(t) &=\sum_{i=0}^{m}\alpha_i\lilb{m}{i}\sum_{j=0}^{n}\beta_j\lilb{n}{j} = \sum_{k=0}^{m+n}\sum_{l=0}^k \alpha_l\lilb{m}{l}\beta_{k-l}\lilb{n}{k-l} \\
+            f(t)g(t) &=\sum_{i=0}^{m}\alpha_iB_{i}^{m}(t)\sum_{j=0}^{n}\beta_jB_{j}^{n}(t) = \sum_{k=0}^{m+n}\sum_{l=0}^k \alpha_lB_{l}^{m}(t)\beta_{k-l}B_{k-l}^{n}(t) \\
             &= \sum_{k=0}^{m+n}\sum_{l=0}^k \alpha_l \binom{m}{l}t^{l}(1-t)^{m-l} \beta_{k-l} \binom{n}{k-l}t^{k-l}(1-t)^{n-k+l} \\
             &= \sum_{k=0}^{m+n}\sum_{l=0}^k \alpha_l \beta_{k-l} \binom{m}{l}\binom{n}{k-l}t^{k}(1-t)^{m+n-k} \\
             &= \sum_{k=0}^{m+n} \left(\sum_{l=0}^k  \alpha_l \beta_{k-l}\frac{\binom{m}{l}\binom{n}{k-l}}{\binom{m+n}{k}}\right) \binom{m+n}{k} t^{k}(1-t)^{m+n-k}.
@@ -236,10 +240,13 @@ the content and not the structure of your work.}
     Tako bomo večdimenzionalnost točke označili z $\mathbf{x}=(x_0,x_1,\dots,x_n)$, večdimenzionalnost funkcije $f:\R\to\R^{n+1}$ pa z $\mathbf{f}(x)=\left( f_0(x),f_1(x),\dots,f_n(x) \right)$.
 
     \subsection{Bezierjeve krivulje}
-    Če v Bernsteinov polinom stopnje $n$ namesto skalarjev $\beta_i$ vstavimo točke $\p_i\in\R^d$, dobimo predpis za parametrizacijo \textit{Bezierjeve krivulje} stopnje $n$ v $\R^d$ t.j.\ $\bigbb{n}=\bernsteinsump{i}{n}$.
-    Točkam $\p_i$ pravimo \textit{kontrolne točke}, poligonu, ki ga dobimo, če povežemo točke $\p_i$ in $\p_{i+1}$ za $i=0,\dots,n-1$, ter točki $\p_0$ in $\p_n$ pa \textit{kontrolni poligon}.
-    Opomba: pri slikovnem prikazovanju raznih konceptov Bezierjevih krivulj, se bomo omejili na $d=2$, torej na Bezierjeve krivulje v ravnini.
-
+    Če v Bernsteinov polinom $n$-te stopnje namesto skalarjev $\beta_i$ vstavimo točke $\p_i\in\R^d$, dobimo predpis za parametrizacijo Bezierjeve krivulje.
+    \begin{definicija}
+        Bezierjeva krivulja $n$-te stopnje je podana s točkami $\p_i$ za $i=0,1,\ldots,n$ in parametrizacijo
+        \[\bigbb{n}=\bernsteinsump{i}{n}\]
+    \end{definicija}
+    Točkam $\p_i$ pravimo \textit{kontrolne točke}, poligonu, ki ga dobimo, če povežemo točke $\p_i$ in $\p_{i+1}$ za $i=0,\dots,n-1$, ter točki $\p_0$ in $\p_n$ pa pravimo \textit{kontrolni poligon}.
+    \mycomment{Opomba: pri slikovnem prikazovanju raznih konceptov Bezierjevih krivulj, se bomo omejili na $d=2$, torej na Bezierjeve krivulje v ravnini.}
     \begin{izrek}{Lastnosti Bezierjevih krivulj}
         \label{izrek:lastnosti-bezierjevih-krivulj}
         \begin{enumerate}
@@ -248,48 +255,44 @@ the content and not the structure of your work.}
             \item Krivulja leži znotraj konveksne ovojnice svojih kontrolnih točk.
         \end{enumerate}
     \end{izrek}
-    Preden izrek dokažemo, povejmo zakaj so zgornje lastnosti pomembne za potrebe grafičnega oblikovanja.
-    Interpolacija končnih točk in lastnost (3) sta pomembni, saj omogočata enostavno kontrolo krivulje.
-    Afina invarianca pa je pomembna za enostavno premikanje, rotiranje itd.\ krivulje, saj lahko krivuljo transfomiramo tako, da transformacijo uporabimo na kontrolnih točkah.
-
-
+    Preden izrek dokažemo, povejmo zakaj so zgornje lastnosti pomembne za CAGD sisteme.
+    Interpolacija končnih točk omogoča, da uporabniku damo kontrolo nad tem, kje se krivulja začne in kje konča.
+    Afina invarianca je pomembna za to, da lahko uporabnik transformira krivuljo, saj se uporabnikove transformacije krivulje enostavno prevedejo v afine preslikave kontrolnih točk.
+    Tretja lastnost pa uporabniku s kontrolnimi točkami omogoča kontrolo nad krivuljo, kjer je krivulja zmerom v bližini svojih kontrolnih točk.
     \begin{dokaz}
         ~\\
-        \noindent (1) $\bigbbod{n}{0}=\sum_{i=0}^{n}\p_{i}b_{n,i}(0) = \sum_{i=0}^{n}\p_{i}\delta_{0,i} = \p_0$.
+        \noindent (1) $\bigbbod{n}{0}=\sum_{i=0}^{n}\p_{i}B_i^n(t)(0) = \sum_{i=0}^{n}\p_{i}\delta_{0,i} = \p_0$.
         Enako lahko naredimo tudi za $\bigbbod{n}{1}.$
 
         \noindent (2) Naj bo $\phi$ afina preslikava, velja torej $\phi(x) = A\mathbf{x} + \mathbf{b}.$
         \begin{align*}
-            \phi\left(\sum_{i=0}^{n}\p_{i}b_{n,i}(t)\right) &= A\left(\sum_{i=0}^{n}\p_{i}b_{n,i}(t)\right) + \mathbf{b} &&=  \sum_{i=0}^{n}A\p_{i}b_{n,i}(t) + \mathbf{b}  \\
-            &= \sum_{i=0}^{n}A\p_{i}b_{n,i}(t) + \sum_{i=0}^{n}\mathbf{b}b_{n,i}(t) &&= \sum_{i=0}^{n}(A\p_{i}+\mathbf{b})b_{n,i}(t) \\
+            \phi\left(\sum_{i=0}^{n}\p_{i}B_i^n(t)(t)\right) &= A\left(\sum_{i=0}^{n}\p_{i}B_i^n(t)(t)\right) + \mathbf{b} &&=  \sum_{i=0}^{n}A\p_{i}B_i^n(t)(t) + \mathbf{b}  \\
+            &= \sum_{i=0}^{n}A\p_{i}B_i^n(t)(t) + \sum_{i=0}^{n}\mathbf{b}B_i^n(t)(t) &&= \sum_{i=0}^{n}(A\p_{i}+\mathbf{b})B_i^n(t)(t) \\
             &= \bernsteinsumtritri{i}{n}{\phi(\p_i)}
         \end{align*}
         \noindent (3) Konveksna ovojnica kontrolnih točk Bezierjeve krivulje je množica vseh konveksnih kombinacij teh točk t.j.\ $\sum_{i=0}^{n}\lambda_i\p_{i}$, kjer so $\lambda_i$ pozitivna realna števila za katere velja $\lambda_0 + \lambda_1 + \dots + \lambda_n = 1$.
-        Ker so Bernsteinovi polinomi za poljuben $t\in[0,1]$ razčlenitev enote in velja $\lilb{n}{i}\geq0$, lahko zapišemo $\lambda_i=\lilb{n}{i}$.
+        Ker so Bernsteinovi polinomi za poljuben $t\in[0,1]$ razčlenitev enote in velja $B_i^n(t)\geq0$, lahko zapišemo $\lambda_i=B_i^n(t)$.
     \end{dokaz}
 
     \subsection{Decasteljau}
     Računanje Bernsteinovih polinomov direktno preko njihovih enačb je precej nestabilno****, za rabo v računalništvu pa je pomembno, da uporabljamo stabilne metode računanja.
     S pomočjo Decasteljaujevega algoritma lahko računamo točke Bezierjevih krivulj stabilno****, zanj pa potrebujemo naslednji izrek.
-
     \begin{izrek}
         Naj bo $\bigbbt_{[\p_0,\p_1,\dots,\p_n]}$ parametrizacija Bezierjeve krivulje $n$-te stopnje s kontronlimi točkami $\p_0,\p_1,\dots,\p_n$.
         Potem lahko njene točke rekurzivno računamo s pomočjo naslednjega izraza \[\bigbbt_{[\p_0,\p_1,\dots,\p_n]} = (1-t)\bigbbt_{[\p_0,\p_1,\dots,\p_{n-1}]} +t\bigbbt_{[\p_1,\dots,\p_n]}.\]
     \end{izrek}
-
     Izrek tudi dokažimo.
-
     \begin{dokaz}
         \begin{align*}
         (1-t)
             &
             \bigbbt_{[\p_0,\p_1,\dots,\p_{n-1}]}+t\bigbbt_{[\p_1,\dots,\p_n]} = \\
-            &= (1-t)\bernsteinsump{i}{n-1}+t\sum_{i=0}^{n-1} \p_{i+1}\lilb{n-1}{i} \\
-            &= (1-t)\bernsteinsump{i}{n-1}+ t\sum_{i=1}^{n} \p_{i}\lilb{n-1}{i-1} \\
-            &= \p_0(1-t)\lilb{0}{n-1} + \sum_{i=1}^{n-1}\p_{i}(1-t)\lilb{n-1}{i} +  \sum_{i=1}^{n-1} \p_{i}t\lilb{n-1}{i-1} + \p_n \lilb{n-1}{n-1} \\
-            &= \p_0(1-t)\lilb{0}{n-1} + \sum_{i=1}^{n-1}\left((1-t)\lilb{n-1}{i} + t\lilb{n-1}{i-1}\right)\p_{i} + \p_n \lilb{n-1}{n-1} \\
-            &= \p_0\lilb{n}{0} + \sum_{i=1}^{n-1}\p_{i}\lilb{n}{i} + \p_n \lilb{n}{n} \\
-            &= \sum_{i=0}^{n}\p_{i}\lilb{n}{i} \\
+            &= (1-t)\bernsteinsump{i}{n-1}+t\sum_{i=0}^{n-1} \p_{i+1}B_i^{n-1} \\
+            &= (1-t)\bernsteinsump{i}{n-1}+ t\sum_{i=1}^{n} \p_{i}B_{i-1}^{n-1} \\
+            &= \p_0(1-t)B_{0}^{n-1}(t) + \sum_{i=1}^{n-1}\p_{i}(1-t)B_i^{n-1} +  \sum_{i=1}^{n-1} \p_{i}tB_{i-1}^{n-1} + \p_n B_{n-1}^{n-1}(t) \\
+            &= \p_0(1-t)B_{0}^{n-1}(t) + \sum_{i=1}^{n-1}\left((1-t)B_i^{n-1} + tB_{i-1}^{n-1}\right)\p_{i} + \p_n B_{n-1}^{n-1}(t) \\
+            &= \p_0B_{0}^{n}(t) + \sum_{i=1}^{n-1}\p_{i}B_i^n(t) + \p_n B_{n}^{n}(t) \\
+            &= \sum_{i=0}^{n}\p_{i}B_i^n(t) \\
         \end{align*}
     \end{dokaz}
     \begin{algorithm}
@@ -308,10 +311,9 @@ the content and not the structure of your work.}
             \State \Return $\p_0^n(t)$
         \end{algorithmic}
     \end{algorithm}
-
     Decasteljaujev algoritem ima tudi geometrijski pomen.
-    Predstavlja namreč nekakšno zaporedno interpolacijo točk.
-
+    Pri $n=1$ se algoritem prevede na interpolacijo dveh točk, kar lahko vidimo na sliki\ref{fig:dec-alg-n1}.
+    Prvi višjih $n$, pa lahko na slikah \ref{fig:dec-alg-n2}, \ref{fig:dec-alg-n3} in \ref{fig:dec-alg-n5} vidimo interpolacijo sosednjih točk na $r$-tem nivoju.
     \begin{figure}[h!]
         \captionsetup[subfigure]{labelformat=empty}
         \centering
@@ -375,14 +377,12 @@ the content and not the structure of your work.}
     Vrnimo se nazaj k sliki sheme Decasteljaujevega algoritma~\ref{fig:subdivizija}.
     Na njej lahko opazimo, da pri parametru $t_0$ točke označene z A,F,J,M in O tvorijo kontrolni poligon bezierjeve krivulje $B_{t_0}$.
     Pokažimo, da je to res.
-
     \begin{figure}[h!]
         \centering
         \includegraphics[width=0.8\textwidth]{images/subidivizja.png}
         \caption{Subdivizija}
         \label{fig:subdivizija}
     \end{figure}
-
     \begin{figure}[h]
         \centering
         \subfloat[Začetna krivulja s kontrolnim poligonom]{\includegraphics[width = 0.45\textwidth]{images/subdivizija-k-0}}
@@ -395,7 +395,6 @@ the content and not the structure of your work.}
         \caption{Ponavljanje subdivizije na krivulji}
         \label{fig:subdivizija-ponavljanje}
     \end{figure}
-
     \[B_{t_0}(t) = B(t_{0}t) = \sum_{i=0}^{n}\mathbf{p}_{i}\binom{n}{i}(t_{0}t)^i(1-tt_0)^{n-i} \]
     \[ \sum_{i=0}^{n}\mathbf{p}_{i}t_0^{i}\left(\frac{1-tt_0}{1-t}\right)^{n-i}\binom{n}{i}t^i(1-t)^{n-i} \]
 
@@ -406,32 +405,29 @@ the content and not the structure of your work.}
     TODO: DOKAZ NI PRAVILEN, nekje sem neki zajebal, malce zamakjeno bi moralo bit!
     Nekateri algoritmi, ki delajo z Bezierjevimi krivuljami, za vhod potrebujejo dve Bezierjevi krivulji iste stopnje.
     Recimo, da imamo Bezierjevo krivuljo $B$ stopnje $n$, ki jo želimo spraviti na stopnjo $n+1$.
-    Ker velja $1-t+t=1$ lahko Bezierjevo krivuljo $B(t)$ zapišemo tudi kot $B(t) = (1-t)B(t)+tB(t) = \sum_{i=0}^{n}\mathbf{p}_{i}(1-t)\lilb{i}{n} +\sum_{i=0}^{n}\mathbf{p}_{i}t\lilb{i}{n} $.
+    Ker velja $1-t+t=1$ lahko Bezierjevo krivuljo $B(t)$ zapišemo tudi kot $B(t) = (1-t)B(t)+tB(t) = \sum_{i=0}^{n}\mathbf{p}_{i}(1-t)B_i^n(t) +\sum_{i=0}^{n}\mathbf{p}_{i}tB_i^n(t) $.
     Razpišimo najprej prvi del.
     \begin{align*}
     (1-t)
-        \lilb{i}{n} &= (1-t)\binom{n}{i}t^i(1-t)^{n-i} \\
+        B_i^n(t) &= (1-t)\binom{n}{i}t^i(1-t)^{n-i} \\
         &= \frac{n!}{(n-i)!i!}t^i(1-t)^{n+1-i} \\
         &=\frac{n+1-i}{n+1}\frac{(n+1)!}{(n+1-i)!i!}t^i(1-t)^{n+1-i}\\
         &=\frac{n+1-i}{n+1} \binom{n+1}{i}t^i(1-t)^{n+1-i} \\
-        &=\frac{n+1-i}{n+1}\lilb{i}{n+1}
+        &=\frac{n+1-i}{n+1}B_{i}^{n+1}(t)
     \end{align*}
     Sedaj pa še za drugega.
     \begin{align*}
-        t\lilb{i}{n} &= t\binom{n}{i}t^i(1-t)^{n-i} \\
+        tB_i^n(t) &= t\binom{n}{i}t^i(1-t)^{n-i} \\
         &= \frac{n!}{(n-i)!i!}t^{i+1}(1-t)^{n+1-i-1} \\
         &= \frac{i+1}{n+1}\frac{(n+1)!}{(n-i)!(i+1)!}t^{i+1}(1-t)^{n+1-i-1} \\
-        &= \frac{i+1}{n+1}\lilb{n+1}{i+1}
+        &= \frac{i+1}{n+1}B_{n+1}^{n+1}(t)
     \end{align*}
-
     Vstavimo v $B(t)$.
-
     \begin{align*}
-        B(t) &= \sum_{i=0}^{n}\mathbf{p}_{i}\frac{n+1-i}{n+1}\lilb{i}{n+1} +\sum_{i=0}^{n}\mathbf{p}_{i}\frac{i+1}{n+1}\lilb{i+1}{n+1}\\
-        &= \sum_{i=0}^{n}\mathbf{p}_{i}\frac{n+1-i}{n+1}\lilb{i}{n+1} +\sum_{i=1}^{n+1}\mathbf{p}_{i-1}\frac{i}{n+1}\lilb{i}{n+1} \\
-        &=\mathbf{p}_{0} + \sum_{i=1}^{n}\left(\mathbf{p}_{i}\frac{n+1-i}{n+1} + \mathbf{p}_{i-1}\frac{i}{n+1}\right)\lilb{i}{n+1}+\mathbf{p}_{n}
+        B(t) &= \sum_{i=0}^{n}\mathbf{p}_{i}\frac{n+1-i}{n+1}B_{i}^{n+1}(t) +\sum_{i=0}^{n}\mathbf{p}_{i}\frac{i+1}{n+1}B_{i+1}^{n+1}(t)\\
+        &= \sum_{i=0}^{n}\mathbf{p}_{i}\frac{n+1-i}{n+1}B_{i}^{n+1}(t) +\sum_{i=1}^{n+1}\mathbf{p}_{i-1}\frac{i}{n+1}B_{i}^{n+1}(t) \\
+        &=\mathbf{p}_{0} + \sum_{i=1}^{n}\left(\mathbf{p}_{i}\frac{n+1-i}{n+1} + \mathbf{p}_{i-1}\frac{i}{n+1}\right)B_{i}^{n+1}(t)+\mathbf{p}_{n}
     \end{align*}
-
     Oglejmo si kako višanje stopnje izgleda na neki krivulji.
     Na sliki~\ref{fig:višanje} imamo na prvem grafu narisano začetno Bezierjevo krivuljo stopnje $3$.
     Na drugem grafu, smo stopnjo začetne krivulje zvišali za $1$.
@@ -439,8 +435,6 @@ the content and not the structure of your work.}
     Krivulja je na vseh grafih enaka, imamo le več kontrolnih točk.
     Opaziti je tudi možno, da so kontrolne točke z vsakim višanjem bližje začetni krivulji, njihov kontrolni poligon pa se zato z vsakim višanjem bolj prilega začetni krivulji.
     Slednje je možno videti na sliki~\ref{fig:višanje-poligon}.
-
-
     \begin{figure}[h]
         \centering
         \subfloat[začetna krivulja]{\includegraphics[width = 0.25\textwidth]{images/dvig-prej}}
@@ -451,7 +445,6 @@ the content and not the structure of your work.}
         \caption{Višanje Bezierjeve krivulje}
         \label{fig:višanje}
     \end{figure}
-
     \begin{figure}[h]
         \centering
         \subfloat[20 višanj]{\includegraphics[width = 0.45\textwidth]{images/dvig-n-poligon}}
@@ -467,7 +460,7 @@ the content and not the structure of your work.}
     Za opis takšnih krivulj, lahko posežemo po racionalnih Bezierjevih krivuljah.
     \textit{Racionalno Bezierjevo krivuljo} stopnje $n$ v $\R^d$ dobimo tako, da polinomsko Bezierjevo krivuljo stopnje $n$ v $\R^{d+1}$ projiciramo na hiperravnino $w=1$.
     Projekcijo definiramo s predpisom $(w,\mathbf{x})\to(1,\frac{\mathbf{x}}{w})$.
-    Parametrizacija $\mathbf{R}:[0,1]\to \R^d$ Bezierjeve krivulje stopnje $n$ je tako določena s predpisom $\mathbf{R}(t) = \frac{\sum^{n}_{i=0}w_i\p_i b^n_i(t)}{\sum^{n}_{i=0}w_i b^n_i(t)}$.
+    Parametrizacija $\mathbf{R}:[0,1]\to \R^d$ Bezierjeve krivulje stopnje $n$ je tako določena s predpisom $\mathbf{R}(t) = \frac{\sum^{n}_{i=0}w_i\p_i B^n_i(t)}{\sum^{n}_{i=0}w_i B^n_i(t)}$.
     Točkam $\p_i$ tudi tukaj pravimo kontrolne točke, realnim številom $w_i$ pa pravimo \textit{uteži}.
     Uteži so prosti parametri, ki jih lahko uporabimo pri oblikovanju.
     Da bi se izognili težavam pri deljenju z $0$ ponavadi privzamemo, da so vse uteži pozitivne.
@@ -476,7 +469,6 @@ the content and not the structure of your work.}
     Na grafu (a) je utež nastavljena na število $1$, krivulja na sliki je zato navadna Bezierjeva krivulja.
     Na grafu (b) je utež nastavljena na število $2$, krivulja je zato bližje rumeni točki kakor na grafu (a).
     Na grafih (c) in (d) pa lahko vidimo, da se z višanjem uteži, krivulja še bolj bliža rumeni točki.
-
     \begin{figure}[h]
         \centering
         \subfloat[w=1]{\includegraphics[width = 0.45\textwidth]{images/racionalnaw1}}
@@ -488,12 +480,11 @@ the content and not the structure of your work.}
         \caption{Vpliv uteži}
         \label{fig:uteži}
     \end{figure}
-
     Lastnosti Bezierjevih krivulj, ki smo jih podali v izreku~\ref{izrek:lastnosti-bezierjevih-krivulj} veljajo tudi za racionalne Bezierjeve krivulje s pozitivnimi utežmi.
     Interpolacijo točk lahko dokažemo na podoben način, kakor smo to storili pri dokazu izreka~\ref{izrek:lastnosti-bezierjevih-krivulj}.
     Da dokažemo, da je racionalna Bezierjeva krivulja afino invariantna, ter da leži znotraj konveksne ovojnice svojih kontrolnih točk, pa posežemo po naslednjem zapisu.
-    \[\mathbf{R}(t)=\sum^n_{i=0}\p_i N^n_i, \quad N^n_i(t)\coloneqq \frac{w_i b^n_i(t)}{\sum^n_{i=0}w_i b^n_i(t)}\]
-    Če pri dokazu izreka~\ref{izrek:lastnosti-bezierjevih-krivulj} namesto Bernsteinovih polinomov $b_{n,i}$ vstavimo funkcijo $N^n_i$ iz zgornjega zapisa, dobimo dokaz lastnosti za racionalne Bezierjeve krivulje.
+    \[\mathbf{R}(t)=\sum^n_{i=0}\p_i N^n_i, \quad N^n_i(t)\coloneqq \frac{w_i B^n_i(t)}{\sum^n_{i=0}w_i B^n_i(t)}\]
+    Če pri dokazu izreka~\ref{izrek:lastnosti-bezierjevih-krivulj} namesto Bernsteinovih polinomov $B_i^n(t)$ vstavimo funkcijo $N^n_i$ iz zgornjega zapisa, dobimo dokaz lastnosti za racionalne Bezierjeve krivulje.
 
     \subsubsection{Metode racionalnih Bezierjevih krivulj}
     Racionalne Bezierjeve krivulje $\in\R^d$ so projekcije Bezierjevih krivulj $\in\R^{d+1}$.
@@ -537,8 +528,8 @@ the content and not the structure of your work.}
     Krivulja je po definiciji na posameznih odsekih polinomska in zato tudi gladka, problem je le v stičnih točkah.
     Naj bo
     \[\mathbf{s}(u) = \begin{dcases}
-                          \mathbf{s_1}(u) = \sum_{i=0}^n \p_i^{(1)}b_{i,n}(\frac{u-u_0}{\Delta u_0}), & u \in [u_0,u_1),  \\
-                          \mathbf{s_2}(u) = \sum_{i=0}^n \p_i^{(2)}b_{i,n}(\frac{u-u_1}{\Delta u_1}), & u \in [u_1,u_2]
+                          \mathbf{s_1}(u) = \sum_{i=0}^n \p_i^{(1)}B_i^n(\frac{u-u_0}{\Delta u_0}), & u \in [u_0,u_1),  \\
+                          \mathbf{s_2}(u) = \sum_{i=0}^n \p_i^{(2)}B_i^n(\frac{u-u_1}{\Delta u_1}), & u \in [u_1,u_2]
     \end{dcases}\]
     zlepek dveh Bezierjevih krivulj.
     Da bo zlepek zvezen, mora v stični točki $u_1$ veljati $\mathbf{s}_1(u_1) = \mathbf{s}_2(u_1)$ oziroma $\p_n^{(1)} = \p_0^{(2)}$.
@@ -575,8 +566,6 @@ the content and not the structure of your work.}
     Pogoj za $G^1$ nam pogoj za zveznost \mycomment{**dodajref} spremeni v to, da mora stična točka ležati na daljici med drugima kontrolnima točkama \mycomment{nekako referencirat prave}.
     S tem, smo pridobili prosti parameter, ki ga lahko v CAGD sistemih uporabimo za dodatno kontrolo nad krivuljo.
     $G^1$ zlepek si lahko ogledamo na sliki~\ref{fig:zlepek-g1}.
-
-
     \begin{figure}[h]
         \centering
         \includegraphics[width = 0.50\textwidth]{images/zlepek-c0}
@@ -621,17 +610,20 @@ the content and not the structure of your work.}
     \subsection{Polinomska parametrična hitrost}
     Kot smo zgoraj dokazali, ne moremo doseči racionalne parametrizacije krivulje, ki bi imela hitrost enako $1$.
     Če krivulje nekoliko omejimo, lahko dosežemo, da bo funkcija hitrosti vsaj polinom.
-    To dosežemo tako, da zahtevamo, da je $x^{'2}(t)+y^{'2}(t)$ popoln kvadrat.
-    V takšnem primeru se namreč koren v integrandu pokrajša, pod integralom pa ostane polinom.
+    To dosežemo tako, da zahtevamo, da je polinom $x^{'2}(t)+y^{'2}(t)$ popoln kvadrat.
+    V takšnem primeru se namreč koren v integrandu izraza REFNAENACBO pokrajša, pod integralom pa ostane polinom.
     Krivuljam za katere to drži pravimo \textit{krivulje s pitagorejskimi hodografi} oziroma \textit{PH krivulje}.
-    To so krivulje, ki jim lahko dolžino izračunamo tako, da evalviramo polinom.
+    Integral polinoma je tudi polinom, iz česar sledi, da lahko dolžino PH krivulje izračunamo tako, da evalviramo polinom.
+    V naslednjih razdelkih bomo videli, da nam tale lastnost omogoča več, kot samo
 
+    \begin{definicija}
+        Hodograf krivulje podane s parametrizacijo $\mathbf{r}(t)\in \R^n$ je krivulja katere parametrizacija je odvod parametrizacije prvotne krivulje.
+        \mycomment{V primeru, da komponente parametrizacije hodografa krivulje tvorijo
+        Krivulja podana s parametrizacijo $\mathbf{r}(t)\in \R^n$ je krivulja s pitagorejskim hodografom, če komponente hodografa tvorijo pitagorejsko $(n+1)$-terko. (???????????????? se tako rece?)}
+    \end{definicija}
 
-    \textit{Hodograf} krivulje podane s parametrizacijo $\mathbf{r}(t)\in \R^n$ je krivulja katere parametrizacija je odvod parametrizacije prvotne krivulje.
-    V primeru, da komponente parametrizacije hodografa krivulje tvorijo
-    Krivulja podana s parametrizacijo $\mathbf{r}(t)\in \R^n$ je krivulja s pitagorejskim hodografom, če komponente hodografa tvorijo pitagorejsko $(n+1)$-terko. (???????????????? se tako rece?)
-
-    Za pomoč pri konstrukciji bezierjevih PH krivulj bomo potrebovali izrek, ki nam bo pomagal pri generaciji polinomov, ki tvorijo pitagorejske trojice.
+    Pri konstrukciji Bezierjevih PH krivulj bomo potrebovali polinome, ki tvorijo pitagorejske trojice.
+    Pomagali si bomo z naslednjim izrekom.
 
     \begin{izrek}              % (tvorijo pitagorejsko trojico??)
         Polinomi $a,b$ in $c$ tvorijo pitagorejsko trojico, t.j.\ zadoščajo enačbi
@@ -705,27 +697,27 @@ the content and not the structure of your work.}
     Tako dobljene PH krivulje so lihe stopnje $n=2\mu+1$.
 
     Najbolj osnovne netrivialne PH krivulje dobimo tako, da za polinoma $u$ in $v$ izberemo Bernsteinova polinoma
-    \[u(t)=u_0b_{0,1}(t)+u_1b_{1,1}(t),\quad v(t)=v_0b_{0,1}(t)+v_1b_{1,1}(t)\]
+    \[u(t)=u_0B_{0}^{1}(t)+u_1B_{1}^{1}(t),\quad v(t)=v_0B_{0}{1}(t)+v_1B_{1}^{1}(t)\]
     pri katerih mora veljati $u_0v_1-u_1v_0\neq 0$ in $(u_1-u_0)^2+(v_1-v_0)^2\neq 0$, da sta si polinoma $u$ in $v$ tuja, ter da vsaj en od njiju ni konstanten.
     Za polinom $w$ izberemo konstanten polinom $w(t)=1$.
     Ko polinome vstavimo v enačbo REFERENCANAENACBO, dobimo hodograf
     % Realno to ni tako ocitno, bi blo fajn dejansko izpeljat!
     \begin{align*}
-        x'(t) &=(u_0^2-v_0^2)b_{0,2}(t)+(u_0u_1-v_0v_1)b_{1,2}(t) + (u_1^2-v_1^2)b_{2,2}(t)\\
-        y'(t) &= 2u_0 v_0 b_{0,2}(t)+(u_0v_1+u_1v_0)b_{1,2}(t)+2u_1 v_1 b_{2,2}(t).
+        x'(t) &=(u_0^2-v_0^2)B_{0}^{2}(t)+(u_0u_1-v_0v_1)B_{1}^{2}(t) + (u_1^2-v_1^2)B_{2}^{2}(t)\\
+        y'(t) &= 2u_0 v_0 B_{0}^{2}(t)+(u_0v_1+u_1v_0)B_{1}^{2}(t)+2u_1 v_1 B_{2}^{2}(t).
     \end{align*}
 
     Hodograf sedaj integriramo tako, da uporabimo lastnost~\ref{izrek:bernsteinovi_lastnosti:integral} iz izreka~\ref{izrek:bernsteinovi_lastnosti}.
     Če upoštevamo še, da so Bernsteinovi polinomi razčlenitev enote dobimo
     \begin{align*}
-        x(t) = &\ \ \ x_0(b_{0,3}(t) + b_{1,3}(t) + b_{2,3}(t)+ b_{3,3}(t)) \\
-        &+ \frac{1}{3}(u_0^2-v_0^2)(b_{1,3}(t) + b_{2,3}(t)+ b_{3,3}(t)) \\
-        &+ \frac{1}{3}(u_0u_1-v_0v_1)(b_{2,3}(t)+ b_{3,3}(t)) \\
-        &+ \frac{1}{3} (u_1^2-v_1^2)b_{3,3}(t)\\
-        y(t) = &\ \ \  y_0(b_{0,3}(t) + b_{1,3}(t) + b_{2,3}(t)+ b_{3,3}(t)) \\
-        &+ \frac{1}{3}2u_0 v_0(b_{1,3}(t) + b_{2,3}(t)+ b_{3,3}(t)) \\
-        &+ \frac{1}{3}(u_0v_1+u_1v_0)(b_{2,3}(t)+ b_{3,3}(t)) \\
-        &+ \frac{1}{3} 2u_1 v_1 b_{3,3}(t),
+        x(t) = &\ \ \ x_0(B_{0}^{3}(t) + B_{1}^{3}(t) + B_{2}^{3}(t)+ B_{3}^{3}(t)) \\
+        &+ \frac{1}{3}(u_0^2-v_0^2)(B_{1}^{3}(t) + B_{2}^{3}(t)+ B_{3}^{3}(t)) \\
+        &+ \frac{1}{3}(u_0u_1-v_0v_1)(B_{2}^{3}(t)+ B_{3}^{3}(t)) \\
+        &+ \frac{1}{3} (u_1^2-v_1^2)B_{3}^{3}(t)\\
+        y(t) = &\ \ \  y_0(B_{0}^{3}(t) + B_{1}^{3}(t) + B_{2}^{3}(t)+ B_{3}^{3}(t)) \\
+        &+ \frac{1}{3}2u_0 v_0(B_{1}^{3}(t) + B_{2}^{3}(t)+ B_{3}^{3}(t)) \\
+        &+ \frac{1}{3}(u_0v_1+u_1v_0)(B_{2}^{3}(t)+ B_{3}^{3}(t)) \\
+        &+ \frac{1}{3} 2u_1 v_1 B_{3}^{3}(t),
     \end{align*}
     kar ustreza Bezierjevi krivulji s kontrolnimi točkami
     \begin{align}
@@ -744,7 +736,7 @@ the content and not the structure of your work.}
     Takšne krivulje so v CAD sistemih neuporabne, saj uporabniku ne nudijo dovolj kontrole.
     Če želimo podoben nivo kontrole, kakor pri kubičnih Bezierjevih krivuljah, moramo poseči po \textit{kvintičnih} Bezierjevih PH krivuljah.
     Podobno kakor prej, za polinom $w$ izberemo $w(t)=1$, za polinoma $u$ in $v$ pa izberemo Bernsteinova polinoma, le da tokrat izberemo polinoma stopnje $2$
-    \[u(t)=u_0b_{0,2}(t)+u_1b_{1,2}(t)+u_2b_{2,2}(t),\quad v(t)=v_0b_{0,2}(t)+v_1b_{1,2}(t)+v_2b_{2,2}(t).\]
+    \[u(t)=u_0B_{0}^{2}(t)+u_1B_{1}^{2}(t)+u_2B_{2}^{2}(t),\quad v(t)=v_0B_{0}^{2}(t)+v_1B_{1}^{2}(t)+v_2B_{2}^{2}(t).\]
     Da sta si polinoma $u$ in $v$ tuja, mora tukaj veljati $(u_2 v_0 -u_0 v_2)^2 \neq 4(u_0 v_1 - u_1 v_0)(u_1 v_2-u_2v_1)$.
     Vstavimo ju v hodograf in integriramo, da dobimo Bezierjevo krivuljo z naslednjimi kontrolnimi točkami
     \begin{align}
@@ -778,7 +770,7 @@ the content and not the structure of your work.}
     Parametrična hitrost PH krivulje podane s parametrizacijo $\mathbf{r}(t)=(x(t),y(t))$ je dana s polinomom
     \[\sigma(t) = |\mathbf{r}'(t)| = \sqrt{x'^2(t)+y'^2(t)} = u^2(t)+v^2(t).\]
     Če je krivulja stopnje $n$, potem morata biti polinoma $u$ in $v$ stopnje $m=\frac{1}{2}(n-1)$.
-    Zapišimo polinome $u,v$ in $\sigma$ v Bernsteinovi obliki \[u(t)=\sum_{j=0}^{m}u_j b_{j,m}, \quad v(t)=\sum_{j=0}^{m}v_j b_{j,m}, \quad \sigma(t)=\sum_{j=0}^{n-1}\sigma_j b_{j,m}\]
+    Zapišimo polinome $u,v$ in $\sigma$ v Bernsteinovi obliki \[u(t)=\sum_{j=0}^{m}u_j B_{j}^{m}, \quad v(t)=\sum_{j=0}^{m}v_j B_{j}^{m}, \quad \sigma(t)=\sum_{j=0}^{n-1}\sigma_j B_{j,m}\]
     S pomočjo pravila za množenje Bernsteinovih polinomov iz izreka~\ref{izrek:bernsteinovi_lastnosti}, lahko koeficiente $\sigma_j$ izrazimo s koeficienti polinomov $u$ in $v$:
     \[\sigma_j = \sum_{k=\max(0,j-m)}^{\min(m,j)} = \frac{\binom{m}{k}\binom{m}{j-k}}{\binom{n-1}{j}}(u_k u_{j-k}+v_k v_{j-k}).\]
     Pridobili smo funkcijo parametrične hitrosti PH krivulje, ki je zapisana v Bernsteinovi bazi.

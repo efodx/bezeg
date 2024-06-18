@@ -14,6 +14,7 @@
 - [x] RESIZABLE GRAF!!! - **resizas okno, ostane pa aspect ratio!**
 - [x] Prikaz kontrolnih točk offset krivulje
 - [ ] Select za krivuljo samo tam, kjer ima smisel!
+- [ ] Risanje kroga z racionalnimi bezierjevimi krivuljami
 
 ### Low Priority
 

@@ -22,6 +22,8 @@ import AlphaParamBezierCurveGraph from "./graphs/parametrisations/AlphaParamBezi
 import UniformParamBezierCurveGraph from "./graphs/parametrisations/UniformParamBezierCurveGraph";
 import {useState} from "react";
 import {RefreshContext} from "./Contexts";
+import RationalBezierCurveCircleGraph4 from "./graphs/rational/RationalBezierCurveCircleGraph4";
+import RationalBezierCurveCircleGraph3 from "./graphs/rational/RationalBezierCurveCircleGraph3";
 
 const PATH_RATIONAL_CURVES = "/bezeg/rational"
 const PATH_SPLINE_CURVES = "/bezeg/spline"
@@ -119,6 +121,20 @@ const routes = [
                 path: PATH_RATIONAL_CURVES + "/rational-subdivision",
                 element: <RationalSubdivisionGraph/>,
                 title: "Subdivizija Racionalne",
+                group: "Racionalne Bezierjeve Krivulje"
+            },
+            {
+                group_path: PATH_RATIONAL_CURVES,
+                path: PATH_RATIONAL_CURVES + "/circle4",
+                element: <RationalBezierCurveCircleGraph4/>,
+                title: "Krožnica z n krivuljami",
+                group: "Racionalne Bezierjeve Krivulje"
+            },
+            {
+                group_path: PATH_RATIONAL_CURVES,
+                path: PATH_RATIONAL_CURVES + "/circle3",
+                element: <RationalBezierCurveCircleGraph3/>,
+                title: "Krožnica s 3 krivuljami",
                 group: "Racionalne Bezierjeve Krivulje"
             },
             {
