@@ -2,7 +2,7 @@ import BaseGraph, {BaseGraphProps, BaseGraphStates} from "./BaseGraph";
 import {JSXBezierCurve} from "../bezier/JSXBezierCurve";
 import Slider from "../../inputs/Slider";
 import {BezierCurve} from "../../bezeg/interfaces/bezier-curve";
-import React, {CSSProperties} from "react";
+import React from "react";
 import {Button} from "react-bootstrap";
 import {OnOffSwitch} from "../../inputs/OnOffSwitch";
 
@@ -197,10 +197,6 @@ export abstract class BaseCurveGraph<P extends BaseCurveGraphProps, S extends Ba
     private setDecasteljauT(t: number) {
         this.decasteljauT = t;
         this.showSelectedCurveDecasteljauScheme()
-    }
-
-    private getCurveCommandStyle(): CSSProperties {
-        return this.curveCommandStyle
     }
 
 }

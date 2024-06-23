@@ -2,8 +2,7 @@ import '../../App.css';
 import {BaseCurveGraph, BaseCurveGraphProps} from "../base/BaseCurveGraph";
 import {BaseGraphStates} from "../base/BaseGraph";
 import Slider from "../../inputs/Slider";
-
-const range = (start: number, stop: number, step: number) => Array.from({length: (stop - start) / step + 1}, (_, i) => start + i * step);
+import {range} from "../../utils/Range";
 
 class AlphaParamBezierCurveGraph extends BaseCurveGraph<BaseCurveGraphProps, BaseGraphStates> {
     numberOfPoints: number = 10;

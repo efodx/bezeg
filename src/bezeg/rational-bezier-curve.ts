@@ -1,6 +1,7 @@
 import {PointImpl} from "./point/point-impl";
 import {Point} from "./interfaces/point";
 import {BezierCurveImpl} from "./bezier-curve-impl";
+import {range} from "../utils/Range";
 
 
 export class RationalBezierCurve extends BezierCurveImpl {
@@ -126,4 +127,13 @@ export class RationalBezierCurve extends BezierCurveImpl {
         return decasteljauScheme
     }
 
+    setStandardForm() {
+        const newWeights: number[] = []
+        const n = this.weights.length
+        range(0, n - 1, 1)
+            .forEach(i => {
+                newWeights.push(this.weights[i] / Math.pow(this.weights[n - 1] ** i * this.weights[0] ** (n - 1 - i), 1 / (n - 1)))
+            })
+        this.setWeights(newWeights)
+    }
 }

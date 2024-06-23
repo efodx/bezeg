@@ -4,6 +4,7 @@ import {Point} from "../../bezeg/interfaces/point";
 import {BezierCurve} from "../../bezeg/interfaces/bezier-curve";
 import {CacheContext} from "../../Contexts";
 import {Colors} from "./utilities/Colors";
+import {Labels} from "../../utils/PointLabels";
 
 /**
  * Class that wraps a BezierCurve with methods for dealing with JSXGraph
@@ -222,7 +223,7 @@ export class JSXBezierCurve extends AbstractJSXBezierCurve<BezierCurve> {
     elevate() {
         const elevated = this.pointControlledCurve.elevate()
         this.clearJxgPoints()
-        const wrappedPoints = elevated.getPoints().map(point => this.createJSXGraphPoint(point.X(), point.Y()))
+        const wrappedPoints = elevated.getPoints().map((point, i) => this.createJSXGraphPoint(point.X(), point.Y(), Labels.pi(i)))
         this.pointControlledCurve.setPoints(wrappedPoints);
     }
 
@@ -232,12 +233,8 @@ export class JSXBezierCurve extends AbstractJSXBezierCurve<BezierCurve> {
     }
 
     protected getStartingCurve(points: number[][]): BezierCurve {
-        let jsxPoints = points.map(point => this.createJSXGraphPoint(point[0], point[1]))
+        let jsxPoints = points.map((point, i) => this.createJSXGraphPoint(point[0], point[1], Labels.pi(i)))
         return new BezierCurveImpl(jsxPoints);
-    }
-
-    private generateCacheHash(t: number) {
-        return "" + t + this.getCurve().getPoints().map(p => "" + p.X() + p.Y())
     }
 
 }

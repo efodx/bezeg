@@ -27,7 +27,6 @@ class BezierSpline extends PointControlledCurveImpl {
         this.bezierCurves = []
 
         // TODO parameters correctness check
-        // TODO enum continuity
         this.generateBezierCurves()
     }
 
@@ -44,14 +43,14 @@ class BezierSpline extends PointControlledCurveImpl {
         switch (this.continuity) {
             case Continuity.C0:
                 step = this.degree;
-                for (let i = 0; i < this.points.length - step; i = i + step) {
+                for (let i = 0; i < this.points.length; i = i + step) {
                     let bezierCurvePoints = this.points.slice(i, i + step + 1)
                     this.bezierCurves.push(new BezierCurveImpl(bezierCurvePoints))
                 }
                 break
             case Continuity.C1:
                 step = this.degree;
-                for (let i = 0; i < this.points.length - step + 1; i = i + step - 1) {
+                for (let i = 0; i < this.points.length - 1; i = i + step - 1) {
                     let bezierCurvePoints = this.points.slice(i, i + step)
                     let previousBezierCurve = this.bezierCurves[this.bezierCurves.length - 1]
                     if (!previousBezierCurve) {
@@ -69,7 +68,7 @@ class BezierSpline extends PointControlledCurveImpl {
                 break
             case Continuity.G1:
                 step = this.degree;
-                for (let i = 0; i < this.points.length - step + 1; i = i + step - 1) {
+                for (let i = 0; i < this.points.length - 1; i = i + step - 1) {
                     let bezierCurvePoints = this.points.slice(i, i + step)
                     let previousBezierCurve = this.bezierCurves[this.bezierCurves.length - 1]
                     if (!previousBezierCurve) {
@@ -90,7 +89,7 @@ class BezierSpline extends PointControlledCurveImpl {
                 break
             case Continuity.C2:
                 step = this.degree;
-                for (let i = 0; i < this.points.length - step + 1; i = i + step - 1) {
+                for (let i = 0; i < this.points.length - 1; i = i + step - 1) {
                     let bezierCurvePoints = this.points.slice(i, i + step)
                     let previousBezierCurve = this.bezierCurves[this.bezierCurves.length - 1]
                     if (!previousBezierCurve) {
@@ -143,6 +142,25 @@ class BezierSpline extends PointControlledCurveImpl {
 
     getNonFreePoints() {
         return this.nonFreePoints
+    }
+
+    getAllCurvePoints(): Point[] {
+        const points: Point[] = []
+        points.push(...this.bezierCurves[0].getPoints())
+        this.bezierCurves.slice(1).forEach(curve => {
+            points.push(...curve.getPoints().slice(1))
+        })
+        return points
+    }
+
+    addPoint(point: Point) {
+        super.addPoint(point)
+        this.generateBezierCurves()
+    }
+
+    removePoint(point: Point) {
+        super.removePoint(point)
+        this.generateBezierCurves()
     }
 
     override getBoundingBox() {

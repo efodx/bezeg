@@ -4,6 +4,7 @@ import {JSXRationalBezierCurve} from "./JSXRationalBezierCurve";
 import Slider from "../../inputs/Slider";
 import React from "react";
 import {Button, ButtonGroup} from "react-bootstrap";
+import {OnOffSwitch} from "../../inputs/OnOffSwitch";
 
 interface BaseRationalBezierCurveGraphProps extends BaseGraphProps {
 
@@ -57,7 +58,14 @@ export abstract class BaseRationalCurveGraph<P extends BaseRationalBezierCurveGr
                     <Button variant={"dark"} onClick={() => this.changeWeight(-0.25)}
                             className="btn-block">-</Button>
                 </ButtonGroup>
-                <Button variant={"dark"} onClick={() => this.nextWeight()}>Naslednja Utež</Button>
+                <div>
+                    <Button variant={"dark"} onClick={() => this.nextWeight()}>Naslednja Utež</Button>
+                </div>
+                <div>
+                    <Button variant={"dark"} onClick={() => this.setStandardForm()}>Standardna forma</Button>
+                </div>
+                <OnOffSwitch initialState={this.getFirstJsxCurve().isShowingWeights()}
+                             onChange={(checked) => this.showWeights(checked)} label={"Uteži"}/>
             </div>
         ]);
     }
@@ -171,6 +179,18 @@ export abstract class BaseRationalCurveGraph<P extends BaseRationalBezierCurveGr
         })
     }
 
+    showWeights(show: boolean) {
+        if (show) {
+            this.getSelectedCurve().showWeights()
+        } else {
+            this.getSelectedCurve().hideWeights()
+        }
+    }
+
+    hideWeights() {
+        this.getSelectedCurve().hideWeights()
+    }
+
     private setSubdivisionT(t: number) {
         this.subdivisionT = t
         this.board.update()
@@ -178,6 +198,12 @@ export abstract class BaseRationalCurveGraph<P extends BaseRationalBezierCurveGr
 
     private setExtrapolationT(t: number) {
         this.extrapolationT = t
+        this.board.update()
+    }
+
+    private setStandardForm() {
+        this.getFirstCurve()!.setStandardForm()
+        this.refreshWeightState()
         this.board.update()
     }
 

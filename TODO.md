@@ -13,8 +13,11 @@
 - [x] Odstrani styles in uporabljaj bootstrap classe za oblikovanje
 - [x] RESIZABLE GRAF!!! - **resizas okno, ostane pa aspect ratio!**
 - [x] Prikaz kontrolnih točk offset krivulje
+- [x] Dodajanje točk zlepkom
 - [ ] Select za krivuljo samo tam, kjer ima smisel!
 - [ ] Risanje kroga z racionalnimi bezierjevimi krivuljami
+- [x] Dodat bernsteinove polinome.... ni cisto brezsmiselno. Graf pokaze koliko tocka za dolocen t doda pri kalkulaciji
+  tocke na krivulji!!
 
 ### Low Priority
 
@@ -31,5 +34,7 @@
 - [ ] Make JGBox self-initiating! it should be possible!
 - [ ] Resizanje v obe smeri za PH krivulje...TOLE MOGOCE CELO NE GRE, dobro razmisli ce strig ohrani PH...
 - [ ] Poglej še enkrat Decasteljau, tisto je bilo pisano DOLGO nazaj. Mogoče lahko tudi dam uporabiš caching sistem.
-- [ ] Dodajanje točk zlepkom
+- [ ] JSXKrivulje bi lahko imele "wrapControlPoints()", ki bi vzele krivuljo, in njene kontrolne tocke zawrappala v
+  JSXTocke...
+- [ ] Mogoce pri bernsteinovih naredit nek plotchart kolko kateri vpliva?
 - [x]

@@ -30,43 +30,43 @@ class Graph extends BaseSplineCurveGraph {
 
     private povecajB1() {
         this.getFirstCurve().setB(0, this.getFirstCurve().getB(0) * 1.1)
-        this.board.update()
+        this.boardUpdate()
     }
 
     private zmanjsajB1() {
         this.getFirstCurve().setB(0, this.getFirstCurve().getB(0) * 0.9)
-        this.board.update()
+        this.boardUpdate()
     }
 
 
     private povecajB2() {
         this.getFirstCurve().setB(1, this.getFirstCurve().getB(1) * 1.1)
-        this.board.update()
+        this.boardUpdate()
     }
 
     private zmanjsajB2() {
         this.getFirstCurve().setB(1, this.getFirstCurve().getB(1) * 0.9)
-        this.board.update()
+        this.boardUpdate()
     }
 
     private moveFor(x: number, y: number) {
         this.getFirstCurve().moveFor(x, y)
-        this.board.update()
+        this.boardUpdate()
     }
 
     private scale(scale: number) {
         this.getFirstCurve().scale(scale)
-        this.board.update()
+        this.boardUpdate()
     }
 
     private rotate(number: number) {
         this.getFirstCurve().rotate(number)
-        this.board.update()
+        this.boardUpdate()
     }
 
     private flip(b: boolean, b2: boolean) {
         this.getFirstCurve().flip(b, b2)
-        this.board.update()
+        this.boardUpdate()
     }
 
 }

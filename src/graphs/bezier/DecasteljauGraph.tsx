@@ -19,7 +19,7 @@ class DecasteljauGraph extends BaseCurveGraph<BaseCurveGraphProps, DecasteljauGr
         this.getFirstJsxCurve().setIntervalEnd(() => this.slider!.Value())
         this.getFirstJsxCurve().showDecasteljauSchemeForSlider(this.slider)
         this.slider.setAttribute({moveOnUp: true})
-        this.board.update()
+        this.boardUpdate()
     }
 
     override getGraphCommands(): JSX.Element[] {

@@ -166,7 +166,7 @@ the content and not the structure of your work.}
     V tem razdelku bomo predstavili Bezierjeve krivulje in njihove ključne lastnosti za rabo v CAGD sistemih.
     Začeli bomo z Bernsteinovimi polinomi, ki jih bomo uporabili pri definiciji Bezierjevih krivulj.
     Predstavili bomo Decasteljaujev algoritem, ki omogoča stabilno računanje točk Bezierjevih krivulj.
-    Nadaljevali pa bomo z nekaj metodami na Bezierjevih krivuljah, ki so ključne za njihovo rabo v računalniško podprtem grafičnem oblikovanju.
+    Nadaljevali pa bomo z nekaj metodami na Bezierjevih krivuljah, ki so ključne za njihovo rabo v CAGD sistemih.
 
     \subsection{Bernsteinovi polinomi}\label{subsec:bernsteinovi-polinomi}
     Bernsteinove polinome je najprej uporabil Sergei Bernstein pri dokazu Weierstrassovega izreka.
@@ -194,7 +194,7 @@ the content and not the structure of your work.}
             \item $B_i^n(1-t) = B^n_{n-i}(t)$, simetrija \label{izrek:bernsteinovi_lastnosti:simetrija}
             \item $\sum_{i=0}^{n}B_{i}^{n}(t) = 1$, razčlenitev enote \label{izrek:bernsteinovi_lastnosti:enota}
             \item $B_i^n(t) = (1-t)B_i^{n-1} + tB_{i-1}^{n-1}$ \label{izrek:bernsteinovi_lastnosti:rekruzija}
-            \item $B_{i}^{n}'(t)=n(B_{i-1}^{n-1} - B_{i}^{n-1})$ \label{izrek:bernsteinovi_lastnosti:odvod}
+            \item $B_{i}^{\prime n}(t)=n(B_{i-1}^{n-1} - B_{i}^{n-1})$ \label{izrek:bernsteinovi_lastnosti:odvod}
             \item $\int B_i^n(t)dt= \frac{1}{n+1}\sum^{n+1}_{j=i+1}B_{j}^{n+1}(t)$ \label{izrek:bernsteinovi_lastnosti:integral}
             \item{\label{izrek:bernsteinovi_lastnosti:mnozenje} Naj bo $f(t)=\sum_{i=0}^{m}B_i^m(t)$ in $g(t)=\sum_{i=0}^{n}B_i^n(t)$.
             Za njun zmnožek velja
@@ -209,7 +209,7 @@ the content and not the structure of your work.}
         \noindent(3) $B_0^n(0) = ....$\\
         \noindent(4) Namesto spremenljivke $t$ v enačbo za bernsteinov bazni polinom $B_i^n(t)$ vstavimo izraz $1-t$ in uporabimo lastnost binomskega simbola $\binom{n}{i} = \binom{n}{n-i}$, dobimo
 
-        \[B_i^n(1-t) = \binom{n}{i}(1-t)^i(1-(1-t))^{n-i} =  \binom{n}{n-i}(1-t)^it^{n-i} = B_^{n-i}_{i}(t).\]
+        \[B_i^n(1-t) = \binom{n}{i}(1-t)^i(1-(1-t))^{n-i} =  \binom{n}{n-i}(1-t)^it^{n-i} = B^{n-i}_{i}(t).\]
 
         \noindent(5) Za $1 = 1^n = (1-t+t)^n = ((1-t) + t)^n$ uporabimo binomski izrek, dobimo
         \[\left((1-t) + t\right)^n = \sum_{i=0}^{n}\bernstein{n}{i} = \sum_{i=0}^n B_i^n(t).\]
@@ -251,7 +251,7 @@ the content and not the structure of your work.}
         \label{izrek:lastnosti-bezierjevih-krivulj}
         \begin{enumerate}
             \item $\bigbbod{n}{0}=\p_0$ in $\bigbbod{n}{1}=\p_n$, interpolacija končnih točk
-            \item $\phi(\bernsteinsump{i}{n}) =\bernsteinsumtritri{i}{n}{\phi(\p_i)}$, afina invarianca
+            \item $\varphi(\bernsteinsump{i}{n}) =\bernsteinsumtritri{i}{n}{\varphi(\p_i)}$, afina invarianca
             \item Krivulja leži znotraj konveksne ovojnice svojih kontrolnih točk.
         \end{enumerate}
     \end{izrek}
@@ -264,11 +264,11 @@ the content and not the structure of your work.}
         \noindent (1) $\bigbbod{n}{0}=\sum_{i=0}^{n}\p_{i}B_i^n(t)(0) = \sum_{i=0}^{n}\p_{i}\delta_{0,i} = \p_0$.
         Enako lahko naredimo tudi za $\bigbbod{n}{1}.$
 
-        \noindent (2) Naj bo $\phi$ afina preslikava, velja torej $\phi(x) = A\mathbf{x} + \mathbf{b}.$
+        \noindent (2) Naj bo $\varphi$ afina preslikava, velja torej $\varphi(x) = A\mathbf{x} + \mathbf{b}.$
         \begin{align*}
-            \phi\left(\sum_{i=0}^{n}\p_{i}B_i^n(t)(t)\right) &= A\left(\sum_{i=0}^{n}\p_{i}B_i^n(t)(t)\right) + \mathbf{b} &&=  \sum_{i=0}^{n}A\p_{i}B_i^n(t)(t) + \mathbf{b}  \\
+            \varphi\left(\sum_{i=0}^{n}\p_{i}B_i^n(t)(t)\right) &= A\left(\sum_{i=0}^{n}\p_{i}B_i^n(t)(t)\right) + \mathbf{b} &&=  \sum_{i=0}^{n}A\p_{i}B_i^n(t)(t) + \mathbf{b}  \\
             &= \sum_{i=0}^{n}A\p_{i}B_i^n(t)(t) + \sum_{i=0}^{n}\mathbf{b}B_i^n(t)(t) &&= \sum_{i=0}^{n}(A\p_{i}+\mathbf{b})B_i^n(t)(t) \\
-            &= \bernsteinsumtritri{i}{n}{\phi(\p_i)}
+            &= \bernsteinsumtritri{i}{n}{\varphi(\p_i)}
         \end{align*}
         \noindent (3) Konveksna ovojnica kontrolnih točk Bezierjeve krivulje je množica vseh konveksnih kombinacij teh točk t.j.\ $\sum_{i=0}^{n}\lambda_i\p_{i}$, kjer so $\lambda_i$ pozitivna realna števila za katere velja $\lambda_0 + \lambda_1 + \dots + \lambda_n = 1$.
         Ker so Bernsteinovi polinomi za poljuben $t\in[0,1]$ razčlenitev enote in velja $B_i^n(t)\geq0$, lahko zapišemo $\lambda_i=B_i^n(t)$.
@@ -399,7 +399,7 @@ the content and not the structure of your work.}
     \[ \sum_{i=0}^{n}\mathbf{p}_{i}t_0^{i}\left(\frac{1-tt_0}{1-t}\right)^{n-i}\binom{n}{i}t^i(1-t)^{n-i} \]
 
     \subsubsection{Ekstrapolacija}
-    Motivacija: Zelimo podaljsati krivuljo
+    \mycomment{Motivacija: Zelimo podaljsati krivuljo..... Kr neki. Realno je to bolj kot ne nekaj, kar lahko kasneje uporabimo pri izpeljavi cesa, Graficno je pa to skoraj useless in se pokaze samo kot nekaj, kar tudi deluje.}
 
     \subsubsection{Višanje stopnje}
     TODO: DOKAZ NI PRAVILEN, nekje sem neki zajebal, malce zamakjeno bi moralo bit!
@@ -458,11 +458,15 @@ the content and not the structure of your work.}
     Vseh krivulj se ne da opisati z navadnimi Bezierjevimi krivuljami.
     Med njimi so tudi takšne, ki so za CAGD sisteme zelo pomembne, na primer razni izseki krožnice.
     Za opis takšnih krivulj, lahko posežemo po racionalnih Bezierjevih krivuljah.
-    \textit{Racionalno Bezierjevo krivuljo} stopnje $n$ v $\R^d$ dobimo tako, da polinomsko Bezierjevo krivuljo stopnje $n$ v $\R^{d+1}$ projiciramo na hiperravnino $w=1$.
-    Projekcijo definiramo s predpisom $(w,\mathbf{x})\to(1,\frac{\mathbf{x}}{w})$.
-    Parametrizacija $\mathbf{R}:[0,1]\to \R^d$ Bezierjeve krivulje stopnje $n$ je tako določena s predpisom $\mathbf{R}(t) = \frac{\sum^{n}_{i=0}w_i\p_i B^n_i(t)}{\sum^{n}_{i=0}w_i B^n_i(t)}$.
-    Točkam $\p_i$ tudi tukaj pravimo kontrolne točke, realnim številom $w_i$ pa pravimo \textit{uteži}.
+    Racionalno Bezierjevo krivuljo stopnje $n$ v $\R^d$ dobimo tako, da Bezierjevo krivuljo stopnje $n$ v $\R^{d+1}$ projiciramo na hiperravnino $w=1$.
+    Točke iz $\R^{d+1}$ pri tem definiramo kot $(w,x_1,\ldots,x_n)$, projekcijo pa s predpisom $(w,\mathbf{x})\to(1,\frac{\mathbf{x}}{w})$.
+    Takšna projekcija privede do naslednje definicije.
+    \begin{definicija}
+        \label{def:racionalna}
+        Racionalna Bezierjeva krivulja stopnje $n\in\N$ je podana s parametrizacijo $\mathbf{R}:[0,1]\to \R^d$  določeno s predpisom \[\mathbf{R}(t) = \frac{\sum^{n}_{i=0}w_i\p_i B^n_i(t)}{\sum^{n}_{i=0}w_i B^n_i(t)},\] kjer so kontrolne točke $\p_i\in\R^d$ in uteži $w_i\in\R$.
+    \end{definicija}
     Uteži so prosti parametri, ki jih lahko uporabimo pri oblikovanju.
+    Kadar so vse uteži enake, je racionalna Bezierjeva krivulja enaka Bezierjevi krivulji z istimi kontrolnimi točkami.
     Da bi se izognili težavam pri deljenju z $0$ ponavadi privzamemo, da so vse uteži pozitivne.
     Vpliv uteži si poglejmo na sliki~\ref{fig:uteži}.
     Utež spreminjamo le pri rumeni točki, vse ostale uteži puščamo enake $1$.
@@ -480,6 +484,34 @@ the content and not the structure of your work.}
         \caption{Vpliv uteži}
         \label{fig:uteži}
     \end{figure}
+    Iz zapisa parametrizacije v definiciji~\ref{def:racionalna} lahko hitro vidimo, da množenje vseh uteži s poljubnim neničelnim številom parametrizacije krivulje ne spremeni.
+    Tako lahko brez izgube splošnosti poljubno utež fiskiramo na $1$.
+    Ni pa očitno to, da lahko to storimo za dve uteži.
+    Poglejmo si naslednji izrek.
+    \begin{izrek}
+        \label{izrek:racionalne-utezi-1}
+        Racionalno Bezierjevo krivuljo s pozitivnimi utežmi $w_i$ in parametrizacijo $\mathbf{R}$, lahko reparametriziramo v parametrizacijo $\mathbf{\tilde{R}}$ s pozitivnimi utežmi $\tilde{w}_i$ tako, da velja $\tilde{w}_0=\tilde{w}_{n}=1.$
+    \end{izrek}
+    Izrek nam pove, da smo z uvedbo racionalnih Bezierjevih krivulj dobili dobili le $n-1$ dodatnih prostih parametrov, glede na navadne Bezierjeve krivulje.
+    Dokaz izreka bo konstrukcijske narave.
+    Našli bomo torej uteži $\tilde{w}_i$, katere lahko zamenjamo z utežmi $w_i$, tako da ohranimo isto krivuljo.
+    \begin{dokaz}
+        Uporabimo reparametrizacijsko funkcijo $\varphi(t):[0,1]\to[0,1]$ s predpisom $\varphi(t)=\frac{t}{\rho(1-t)+t}$, kjer je $\rho$ pozitivno realno število.
+        Če reparametrizacijsko funkcijo vstavimo v $i$-ti Bernsteinov bazni polinom dobimo naslednje
+        \begin{align*}
+            B^n_i(\varphi(t)) &=  \binom{n}{i}\left(\frac{t}{\rho (1-t)+t}\right)^i\left(1-\frac{t}{\rho (1-t)+t}\right)^{n-i} \\
+            B^n_i(\varphi(t)) &=  \binom{n}{i}\left(\frac{t}{\rho (1-t)+t}\right)^i\left(\frac{\rho(1-t)}{\rho (1-t)+t}\right)^{n-i} \\
+            &= \binom{n}{i}\frac{\rho^{n-1}t^{i}(1-t)^{n-i}}{(\rho(1-t)+t)^n} =  \frac{\rho^{n-1}}{(\rho(1-t)+t)^n}B^n_i(t).
+        \end{align*}
+        Reparametrizirane Bernsteinove bazne polinome sedaj vstavimo v parametrizacijo racionalne Bezierjeve krivulje da dobimo
+        \[\mathbf{R}(\varphi(t)) = \frac{\sum^{n}_{i=0}\rho^{n-i}w_i\p_i B^n_i(t)}{\sum^{n}_{i=0}\rho^{n-i}w_i B^n_i(t)}. \]
+        S starimi utežmi izrazimo nove uteži $\hat{w}_i=\rho^{n-i}w_i$.
+        Želimo, da bi veljalo $\hat{w}_0=\hat{w}_n$, zato nastavimo $\rho= \sqrt[n]{\frac{w_n}{w_0}}$.
+        Ker velja $\hat{w}_n=w_n$ lahko uteži $\hat{w}_i$ delimo z utežjo $w_n$, da dobimo željene uteži \[\tilde{w_i}=\frac{1}{w_n}\hat{w_i} = \frac{w_i}{\sqrt[n]{w^{i}_nw_0^{n-i}}}.\]
+    \end{dokaz}
+    \begin{opomba}
+        Če velja $w_0=w_n=1$ pravimo, da je racionalna Bezierjeva krivulja predstavljena v \textit{standardni formi}.
+    \end{opomba}
     Lastnosti Bezierjevih krivulj, ki smo jih podali v izreku~\ref{izrek:lastnosti-bezierjevih-krivulj} veljajo tudi za racionalne Bezierjeve krivulje s pozitivnimi utežmi.
     Interpolacijo točk lahko dokažemo na podoben način, kakor smo to storili pri dokazu izreka~\ref{izrek:lastnosti-bezierjevih-krivulj}.
     Da dokažemo, da je racionalna Bezierjeva krivulja afino invariantna, ter da leži znotraj konveksne ovojnice svojih kontrolnih točk, pa posežemo po naslednjem zapisu.
@@ -514,6 +546,66 @@ the content and not the structure of your work.}
         \end{algorithmic}\label{alg:racionalni-decasteljau}
     \end{algorithm}
 
+    \subsubsection{Izsek krožnice}
+    V uvodu podrazdelka smo povedali, da se nekaterih krivulj ne da opisati z navadnimi Bezierjevimi krivuljami.
+    Kot enega izmed primerov smo podali izsek krožnice.
+    V tem podpodrazdelku bomo izpeljali takšne kontrolne točke in uteži racionalne Bezierjeve krivulje, da bo krivulja predstavljala izsek krožnice s kotom $\alpha$, polmerom $r$ in središčem $\mathbf{0}=(0,0)$.
+    Izsek krožnice bomo predstavljali s kvadratičnimi racionalnimi Bezierjevimi krivuljami.
+    Za konstrukcijo imamo na voljo kontrolne točke $\p_0,\p_1$ in $\p_2$.
+    Racionalne Bezierjeve krivulje interpolirajo končne točke, zato morata točki $\p_0$ in $\p_2$ ležati na začetku ter koncu krožnega izseka.
+    Ker so racionalne Bezierjeve krivulje afino invariantne, se lahko osredotočimo na primer, kjer točka $\p_1$ leži na abscisi.
+    Da bo temu tako, mora veljati $\p_0=(r,0)$ in $\p_2=( r\cos(\alpha),r\sin(\alpha))$.
+    Iz izreka~\ref{izrek:racionalne-utezi-1} sledi, da lahko fiksiramo robni uteži $w_0=w_2=1$.
+    Ker je krožni izsek simetričen čez premico z naklonom $\frac{\alpha}{2}$, krivulja pa parabola, lahko pričakujemo, da bosta točki $\p_0$ in $\p_1$ ležali na premici med točkama $\p_0$ in $\p_2$ t.j.\ $\p_1=\left(R\cos\left(\frac{\alpha}{2}\right),R\sin\left(\frac{\alpha}{2}\right)\right)$.
+    Sedaj je cilj najti vrednosti $R$ in $w_1$.
+    Najprej zapišimo parametrizacijo željene krivulje
+    \[\mathbf{R}(t) = \frac{\sum^{2}_{i=0}w_i\p_i B^2_i(t)}{\sum^{2}_{i=0}w_i B^2_i(t)} = \frac{\p_0 (1-t)^2 + w_1\p_1 2t(1-t) + \p_2 t^2}{(1-t)^2 + w_1 2t(1-t) + t^2} .\]
+    Po komponentah to izgleda takole
+    \begin{align*}
+        x(t) &= \frac{r (1-t)^2 + w_1R\cos\left(\frac{\alpha}{2}\right) 2t(1-t) + r\cos(\alpha)t^2}{(1-t)^2 + w_1 2t(1-t) + t^2} \\
+        y(t) &= \frac{w_12t(1-t)R\sin\left(\frac{\alpha}{2}\right) + r\sin(\alpha)t^2}{(1-t)^2 + w_1 2t(1-t) + t^2}.
+    \end{align*}
+    Zaradi simetrije mora krivulja v $t=\frac{1}{2}$ interpolirati točko $\left(r\cos\left(\frac{\alpha}{2}\right),r\sin\left(\frac{\alpha}{2}\right)\right)$ iz česar sledi
+    \begin{align*}
+        x\left(\frac{1}{2}\right) &= \frac{r \frac{1}{4} + w_1R\cos\left(\frac{\alpha}{2}\right) \frac{1}{2} + r\cos(\alpha)\frac{1}{4}}{\frac{1}{4}+ w_1\frac{1}{2} + \frac{1}{4}} = \frac{ \frac{r}{2} + w_1R\cos\left(\frac{\alpha}{2}\right) + \frac{r}{2}\cos(\alpha)}{1+w_1} = r\cos\left(\frac{\alpha}{2}\right) \\
+        y\left(\frac{1}{2}\right) &= \frac{\frac{w_1}{2}R\sin\left(\frac{\alpha}{2}\right) + \frac{r}{4}\sin(\alpha)}{\frac{1}{4}+ w_1\frac{1}{2} + \frac{1}{4}} =  \frac{w_1R\sin\left(\frac{\alpha}{2}\right) + \frac{r}{2}\sin(\alpha)}{1+w_1} = r\sin\left(\frac{\alpha}{2}\right).
+    \end{align*}
+    NEXT
+    \begin{align*}
+        \frac{r}{2} + w_1R\cos\left(\frac{\alpha}{2}\right) + \frac{r}{2}\cos(\alpha) &= (1+w_1)r\cos\left(\frac{\alpha}{2}\right) \\
+        w_1R\cos\left(\frac{\alpha}{2}\right) - w_1r\cos\left(\frac{\alpha}{2}\right) &= r\cos\left(\frac{\alpha}{2}\right)-\frac{r}{2} - \frac{r}{2}\cos(\alpha) \\
+        w_1(R-r)\cos\left(\frac{\alpha}{2}\right) &= r\left(\cos\left(\frac{\alpha}{2}\right)-\frac{1}{2} - \frac{1}{2}\cos(\alpha)\right)
+    \end{align*}
+    NEXT
+    \begin{align*}
+        w_1R\sin\left(\frac{\alpha}{2}\right) + \frac{r}{2}\sin(\alpha) &= (1+w_1)r\sin\left(\frac{\alpha}{2}\right) \\
+        w_1(R-r)\sin\left(\frac{\alpha}{2}\right)  &= r\sin\left(\frac{\alpha}{2}\right) - \frac{r}{2}\sin(\alpha)
+    \end{align*}
+
+    \begin{align*}
+        \frac{r}{2} + w_1R\cos\left(\frac{\alpha}{2}\right) + \frac{r}{2}\cos(\alpha) &=(1+w_1) r\cos\left(\frac{\alpha}{2}\right) \\
+        w_1R\cos\left(\frac{\alpha}{2}\right) - w_1r\cos\left(\frac{\alpha}{2}\right) &= r\cos\left(\frac{\alpha}{2}\right)-\frac{r}{2}\cos(\alpha)-\frac{r}{2} \\
+        w_1(R-r)\cos\left(\frac{\alpha}{2}\right) &= r\cos\left(\frac{\alpha}{2}\right)-\frac{r}{2}\cos(\alpha)-\frac{r}{2} \\
+        w_1 &=\frac{r\cos\left(\frac{\alpha}{2}\right)-\frac{r}{2}\cos(\alpha)-\frac{r}{2}}{(R-r)\cos\left(\frac{\alpha}{2}\right)}\\
+        w_1 &=\frac{r\cos\left(\frac{\alpha}{2}\right)-\frac{r}{2}\cos(\alpha)-\frac{r}{2}}{(R=\frac{r}{\cos\left(\frac{\alpha}{2}\right)}-r)\cos\left(\frac{\alpha}{2}\right)}
+    \end{align*}
+
+    Tangenta na krožnico je v točki $(r,0)$ vzporedna z ordinatno osjo, zato mora veljati $x'(0)=0$.
+    Odvod krivulje v točki $(r,0)$ je enak $2(\p_{1}-\p_{0}) = 2\left(R\sin\left(\frac{\alpha}{2}\right)-r,R\cos\left(\frac{\alpha}{2}\right)\right)$.
+    Iz česar sledi $R=\frac{r}{\cos\left(\frac{\alpha}{2}\right)}$.
+    \begin{align*}
+        w_1\left(\frac{r}{\sin\left(\frac{\alpha}{2}\right)}-r\right)\sin\left(\frac{\alpha}{2}\right)  &= r\sin\left(\frac{\alpha}{2}\right) - \frac{r}{2}\sin(\alpha) \\
+        w_1 &= \frac{r\sin\left(\frac{\alpha}{2}\right) - \frac{r}{2}\sin(\alpha)}{\left(\frac{r}{\sin\left(\frac{\alpha}{2}\right)}-r\right)\sin\left(\frac{\alpha}{2}\right) }
+    \end{align*}
+
+
+    \begin{align*}
+        w_1\left(\frac{r}{\sin\left(\frac{\alpha}{2}\right)}-r\right)\sin\left(\frac{\alpha}{2}\right)  &= r\sin\left(\frac{\alpha}{2}\right) - \frac{r}{2}\sin(\alpha) \\
+        w_1 &= \frac{r\sin\left(\frac{\alpha}{2}\right) - \frac{r}{2}\sin(\alpha)}{\left(\frac{r}{\sin\left(\frac{\alpha}{2}\right)}-r\right)\sin\left(\frac{\alpha}{2}\right) }
+    \end{align*}
+    Izračunajmo sedaj za $r=1$ in $\alpha = \frac{\pi}{2}$. $R=\frac{1}{\cos\left(\frac{\pi}{4}\right)} = \sqrt{2}.$
+    \[ w_1 = \frac{\frac{\sqrt{2}-1}{2}}{(\sqrt{2}-1)\frac{\sqrt{2}}{2}} = \frac{\sqrt{2}-1}{(\sqrt{2}-1)\sqrt{2}} = \frac{\sqrt{2}}{2} \]
+
 
     \section{Zlepki Bezierjevih krivulj}
     Če si ponovno ogledamo Decasteljaujev algoritem~\ref{alg:decasteljau}, lahko hitro opazimo, da je časovna kompleksnost algoritma $O(n^2)$.
@@ -534,7 +626,7 @@ the content and not the structure of your work.}
     zlepek dveh Bezierjevih krivulj.
     Da bo zlepek zvezen, mora v stični točki $u_1$ veljati $\mathbf{s}_1(u_1) = \mathbf{s}_2(u_1)$ oziroma $\p_n^{(1)} = \p_0^{(2)}$.
     Takšen zlepek, si lahko ogledamo na sliki~\ref{fig:zlepek-c0}.
-    Vidimo lahko, da takšen zlepek v CAGD sistemih ne bo najbolj uporaben, saj ima v stični točki t.i.\ koleno.
+    Vidimo lahko, da takšen zlepek v CAGD sistemih ne bo najbolj uporaben, saj ima v stični točki koleno.
     Če želimo, da bo zlepek vsaj zvezno odvedljiv, mora veljati prejšnje, morata pa v stični točki sovpadati tudi odvoda $\mathbf{s_1}'(u_1) = \mathbf{s_2}'(u_1)$.
     Iz REFBEZIERODVOD sledi, da mora zato veljati $\p_{n}^{(1)} - \p_{n-1}^{(1)} = \p_{1}^{(2)} - \p_{0}^{(2)}$.
     Upoštevajoč $\p_n^{(1)} = \p_0^{(2)}$, lahko enačbo zapišemo tudi kot $\p_{n}^{(1)} =  \p_{0}^{(2)}  = \frac{\p_{1}^{(2)}+ \p_{n-1}^{(1)}}{2}$.
@@ -787,7 +879,7 @@ the content and not the structure of your work.}
     Lastnosti funkcije $s$ bomo v naslednjem podrazdelku uporabili tudi pri enakomerni parametrizaciji.
 
     \subsection{Enakomerna parametrizacija}
-    MOTIVACIJA: Želimo definirati enakomerno oddaljene točke na krivulji. Takšni problemi se naravno porodijo pri ...... \newline
+    MOTIVACIJA: Želimo definirati enakomerno oddaljene točke na krivulji. Takšni problemi se naravno pojavijo pri ...... \newline
 
     Krivuljo želimo s parametri $\{t_i\}_{i=0}^{N}$ razdeliti na $N$ kosov.
     Če to naredimo tako, da parametre $t_i$ postavimo ekvidistantno, t.j. $\Delta t=t_i-t_{i-1}$ je enak za vse $i$, točke na krivulji ne bodo enako oddaljene druga od druge (glede na dolžino odseka med njima), ker parametrična hitrost krivulje $\sigma(t)$ ni konstantna.
@@ -883,9 +975,9 @@ the content and not the structure of your work.}
     \section{Orodje za grafični prikaz konceptov}
     Vsi koncepti predstavljeni v magistrskem delu so tudi implementirani na spletni strani.
     Slikovno gradivo skozi magistrsko delo je bilo ustvarjeno s pomočjo orodja.
-    Za graf sem uporabil odprtokodno knjižnico JsxGraph.
-    Za oblikovanje bootstrap.
-    Za ogrodje pa React.
+    Za risanje grafov sem uporabil odprtokodno knjižnico JSxGraph.
+    Za oblikovanje spletne strani sem uporabil ogrodje bootstrap.
+    Za ogrodje same spletne strani pa React.
 
     \subsection{Implementacija konceptov magistrskega dela}
 

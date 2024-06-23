@@ -5,12 +5,12 @@ import Slider from "../../inputs/Slider";
 import Form from 'react-bootstrap/Form';
 import BasePhBezierCurveGraph, {BasePhBezierCurveGraphStates} from "../ph/BasePhBezierCurveGraph";
 import React from "react";
+import {range} from "../../utils/Range";
 
 interface UniformParamBezierCurveGraphStates extends BasePhBezierCurveGraphStates {
     isAlphaParam: boolean
 }
 
-const range = (start: number, stop: number, step: number) => Array.from({length: (stop - start) / step + 1}, (_, i) => start + i * step);
 
 class UniformParamBezierCurveGraph extends BasePhBezierCurveGraph<BaseCurveGraphProps, UniformParamBezierCurveGraphStates> {
     numberOfPoints: number = 10;

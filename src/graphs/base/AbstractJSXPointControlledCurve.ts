@@ -2,15 +2,16 @@ import {Board} from "jsxgraph";
 import {Point} from "./Point";
 import {PointControlledCurve} from "../../bezeg/interfaces/point-controlled-curve";
 import {CacheContext} from "../../Contexts"
+import {Labels} from "../../utils/PointLabels";
 
 /**
  * Class that wraps a PointControlledCurve with methods for dealing with JSXGraph
  */
 export abstract class AbstractJSXPointControlledCurve<T extends PointControlledCurve> {
     coords?: JXG.Coords;
+    jxgPoints: JXG.Point[] = []
     protected readonly pointControlledCurve: T
     protected readonly board: Board
-    private jxgPoints: JXG.Point[] = []
     private jxgCurve: JXG.Curve
     private boundBoxPoints: JXG.Point[] = []
     private boundBoxSegments: JXG.Segment[] = []
@@ -65,14 +66,20 @@ export abstract class AbstractJSXPointControlledCurve<T extends PointControlledC
     }
 
     addPoint(x: number, y: number) {
-        let p = this.createJSXGraphPoint(x, y)
+        let p = this.createJSXGraphPoint(x, y, Labels.pi(this.pointControlledCurve.getPoints().length))
         this.pointControlledCurve.addPoint(p)
+        this.labelJxgPoints()
     }
 
     removePoint(i: number) {
         this.board.removeObject(this.jxgPoints[i])
         this.pointControlledCurve.removePoint(this.pointControlledCurve.getPoints()[i])
         this.jxgPoints.splice(i, 1)
+        this.labelJxgPoints()
+    }
+
+    labelJxgPoints() {
+        this.getJxgPoints().forEach((point, i) => point.setName(Labels.pi(i).name as string))
     }
 
     move(newCoords: JXG.Coords) {
@@ -301,10 +308,6 @@ export abstract class AbstractJSXPointControlledCurve<T extends PointControlledC
 
     protected abstract getStartingCurve(points: number[][]): T
 
-    protected createJSXGraphPoint(x: () => number, y: () => number): Point;
-
-    protected createJSXGraphPoint(x: number, y: number): Point;
-
     /**
      * Creates a JSXGraph point ands wraps it with the Point interface.
      * @param x
@@ -312,7 +315,7 @@ export abstract class AbstractJSXPointControlledCurve<T extends PointControlledC
      * @param opts
      */
     protected createJSXGraphPoint(x: number | (() => number), y: number | (() => number), opts?: any): Point {
-        let point;
+        let point: JXG.Point;
         if (opts) {
             point = this.board.create('point', [x, y], opts);
         } else {

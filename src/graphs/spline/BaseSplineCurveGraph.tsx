@@ -13,11 +13,7 @@ export abstract class BaseSplineCurveGraph extends BaseGraph<BezierSpline, JSXSp
         spline.setDegree(degree)
         spline.setContinuity(continuity)
         spline.generateBezierCurves()
-        // This may look dumb, but in reality this makes us able to change underlying non-free points
-        spline.getNonFreePoints().map((p, i) => this.createJSXGraphPoint(() => spline.getNonFreePoints()[i].X(), () => spline.getNonFreePoints()[i].Y(), {
-            fixed: true,
-            color: "blue"
-        }))
+        curve.labelJxgPoints()
         return curve
     }
 }

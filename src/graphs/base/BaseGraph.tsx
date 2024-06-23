@@ -1,4 +1,4 @@
-import React, {Component, useContext, useState} from 'react';
+import React, {Component} from 'react';
 import '../../App.css';
 
 import {Board, JSXGraph} from "jsxgraph";
@@ -7,9 +7,13 @@ import {JGBox} from "../../JGBox";
 import {Select} from "../../inputs/Select";
 import {AbstractJSXPointControlledCurve} from "./AbstractJSXPointControlledCurve";
 import {PointControlledCurve} from "../../bezeg/interfaces/point-controlled-curve";
-import {Button, Card, CardBody, CardTitle, Col, Container, Form, ListGroup, Row} from "react-bootstrap";
-import {CacheContext, RefreshContext} from "../../Contexts";
+import {Button, Col, Container, Form, Row} from "react-bootstrap";
+import {CacheContext} from "../../Contexts";
 import {OnOffSwitch} from "../../inputs/OnOffSwitch";
+import {Commands} from "./Commands";
+import {Tools} from "./Tools";
+import {ResetButton} from "./RefreshContext";
+import {ShowAxis} from "./ShowAxis";
 
 enum SelectedCurveOption {
     MOVE_CURVE,
@@ -26,52 +30,6 @@ interface BaseGraphStates {
     selectedCurveOption: SelectedCurveOption;
     showingControlPolygon: boolean;
     curveSelected: boolean;
-}
-
-function Tools({tools}: { tools: JSX.Element[] }) {
-    return <Commands commands={tools} title={"Orodja"}></Commands>
-}
-
-function Commands(props: { commands: JSX.Element[], title: String }) {
-    return <Card>
-        <CardBody>
-            <CardTitle>{props.title}</CardTitle>
-            <ListGroup variant="flush">
-                {props.commands.map((command) => <ListGroup.Item>{command}</ListGroup.Item>)}
-            </ListGroup>
-        </CardBody>
-    </Card>;
-}
-
-function ResetButton() {
-    let refreshContext = useContext(RefreshContext)
-    return refreshContext ? <Button variant={"dark"} onClick={refreshContext}>Ponastavi</Button> : null
-}
-
-function ShowAxis(props: { board: () => Board }) {
-    const [checked, setChecked] = useState(true)
-
-    return <Form> <Form.Check // prettier-ignore
-        type="switch"
-        id="custom-switch"
-        label="Mreža"
-        checked={checked}
-        onChange={(e) => {
-            props.board().objectsList.forEach(el => {
-                // @ts-ignore
-                if (el.elType === "axis" || el.elType === "ticks") {
-                    if (e.target.checked) {
-                        // @ts-ignore
-                        el.show()
-                    } else {
-                        // @ts-ignore
-                        el.hide()
-                    }
-                }
-            })
-            setChecked(e.target.checked)
-        }}/>
-    </Form>
 }
 
 /**
@@ -121,7 +79,7 @@ abstract class BaseGraph<U extends PointControlledCurve, T extends AbstractJSXPo
 
     componentDidMount() {
         if (this.board == null) {
-            JXG.Options.text.display = 'internal';
+            // JXG.Options.text.display = 'internal';
             this.board = JSXGraph.initBoard("jgbox", {
                 showFullscreen: true,
                 boundingbox: [-5, 5, 5, -5],
@@ -234,7 +192,7 @@ abstract class BaseGraph<U extends PointControlledCurve, T extends AbstractJSXPo
 
     unsuspendBoardUpdate() {
         this.board.unsuspendUpdate()
-        this.board.update()
+        this.boardUpdate()
     }
 
     handleDown(e: PointerEvent) {
@@ -316,6 +274,11 @@ abstract class BaseGraph<U extends PointControlledCurve, T extends AbstractJSXPo
 
     getAllJxgCurves() {
         return this.jsxBezierCurves.map(curve => curve.getJxgCurve());
+    }
+
+    boardUpdate() {
+        CacheContext.context += 1
+        this.board.update()
     }
 
     protected selectCurve(selectableCurve: T, additionalState = {}) {
