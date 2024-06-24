@@ -2,8 +2,9 @@ import {PointAttributes} from "jsxgraph";
 
 function pi(i: number): PointAttributes {
     return {
-        size: 3.5,
+        size: 5,
         label: {
+            fontSize: 15,
             useMathJax: true,
             autoPosition: false,
             parse: false

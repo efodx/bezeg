@@ -21,12 +21,6 @@ export class RationalBezierCurve extends BezierCurveImpl {
         if (typeof weights[0] == 'number') {
             this.weights = weights as Array<number>
         }
-        // this.weights = weights.map(w => {
-        //     if (typeof w == 'number') {
-        //         return w
-        //     }
-        //     return w()
-        // })
         if (typeof weights[0] == 'function') {
             this.reactiveWeights = weights as Array<() => number>
             this.weights = this.reactiveWeights.map(w => w())
@@ -63,7 +57,15 @@ export class RationalBezierCurve extends BezierCurveImpl {
         this.weights = weights
     }
 
+
+    setReactiveWeights(weights: (() => number)[] | undefined) {
+        this.reactiveWeights = weights
+    }
+
     getWeights(): number[] {
+        if (this.reactiveWeights) {
+            return this.reactiveWeights.map(weight => weight())
+        }
         return this.weights
     }
 

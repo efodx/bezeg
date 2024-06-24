@@ -25,6 +25,7 @@ import {RefreshContext} from "./Contexts";
 import RationalBezierCurveCircleGraph4 from "./graphs/rational/RationalBezierCurveCircleGraph4";
 import RationalBezierCurveCircleGraphN from "./graphs/rational/RationalBezierCurveCircleGraphN";
 import {BernsteinGraph} from "./graphs/bernstein/BernsteinGraph";
+import FarinPointsCurveGraph from "./graphs/rational/FarinPointsCurveGraph";
 
 const PATH_BEZIER_CURVES = "/bezeg/bezier"
 const BEZIER_CURVES_GROUP = "Bezierjeve Krivulje";
@@ -144,6 +145,13 @@ const routes = [
                 path: PATH_RATIONAL_CURVES + "/rational-subdivision",
                 element: <RationalSubdivisionGraph/>,
                 title: "Subdivizija Racionalne",
+                group: RATIONAL_CURVES_GROUP
+            },
+            {
+                group_path: PATH_RATIONAL_CURVES,
+                path: PATH_RATIONAL_CURVES + "/farin-points",
+                element: <FarinPointsCurveGraph/>,
+                title: "Farinove Točke",
                 group: RATIONAL_CURVES_GROUP
             },
             {

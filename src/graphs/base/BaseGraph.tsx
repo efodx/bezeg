@@ -41,6 +41,7 @@ abstract class BaseGraph<U extends PointControlledCurve, T extends AbstractJSXPo
         allowSelectedCurveControlPolygon: true
     }
     public readonly state = this.getInitialState();
+    protected inputsDisabled: boolean = false;
     protected board!: Board;
     protected jsxBezierCurves: T[] = [];
     protected graphJXGPoints: JXG.Point[] = [];
@@ -65,7 +66,7 @@ abstract class BaseGraph<U extends PointControlledCurve, T extends AbstractJSXPo
         } as S
     }
 
-    getFirstCurve() {
+    getFirstCurve(): U {
         return this.getFirstJsxCurve()?.getCurve()
     }
 
@@ -109,10 +110,6 @@ abstract class BaseGraph<U extends PointControlledCurve, T extends AbstractJSXPo
         return newBezierCurve
     }
 
-
-    createJSXGraphPoint(x: () => number, y: () => number, opts?: any): Point;
-    createJSXGraphPoint(x: () => number, y: () => number): Point;
-    createJSXGraphPoint(x: number, y: number): Point;
     /**
      * Creates a JSXGraph point ands wraps it with the Point interface.
      * @param x
@@ -196,6 +193,9 @@ abstract class BaseGraph<U extends PointControlledCurve, T extends AbstractJSXPo
     }
 
     handleDown(e: PointerEvent) {
+        if (this.inputsDisabled) {
+            return
+        }
         this.board.suspendUpdate()
         let coords = this.getMouseCoords(e);
         let selectedCurve, selectableCurve;
@@ -222,10 +222,9 @@ abstract class BaseGraph<U extends PointControlledCurve, T extends AbstractJSXPo
             this.unsuspendBoardUpdate()
             return
         }
-        let canCreate = true, el;
+        let canCreate = true;
 
-
-        for (el of this.board.objectsList) {
+        for (let el of this.board.objectsList) {
             // @ts-ignore
             if (JXG.isPoint(el) && el.hasPoint(coords.scrCoords[1], coords.scrCoords[2])) {
                 canCreate = false;

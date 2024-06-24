@@ -120,7 +120,7 @@ export abstract class BaseRationalCurveGraph<P extends BaseRationalBezierCurveGr
             this.board.removeObject(this.extrapolationPoint)
         }
         this.getSelectedCurve().getJxgPoints()[this.weightNumber].setAttribute({
-            color: "red"
+            color: "#D55E00"
         })
         super.deselectSelectedCurve();
 
@@ -130,14 +130,13 @@ export abstract class BaseRationalCurveGraph<P extends BaseRationalBezierCurveGr
 
     nextWeight() {
         this.getSelectedCurve().getJxgPoints()[this.weightNumber].setAttribute({
-            color: "red"
+            color: "#D55E00"
         })
         if (this.weightNumber === this.getSelectedCurve().getCurve().getWeights().length - 1) {
             this.weightNumber = 0;
         } else {
             this.weightNumber = this.weightNumber + 1;
         }
-
         this.getSelectedCurve().getJxgPoints()[this.weightNumber].setAttribute({
             color: "yellow  "
         })
@@ -185,10 +184,6 @@ export abstract class BaseRationalCurveGraph<P extends BaseRationalBezierCurveGr
         } else {
             this.getSelectedCurve().hideWeights()
         }
-    }
-
-    hideWeights() {
-        this.getSelectedCurve().hideWeights()
     }
 
     private setSubdivisionT(t: number) {

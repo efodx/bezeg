@@ -16,8 +16,9 @@
 - [x] Dodajanje točk zlepkom
 - [ ] Select za krivuljo samo tam, kjer ima smisel!
 - [ ] Risanje kroga z racionalnimi bezierjevimi krivuljami
-- [x] Dodat bernsteinove polinome.... ni cisto brezsmiselno. Graf pokaze koliko tocka za dolocen t doda pri kalkulaciji
+- [x] Dodat bernsteinove polinome... ni cisto brezsmiselno. Graf pokaze koliko tocka za dolocen t doda pri kalkulaciji
   tocke na krivulji!!
+- [ ] Osnova grafa naj bo renderirana enako pri Bernsteinovih polinomih kot BaseGraph... trenutno je skopirana
 
 ### Low Priority
 

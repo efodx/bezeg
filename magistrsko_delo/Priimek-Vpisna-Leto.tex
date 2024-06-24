@@ -546,6 +546,21 @@ the content and not the structure of your work.}
         \end{algorithmic}\label{alg:racionalni-decasteljau}
     \end{algorithm}
 
+    \subsubsection{Farinove točke}
+    Ročno nastavljanje uteži z vpisovanjem, bi bilo za uporabnika CAGD sistema zamudno in nenaravno.
+    Uporabniku želimo delo olajšati tako, da pridelamo bolj naraven način kontroliranja uteži.
+    Izkaže se, da imajo uteži racionalne Bezierjeve krivulje geometrijski pomeni, ki ga lahko uporabimo zgornje.
+    Uteži lahko kontroliramo s t.i. \textit{Farinovimi točkami}.
+    Farinove točke ležijo na daljicah kontrolnega poligona in jih je toliko, kolikor je prostih parametrov uteži t.j.\ $n-1$.
+    $i$-ta Farinova točka, leži na $i$-ti daljici kontrolnega poligona in jo deli v razmerju $w_{i+1}:w_{i}$.
+    Slednje označimo z $\frac{|\mathbf{f}_i-\p_i|}{|\mathbf{f}_i-\p_{i+1}|} = \frac{w_{i+1}}{w_{i}}$.
+    S kontrolnimi točkami in utežmi jih lahko izrazimo takole
+    \[\mathbf{f}_i \coloneqq \frac{w_{i}}{w_{i}+w_{i+1}}\p_i +  \frac{w_{i+1}}{w_{i}+w_{i+1}}\p_{i+1}.\]
+    Želimo pa obratno – s Farinovimi točkami želimo izraziti uteži.
+    Brez izgube splošnosti lahko za prvo utež izberemo $w_0=1$.
+    Ostale točke lahko nato rekurzivno izračunamo s pomočjo naslednjega izraza
+    \[w_{i+1} = w_i\frac{|\mathbf{f}_i-\p_i|}{|\mathbf{f}_i-\p_{i+1}|}.\]
+
     \subsubsection{Izsek krožnice}
     V uvodu podrazdelka smo povedali, da se nekaterih krivulj ne da opisati z navadnimi Bezierjevimi krivuljami.
     Kot enega izmed primerov smo podali izsek krožnice.

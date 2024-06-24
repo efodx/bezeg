@@ -9,6 +9,8 @@ import {Labels} from "../../utils/PointLabels";
 export class JSXRationalBezierCurve extends AbstractJSXBezierCurve<RationalBezierCurve> {
     private weightLabels: JXG.GeometryElement[] = [];
     private showingWeights: boolean = false;
+    private sliders: JXG.Slider[] = [];
+    private showingFarinPoints: boolean = false;
 
     constructor(points: number[][], weights: number[], board: Board) {
         super(points, board);
@@ -18,6 +20,15 @@ export class JSXRationalBezierCurve extends AbstractJSXBezierCurve<RationalBezie
     addPoint(x: number, y: number) {
         super.addPoint(x, y)
         this.pointControlledCurve.getWeights().push(1)
+        this.hideWeights()
+        this.showWeights()
+    }
+
+    removePoint(i: number) {
+        super.removePoint(i);
+        this.pointControlledCurve.getWeights().splice(1, 1)
+        this.hideWeights()
+        this.showWeights()
     }
 
     subdivide(t: number): this {
@@ -52,8 +63,9 @@ export class JSXRationalBezierCurve extends AbstractJSXBezierCurve<RationalBezie
         // @ts-ignore
         this.weightLabels = this.getJxgPoints().map((point, i) =>
             // @ts-ignore
-            this.board.create('smartlabel', [point, () => "$$w_" + i + "=" + this.getCurve().getWeights()[i].toFixed(2) + "$$"], {
+            this.board.create('smartlabel', [point, () => "$$w_{" + i + "}=" + this.getCurve().getWeights()[i].toFixed(2) + "$$"], {
                 cssClass: "smart-label-point2",
+                highlightCssClass: "smart-label-point2",
                 useMathJax: true,
                 parse: false,
                 autoPosition: true
@@ -69,6 +81,53 @@ export class JSXRationalBezierCurve extends AbstractJSXBezierCurve<RationalBezie
 
     isShowingWeights(): boolean {
         return this.showingWeights
+    }
+
+    isShowingFarinPoints(): boolean {
+        return this.showingFarinPoints
+    }
+
+    showFarinPoints(show: boolean) {
+        if (show) {
+            const weights = this.getCurve().getWeights()
+            const points = this.getCurve().getPoints()
+
+            const reactiveWeights: Array<() => number> = []
+            reactiveWeights.push(() => 1)
+            for (let i = 0; i < weights.length - 1; i++) {
+                const startingRatio = weights[i + 1] / weights[i]
+                const slider = this.board.create('slider', [[points[i].X(), points[i].Y()], [points[i + 1].X(), points[i + 1].Y()], [0, startingRatio / (1 + startingRatio), 1]],
+                    {
+                        baseline: {
+                            strokeColor: '#0b9ef8',
+                            strokeOpacity: 1,
+                            strokeWidth: 1.5
+                        },
+                        highline: {
+                            strokeColor: '#F8650B',
+                            strokeOpacity: 1,
+                            strokeWidth: 1.5
+                        },
+                        label: {fontSize: 0},
+                        name: '', // Not shown, if suffixLabel is set
+                        suffixLabel: '',
+                        postLabel: ''
+
+                    });
+                this.sliders.push(slider)
+                const ratio = () => slider.Value() / (1 - slider.Value())
+                const weight = () => reactiveWeights[i]() * ratio()
+                reactiveWeights.push(weight)
+            }
+            const standardizedReactiveWeights = reactiveWeights.map((weight, i) => () => weight() / Math.pow(reactiveWeights[reactiveWeights.length - 1](), i / (weights.length - 1)))
+            this.pointControlledCurve.setReactiveWeights(standardizedReactiveWeights)
+        } else {
+            this.board.removeObject(this.sliders)
+            this.sliders = []
+            this.pointControlledCurve.setWeights(this.pointControlledCurve.getWeights())
+            this.pointControlledCurve.setReactiveWeights(undefined)
+        }
+        this.showingFarinPoints = show
     }
 
     protected getStartingCurve(points: number[][]): RationalBezierCurve {
