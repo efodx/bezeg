@@ -113,10 +113,10 @@ class UniformParamBezierCurveGraph extends BasePhBezierCurveGraph<BaseCurveGraph
         } else {
             this.ts = this.getUniformParamTs()
         }
-        range(1, this.numberOfPoints + 1, 1)
-            .map(i =>
-                this.createJSXGraphPoint(() => this.getFirstCurve()!.calculatePointAtT(this.ts[i - 1]).X(),
-                    () => this.getFirstCurve()!.calculatePointAtT(this.ts[i - 1]).Y()))
+        for (let i = 1; i <= this.numberOfPoints; i++) {
+            this.createJSXGraphPoint(() => this.getFirstCurve()!.calculatePointAtT(this.ts[i - 1]).X(),
+                () => this.getFirstCurve()!.calculatePointAtT(this.ts[i - 1]).Y())
+        }
     }
 
     private selectParam(select: React.SyntheticEvent<HTMLSelectElement>) {

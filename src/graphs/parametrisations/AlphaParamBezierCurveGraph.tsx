@@ -2,7 +2,6 @@ import '../../App.css';
 import {BaseCurveGraph, BaseCurveGraphProps} from "../base/BaseCurveGraph";
 import {BaseGraphStates} from "../base/BaseGraph";
 import Slider from "../../inputs/Slider";
-import {range} from "../../utils/Range";
 
 class AlphaParamBezierCurveGraph extends BaseCurveGraph<BaseCurveGraphProps, BaseGraphStates> {
     numberOfPoints: number = 10;
@@ -54,10 +53,10 @@ class AlphaParamBezierCurveGraph extends BaseCurveGraph<BaseCurveGraphProps, Bas
 
     generateParamPoints() {
         const dt = 1 / (this.numberOfPoints + 1)
-        range(1, this.numberOfPoints, 1)
-            .map(i =>
-                this.createJSXGraphPoint(() => this.getFirstCurve()!.calculatePointAtT(this.alphaParam(i * dt)).X(),
-                    () => this.getFirstCurve()!.calculatePointAtT(this.alphaParam(i * dt)).Y()))
+        for (let i = 1; i <= this.numberOfPoints; i++) {
+            this.createJSXGraphPoint(() => this.getFirstCurve()!.calculatePointAtT(this.alphaParam(i * dt)).X(),
+                () => this.getFirstCurve()!.calculatePointAtT(this.alphaParam(i * dt)).Y())
+        }
     }
 }
 

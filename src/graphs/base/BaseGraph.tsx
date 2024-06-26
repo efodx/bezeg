@@ -8,12 +8,14 @@ import {Select} from "../../inputs/Select";
 import {AbstractJSXPointControlledCurve} from "./AbstractJSXPointControlledCurve";
 import {PointControlledCurve} from "../../bezeg/interfaces/point-controlled-curve";
 import {Button, Col, Container, Form, Row} from "react-bootstrap";
-import {CacheContext} from "../../Contexts";
+import {CacheContext, SizeContext} from "../../Contexts";
 import {OnOffSwitch} from "../../inputs/OnOffSwitch";
 import {Commands} from "./Commands";
 import {Tools} from "./Tools";
 import {ResetButton} from "./RefreshContext";
 import {ShowAxis} from "./ShowAxis";
+import {AxisStyles} from "../styles/AxisStyles";
+import Slider from "../../inputs/Slider";
 
 enum SelectedCurveOption {
     MOVE_CURVE,
@@ -30,6 +32,15 @@ interface BaseGraphStates {
     selectedCurveOption: SelectedCurveOption;
     showingControlPolygon: boolean;
     curveSelected: boolean;
+}
+
+function SizeRange(props: { board: () => JXG.Board }) {
+    return <div><Slider customText={"Povečava"} min={0} max={10} initialValue={SizeContext.getSize()} step={1}
+                        onChange={(i) => {
+                            SizeContext.setSize(i)
+                            CacheContext.context += 1
+                            props.board().update()
+                        }}/></div>;
 }
 
 /**
@@ -87,7 +98,13 @@ abstract class BaseGraph<U extends PointControlledCurve, T extends AbstractJSXPo
                 axis: true,
                 keepaspectratio: true,
                 showScreenshot: true,
-                showCopyright: false
+                showCopyright: false,
+                defaultAxes: {
+                    x: AxisStyles.default,
+                    y: AxisStyles.default
+                }
+                // @ts-ignore
+                // theme: 'mono_thin'
             });
             this.board.on('down', (e) => this.handleDown(e));
             this.board.on('up', (e) => this.handleUp(e));
@@ -263,11 +280,14 @@ abstract class BaseGraph<U extends PointControlledCurve, T extends AbstractJSXPo
             <Button variant={"dark"} onClick={() => this.saveAsSVG()}>Izvozi kot SVG</Button>,
             <ResetButton/>,
             <ShowAxis board={() => this.board}></ShowAxis>,
-            <OnOffSwitch label="Oznake točk" onChange={checked => this.showPointLabels(checked)}/>]
+            <OnOffSwitch label="Oznake točk" onChange={checked => this.showPointLabels(checked)}/>,
+            <SizeRange board={() => this.board}/>
+        ]
     }
 
     deselectSelectedCurve() {
         this.getSelectedCurve().deselect()
+
         this.setState({...this.state, curveSelected: false, showingControlPolygon: false})
     }
 
@@ -327,11 +347,11 @@ abstract class BaseGraph<U extends PointControlledCurve, T extends AbstractJSXPo
 
     private showPointLabels(show: boolean) {
         this.board.suspendUpdate()
-        console.log(this.getAllJxgPoints().map(point => point.getAttribute("visible")))
         this.getAllJxgPoints().filter(point => !show || point.getAttribute("visible"))
             .forEach(point => point.setAttribute({label: {visible: show}}))
         this.unsuspendBoardUpdate()
     }
+
 }
 
 export default BaseGraph;

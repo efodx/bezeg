@@ -11,6 +11,7 @@ import {Button, Form} from "react-bootstrap";
 import {CacheContext} from "../../Contexts";
 import {OnOffSwitch} from "../../inputs/OnOffSwitch";
 import {Colors} from "../bezier/utilities/Colors";
+import {CurveStyles} from "../styles/CurveStyles";
 
 export interface BasePhBezierCurveGraphStates extends BaseGraphStates {
     showOffsetCurve: boolean,
@@ -117,7 +118,7 @@ abstract class BasePhBezierCurveGraph<P extends BaseCurveGraphProps, S extends B
                 },
                 0,
                 1
-            ]
+            ], CurveStyles.default
         ));
         if (hide) {
             this.jsxOffsetCurves.forEach(curve => curve.hide())

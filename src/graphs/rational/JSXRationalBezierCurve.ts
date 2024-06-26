@@ -4,7 +4,8 @@
 import {RationalBezierCurve} from "../../bezeg/rational-bezier-curve";
 import {Board} from "jsxgraph";
 import {AbstractJSXBezierCurve} from "../base/AbstractJSXBezierCurve";
-import {Labels} from "../../utils/PointLabels";
+import {PointStyles} from "../styles/PointStyles";
+import {SizeContext} from "../../Contexts";
 
 export class JSXRationalBezierCurve extends AbstractJSXBezierCurve<RationalBezierCurve> {
     private weightLabels: JXG.GeometryElement[] = [];
@@ -45,7 +46,7 @@ export class JSXRationalBezierCurve extends AbstractJSXBezierCurve<RationalBezie
     elevate() {
         const elevated = this.pointControlledCurve.elevate()
         this.clearJxgPoints()
-        const wrappedPoints = elevated.getPoints().map((point, i) => this.createJSXGraphPoint(point.X(), point.Y(), Labels.pi(i)))
+        const wrappedPoints = elevated.getPoints().map((point, i) => this.createJSXGraphPoint(point.X(), point.Y(), PointStyles.pi(i)))
         this.pointControlledCurve.setWeights(elevated.getWeights())
         this.pointControlledCurve.setPoints(wrappedPoints);
     }
@@ -64,6 +65,8 @@ export class JSXRationalBezierCurve extends AbstractJSXBezierCurve<RationalBezie
         this.weightLabels = this.getJxgPoints().map((point, i) =>
             // @ts-ignore
             this.board.create('smartlabel', [point, () => "$$w_{" + i + "}=" + this.getCurve().getWeights()[i].toFixed(2) + "$$"], {
+                fontSize: () => SizeContext.fontSize,
+                size: () => SizeContext.fontSize,
                 cssClass: "smart-label-point2",
                 highlightCssClass: "smart-label-point2",
                 useMathJax: true,
@@ -83,6 +86,10 @@ export class JSXRationalBezierCurve extends AbstractJSXBezierCurve<RationalBezie
         return this.showingWeights
     }
 
+    inStandardForm() {
+        return this.getCurve().inStandardForm()
+    }
+
     isShowingFarinPoints(): boolean {
         return this.showingFarinPoints
     }
@@ -96,31 +103,27 @@ export class JSXRationalBezierCurve extends AbstractJSXBezierCurve<RationalBezie
             reactiveWeights.push(() => 1)
             for (let i = 0; i < weights.length - 1; i++) {
                 const startingRatio = weights[i + 1] / weights[i]
-                const slider = this.board.create('slider', [[points[i].X(), points[i].Y()], [points[i + 1].X(), points[i + 1].Y()], [0, startingRatio / (1 + startingRatio), 1]],
+                const slider: JXG.Slider = this.board.create('slider', [[points[i].X(), points[i].Y()], [points[i + 1].X(), points[i + 1].Y()], [0, startingRatio / (1 + startingRatio), 1]],
                     {
+                        size: () => SizeContext.pointSize,
                         baseline: {
                             strokeColor: '#0b9ef8',
                             strokeOpacity: 1,
-                            strokeWidth: 1.5
+                            strokeWidth: () => SizeContext.strokeWidth
                         },
                         highline: {
                             strokeColor: '#F8650B',
                             strokeOpacity: 1,
-                            strokeWidth: 1.5
+                            strokeWidth: () => SizeContext.strokeWidth
                         },
-                        label: {fontSize: 0},
-                        name: '', // Not shown, if suffixLabel is set
-                        suffixLabel: '',
-                        postLabel: ''
-
+                        label: {fontSize: 0}
                     });
                 this.sliders.push(slider)
                 const ratio = () => slider.Value() / (1 - slider.Value())
                 const weight = () => reactiveWeights[i]() * ratio()
                 reactiveWeights.push(weight)
             }
-            const standardizedReactiveWeights = reactiveWeights.map((weight, i) => () => weight() / Math.pow(reactiveWeights[reactiveWeights.length - 1](), i / (weights.length - 1)))
-            this.pointControlledCurve.setReactiveWeights(standardizedReactiveWeights)
+            this.pointControlledCurve.setReactiveWeights(reactiveWeights)
         } else {
             this.board.removeObject(this.sliders)
             this.sliders = []
@@ -131,7 +134,7 @@ export class JSXRationalBezierCurve extends AbstractJSXBezierCurve<RationalBezie
     }
 
     protected getStartingCurve(points: number[][]): RationalBezierCurve {
-        let jsxPoints = points.map((point, i) => this.createJSXGraphPoint(point[0], point[1], Labels.pi(i)))
+        let jsxPoints = points.map((point, i) => this.createJSXGraphPoint(point[0], point[1], PointStyles.pi(i)))
         return new RationalBezierCurve(jsxPoints, jsxPoints.map(() => 1));
     }
 }

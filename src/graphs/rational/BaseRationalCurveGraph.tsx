@@ -51,21 +51,22 @@ export abstract class BaseRationalCurveGraph<P extends BaseRationalBezierCurveGr
                 <Button variant={"dark"} onClick={() => this.elevateSelectedCurve()}>Dvigni stopnjo</Button></div>,
 
             <div>
-                <ButtonGroup>
-                    <Button variant={"dark"} className="btn-block" onClick={() => this.changeWeight(0.25)}>+</Button>
-                    <Button onClick={() => this.resetWeight()}
-                            className="btn-block">{this.state.currentWeight.toFixed(2)}</Button>
-                    <Button variant={"dark"} onClick={() => this.changeWeight(-0.25)}
-                            className="btn-block">-</Button>
-                </ButtonGroup>
-                <div>
-                    <Button variant={"dark"} onClick={() => this.nextWeight()}>Naslednja Utež</Button>
-                </div>
-                <div>
-                    <Button variant={"dark"} onClick={() => this.setStandardForm()}>Standardna forma</Button>
-                </div>
                 <OnOffSwitch initialState={this.getFirstJsxCurve().isShowingWeights()}
                              onChange={(checked) => this.showWeights(checked)} label={"Uteži"}/>
+                <ButtonGroup vertical={true}>
+                    <Button variant={"dark"} className="btn-block" onClick={() => this.changeWeight(0.25)}>+</Button>
+
+                    <ButtonGroup>
+                        <Button variant={"dark"} className="btn-block" onClick={() => this.prevWeight()}>{"<"}</Button>
+                        <Button onClick={() => this.resetWeight()}
+                                className="btn-block">{this.state.currentWeight.toFixed(2)}</Button>
+                        <Button variant={"dark"} onClick={() => this.nextWeight()} className="btn-block">{">"}</Button>
+                    </ButtonGroup> <Button variant={"dark"} onClick={() => this.changeWeight(-0.25)}
+                                           className="btn-block">-</Button>
+                </ButtonGroup>
+                <OnOffSwitch initialState={this.getFirstJsxCurve().inStandardForm()}
+                             onChange={(checked) => this.setStandardForm(checked)} label={"Standardna Forma"}/>
+
             </div>
         ]);
     }
@@ -129,13 +130,23 @@ export abstract class BaseRationalCurveGraph<P extends BaseRationalBezierCurveGr
     }
 
     nextWeight() {
+        this.setSelectedWeight(this.weightNumber + 1)
+    }
+
+    prevWeight() {
+        this.setSelectedWeight(this.weightNumber - 1)
+    }
+
+    setSelectedWeight(i: number) {
         this.getSelectedCurve().getJxgPoints()[this.weightNumber].setAttribute({
             color: "#D55E00"
         })
-        if (this.weightNumber === this.getSelectedCurve().getCurve().getWeights().length - 1) {
+        if (i > this.getSelectedCurve().getCurve().getWeights().length - 1) {
             this.weightNumber = 0;
+        } else if (i < 0) {
+            this.weightNumber = this.getSelectedCurve().getCurve().getWeights().length - 1;
         } else {
-            this.weightNumber = this.weightNumber + 1;
+            this.weightNumber = i;
         }
         this.getSelectedCurve().getJxgPoints()[this.weightNumber].setAttribute({
             color: "yellow  "
@@ -172,6 +183,9 @@ export abstract class BaseRationalCurveGraph<P extends BaseRationalBezierCurveGr
     }
 
     refreshWeightState() {
+        if (this.getSelectedCurve() === undefined) {
+            return
+        }
         this.setState({
             ...this.state,
             currentWeight: this.getSelectedCurve().getCurve()!.getWeights()[this.weightNumber]
@@ -179,11 +193,18 @@ export abstract class BaseRationalCurveGraph<P extends BaseRationalBezierCurveGr
     }
 
     showWeights(show: boolean) {
+        const curve = this.getSelectedCurve() ? this.getSelectedCurve() : this.getFirstJsxCurve()
         if (show) {
-            this.getSelectedCurve().showWeights()
+            curve.showWeights()
         } else {
-            this.getSelectedCurve().hideWeights()
+            curve.hideWeights()
         }
+    }
+
+    protected setStandardForm(standard: boolean) {
+        this.getFirstCurve()!.setStandardForm(standard)
+        this.refreshWeightState()
+        this.board.update()
     }
 
     private setSubdivisionT(t: number) {
@@ -193,12 +214,6 @@ export abstract class BaseRationalCurveGraph<P extends BaseRationalBezierCurveGr
 
     private setExtrapolationT(t: number) {
         this.extrapolationT = t
-        this.board.update()
-    }
-
-    private setStandardForm() {
-        this.getFirstCurve()!.setStandardForm()
-        this.refreshWeightState()
         this.board.update()
     }
 

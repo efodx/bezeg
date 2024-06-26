@@ -4,7 +4,8 @@ import {Point} from "../../bezeg/interfaces/point";
 import {BezierCurve} from "../../bezeg/interfaces/bezier-curve";
 import {CacheContext} from "../../Contexts";
 import {Colors} from "./utilities/Colors";
-import {Labels} from "../../utils/PointLabels";
+import {PointStyles} from "../styles/PointStyles";
+import {SegmentStyles} from "../styles/SegmentStyles";
 
 /**
  * Class that wraps a BezierCurve with methods for dealing with JSXGraph
@@ -97,7 +98,7 @@ export class JSXBezierCurve extends AbstractJSXBezierCurve<BezierCurve> {
                     style: JXG.POINT_STYLE_X,
                     color: Colors[r]
                 });
-                const segment = this.board!.create('segment', [pp1, pp2]);
+                const segment = this.board!.create('segment', [pp1, pp2], SegmentStyles.default);
                 this.decasteljauSegments.push(segment)
                 // @ts-ignore
                 this.decasteljauPoints.push(pp1)
@@ -133,6 +134,7 @@ export class JSXBezierCurve extends AbstractJSXBezierCurve<BezierCurve> {
                     // @ts-ignore
                     pp1 = this.board.create('point', [() => this.getDecasteljauScheme(slider.Value())[r][i - 1].X(),
                         () => this.getDecasteljauScheme(slider.Value())[r][i - 1].Y()], {
+                        ...PointStyles.default,
                         // @ts-ignore
                         style: JXG.POINT_STYLE_X,
                         color: Colors[r]
@@ -145,11 +147,12 @@ export class JSXBezierCurve extends AbstractJSXBezierCurve<BezierCurve> {
 
                 pp2 = this.board.create('point', [() => this.getDecasteljauScheme(slider.Value())[r][i].X(),
                     () => this.getDecasteljauScheme(slider.Value())[r][i].Y()], {
+                    ...PointStyles.default,
                     // @ts-ignore
                     style: JXG.POINT_STYLE_X,
                     color: Colors[r]
                 });
-                const segment = this.board!.create('segment', [pp1, pp2]);
+                const segment = this.board!.create('segment', [pp1, pp2], SegmentStyles.default);
                 this.decasteljauSegments.push(segment)
                 // @ts-ignore
                 this.decasteljauPoints.push(pp1)
@@ -158,6 +161,7 @@ export class JSXBezierCurve extends AbstractJSXBezierCurve<BezierCurve> {
             }
         }
         let drawingPoint = this.board?.create('point', [() => this.getDecasteljauScheme(slider.Value())[n - 1][0].X(), () => this.getDecasteljauScheme(slider.Value())[n - 1][0].Y()], {
+            ...PointStyles.default,
             // @ts-ignore
             style: JXG.POINT_STYLE_X,
             color: Colors[n - 1],
@@ -223,7 +227,7 @@ export class JSXBezierCurve extends AbstractJSXBezierCurve<BezierCurve> {
     elevate() {
         const elevated = this.pointControlledCurve.elevate()
         this.clearJxgPoints()
-        const wrappedPoints = elevated.getPoints().map((point, i) => this.createJSXGraphPoint(point.X(), point.Y(), Labels.pi(i)))
+        const wrappedPoints = elevated.getPoints().map((point, i) => this.createJSXGraphPoint(point.X(), point.Y(), PointStyles.pi(i)))
         this.pointControlledCurve.setPoints(wrappedPoints);
     }
 
@@ -233,7 +237,7 @@ export class JSXBezierCurve extends AbstractJSXBezierCurve<BezierCurve> {
     }
 
     protected getStartingCurve(points: number[][]): BezierCurve {
-        let jsxPoints = points.map((point, i) => this.createJSXGraphPoint(point[0], point[1], Labels.pi(i)))
+        let jsxPoints = points.map((point, i) => this.createJSXGraphPoint(point[0], point[1], PointStyles.pi(i)))
         return new BezierCurveImpl(jsxPoints);
     }
 

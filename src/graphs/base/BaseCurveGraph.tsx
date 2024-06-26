@@ -5,6 +5,7 @@ import {BezierCurve} from "../../bezeg/interfaces/bezier-curve";
 import React from "react";
 import {Button} from "react-bootstrap";
 import {OnOffSwitch} from "../../inputs/OnOffSwitch";
+import {SizeContext} from "../../Contexts";
 
 function ShowControlPoints(props: { initialState?: boolean, onChange: (checked: boolean) => void }) {
     return <OnOffSwitch initialState={props.initialState} onChange={props.onChange} label="Kontrolne točke"/>
@@ -168,7 +169,7 @@ export abstract class BaseCurveGraph<P extends BaseCurveGraphProps, S extends Ba
     private createSubdivisionPoint() {
         if (this.board && !this.subdivisionPoint && this.getSelectedCurve()) {
             this.subdivisionPoint = this.board.create('point', [() => this.getSelectedCurve().getCurve().calculatePointAtT(this.subdivisionT).X(),
-                () => this.getSelectedCurve().getCurve().calculatePointAtT(this.subdivisionT).Y()]);
+                () => this.getSelectedCurve().getCurve().calculatePointAtT(this.subdivisionT).Y()], {size: () => SizeContext.pointSize}) as JXG.Point;
             this.subdivisionPoint.hide()
         }
     }
@@ -176,7 +177,7 @@ export abstract class BaseCurveGraph<P extends BaseCurveGraphProps, S extends Ba
     private createExtrapolationPoint() {
         if (this.board && !this.extrapolationPoint && this.getSelectedCurve()) {
             this.extrapolationPoint = this.board.create('point', [() => this.getSelectedCurve().getCurve().calculatePointAtT(this.extrapolationT).X(),
-                () => this.getSelectedCurve().getCurve().calculatePointAtT(this.extrapolationT).Y()]);
+                () => this.getSelectedCurve().getCurve().calculatePointAtT(this.extrapolationT).Y()], {size: () => SizeContext.pointSize}) as JXG.Point;
             this.extrapolationPoint.hide()
         }
     }

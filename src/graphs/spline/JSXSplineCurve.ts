@@ -4,7 +4,7 @@
 import {AbstractJSXPointControlledCurve} from "../base/AbstractJSXPointControlledCurve";
 import {BezierSpline, Continuity} from "../../bezeg/bezier-spline";
 import {Board} from "jsxgraph";
-import {Labels} from "../../utils/PointLabels";
+import {PointStyles} from "../styles/PointStyles";
 
 export class JSXSplineCurve extends AbstractJSXPointControlledCurve<BezierSpline> {
     nonFreeJsxPoints!: JXG.Point[];
@@ -17,18 +17,12 @@ export class JSXSplineCurve extends AbstractJSXPointControlledCurve<BezierSpline
     }
 
     addPoint(x: number, y: number) {
-        let p = this.createJSXGraphPoint(x, y, Labels.pi(this.pointControlledCurve.getPoints().length))
+        let p = this.createJSXGraphPoint(x, y, PointStyles.pi(this.pointControlledCurve.getPoints().length))
         this.pointControlledCurve.addPoint(p)
         this.pointControlledCurve.generateBezierCurves()
         while (this.pointControlledCurve.getNonFreePoints().length !== this.nonFreeJsxPoints.length) {
             const len = this.nonFreeJsxPoints.length
-            const jsxpoint = this.createJSXGraphPoint(() => this.getCurve().getNonFreePoints()[len].X(), () => this.getCurve().getNonFreePoints()[len].Y(), {
-                fixed: true,
-                color: "blue",
-                label: {
-                    useMathJax: true
-                }
-            })
+            const jsxpoint = this.createJSXGraphPoint(() => this.getCurve().getNonFreePoints()[len].X(), () => this.getCurve().getNonFreePoints()[len].Y(), PointStyles.fixed)
             this.nonFreeJsxPoints.push(jsxpoint.point)
         }
         this.labelJxgPoints()
@@ -74,19 +68,15 @@ export class JSXSplineCurve extends AbstractJSXPointControlledCurve<BezierSpline
     }
 
     protected getStartingCurve(points: number[][]): BezierSpline {
-        const jsxPoints = points.map((point, i) => this.createJSXGraphPoint(point[0], point[1], Labels.pi(i)))
+        const jsxPoints = points.map((point, i) => this.createJSXGraphPoint(point[0], point[1], PointStyles.pi(i)))
         return new BezierSpline(jsxPoints, 3, 1);
     }
 
     protected generateNonFreeJsxGraphPoints(spline: BezierSpline) {
         // This may look dumb, but in reality this makes us able to change underlying non-free points
-        this.nonFreeJsxPoints = spline.getNonFreePoints().map((p, i) => this.createJSXGraphPoint(() => spline.getNonFreePoints()[i].X(), () => spline.getNonFreePoints()[i].Y(), {
-            fixed: true,
-            color: "blue",
-            label: {
-                useMathJax: true
-            }
-        })).map(point => point.point)
+        this.nonFreeJsxPoints = spline.getNonFreePoints()
+            .map((p, i) => this.createJSXGraphPoint(() => spline.getNonFreePoints()[i].X(), () => spline.getNonFreePoints()[i].Y(), PointStyles.fixed))
+            .map(point => point.point)
         console.log(this.nonFreeJsxPoints)
     }
 

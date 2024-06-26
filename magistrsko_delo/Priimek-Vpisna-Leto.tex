@@ -175,15 +175,36 @@ the content and not the structure of your work.}
     V tem razdelku bomo predstavili nekaj njihovih osnovnih lastnosti, ki jih bomo uporabili pri Bezierjevih krivuljah.
     Dejmo jih najprej definirati.
     \begin{definicija}
-        Za pozitivno naravno število $n$ je $i$-ti \textit{Bernsteinov bazni polinom} enak \[B_i^n(t)\coloneqq\bernstein{n}{i}.\]
+        Za pozitivno naravno število $n$ je $i$-ti \textit{Bernsteinov bazni polinom} $B_i^n: [0,1] \to [0,1] $ podan s predpisom \[B_i^n(t)\coloneqq\bernstein{n}{i}.\]
     \end{definicija}
     \noindent Linearni kombinaciji takšnih polinomov t.j.\ $\bsum$, pravimo \textit{Bernsteinov polinom} stopnje $n$.
-    V izreku~\ref{izrek:bernsteinovi_lastnosti} naštejemo nekaj lastnosti Bernsteinovih baznih polinomov, ki so ključne za rabo v CAD sistemih\mycomment{(zato da so bez krivulje sploh uporabne).}
+    Poglejmo si najprej, kako Bernsteinovi bazni polinomi izgledajo pri stopnjah $n=0,1,2,3$.
+    Njihovi funkcijski zapisi so naslednji
+    \begin{align*}
+       n=0\text{ : } &B_{0}^{0}(t) = 1 \\
+       n=1\text{ : } &B_{0}^{1}(t) = 1-t,\quad B_{1}^{1}(t) = t \\
+       n=2\text{ : } &B_{0}^{2}(t) = (1-t)^2,\quad B_{1}^{2}(t) = 2t(1-t),\quad B_{2}^{2}(t) = t^2  \\
+       n=3\text{ : } &B_{0}^{3}(t) = (1-t)^3,\quad B_{1}^{3}(t) = 3t(1-t)^2,\quad B_{2}^{2}(t) = 3t^2(1-t),\quad B_{3}^{3}(t) &= t^3.
+    \end{align*}
+    Njihove grafe pa si lahko ogledamo na sliki~\ref{fig:bernstein-base}.
+    \begin{figure}[h!]
+        \captionsetup[subfigure]{labelformat=empty}
+        \centering
+        \subfloat[$n=0$]{\includegraphics[width = 0.45\textwidth]{images/bernstein-0}}
+        \qquad
+        \subfloat[$n=1$]{\includegraphics[width = 0.45\textwidth]{images/bernstein-1}} \\
+        \subfloat[$n=2$]{\includegraphics[width = 0.45\textwidth]{images/bernstein-2}}
+        \qquad
+        \subfloat[$n=3$]{\includegraphics[width = 0.45\textwidth]{images/bernstein-3}}
+        \caption{Sumgrafi Bernsteinovih baznih polinomov}
+        \label{fig:bernstein-base}
+    \end{figure}
+
+    V izreku~\ref{izrek:bernsteinovi_lastnosti} bomo našteli nekaj lastnosti Bernsteinovih baznih polinomov, ki so ključne za rabo v CAD sistemih\mycomment{(zato da so bez krivulje sploh uporabne).}
 %    Takšni polinomi so bili prvič uporabljeni v konstruktivnem(????) dokazu Weierstrassovega aproksimacijskega izreka.
 
     \begin{izrek}{Lastnosti Bernsteinovih polinomov}
         \label{izrek:bernsteinovi_lastnosti}
-
         \begin{enumerate}
             \item $B_i^n(t) = 0$ za $i<0$ ali $i>n$, interpolacija končnih točk \label{izrek:bernsteinovi_lastnosti:interpolacija}
             \item $B_i^n(t) \geq 0$ za $t\in[0,1]$, pozitivnost \label{izrek:bernsteinovi_lastnosti:pozitivnost}
@@ -193,8 +214,8 @@ the content and not the structure of your work.}
             \end{cases}$
             \item $B_i^n(1-t) = B^n_{n-i}(t)$, simetrija \label{izrek:bernsteinovi_lastnosti:simetrija}
             \item $\sum_{i=0}^{n}B_{i}^{n}(t) = 1$, razčlenitev enote \label{izrek:bernsteinovi_lastnosti:enota}
-            \item $B_i^n(t) = (1-t)B_i^{n-1} + tB_{i-1}^{n-1}$ \label{izrek:bernsteinovi_lastnosti:rekruzija}
-            \item $B_{i}^{\prime n}(t)=n(B_{i-1}^{n-1} - B_{i}^{n-1})$ \label{izrek:bernsteinovi_lastnosti:odvod}
+            \item $B_i^n(t) = (1-t)B_i^{n-1}(t) + tB_{i-1}^{n-1}(t)$ \label{izrek:bernsteinovi_lastnosti:rekruzija}
+            \item $B_{i}^{\prime n}(t)=n(B_{i-1}^{n-1}(t) - B_{i}^{n-1(t)})$ \label{izrek:bernsteinovi_lastnosti:odvod}
             \item $\int B_i^n(t)dt= \frac{1}{n+1}\sum^{n+1}_{j=i+1}B_{j}^{n+1}(t)$ \label{izrek:bernsteinovi_lastnosti:integral}
             \item{\label{izrek:bernsteinovi_lastnosti:mnozenje} Naj bo $f(t)=\sum_{i=0}^{m}B_i^m(t)$ in $g(t)=\sum_{i=0}^{n}B_i^n(t)$.
             Za njun zmnožek velja
@@ -233,7 +254,21 @@ the content and not the structure of your work.}
         \end{align*}
         V primerih, ko velja $l>m$ ali $k-l>n$ imamo v števcu ulomka $0$, kar privede do zapisa iz izreka.
     \end{dokaz}
-
+    Lastnosti (2),(3) in (4) je možno videti na sliki~\ref{fig:bernstein-base}, ki smo jo videli že prej.
+    Lastnosti (5) pa bo bolje videti na sliki~\ref{fig:bernstein-base-sum}.
+    Na sliki so narisani \mycomment{sumgrafi} Bernsteinovih polinomov za $n=0,1,2,3$, ki nam pri določenem številu $t\in[0,1]$ povejo, koliko vsak izmed polinomov $B_i^n(t)$ doda pri razčlenitvi enote.
+    \begin{figure}[h!]
+        \captionsetup[subfigure]{labelformat=empty}
+        \centering
+        \subfloat[$n=0$]{\includegraphics[width = 0.45\textwidth]{images/bernstein-sum-0}}
+        \qquad
+        \subfloat[$n=1$]{\includegraphics[width = 0.45\textwidth]{images/bernstein-sum-1}} \\
+        \subfloat[$n=2$]{\includegraphics[width = 0.45\textwidth]{images/bernstein-sum-2}}
+        \qquad
+        \subfloat[$n=3$]{\includegraphics[width = 0.45\textwidth]{images/bernstein-sum-3}}
+        \caption{Bernsteinovi bazni polinomi}
+        \label{fig:bernstein-base-sum}
+    \end{figure}
     \subsection{Večdimenzionalne oznake}
     Z željo po krajših, bolj preglednih zapisih, bomo uvedli večdimenzionalne oznake.
     Večdimenzionalnost bomo ponazarjali z odebelitvijo črke.
@@ -243,10 +278,33 @@ the content and not the structure of your work.}
     Če v Bernsteinov polinom $n$-te stopnje namesto skalarjev $\beta_i$ vstavimo točke $\p_i\in\R^d$, dobimo predpis za parametrizacijo Bezierjeve krivulje.
     \begin{definicija}
         Bezierjeva krivulja $n$-te stopnje je podana s točkami $\p_i$ za $i=0,1,\ldots,n$ in parametrizacijo
-        \[\bigbb{n}=\bernsteinsump{i}{n}\]
+        \[\bigbb{n}=\bernsteinsump{i}{n}.\]
     \end{definicija}
-    Točkam $\p_i$ pravimo \textit{kontrolne točke}, poligonu, ki ga dobimo, če povežemo točke $\p_i$ in $\p_{i+1}$ za $i=0,\dots,n-1$, ter točki $\p_0$ in $\p_n$ pa pravimo \textit{kontrolni poligon}.
-    \mycomment{Opomba: pri slikovnem prikazovanju raznih konceptov Bezierjevih krivulj, se bomo omejili na $d=2$, torej na Bezierjeve krivulje v ravnini.}
+    Točkam $\p_i$ pravimo \textit{kontrolne točke}.
+    Če zaporedne kontrolne točke povežemo, dobimo \textit{kontrolni poligon}.
+    \begin{opomba}
+        Pri slikovnem prikazovanju raznih konceptov Bezierjevih krivulj, se bomo omejili na $d=2$, torej na Bezierjeve krivulje v ravnini.
+    \end{opomba}
+    Preden se lotimo lastnosti Bezierjevih krivulj, si na sliki~\ref{fig:bezierjeva-krivulja} oglejmo primere teh za $n=1,2,3,4$.
+    Opazimo lahko, da krivulje interpolirajo začetno ter končno kontrolno točko.
+    Ostale kontrolne točke pa določajo obliko krivulje.
+    Zapišimo sedaj nekaj osnovnih lastnosti Bezierjevih krivulj.
+    \begin{figure}[ht!]
+        \captionsetup[subfigure]{labelformat=empty}
+        \centering
+        \subfloat[$n=2$]{\includegraphics[width = 0.45\textwidth]{images/bezier-curve-2}}
+        \qquad
+        \subfloat[$n=2$]{\includegraphics[width = 0.45\textwidth]{images/bezier-curve-2-control}} \\
+        \subfloat[$n=3$]{\includegraphics[width = 0.45\textwidth]{images/bezier-curve-3}}
+        \qquad
+        \subfloat[$n=3$]{\includegraphics[width = 0.45\textwidth]{images/bezier-curve-3-control}}\\
+        \subfloat[$n=4$]{\includegraphics[width = 0.45\textwidth]{images/bezier-curve-4}}
+        \qquad
+        \subfloat[$n=4$]{\includegraphics[width = 0.45\textwidth]{images/bezier-curve-4-control}}
+        \caption{Bezierjeve krivulje za $n=1,2,3,4$ na levi strani, z njihovimi kontrolnimi poligoni na desni}
+        \label{fig:bezierjeva-krivulja}
+    \end{figure}
+
     \begin{izrek}{Lastnosti Bezierjevih krivulj}
         \label{izrek:lastnosti-bezierjevih-krivulj}
         \begin{enumerate}
@@ -495,7 +553,7 @@ the content and not the structure of your work.}
     Izrek nam pove, da smo z uvedbo racionalnih Bezierjevih krivulj dobili dobili le $n-1$ dodatnih prostih parametrov, glede na navadne Bezierjeve krivulje.
     Dokaz izreka bo konstrukcijske narave.
     Našli bomo torej uteži $\tilde{w}_i$, katere lahko zamenjamo z utežmi $w_i$, tako da ohranimo isto krivuljo.
-    \begin{dokaz}
+    \begin{dokaz}\label{dokaz:standardna-forma}
         Uporabimo reparametrizacijsko funkcijo $\varphi(t):[0,1]\to[0,1]$ s predpisom $\varphi(t)=\frac{t}{\rho(1-t)+t}$, kjer je $\rho$ pozitivno realno število.
         Če reparametrizacijsko funkcijo vstavimo v $i$-ti Bernsteinov bazni polinom dobimo naslednje
         \begin{align*}
@@ -549,7 +607,7 @@ the content and not the structure of your work.}
     \subsubsection{Farinove točke}
     Ročno nastavljanje uteži z vpisovanjem, bi bilo za uporabnika CAGD sistema zamudno in nenaravno.
     Uporabniku želimo delo olajšati tako, da pridelamo bolj naraven način kontroliranja uteži.
-    Izkaže se, da imajo uteži racionalne Bezierjeve krivulje geometrijski pomeni, ki ga lahko uporabimo zgornje.
+    Izkaže se, da imajo uteži racionalne Bezierjeve krivulje geometrijski pomeni, ki ga lahko za to uporabimo.
     Uteži lahko kontroliramo s t.i. \textit{Farinovimi točkami}.
     Farinove točke ležijo na daljicah kontrolnega poligona in jih je toliko, kolikor je prostih parametrov uteži t.j.\ $n-1$.
     $i$-ta Farinova točka, leži na $i$-ti daljici kontrolnega poligona in jo deli v razmerju $w_{i+1}:w_{i}$.
@@ -560,36 +618,77 @@ the content and not the structure of your work.}
     Brez izgube splošnosti lahko za prvo utež izberemo $w_0=1$.
     Ostale točke lahko nato rekurzivno izračunamo s pomočjo naslednjega izraza
     \[w_{i+1} = w_i\frac{|\mathbf{f}_i-\p_i|}{|\mathbf{f}_i-\p_{i+1}|}.\]
+    Po želji lahko točke nato še standardiziramo s pomočjo formule,\[\tilde{w}_{i} = \frac{w_i}{\sqrt[n]{w_n^i}},\]
+    ki sledi iz dokaza~\ref{dokaz:standardna-forma}.
+
+    Na sliki~\ref{fig:farinove-tocke} si lahko ogledamo Farinove točke v akciji.
+    Uteži na sliki niso standardizirane zato, da lahko bolje vidimo razmerja med njimi.
+    Na grafu (a) lahko vidimo, da $i$-ta Farinova točka leži točno na sredini med kontrolima točkama $\p_i$ in $\p_{i+1}$.
+    Ker so vsa razmerja $|\p_i-\mathbf{f}_i|:|\p_{i+1}-\mathbf{f}_i|$ enaka, so vse uteži enake $1$.
+    Na grafu (b) lahko vidimo, da se s premikom prve Farinove točke bližje k točki $\p_0$, k njej približa tudi krivulja.
+    Utež $w_1$, ki predstavlja razmerje $|\p_0-\mathbf{f}_0|:|\p_{1}-\mathbf{f}_0|$, je zato manjša kot $1$.
+    Na grafu (c) lahko vidimo premik Farinove točke bližje k točki $\p_1$.
+    Krivulja se točki približa, utež $w_1$ pa se poveča na več kot $1$.
+    Ker na grafoma (b) in (c) druga in tretja Farinova točka ležita na sredini svojih daljic, so uteži $w_1$,$w_2$ in $w_3$ enake.
+    Na grafoma (d) in (e) lahko vidimo, kako se krivulja in uteži obnašajo ob premiku druge Farinove točke.
+    Na grafoma (f) ter (g) pa lahko vidimo obnašanje, ko premaknemo prvo ter tretjo Farinovo točko hkrati gor ali dol.
+    Poglejmo si še, kaj se zgodi, če vse tri točke premaknemo pomaknemo tako, da so razmerja na vseh daljicah enaka.
+    Na levem grafu slike~\ref{fig:farinove-tocke-2} lahko vidimo, da krivulja izgleda kakor začetna.
+    Če uteži standardiziramo, kar smo storili na desnem grafu, vidimo, da je temu res tako.
+    Da bi preprečili takšno izbiro Farinovih točk, lahko po vsakem premiku Farinove točke uteži standardiziramo, ter ponovno izračunamo Farinove točke.
+    \begin{figure}[ht!]
+        \centering
+        \subfloat[]{\includegraphics[width = 0.45\textwidth]{images/farinove-tocke-premik-0}}\\
+        \subfloat[]{\includegraphics[width = 0.45\textwidth]{images/farinove-tocke-premik-leva-1}}
+        \qquad
+        \subfloat[]{\includegraphics[width = 0.45\textwidth]{images/farinove-tocke-premik-leva-2}}\\
+        \subfloat[]{\includegraphics[width = 0.45\textwidth]{images/farinove-tocke-premik-zgornja-1}}
+        \qquad
+        \subfloat[]{\includegraphics[width = 0.45\textwidth]{images/farinove-tocke-premik-zgornja-2}}\\
+        \subfloat[]{\includegraphics[width = 0.45\textwidth]{images/farinove-tocke-premik-obe-1}}
+        \qquad
+        \subfloat[]{\includegraphics[width = 0.45\textwidth]{images/farinove-tocke-premik-obe-2}}
+        \caption{Kontroliranje krivulje s Farinovimi točkami}
+        \label{fig:farinove-tocke}
+    \end{figure}
+
+    \begin{figure}[ht!]
+        \centering
+        \subfloat[]{\includegraphics[width = 0.45\textwidth]{images/farinove-tocke-premik-vsetri-0}}
+        \qquad
+        \subfloat[]{\includegraphics[width = 0.45\textwidth]{images/farinove-tocke-premik-vsetri-1}}
+        \caption{Krivulja z enakimi premiki vseh Farinovih točk, pred in po standardizaciji}
+        \label{fig:farinove-tocke-2}
+    \end{figure}
 
     \subsubsection{Izsek krožnice}
     V uvodu podrazdelka smo povedali, da se nekaterih krivulj ne da opisati z navadnimi Bezierjevimi krivuljami.
     Kot enega izmed primerov smo podali izsek krožnice.
-    V tem podpodrazdelku bomo izpeljali takšne kontrolne točke in uteži racionalne Bezierjeve krivulje, da bo krivulja predstavljala izsek krožnice s kotom $\alpha$, polmerom $r$ in središčem $\mathbf{0}=(0,0)$.
-    Izsek krožnice bomo predstavljali s kvadratičnimi racionalnimi Bezierjevimi krivuljami.
-    Za konstrukcijo imamo na voljo kontrolne točke $\p_0,\p_1$ in $\p_2$.
-    Racionalne Bezierjeve krivulje interpolirajo končne točke, zato morata točki $\p_0$ in $\p_2$ ležati na začetku ter koncu krožnega izseka.
-    Ker so racionalne Bezierjeve krivulje afino invariantne, se lahko osredotočimo na primer, kjer točka $\p_1$ leži na abscisi.
-    Da bo temu tako, mora veljati $\p_0=(r,0)$ in $\p_2=( r\cos(\alpha),r\sin(\alpha))$.
-    Iz izreka~\ref{izrek:racionalne-utezi-1} sledi, da lahko fiksiramo robni uteži $w_0=w_2=1$.
-    Ker je krožni izsek simetričen čez premico z naklonom $\frac{\alpha}{2}$, krivulja pa parabola, lahko pričakujemo, da bosta točki $\p_0$ in $\p_1$ ležali na premici med točkama $\p_0$ in $\p_2$ t.j.\ $\p_1=\left(R\cos\left(\frac{\alpha}{2}\right),R\sin\left(\frac{\alpha}{2}\right)\right)$.
+    V tem delu podrazdelka bomo izpeljali kontrolne točke in uteži racionalne Bezierjeve krivulje, da bo krivulja predstavljala izsek enotske krožnice s \mycomment{kotom $\alpha$}.
+    Izsek krožnice bomo podali s kvadratičnimi racionalnimi Bezierjevimi krivuljami.
+    Za konstrukcijo imamo na voljo kontrolne točke $\p_0,\p_1$ in $\p_2$, ter uteži $w_0,w_1$ in $w_2$.
+    Iz izreka~\ref{izrek:racionalne-utezi-1} sledi, da lahko robni uteži fiksiramo na $w_0=w_2=1$.
+    Točki $\p_0$ in $\p_2$ morata ležati na začetku ter koncu izseka krožnice, saj racionalne Bezierjeve krivulje interpolirajo končne točke.
+    Da bo temu tako, mora veljati $\p_2=(\cos(\alpha),\sin(\alpha))$.
+    Ker je krožni izsek simetričen čez premico z naklonom $\frac{\alpha}{2}$, krivulja pa parabola, lahko pričakujemo, da bo točka $\p_1$ ležala na premici med točkama $\p_0$ in $\p_2$ t.j.\ $\p_1=\left(R\cos\left(\frac{\alpha}{2}\right),R\sin\left(\frac{\alpha}{2}\right)\right)$.
     Sedaj je cilj najti vrednosti $R$ in $w_1$.
-    Najprej zapišimo parametrizacijo željene krivulje
-    \[\mathbf{R}(t) = \frac{\sum^{2}_{i=0}w_i\p_i B^2_i(t)}{\sum^{2}_{i=0}w_i B^2_i(t)} = \frac{\p_0 (1-t)^2 + w_1\p_1 2t(1-t) + \p_2 t^2}{(1-t)^2 + w_1 2t(1-t) + t^2} .\]
-    Po komponentah to izgleda takole
+    Najprej po komponentah zapišimo parametrizacijo željene krivulje
+    \[\mathbf{R}(t) = \frac{\sum^{2}_{i=0}w_i\p_i B^2_i(t)}{\sum^{2}_{i=0}w_i B^2_i(t)} = \frac{\p_0 (1-t)^2 + w_1\p_1 2t(1-t) + \p_2 t^2}{(1-t)^2 + w_1 2t(1-t) + t^2},\]
+    ki po komponentah izgleda takole
     \begin{align*}
-        x(t) &= \frac{r (1-t)^2 + w_1R\cos\left(\frac{\alpha}{2}\right) 2t(1-t) + r\cos(\alpha)t^2}{(1-t)^2 + w_1 2t(1-t) + t^2} \\
-        y(t) &= \frac{w_12t(1-t)R\sin\left(\frac{\alpha}{2}\right) + r\sin(\alpha)t^2}{(1-t)^2 + w_1 2t(1-t) + t^2}.
+        x(t) &= \frac{(1-t)^2 + w_1R\cos\left(\frac{\alpha}{2}\right) 2t(1-t) + \cos(\alpha)t^2}{(1-t)^2 + w_1 2t(1-t) + t^2} \\
+        y(t) &= \frac{w_12t(1-t)R\sin\left(\frac{\alpha}{2}\right) + \sin(\alpha)t^2}{(1-t)^2 + w_1 2t(1-t) + t^2}.
     \end{align*}
-    Zaradi simetrije mora krivulja v $t=\frac{1}{2}$ interpolirati točko $\left(r\cos\left(\frac{\alpha}{2}\right),r\sin\left(\frac{\alpha}{2}\right)\right)$ iz česar sledi
+    Zaradi simetrije mora krivulja v $t=\frac{1}{2}$ interpolirati točko $\left(\cos\left(\frac{\alpha}{2}\right),\sin\left(\frac{\alpha}{2}\right)\right)$ iz česar sledi
     \begin{align*}
-        x\left(\frac{1}{2}\right) &= \frac{r \frac{1}{4} + w_1R\cos\left(\frac{\alpha}{2}\right) \frac{1}{2} + r\cos(\alpha)\frac{1}{4}}{\frac{1}{4}+ w_1\frac{1}{2} + \frac{1}{4}} = \frac{ \frac{r}{2} + w_1R\cos\left(\frac{\alpha}{2}\right) + \frac{r}{2}\cos(\alpha)}{1+w_1} = r\cos\left(\frac{\alpha}{2}\right) \\
-        y\left(\frac{1}{2}\right) &= \frac{\frac{w_1}{2}R\sin\left(\frac{\alpha}{2}\right) + \frac{r}{4}\sin(\alpha)}{\frac{1}{4}+ w_1\frac{1}{2} + \frac{1}{4}} =  \frac{w_1R\sin\left(\frac{\alpha}{2}\right) + \frac{r}{2}\sin(\alpha)}{1+w_1} = r\sin\left(\frac{\alpha}{2}\right).
+        x\left(\frac{1}{2}\right) &= \frac{\frac{1}{4} +  \frac{1}{2}w_1R\cos\left(\frac{\alpha}{2}\right) + \frac{1}{4}\cos(\alpha)}{\frac{1}{4}+ w_1\frac{1}{2} + \frac{1}{4}} = \frac{ \frac{1}{2} + w_1R\cos\left(\frac{\alpha}{2}\right) + \frac{1}{2}\cos(\alpha)}{1+w_1} = \cos\left(\frac{\alpha}{2}\right) \\
+        y\left(\frac{1}{2}\right) &= \frac{\frac{w_1}{2}R\sin\left(\frac{\alpha}{2}\right) + \frac{1}{4}\sin(\alpha)}{\frac{1}{4}+ w_1\frac{1}{2} + \frac{1}{4}} =  \frac{w_1R\sin\left(\frac{\alpha}{2}\right) + \frac{1}{2}\sin(\alpha)}{1+w_1} = \sin\left(\frac{\alpha}{2}\right).
     \end{align*}
     NEXT
     \begin{align*}
         \frac{r}{2} + w_1R\cos\left(\frac{\alpha}{2}\right) + \frac{r}{2}\cos(\alpha) &= (1+w_1)r\cos\left(\frac{\alpha}{2}\right) \\
-        w_1R\cos\left(\frac{\alpha}{2}\right) - w_1r\cos\left(\frac{\alpha}{2}\right) &= r\cos\left(\frac{\alpha}{2}\right)-\frac{r}{2} - \frac{r}{2}\cos(\alpha) \\
-        w_1(R-r)\cos\left(\frac{\alpha}{2}\right) &= r\left(\cos\left(\frac{\alpha}{2}\right)-\frac{1}{2} - \frac{1}{2}\cos(\alpha)\right)
+        w_1R\cos\left(\frac{\alpha}{2}\right) - w_1\cos\left(\frac{\alpha}{2}\right) &= r\cos\left(\frac{\alpha}{2}\right)-\frac{r}{2} - \frac{r}{2}\cos(\alpha) \\
+        w_1(R-r)\cos\left(\frac{\alpha}{2}\right) &= \left(\cos\left(\frac{\alpha}{2}\right)-\frac{1}{2} - \frac{1}{2}\cos(\alpha)\right)
     \end{align*}
     NEXT
     \begin{align*}
@@ -605,8 +704,8 @@ the content and not the structure of your work.}
         w_1 &=\frac{r\cos\left(\frac{\alpha}{2}\right)-\frac{r}{2}\cos(\alpha)-\frac{r}{2}}{(R=\frac{r}{\cos\left(\frac{\alpha}{2}\right)}-r)\cos\left(\frac{\alpha}{2}\right)}
     \end{align*}
 
-    Tangenta na krožnico je v točki $(r,0)$ vzporedna z ordinatno osjo, zato mora veljati $x'(0)=0$.
-    Odvod krivulje v točki $(r,0)$ je enak $2(\p_{1}-\p_{0}) = 2\left(R\sin\left(\frac{\alpha}{2}\right)-r,R\cos\left(\frac{\alpha}{2}\right)\right)$.
+    Tangenta na enotsko krožnico je v točki $(1,0)$ vzporedna z ordinatno osjo, zato mora veljati $x'(0)=0$.
+   \mycomment{Odvod racionalne Bezierjeve krivulje v točki $(1,0)$ je enak $2(\p_{1}-\p_{0}) = 2\left(R\sin\left(\frac{\alpha}{2}\right)-r,R\cos\left(\frac{\alpha}{2}\right)\right)$.}
     Iz česar sledi $R=\frac{r}{\cos\left(\frac{\alpha}{2}\right)}$.
     \begin{align*}
         w_1\left(\frac{r}{\sin\left(\frac{\alpha}{2}\right)}-r\right)\sin\left(\frac{\alpha}{2}\right)  &= r\sin\left(\frac{\alpha}{2}\right) - \frac{r}{2}\sin(\alpha) \\

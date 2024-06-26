@@ -19,6 +19,9 @@
 - [x] Dodat bernsteinove polinome... ni cisto brezsmiselno. Graf pokaze koliko tocka za dolocen t doda pri kalkulaciji
   tocke na krivulji!!
 - [ ] Osnova grafa naj bo renderirana enako pri Bernsteinovih polinomih kot BaseGraph... trenutno je skopirana
+- [x] Size context?
+- [ ] Različni preseti za inicializacijo grafa - torej primeri iz magistrske, ki jih lahko kar izbereš iz dropdownov!
+  Tako bom zagotovil konsistenco med slikami. V inicializacijo lahko dodam tudi bounding box parameter itd.
 
 ### Low Priority
 

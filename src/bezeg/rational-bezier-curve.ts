@@ -1,7 +1,6 @@
 import {PointImpl} from "./point/point-impl";
 import {Point} from "./interfaces/point";
 import {BezierCurveImpl} from "./bezier-curve-impl";
-import {range} from "../utils/Range";
 
 
 export class RationalBezierCurve extends BezierCurveImpl {
@@ -10,6 +9,7 @@ export class RationalBezierCurve extends BezierCurveImpl {
     // So in case we provide weights that are functions, we use those in decasteljau scheme for calculating
     // However other bezier curve methods won't work, since the original weights will be just the reactiveWeights evaluated at start
     private reactiveWeights?: Array<() => number> = undefined
+    private standardForm = false
 
     /**
      * @constructor
@@ -63,10 +63,16 @@ export class RationalBezierCurve extends BezierCurveImpl {
     }
 
     getWeights(): number[] {
+        let weights
         if (this.reactiveWeights) {
-            return this.reactiveWeights.map(weight => weight())
+            weights = this.reactiveWeights.map(weight => weight())
+        } else {
+            weights = this.weights
         }
-        return this.weights
+        if (this.standardForm) {
+            return this.standardize(weights)
+        }
+        return weights
     }
 
     /**
@@ -129,13 +135,16 @@ export class RationalBezierCurve extends BezierCurveImpl {
         return decasteljauScheme
     }
 
-    setStandardForm() {
-        const newWeights: number[] = []
-        const n = this.weights.length
-        range(0, n - 1, 1)
-            .forEach(i => {
-                newWeights.push(this.weights[i] / Math.pow(this.weights[n - 1] ** i * this.weights[0] ** (n - 1 - i), 1 / (n - 1)))
-            })
-        this.setWeights(newWeights)
+    setStandardForm(standard: boolean) {
+        this.standardForm = standard
+    }
+
+    inStandardForm() {
+        return this.standardForm
+    }
+
+    private standardize(weights: Array<number>): Array<number> {
+        const n = weights.length
+        return weights.map((w, i) => w / Math.pow(weights[n - 1] ** i * weights[0] ** (n - 1 - i), 1 / (n - 1)))
     }
 }
