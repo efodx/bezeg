@@ -17,6 +17,7 @@ export abstract class AbstractJSXPointControlledCurve<T extends PointControlledC
     private jxgCurve: JXG.Curve
     private boundBoxPoints: JXG.Point[] = []
     private boundBoxSegments: JXG.Segment[] = []
+    private convexHullSegments: JXG.Segment[] = []
     private selected: boolean = false
     private dragging: boolean = false
     private rotating: boolean = false
@@ -26,6 +27,7 @@ export abstract class AbstractJSXPointControlledCurve<T extends PointControlledC
     private controlPolygonSegments: JXG.Segment[] = []
     private showingControlPolygon: boolean = false;
     private showingJxgPoints: boolean = true;
+    private showingConvexHull: boolean = false;
     private rotationCenter?: number[];
 
     constructor(points: number[][], board: Board) {
@@ -309,6 +311,26 @@ export abstract class AbstractJSXPointControlledCurve<T extends PointControlledC
         return this.jxgCurve.hasPoint(x, y)
     }
 
+    showConvexHull(show: boolean) {
+        if (show) {
+            const hull = this.getCurve().getConvexHull()
+            const jxgPoints = hull.map(p => this.jxgPoints.filter(point => point.X() === p.X() && point.Y() === p.Y())[0])
+            const segments = jxgPoints.slice(1).map((p, i) => this.board.create('segment', [jxgPoints[i], p], {strokeWidth: () => SizeContext.strokeWidth}))
+            this.convexHullSegments.push(...segments)
+            const lastSegment = this.board.create('segment', [jxgPoints[jxgPoints.length - 1], jxgPoints[0]], {strokeWidth: () => SizeContext.strokeWidth})
+            this.convexHullSegments.push(lastSegment)
+            this.showingConvexHull = true
+        } else {
+            this.board.removeObject(this.convexHullSegments)
+            this.convexHullSegments = []
+            this.showingConvexHull = false
+        }
+    }
+
+    isShowingConvexHull() {
+        return this.showingConvexHull
+    }
+
     protected abstract getStartingCurve(points: number[][]): T
 
     /**
@@ -378,7 +400,7 @@ export abstract class AbstractJSXPointControlledCurve<T extends PointControlledC
         // @ts-ignore
         this.boundBoxSegments = [segment, segment2, segment3, segment4]
     }
- 
+
     private getMouseCoords(e: PointerEvent) {
         const pos = this.board.getMousePosition(e);
         return new JXG.Coords(JXG.COORDS_BY_SCREEN, pos, this.board as Board);

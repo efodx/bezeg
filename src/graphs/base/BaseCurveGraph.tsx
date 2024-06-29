@@ -29,7 +29,6 @@ export abstract class BaseCurveGraph<P extends BaseCurveGraphProps, S extends Ba
         allowSelectedCurveDecasteljau: true,
         allowSelectedCurveShowPoints: true
     }
-    curveCommandStyle = {}
     private subdivisionT: number = 0.5;
     private extrapolationT: number = 1.2;
     private decasteljauT: number = 0.5;
@@ -89,6 +88,9 @@ export abstract class BaseCurveGraph<P extends BaseCurveGraphProps, S extends Ba
                 initialState={this.getFirstJsxCurve().isShowingJxgPoints()}
                 onChange={checked => this.showJxgPointsOfSelectedCurve(checked)}/>)
         }
+        selectedCurveCommands.push(<OnOffSwitch label={"Konveksna ovojnica"}
+                                                initialState={this.getSelectedCurve().isShowingConvexHull()}
+                                                onChange={(checked) => this.getSelectedCurve().showConvexHull(checked)}></OnOffSwitch>)
         return selectedCurveCommands;
     }
 

@@ -51,4 +51,6 @@ export interface PointControlledCurve {
      * @param {Point} point
      */
     addPoint(point: Point): void;
+
+    getConvexHull(): Point[];
 }

@@ -84,7 +84,8 @@ export class JSXBezierCurve extends AbstractJSXBezierCurve<BezierCurve> {
                         () => this.getDecasteljauScheme(t)[r][i - 1].Y()], {
                         // @ts-ignore
                         style: JXG.POINT_STYLE_X,
-                        color: Colors[r]
+                        color: Colors[r],
+                        name: "$p$"
                     });
                 } else {
                     pp1 = this.decasteljauPoints[this.decasteljauPoints.length - 1]
@@ -96,7 +97,8 @@ export class JSXBezierCurve extends AbstractJSXBezierCurve<BezierCurve> {
                     () => this.getDecasteljauScheme(t)[r][i].Y()], {
                     // @ts-ignore
                     style: JXG.POINT_STYLE_X,
-                    color: Colors[r]
+                    color: Colors[r],
+                    name: "$p$"
                 });
                 const segment = this.board!.create('segment', [pp1, pp2], SegmentStyles.default);
                 this.decasteljauSegments.push(segment)
@@ -135,9 +137,8 @@ export class JSXBezierCurve extends AbstractJSXBezierCurve<BezierCurve> {
                     pp1 = this.board.create('point', [() => this.getDecasteljauScheme(slider.Value())[r][i - 1].X(),
                         () => this.getDecasteljauScheme(slider.Value())[r][i - 1].Y()], {
                         ...PointStyles.default,
-                        // @ts-ignore
-                        style: JXG.POINT_STYLE_X,
-                        color: Colors[r]
+                        color: Colors[r],
+                        name: "$$p_" + r + "^" + (n - i) + "$$",
                     });
                 } else {
                     pp1 = this.decasteljauPoints[this.decasteljauPoints.length - 1]
@@ -149,8 +150,8 @@ export class JSXBezierCurve extends AbstractJSXBezierCurve<BezierCurve> {
                     () => this.getDecasteljauScheme(slider.Value())[r][i].Y()], {
                     ...PointStyles.default,
                     // @ts-ignore
-                    style: JXG.POINT_STYLE_X,
-                    color: Colors[r]
+                    color: Colors[r],
+                    name: "$$p_" + r + "^" + (n - i) + "$$"
                 });
                 const segment = this.board!.create('segment', [pp1, pp2], SegmentStyles.default);
                 this.decasteljauSegments.push(segment)
@@ -162,16 +163,11 @@ export class JSXBezierCurve extends AbstractJSXBezierCurve<BezierCurve> {
         }
         let drawingPoint = this.board?.create('point', [() => this.getDecasteljauScheme(slider.Value())[n - 1][0].X(), () => this.getDecasteljauScheme(slider.Value())[n - 1][0].Y()], {
             ...PointStyles.default,
-            // @ts-ignore
-            style: JXG.POINT_STYLE_X,
             color: Colors[n - 1],
-            trace: false
+            trace: false,
+            name: "$$p_" + n + "^" + n + "$$"
         });
-
-        if (drawingPoint instanceof JXG.Point) {
-            this.decasteljauPoints.push(drawingPoint)
-        }
-
+        this.decasteljauPoints.push(drawingPoint)
     }
 
     getDecasteljauScheme(t: number) {

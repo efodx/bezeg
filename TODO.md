@@ -22,6 +22,7 @@
 - [x] Size context?
 - [ ] Različni preseti za inicializacijo grafa - torej primeri iz magistrske, ki jih lahko kar izbereš iz dropdownov!
   Tako bom zagotovil konsistenco med slikami. V inicializacijo lahko dodam tudi bounding box parameter itd.
+- [ ] Decasteljau generateLineSegments(slider: JXG.Slider) in se ena metoda... naj bo to abstrahirano kar je lahko.
 
 ### Low Priority
 

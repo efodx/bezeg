@@ -140,7 +140,7 @@ export class PhBezierCurve implements BezierCurve {
                 const sumPart = new PointImpl(() => scalar * (sigma[j]() * p[k - j].X() + d() * n * deltaPravokotenP[j].X()),
                     () => scalar * (sigma[j]() * p[k - j].Y() + d() * n * deltaPravokotenP[j].Y()))
                 sumParts.push(sumPart)
-
+ 
                 // We also pack the calculation of w in a point for some caching, ideally Point would be of any dimension
                 const wSumPart = new PointImpl(() => scalar * sigma[j](), 0)
                 wSumParts.push(wSumPart)
@@ -258,6 +258,10 @@ export class PhBezierCurve implements BezierCurve {
 
     removePoint(point: Point) {
         this.underlyingBezierCurve.removePoint(point);
+    }
+
+    getConvexHull(): Point[] {
+        return this.underlyingBezierCurve.getConvexHull();
     }
 
 }
