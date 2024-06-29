@@ -392,6 +392,7 @@ the content and not the structure of your work.}
         Naj bo $\bigbbt_{[\p_0,\p_1,\dots,\p_n]}$ parametrizacija Bezierjeve krivulje $n$-te stopnje s kontrolnimi točkami $\p_0,\p_1,\dots,\p_n$.
         Potem lahko njene točke rekurzivno računamo s pomočjo naslednjega izraza \[\bigbbt_{[\p_0,\p_1,\dots,\p_n]} = (1-t)\bigbbt_{[\p_0,\p_1,\dots,\p_{n-1}]} +t\bigbbt_{[\p_1,\dots,\p_n]}.\]
     \end{izrek}
+    \newpage
     Izrek tudi dokažimo.
     \begin{dokaz} Rekurzivno zvezo iz izreka razpišemo in računamo, da dobimo
         \begin{align*}
@@ -407,6 +408,7 @@ the content and not the structure of your work.}
         \end{align*}
         kjer smo pri enakosti (1) uporabili rekurzivno zvezo Bernsteinovih baznih polinomov iz izreka~\ref{izrek:bernsteinovi_lastnosti:rekruzija}.
     \end{dokaz}
+
     \begin{algorithm}
         \label{alg:decasteljau}
         \caption{Decasteljau}
@@ -479,10 +481,7 @@ the content and not the structure of your work.}
         \label{fig:dec-alg-n5}
     \end{figure}
 
-    \subsection{Metode Bezierjevih krivulj}
-    V tem razdelku bomo predstavili nekaj metod Bezierjevih krivulj, ki so uporabne pri grafičnem oblikovanju.
-
-    \subsubsection{Subdivizija}
+    \subsection{Subdivizija}
     Recimo, da smo se kot računalniški grafik znašli v situaciji, ko bi želeli obdržati le en kos Bezierjeve krivulje $B$.
     Naj bo to kos krivulje, ki ga dobimo tako, da za prvotno krivuljo $B$ omejimo parameter $t$ na interval $[0,t_0]$ za neko fiksno realno število $t_0<1$.
     Označimo ga z $B_{t_0}$, zanj pa velja $B_{t_0}(t)=B(t_{0}t)$.
@@ -510,10 +509,10 @@ the content and not the structure of your work.}
     \[B_{t_0}(t) = B(t_{0}t) = \sum_{i=0}^{n}\mathbf{p}_{i}\binom{n}{i}(t_{0}t)^i(1-tt_0)^{n-i} \]
     \[ \sum_{i=0}^{n}\mathbf{p}_{i}t_0^{i}\left(\frac{1-tt_0}{1-t}\right)^{n-i}\binom{n}{i}t^i(1-t)^{n-i} \]
 
-    \subsubsection{Ekstrapolacija}
+    \subsection{Ekstrapolacija}
     \mycomment{Motivacija: Zelimo podaljsati krivuljo..... Kr neki. Realno je to bolj kot ne nekaj, kar lahko kasneje uporabimo pri izpeljavi cesa, Graficno je pa to skoraj useless in se pokaze samo kot nekaj, kar tudi deluje.}
 
-    \subsubsection{Višanje stopnje}
+    \subsection{Višanje stopnje}
     TODO: DOKAZ NI PRAVILEN, nekje sem neki zajebal, malce zamakjeno bi moralo bit!
     Nekateri algoritmi, ki delajo z Bezierjevimi krivuljami, za vhod potrebujejo dve Bezierjevi krivulji iste stopnje.
     Recimo, da imamo Bezierjevo krivuljo $B$ stopnje $n$, ki jo želimo spraviti na stopnjo $n+1$.

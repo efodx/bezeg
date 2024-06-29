@@ -85,7 +85,7 @@ export class JSXBezierCurve extends AbstractJSXBezierCurve<BezierCurve> {
                         // @ts-ignore
                         style: JXG.POINT_STYLE_X,
                         color: Colors[r],
-                        name: "$p$"
+                        name: "",
                     });
                 } else {
                     pp1 = this.decasteljauPoints[this.decasteljauPoints.length - 1]
@@ -98,7 +98,7 @@ export class JSXBezierCurve extends AbstractJSXBezierCurve<BezierCurve> {
                     // @ts-ignore
                     style: JXG.POINT_STYLE_X,
                     color: Colors[r],
-                    name: "$p$"
+                    name: ""
                 });
                 const segment = this.board!.create('segment', [pp1, pp2], SegmentStyles.default);
                 this.decasteljauSegments.push(segment)
@@ -138,7 +138,7 @@ export class JSXBezierCurve extends AbstractJSXBezierCurve<BezierCurve> {
                         () => this.getDecasteljauScheme(slider.Value())[r][i - 1].Y()], {
                         ...PointStyles.default,
                         color: Colors[r],
-                        name: "$$p_" + r + "^" + (n - i) + "$$",
+                        name: "$$p_" + (i - 1) + "^" + r + "$$",
                     });
                 } else {
                     pp1 = this.decasteljauPoints[this.decasteljauPoints.length - 1]
@@ -151,7 +151,7 @@ export class JSXBezierCurve extends AbstractJSXBezierCurve<BezierCurve> {
                     ...PointStyles.default,
                     // @ts-ignore
                     color: Colors[r],
-                    name: "$$p_" + r + "^" + (n - i) + "$$"
+                    name: "$$p_" + i + "^" + r + "$$",
                 });
                 const segment = this.board!.create('segment', [pp1, pp2], SegmentStyles.default);
                 this.decasteljauSegments.push(segment)
@@ -165,7 +165,7 @@ export class JSXBezierCurve extends AbstractJSXBezierCurve<BezierCurve> {
             ...PointStyles.default,
             color: Colors[n - 1],
             trace: false,
-            name: "$$p_" + n + "^" + n + "$$"
+            name: "$$p_" + 0 + "^" + (n - 1) + "$$",
         });
         this.decasteljauPoints.push(drawingPoint)
     }

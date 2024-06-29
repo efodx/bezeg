@@ -379,7 +379,6 @@ export abstract class AbstractJSXPointControlledCurve<T extends PointControlledC
                 this.controlPolygonSegments.push(segment)
             }
         }
-        this.showingControlPolygon = true
     }
 
     private addBoundingBox() {
