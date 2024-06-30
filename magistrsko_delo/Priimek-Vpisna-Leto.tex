@@ -164,6 +164,8 @@ the content and not the structure of your work.}
 
     \mycomment{Ker je v okviru magistrskega dela nastalo orodje za grafični prikaz konceptov, bo delo zelo polno s slikovnimi primeri.}
 
+    \newpage
+
 
     \section{Bezierjeve krivulje}\label{sec:bezierjeve-krivulje}
     V tem razdelku bomo predstavili Bezierjeve krivulje in njihove ključne lastnosti za rabo v CAGD sistemih.
@@ -186,7 +188,8 @@ the content and not the structure of your work.}
         V definiciji Bernsteinovega polinoma smo uporabili le bazne polinome z indeksi $i=0,\ldots,n$.
         Iz definicije je namreč očitno, da so Bernsteinovi bazni polinomi za indekse $i>n$, oziroma $i<0$, enaki $0$.
     \end{opomba}
-    \begin{primer}\label{primer:bernsteinovi}
+    \begin{primer}
+        \label{primer:bernsteinovi}
         Poglejmo si najprej, kako Bernsteinovi bazni polinomi izgledajo pri stopnjah $n=0,1,2,3$.
         Njihovi funkcijski zapisi so naslednji
         \begin{align*}
@@ -251,14 +254,17 @@ the content and not the structure of your work.}
     \end{figure}
     V primeru~\ref{primer:bernsteinovi} smo napovedali povezanost Bernsteinovih polinomov z linearno interpolacijo.
     Povezavo sedaj podajmo z izrekom.
-    \begin{izrek}\label{izrek:bernsteinovi_lastnosti:rekruzija}Bernsteinovi bazni polinomi ustrezajo rekurzivni zvezi
-    \[B_i^n(t) = (1-t)B_i^{n-1}(t) + tB_{i-1}^{n-1}(t),\ \forall t\in\R.\]
+    \begin{izrek}
+        \label{izrek:bernsteinovi_lastnosti:rekruzija}Bernsteinovi bazni polinomi ustrezajo rekurzivni zvezi
+        \[B_i^n(t) = (1-t)B_i^{n-1}(t) + tB_{i-1}^{n-1}(t),\ \forall t\in\R.\]
     \end{izrek}
     \mycomment{Komentiram izgled rekurzivne zveze in jo povezem z linearno interpolacijo.}
     Zvezo tudi dokažimo.
-    \begin{dokaz} Desni del rekurzivne zveze manipuliramo, da pridemo do levega
+    \begin{dokaz}
+        Desni del rekurzivne zveze manipuliramo, da pridemo do levega
         \begin{align*}
-            (1-t)B_i^{n-1}(t) + tB_{i-1}^{n-1}(t)  &= (1-t)\binom{n-1}{i}t^{i}(1-t)^{n-i-1} + t\binom{n-1}{i-1}t^{i-1}(1-t)^{n-i}  \\
+        (1-t)
+            B_i^{n-1}(t) + tB_{i-1}^{n-1}(t)  &= (1-t)\binom{n-1}{i}t^{i}(1-t)^{n-i-1} + t\binom{n-1}{i-1}t^{i-1}(1-t)^{n-i}  \\
             &= \binom{n-1}{i}t^{i}(1-t)^{n-i} + \binom{n-1}{i-1}t^{i}(1-t)^{n-i}  \\
             &\stackrel{(1)}{=} \binom{n}{i}t^{i}(1-t)^{n-i}  \\
             &= B_i^n(t),
@@ -272,20 +278,22 @@ the content and not the structure of your work.}
         Za odvode Bernsteinovih baznih polinomov velja rekurzivna zveza
         \[B_{i}^{n\prime}(t)=n(B_{i-1}^{n-1}(t) - B_{i}^{n-1}(t)),\ \forall t\in\R.\]
     \end{izrek}
-    \begin{dokaz} Bernsteinov bazni polinom najprej odvajamo da dobimo
-       \begin{align*}
-           B_{i}^{n\prime}(t) &=\binom{n}{i}\left(it^{i-1}(1-t)^{n-i} - (n-i) t^i(1-t)^{n-i-1} \right) \\
-                              &=\binom{n}{i}it^{i-1}(1-t)^{n-i} - \binom{n}{i}(n-i) t^i(1-t)^{n-i-1}.
-       \end{align*}
-    Nato v zgornje vstavimo binomski zvezi $\binom{n}{i}i = \frac{n!i}{(n-i)i!} =  \frac{n(n-1)!}{(n-i)(i-1)!} = n\binom{n-1}{i-1}$ in $\binom{n}{i}(n-i) = \frac{n!(n-i)}{(n-i)!}  = \frac{n(n-1)!}{(n-i-1)!} =n\binom{n-1}{i}$ in dobimo željeno.
+    \begin{dokaz}
+        Bernsteinov bazni polinom najprej odvajamo da dobimo
+        \begin{align*}
+            B_{i}^{n\prime}(t) &=\binom{n}{i}\left(it^{i-1}(1-t)^{n-i} - (n-i) t^i(1-t)^{n-i-1} \right) \\
+            &=\binom{n}{i}it^{i-1}(1-t)^{n-i} - \binom{n}{i}(n-i) t^i(1-t)^{n-i-1}.
+        \end{align*}
+        Nato v zgornje vstavimo binomski zvezi $\binom{n}{i}i = \frac{n!i}{(n-i)i!} =  \frac{n(n-1)!}{(n-i)(i-1)!} = n\binom{n-1}{i-1}$ in $\binom{n}{i}(n-i) = \frac{n!(n-i)}{(n-i)!}  = \frac{n(n-1)!}{(n-i-1)!} =n\binom{n-1}{i}$ in dobimo željeno.
     \end{dokaz}
     Za konec podrazdelka izpeljimo še formulo za zmnožek dveh linearnih kombinacij Bernsteinovih Baznih polinomov, t.j\ Bernsteinovih polinomov.
     \begin{izrek}
-         %\item Njihov integral pa zvezi $\int B_i^n(t)dt= \frac{1}{n+1}\sum^{n+1}_{j=i+1}B_{j}^{n+1}(t) + C, C\in\R$ \label{izrek:bernsteinovi_lastnosti:integral}
+        %\item Njihov integral pa zvezi $\int B_i^n(t)dt= \frac{1}{n+1}\sum^{n+1}_{j=i+1}B_{j}^{n+1}(t) + C, C\in\R$ \label{izrek:bernsteinovi_lastnosti:integral}
         Za Bernsteinova polinoma $f(t)=\sum_{i=0}^{m}B_i^m(t)$ in $g(t)=\sum_{i=0}^{n}B_i^n(t)$, velja
         \[ f(t)g(t) = \sum_{i=0}^{m+n}\left(\sum_{j=\max(0,i-n)}^{\min(m,i)} \frac{\binom{m}{j}\binom{n}{i-j}}{\binom{m+n}{i}} \alpha_i\beta_{i-j} \right)B_{i}^{m+n}(t).\]
     \end{izrek}
-    \begin{dokaz} Naj bosta $f(t)=\sum_{i=0}^{m}\alpha_iB_i^n(t)$ in $g(t)\sum_{i=0}^{n}\beta_iB_i^n(t)$ Bernsteinova polinoma.
+    \begin{dokaz}
+        Naj bosta $f(t)=\sum_{i=0}^{m}\alpha_iB_i^n(t)$ in $g(t)\sum_{i=0}^{n}\beta_iB_i^n(t)$ Bernsteinova polinoma.
         \begin{align*}
             f(t)g(t) &=\sum_{i=0}^{m}\alpha_iB_{i}^{m}(t)\sum_{j=0}^{n}\beta_jB_{j}^{n}(t) = \sum_{k=0}^{m+n}\sum_{l=0}^k \alpha_lB_{l}^{m}(t)\beta_{k-l}B_{k-l}^{n}(t) \\
             &= \sum_{k=0}^{m+n}\sum_{l=0}^k \alpha_l \binom{m}{l}t^{l}(1-t)^{m-l} \beta_{k-l} \binom{n}{k-l}t^{k-l}(1-t)^{n-k+l} \\
@@ -294,6 +302,7 @@ the content and not the structure of your work.}
         \end{align*}
         V primerih, ko velja $l>m$ ali $k-l>n$ imamo v števcu ulomka $0$, kar privede do zapisa iz izreka.\\
     \end{dokaz}
+
     \subsection{Večdimenzionalne oznake}
     Z željo po krajših, bolj preglednih, zapisih bomo uvedli večdimenzionalne oznake.
     Večdimenzionalnost bomo ponazarjali z odebelitvijo črke.
@@ -357,11 +366,11 @@ the content and not the structure of your work.}
         \end{align*}
         Kar smo tudi želeli dokazati.
         Za lastnost (3) posežemo po definiciji konveksne ovojnice.
-        Konveksna ovojnica kontrolnih točk Bezierjeve krivulje je množica vseh konveksnih kombinacij teh točk, t.j.\ $\sum_{i=0}^{n}\lambda_i\p_{i}$, kjer so $\lambda_i$ pozitivna realna števila, za katere velja $\lambda_0 + \lambda_1 + \dots + \lambda_n = 1$.
-        Ker so Bernsteinovi polinomi za poljubno število $t\in[0,1]$ razčlenitev enote in velja $B_i^n(t)\geq0$, lahko zapišemo $\lambda_i=B_i^n(t)$.
+        Konveksna ovojnica kontrolnih točk Bezierjeve krivulje je množica vseh konveksnih kombinacij teh točk, t.j.\ $\sum_{i=0}^{n}\lambda_i\p_{i}$, kjer so $\lambda_i$ nenegativna realna števila za katere velja $\lambda_0 + \lambda_1 + \dots + \lambda_n = 1$.
+        Ker so Bernsteinovi polinomi razčlenitev enote in nenegativni na intervalu $[0,1]$, lahko zapišemo $\lambda_i=B_i^n(t)$.
     \end{dokaz}
     Interpolacijo končnih točk je bilo moč videti že na sliki~\ref{fig:bezierjeva-krivulja}.
-    Posledice afine invariance si lahko pogledamo na sliki~\ref{fig:bezier-affine-transform}.
+    Posledice afine invariance si lahko ogledamo na sliki~\ref{fig:bezier-affine-transform}.
     Na sliki~\ref{fig:bezier-convex-hull} pa si lahko ogledamo konveksni ovojnici kontrolnih točk dveh Bezierjevih krivulj.
     Vidimo lahko, da krivulji ležita znotraj njih.
     \begin{figure}[ht!]
@@ -385,35 +394,53 @@ the content and not the structure of your work.}
         \caption{Konveksni ovojnici kontrolnih točk Bezierjevih krivulj}
         \label{fig:bezier-convex-hull}
     \end{figure}
+
     \subsection{Decasteljaujev algoritem}
     Računanje Bernsteinovih polinomov direktno preko njihovih enačb je precej nestabilno****, za rabo v računalništvu pa je pomembno, da uporabljamo stabilne metode računanja.
     S pomočjo Decasteljaujevega algoritma lahko računamo točke Bezierjevih krivulj stabilno****, zanj pa potrebujemo naslednji izrek.
     \begin{izrek}
         Naj bo $\bigbbt_{[\p_0,\p_1,\dots,\p_n]}$ parametrizacija Bezierjeve krivulje $n$-te stopnje s kontrolnimi točkami $\p_0,\p_1,\dots,\p_n$.
-        Potem lahko njene točke rekurzivno računamo s pomočjo naslednjega izraza \[\bigbbt_{[\p_0,\p_1,\dots,\p_n]} = (1-t)\bigbbt_{[\p_0,\p_1,\dots,\p_{n-1}]} +t\bigbbt_{[\p_1,\dots,\p_n]}.\]
+        Potem lahko njene točke rekurzivno računamo s pomočjo naslednjega izraza \[\bigbbt_{[\p_0,\p_1,\dots,\p_n]} = (1-t)\bigbbt_{[\p_0,\p_1,\dots,\p_{n-1}]} +t\bigbbt_{[\p_1,\p_2,\dots,\p_n]}.\]
     \end{izrek}
     \newpage
     Izrek tudi dokažimo.
-    \begin{dokaz} Rekurzivno zvezo iz izreka razpišemo in računamo, da dobimo
+    \begin{dokaz}
+        Rekurzivno zvezo iz izreka razpišemo in računamo, da dobimo
         \begin{align*}
         (1-t)
             &
-            \bigbbt_{[\p_0,\p_1,\dots,\p_{n-1}]}+t\bigbbt_{[\p_1,\dots,\p_n]} = \\
-            &= (1-t)\bernsteinsump{i}{n-1}+t\sum_{i=0}^{n-1} \p_{i+1}B_i^{n-1} \\
-            &= (1-t)\bernsteinsump{i}{n-1}+ t\sum_{i=1}^{n} \p_{i}B_{i-1}^{n-1} \\
-            &= \p_0(1-t)B_{0}^{n-1}(t) + \sum_{i=1}^{n-1}\p_{i}(1-t)B_i^{n-1} +  \sum_{i=1}^{n-1} \p_{i}tB_{i-1}^{n-1} + \p_n B_{n-1}^{n-1}(t) \\
-            &= \p_0(1-t)B_{0}^{n-1}(t) + \sum_{i=1}^{n-1}\left((1-t)B_i^{n-1} + tB_{i-1}^{n-1}\right)\p_{i} + \p_n B_{n-1}^{n-1}(t) \\
+            \bigbbt_{[\p_0,\p_1,\dots,\p_{n-1}]}+t\bigbbt_{[\p_1,\p_2,\dots,\p_n]} = \\
+            &= (1-t)\bernsteinsump{i}{n-1}+t\sum_{i=0}^{n-1} \p_{i+1}B_i^{n-1}(t) \\
+            &= (1-t)\bernsteinsump{i}{n-1}+ t\sum_{i=1}^{n} \p_{i}B_{i-1}^{n-1}(t) \\
+            &= \p_0(1-t)B_{0}^{n-1}(t) + \sum_{i=1}^{n-1}\p_{i}(1-t)B_i^{n-1}(t) +  \sum_{i=1}^{n-1} \p_{i}tB_{i-1}^{n-1}(t) + \p_n B_{n-1}^{n-1}(t) \\
+            &= \p_0(1-t)B_{0}^{n-1}(t) + \sum_{i=1}^{n-1}\left((1-t)B_i^{n-1}(t) + tB_{i-1}^{n-1}(t)\right)\p_{i} + \p_n B_{n-1}^{n-1}(t) \\
             &\stackrel{(1)}{=} \p_0B_{0}^{n}(t) + \sum_{i=1}^{n-1}\p_{i}B_i^n(t) + \p_n B_{n}^{n}(t) \\
             &= \sum_{i=0}^{n}\p_{i}B_i^n(t),\\
         \end{align*}
         kjer smo pri enakosti (1) uporabili rekurzivno zvezo Bernsteinovih baznih polinomov iz izreka~\ref{izrek:bernsteinovi_lastnosti:rekruzija}.
     \end{dokaz}
-
+    Pišimo sedaj $\p_{i}^r(t) = \bigbbt_{[\p_i,\p_{i+1},\dots,\p_{i+r}]}$.
+    Velja torej $\p_{i}^0(t)=\p_i$ in  $\p_{0}^n(t)=\bigbbt_{[\p_0,\p_1,\dots,\p_n]}$.
+    Iz prejšnjega izreka sledi, da lahko točke Bezierjeve krivulje $\bigbbt_{[\p_0,\p_1,\dots,\p_n]}$ računamo s pomočjo \textit{Decasteljaujeve sheme}.
+    \begin{center}
+        \begin{tabular}{ c c c c c c c c c c}
+            $\p_{0}^n(t)$     &            &                   &            &               &          &            &                 &            &               \\
+            $\uparrow$        & $\nwarrow$ &                   &            &               &          &            &                 &            &               \\
+            $\p_{0}^{n-1}(t)$ &            & $\p_{1}^{n-1}(t)$ &            &               &          &            &                 &            &               \\
+            $\vdots$          & $\vdots$   & $\vdots$          & $\vdots$   & $\vdots$      & $\vdots$ &            &                 &            &               \\
+            $\uparrow$        & $\nwarrow$ & $\uparrow$        & $\nwarrow$ & $\uparrow$    & $\cdots$ & $\nwarrow$ &                 &            &               \\
+            $\p_{0}^1(t)$     &            & $\p_{1}^1(t)$     &            & $\p_{2}^1(t)$ & $\cdots$ &            & $\p_{n-1}^1(t)$ &            &               \\
+            $\uparrow$        & $\nwarrow$ & $\uparrow$        & $\nwarrow$ & $\uparrow$    & $\cdots$ & $\nwarrow$ & $\uparrow$      & $\nwarrow$     &\\
+            $\p_{0}^0(t)$     &            & $\p_{1}^0(t)$     &            & $\p_{2}^0(t)$ & $\cdots$ &            & $\p_{n-1}^0(t)$ &            & $\p_{n}^0(t)$
+        \end{tabular}
+    \end{center}
+    Izračun točke Bezierjeve krivulje za poljubno število $t$ lahko sedaj podamo v obliki algoritma~\ref{alg:decasteljau}.
     \begin{algorithm}
+        \caption{Decasteljaujev algoritem}
         \label{alg:decasteljau}
-        \caption{Decasteljau}
         \begin{algorithmic}
             \State $\p \gets \p_0,\p_1,\dots,\p_n$
+            \State $t \gets t$
             \For{$i = 0,1,\dots n$}
                 \State $\p_i^0(t)=\p_i$
             \EndFor
@@ -426,8 +453,9 @@ the content and not the structure of your work.}
         \end{algorithmic}
     \end{algorithm}
     Decasteljaujev algoritem ima tudi geometrijski pomen.
-    Pri $n=1$ se algoritem prevede na interpolacijo dveh točk, kar lahko vidimo na sliki\ref{fig:dec-alg-n1}.
-    Prvi višjih $n$, pa lahko na slikah~\ref{fig:dec-alg-n2},~\ref{fig:dec-alg-n3} in \ref{fig:dec-alg-n5} vidimo interpolacijo sosednjih točk na $r$-tem nivoju.
+    Pri $n=1$ se algoritem prevede na interpolacijo dveh točk, kar lahko vidimo na sliki~\ref{fig:dec-alg-n1}.
+    Prvi višjih $n$ pa algoritem predstavlja zaporedno interpolacijo točk.
+    Na slikah~\ref{fig:dec-alg-n2},~\ref{fig:dec-alg-n3},~\ref{fig:dec-alg-n5} lahko vidimo, da algoritem interpolira sosednje točke na $r$-tem nivoju.
     \begin{figure}[h!]
         \captionsetup[subfigure]{labelformat=empty}
         \centering
@@ -490,7 +518,7 @@ the content and not the structure of your work.}
     Pokažimo, da je to res.
     \begin{figure}[h!]
         \centering
-        \includegraphics[width=0.8\textwidth]{images/subidivizja.png}
+        \includegraphics[width=0.8\textwidth]{images/subidivizja}
         \caption{Subdivizija}
         \label{fig:subdivizija}
     \end{figure}
@@ -778,6 +806,8 @@ the content and not the structure of your work.}
     Izračunajmo sedaj za $r=1$ in $\alpha = \frac{\pi}{2}$. $R=\frac{1}{\cos\left(\frac{\pi}{4}\right)} = \sqrt{2}.$
     \[ w_1 = \frac{\frac{\sqrt{2}-1}{2}}{(\sqrt{2}-1)\frac{\sqrt{2}}{2}} = \frac{\sqrt{2}-1}{(\sqrt{2}-1)\sqrt{2}} = \frac{\sqrt{2}}{2} \]
 
+    \newpage
+
 
     \section{Zlepki Bezierjevih krivulj}
     Če si ponovno ogledamo Decasteljaujev algoritem~\ref{alg:decasteljau}, lahko hitro opazimo, da je časovna kompleksnost algoritma $O(n^2)$.
@@ -858,6 +888,8 @@ the content and not the structure of your work.}
     Tisto je bilo nekaj drugega. Te alfa parametrizacije so za zlepke!! Ma mentor je najbrz mislil, da bi ne o tem a?
     Ker to bi prislo prav, ce naredim tudi zlepke PH krivulj (kar naceloma ne bi smelo bit tako problematicno...).
     }
+
+    \newpage
 
 
     \section{PH Krivulje}
@@ -1142,6 +1174,8 @@ the content and not the structure of your work.}
         \label{fig:kontrolne-točke-offset}
     \end{figure}
     Na sliki~\ref{fig:kontrolne-točke-offset} lahko vidimo, da se kontrolne točke odmične krivulje v odvisnosti od razdalje premikajo po premicah.
+
+    \newpage
 
 
     \section{Orodje za grafični prikaz konceptov}

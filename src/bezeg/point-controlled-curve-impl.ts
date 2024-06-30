@@ -135,7 +135,7 @@ export abstract class PointControlledCurveImpl implements PointControlledCurve {
         const allPoints = this.points.map(point => point)
         const leftMostPoint = allPoints.sort((p1, p2) => p1.X() === p2.X() ? p1.Y() - p2.Y() : p1.X() - p2.X())[0]
         const pointsOnHull = [leftMostPoint]
-        for (let i = 0; i < 10; i++) {
+        while (true) {
             const current = pointsOnHull[pointsOnHull.length - 1]
             const next = allPoints.filter(point => point !== current).filter(point => this.everyOtherOnTheLeft(current, point, allPoints))[0]
             if (pointsOnHull.includes(next)) {

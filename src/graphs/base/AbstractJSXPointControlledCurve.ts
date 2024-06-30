@@ -29,6 +29,7 @@ export abstract class AbstractJSXPointControlledCurve<T extends PointControlledC
     private showingJxgPoints: boolean = true;
     private showingConvexHull: boolean = false;
     private rotationCenter?: number[];
+    private readonly convexHullRefresher = this.refreshConvexHull.bind(this)
 
     constructor(points: number[][], board: Board) {
         this.board = board
@@ -56,6 +57,7 @@ export abstract class AbstractJSXPointControlledCurve<T extends PointControlledC
         );
         this.addBoundingBox()
         this.hideBoundingBox()
+        this.board.on("update", this.convexHullRefresher)
     }
 
     isShowingControlPolygon() {
@@ -313,18 +315,11 @@ export abstract class AbstractJSXPointControlledCurve<T extends PointControlledC
 
     showConvexHull(show: boolean) {
         if (show) {
-            const hull = this.getCurve().getConvexHull()
-            const jxgPoints = hull.map(p => this.jxgPoints.filter(point => point.X() === p.X() && point.Y() === p.Y())[0])
-            const segments = jxgPoints.slice(1).map((p, i) => this.board.create('segment', [jxgPoints[i], p], {strokeWidth: () => SizeContext.strokeWidth}))
-            this.convexHullSegments.push(...segments)
-            const lastSegment = this.board.create('segment', [jxgPoints[jxgPoints.length - 1], jxgPoints[0]], {strokeWidth: () => SizeContext.strokeWidth})
-            this.convexHullSegments.push(lastSegment)
             this.showingConvexHull = true
         } else {
-            this.board.removeObject(this.convexHullSegments)
-            this.convexHullSegments = []
             this.showingConvexHull = false
         }
+        this.board.update()
     }
 
     isShowingConvexHull() {
@@ -381,6 +376,20 @@ export abstract class AbstractJSXPointControlledCurve<T extends PointControlledC
         }
     }
 
+    private hideHullInternal() {
+        this.board.removeObject(this.convexHullSegments)
+        this.convexHullSegments = []
+    }
+
+    private showHullInternal() {
+        const hull = this.getCurve().getConvexHull()
+        const jxgPoints = hull.map(p => this.jxgPoints.filter(point => point.X() === p.X() && point.Y() === p.Y())[0])
+        const segments = jxgPoints.slice(1).map((p, i) => this.board.create('segment', [jxgPoints[i], p], {strokeWidth: () => SizeContext.strokeWidth}))
+        this.convexHullSegments.push(...segments)
+        const lastSegment = this.board.create('segment', [jxgPoints[jxgPoints.length - 1], jxgPoints[0]], {strokeWidth: () => SizeContext.strokeWidth})
+        this.convexHullSegments.push(lastSegment)
+    }
+
     private addBoundingBox() {
         const pointStyle = {name: "", color: "gray", opacity: 0.4, size: () => SizeContext.pointSize}
         const p = this.board.create('point', [() => this.pointControlledCurve.getBoundingBox()[0], () => this.pointControlledCurve.getBoundingBox()[2]], pointStyle);
@@ -403,5 +412,14 @@ export abstract class AbstractJSXPointControlledCurve<T extends PointControlledC
     private getMouseCoords(e: PointerEvent) {
         const pos = this.board.getMousePosition(e);
         return new JXG.Coords(JXG.COORDS_BY_SCREEN, pos, this.board as Board);
+    }
+
+    private refreshConvexHull() {
+        if (this.showingConvexHull) {
+            this.hideHullInternal()
+            this.showHullInternal()
+        } else {
+            this.hideHullInternal()
+        }
     }
 }
