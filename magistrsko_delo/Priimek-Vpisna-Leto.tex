@@ -516,6 +516,20 @@ the content and not the structure of your work.}
     Vrnimo se nazaj k sliki sheme Decasteljaujevega algoritma~\ref{fig:subdivizija}.
     Na njej lahko opazimo, da pri parametru $t_0$ točke označene z A,F,J,M in O tvorijo kontrolni poligon bezierjeve krivulje $B_{t_0}$.
     Pokažimo, da je to res.
+    \begin{dokaz}
+        \begin{align*}
+            B_{t_0}(t) = B(t_{0}t) &= \sum_{i=0}^{n}\mathbf{p}_{i}\binom{n}{i}(t_{0}t)^i(1-tt_0)^{n-i}\\
+            &= \sum_{i=0}^{n}\mathbf{p}_{i}\binom{n}{i}(t_{0}t)^i \sum_{j=0}^{n-i} \binom{n-i}{j}(-tt_0)^{j}  \\
+            &= \sum_{i=0}^{n}\mathbf{p}_{i}\binom{n}{i}(tt_0)^i \sum_{j=0}^{n-i} \binom{n-i}{j}(-t)^{j}(t_0)^{j}\\
+            &= \sum_{i=0}^{n}\mathbf{p}_{i}\binom{n}{i}(tt_0)^i \sum_{j=0}^{n-i} \binom{n-i}{j}(-t)^{j}(t_0)^{j}
+        \end{align*}
+        Želimo dobiti
+
+        \begin{align*}
+            \sum_{i=0}^{n}\p_{0}^i(t_0)\binom{n}{i}t^i(1-t)^{n-i} = \sum_{i=0}^{n}\binom{n}{i}t^i(1-t)^{n-i}  \sum_{j=0}^{n-i} \binom{n-i}{j}t_0^j(1-t_0)^{n-i-j}  \p_{j}
+        \end{align*}
+
+    \end{dokaz}
     \begin{figure}[h!]
         \centering
         \includegraphics[width=0.8\textwidth]{images/subidivizja}
@@ -534,8 +548,6 @@ the content and not the structure of your work.}
         \caption{Ponavljanje subdivizije na krivulji}
         \label{fig:subdivizija-ponavljanje}
     \end{figure}
-    \[B_{t_0}(t) = B(t_{0}t) = \sum_{i=0}^{n}\mathbf{p}_{i}\binom{n}{i}(t_{0}t)^i(1-tt_0)^{n-i} \]
-    \[ \sum_{i=0}^{n}\mathbf{p}_{i}t_0^{i}\left(\frac{1-tt_0}{1-t}\right)^{n-i}\binom{n}{i}t^i(1-t)^{n-i} \]
 
     \subsection{Ekstrapolacija}
     \mycomment{Motivacija: Zelimo podaljsati krivuljo..... Kr neki. Realno je to bolj kot ne nekaj, kar lahko kasneje uporabimo pri izpeljavi cesa, Graficno je pa to skoraj useless in se pokaze samo kot nekaj, kar tudi deluje.}
