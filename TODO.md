@@ -42,5 +42,7 @@
 - [ ] Poglej še enkrat Decasteljau, tisto je bilo pisano DOLGO nazaj. Mogoče lahko tudi dam uporabiš caching sistem.
 - [ ] JSXKrivulje bi lahko imele "wrapControlPoints()", ki bi vzele krivuljo, in njene kontrolne tocke zawrappala v
   JSXTocke...
-- [ ] Mogoce pri bernsteinovih naredit nek plotchart kolko kateri vpliva?
+- [x] Mogoce pri bernsteinovih naredit nek plotchart kolko kateri vpliva?
+- [ ] Decasteljau brez dejanske sheme, tako da narisem zadnji 2 bezierjevi krivulji ki sta interpolirani? :D za pokazat
+  shemo...
 - [x]
