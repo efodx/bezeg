@@ -2,10 +2,10 @@ import {BezierCurveImpl} from "../../bezeg/bezier-curve-impl";
 import {AbstractJSXBezierCurve} from "../base/AbstractJSXBezierCurve";
 import {Point} from "../../bezeg/interfaces/point";
 import {BezierCurve} from "../../bezeg/interfaces/bezier-curve";
-import {CacheContext} from "../../Contexts";
 import {Colors} from "./utilities/Colors";
 import {PointStyles} from "../styles/PointStyles";
 import {SegmentStyles} from "../styles/SegmentStyles";
+import {CacheContext} from "../context/CacheContext";
 
 /**
  * Class that wraps a BezierCurve with methods for dealing with JSXGraph

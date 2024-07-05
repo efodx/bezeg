@@ -1,7 +1,7 @@
 import React from 'react';
 import '../../App.css';
-import {BaseCurveGraph, BaseCurveGraphProps} from "../base/BaseCurveGraph";
-import {BaseGraphStates} from "../base/BaseGraph";
+import {BaseBezierCurveGraph, BaseCurveGraphProps} from "../base/BaseBezierCurveGraph";
+import {BaseGraphStates} from "../base/BaseCurveGraph";
 import {Button} from "react-bootstrap";
 import {OnOffSwitch} from "../../inputs/OnOffSwitch";
 
@@ -9,7 +9,7 @@ function ShowControlPolygons(props: { onChange: (checked: boolean) => void }) {
     return <OnOffSwitch label="Kontrolni poligoni" onChange={props.onChange}/>
 }
 
-class Graph extends BaseCurveGraph<BaseCurveGraphProps, BaseGraphStates> {
+class Graph extends BaseBezierCurveGraph<BaseCurveGraphProps, BaseGraphStates> {
     private slider?: JXG.Slider;
     private stepsDone: number = 0;
 

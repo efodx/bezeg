@@ -1,4 +1,4 @@
-import BaseGraph, {BaseGraphProps, BaseGraphStates} from "../base/BaseGraph";
+import BaseCurveGraph, {BaseGraphProps, BaseGraphStates} from "../base/BaseCurveGraph";
 import {RationalBezierCurve} from "../../bezeg/rational-bezier-curve";
 import {JSXRationalBezierCurve} from "./JSXRationalBezierCurve";
 import Slider from "../../inputs/Slider";
@@ -14,7 +14,7 @@ interface BaseRationalBezierCurveGraphState extends BaseGraphStates {
     currentWeight: number
 }
 
-export abstract class BaseRationalCurveGraph<P extends BaseRationalBezierCurveGraphProps, S extends BaseRationalBezierCurveGraphState> extends BaseGraph<RationalBezierCurve, JSXRationalBezierCurve, P, S> {
+export abstract class BaseRationalCurveGraph<P extends BaseRationalBezierCurveGraphProps, S extends BaseRationalBezierCurveGraphState> extends BaseCurveGraph<RationalBezierCurve, JSXRationalBezierCurve, P, S> {
     protected weightNumber: number = 1;
     private subdivisionT: number = 0.5;
     private extrapolationT: number = 1.2;

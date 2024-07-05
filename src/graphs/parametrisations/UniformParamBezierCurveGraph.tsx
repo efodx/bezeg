@@ -1,5 +1,5 @@
 import '../../App.css';
-import {BaseCurveGraphProps} from "../base/BaseCurveGraph";
+import {BaseCurveGraphProps} from "../base/BaseBezierCurveGraph";
 import {PhBezierCurve} from "../../bezeg/ph-bezier-curve";
 import Slider from "../../inputs/Slider";
 import Form from 'react-bootstrap/Form';

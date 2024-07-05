@@ -1,10 +1,11 @@
 import {Board} from "jsxgraph";
 import {Point} from "./Point";
 import {PointControlledCurve} from "../../bezeg/interfaces/point-controlled-curve";
-import {CacheContext, SizeContext} from "../../Contexts"
+import {SizeContext} from "../context/SizeContext"
 import {PointStyles} from "../styles/PointStyles";
 import {CurveStyles} from "../styles/CurveStyles";
 import {SegmentStyles} from "../styles/SegmentStyles";
+import {CacheContext} from "../context/CacheContext";
 
 /**
  * Class that wraps a PointControlledCurve with methods for dealing with JSXGraph

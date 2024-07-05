@@ -16,7 +16,7 @@ export class JSXSplineCurve extends AbstractJSXPointControlledCurve<BezierSpline
         this.pointControlledCurve.generateBezierCurves()
     }
 
-    addPoint(x: number, y: number) {
+    override addPoint(x: number, y: number) {
         let p = this.createJSXGraphPoint(x, y, PointStyles.pi(this.pointControlledCurve.getPoints().length))
         this.pointControlledCurve.addPoint(p)
         this.pointControlledCurve.generateBezierCurves()
@@ -28,7 +28,7 @@ export class JSXSplineCurve extends AbstractJSXPointControlledCurve<BezierSpline
         this.labelJxgPoints()
     }
 
-    removePoint(i: number) {
+    override removePoint(i: number) {
         const pointToRemove = this.getJxgPoints()[i]
         this.board.removeObject(pointToRemove)
         this.pointControlledCurve.removePoint(this.pointControlledCurve.getAllCurvePoints()[i])

@@ -1,5 +1,5 @@
 import {AxisAttributes} from "jsxgraph";
-import {SizeContext} from "../../Contexts";
+import {SizeContext} from "../context/SizeContext";
 
 const axisStyle: AxisAttributes = {
     strokeWidth: () => SizeContext.strokeWidth,
@@ -9,7 +9,7 @@ const axisStyle: AxisAttributes = {
         // @ts-ignore
         highlightStrokeWidth: () => SizeContext.strokeWidth * 0.5,
         // @ts-ignore
-        // majorHeight: () => SizeContext.majorHeight,
+        // majorHeight: () => Contexts.majorHeight,
         // @ts-ignore
         minorHeight: () => SizeContext.minorHeight,
         label: {

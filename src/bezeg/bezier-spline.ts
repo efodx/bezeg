@@ -153,12 +153,12 @@ class BezierSpline extends PointControlledCurveImpl {
         return points
     }
 
-    addPoint(point: Point) {
+    override addPoint(point: Point) {
         super.addPoint(point)
         this.generateBezierCurves()
     }
 
-    removePoint(point: Point) {
+    override removePoint(point: Point) {
         super.removePoint(point)
         this.generateBezierCurves()
     }

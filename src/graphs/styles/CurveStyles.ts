@@ -1,4 +1,4 @@
-import {SizeContext} from "../../Contexts";
+import {SizeContext} from "../context/SizeContext";
 
 const curveStyle = {
     strokeWidth: () => SizeContext.strokeWidth

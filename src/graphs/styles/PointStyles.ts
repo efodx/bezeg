@@ -1,5 +1,6 @@
 import {PointAttributes} from "jsxgraph";
-import {SizeContext} from "../../Contexts";
+import {SizeContext} from "../context/SizeContext";
+import {VisibilityContext} from "../context/VisibilityContext";
 
 
 const pointStyle: PointAttributes = {
@@ -10,7 +11,9 @@ const pointStyle: PointAttributes = {
         useMathJax: true,
         parse: false,
         anchorY: "bottom",
-        anchorX: "left"
+        anchorX: "left",
+        // @ts-ignore
+        visible: () => VisibilityContext.pointsVisible()
     }
 }
 

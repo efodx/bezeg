@@ -1,6 +1,6 @@
 import '../../App.css';
-import {BaseCurveGraph, BaseCurveGraphProps} from "../base/BaseCurveGraph";
-import {BaseGraphStates} from "../base/BaseGraph";
+import {BaseBezierCurveGraph, BaseCurveGraphProps} from "../base/BaseBezierCurveGraph";
+import {BaseGraphStates} from "../base/BaseCurveGraph";
 import {JSXPHBezierCurve} from "./JSXPHBezierCurve";
 import {PhBezierCurve} from "../../bezeg/ph-bezier-curve";
 import Slider from "../../inputs/Slider";
@@ -8,17 +8,17 @@ import {HodographInputbox} from "./HodographInputBox";
 import {Point} from "../base/Point";
 import React from "react";
 import {Button, Form} from "react-bootstrap";
-import {CacheContext} from "../../Contexts";
 import {OnOffSwitch} from "../../inputs/OnOffSwitch";
 import {Colors} from "../bezier/utilities/Colors";
 import {CurveStyles} from "../styles/CurveStyles";
+import {CacheContext} from "../context/CacheContext";
 
 export interface BasePhBezierCurveGraphStates extends BaseGraphStates {
     showOffsetCurve: boolean,
     showOffsetCurveControlPoints: boolean
 }
 
-abstract class BasePhBezierCurveGraph<P extends BaseCurveGraphProps, S extends BasePhBezierCurveGraphStates> extends BaseCurveGraph<P, S> {
+abstract class BasePhBezierCurveGraph<P extends BaseCurveGraphProps, S extends BasePhBezierCurveGraphStates> extends BaseBezierCurveGraph<P, S> {
 
     private hodographBoard!: JXG.Board;
     private jsxOffsetCurves!: JXG.Curve[];

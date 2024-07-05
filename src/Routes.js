@@ -21,11 +21,11 @@ import QuinticPhBezierCurve from "./graphs/ph/QuinticPhBezierCurveGraph";
 import AlphaParamBezierCurveGraph from "./graphs/parametrisations/AlphaParamBezierCurveGraph";
 import UniformParamBezierCurveGraph from "./graphs/parametrisations/UniformParamBezierCurveGraph";
 import {useState} from "react";
-import {RefreshContext} from "./Contexts";
 import RationalBezierCurveCircleGraph4 from "./graphs/rational/RationalBezierCurveCircleGraph4";
 import RationalBezierCurveCircleGraphN from "./graphs/rational/RationalBezierCurveCircleGraphN";
 import {BernsteinGraph} from "./graphs/bernstein/BernsteinGraph";
 import FarinPointsCurveGraph from "./graphs/rational/FarinPointsCurveGraph";
+import {RefreshContext} from "./graphs/context/react/RefreshContext";
 
 const PATH_BEZIER_CURVES = "/bezeg/bezier"
 const BEZIER_CURVES_GROUP = "Bezierjeve Krivulje";

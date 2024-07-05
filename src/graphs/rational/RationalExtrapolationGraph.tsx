@@ -20,7 +20,7 @@ class GraphExtrapolation extends BaseRationalCurveGraph<BaseRationalBezierCurveG
         })
     }
 
-    getGraphCommands(): JSX.Element[] {
+    override getGraphCommands(): JSX.Element[] {
         return super.getGraphCommands().concat([<Button variant={"dark"}
                                                         onClick={() => this.extrapolate()}>Ekstrapoliraj</Button>])
     }

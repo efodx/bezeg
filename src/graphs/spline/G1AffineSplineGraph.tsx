@@ -9,7 +9,7 @@ class Graph extends BaseSplineCurveGraph {
         this.createJSXSplineCurve([[-3, 2], [-4, -1], [-3, -2], [-1, 1], [1, 2], [4, 2], [3, -1]], 3, Continuity.G1)
     }
 
-    getGraphCommands(): JSX.Element[] {
+    override getGraphCommands(): JSX.Element[] {
         return super.getGraphCommands().concat([
             <div><Button variant={"dark"} onClick={() => this.povecajB1()}>Povečaj B1</Button>
                 <Button variant={"dark"} onClick={() => this.zmanjsajB1()}>Zmanjšaj B1</Button></div>,

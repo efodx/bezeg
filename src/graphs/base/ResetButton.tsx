@@ -1,6 +1,6 @@
 import React, {useContext} from "react";
-import {RefreshContext} from "../../Contexts";
 import {Button} from "react-bootstrap";
+import {RefreshContext} from "../context/react/RefreshContext";
 
 export function ResetButton() {
     let refreshContext = useContext(RefreshContext)

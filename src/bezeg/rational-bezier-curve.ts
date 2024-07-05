@@ -30,7 +30,7 @@ export class RationalBezierCurve extends BezierCurveImpl {
     }
 
 
-    elevate(): this {
+    override elevate(): this {
         let newPoints = [];
         let newWeights = []
         newPoints.push(this.points[0])
@@ -79,7 +79,7 @@ export class RationalBezierCurve extends BezierCurveImpl {
      * Returns a new bezier curve that is the extrapolated version of the current one.
      * @param t
      */
-    extrapolate(t: number): this {
+    override extrapolate(t: number): this {
         const points = this.points.map((point, i) => [point.X() * this.weights[i], point.Y() * this.weights[i], this.weights[i]])
         const decasteljauScheme = super.decasteljau(t, points)
         const pointsToProject = decasteljauScheme.map((row, i) => row[0])
@@ -92,7 +92,7 @@ export class RationalBezierCurve extends BezierCurveImpl {
      * Returns two bezier curves that together form the current one.
      * @param t
      */
-    subdivide(t: number): this[] {
+    override subdivide(t: number): this[] {
         const points = this.points.map((point, i) => [point.X() * this.weights[i], point.Y() * this.weights[i], this.weights[i]])
         const decasteljauScheme = super.decasteljau(t, points)
         const n = decasteljauScheme.length

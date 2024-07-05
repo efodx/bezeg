@@ -1,8 +1,8 @@
-import BaseGraph, {BaseGraphProps, BaseGraphStates} from "../base/BaseGraph";
+import BaseCurveGraph, {BaseGraphProps, BaseGraphStates} from "../base/BaseCurveGraph";
 import {JSXSplineCurve} from "./JSXSplineCurve";
 import {BezierSpline, Continuity} from "../../bezeg/bezier-spline";
 
-export abstract class BaseSplineCurveGraph extends BaseGraph<BezierSpline, JSXSplineCurve, BaseGraphProps, BaseGraphStates> {
+export abstract class BaseSplineCurveGraph extends BaseCurveGraph<BezierSpline, JSXSplineCurve, BaseGraphProps, BaseGraphStates> {
     newJSXBezierCurve(points: number[][]): JSXSplineCurve {
         return new JSXSplineCurve(points, Continuity.C1, 1, this.board);
     }

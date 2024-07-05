@@ -18,7 +18,7 @@ class Graph extends BaseRationalCurveGraph<BaseRationalBezierCurveGraphProps, Ba
         this.unsuspendBoardUpdate()
     }
 
-    getGraphCommands(): JSX.Element[] {
+    override getGraphCommands(): JSX.Element[] {
         return super.getGraphCommands().concat([<Button variant={"dark"} onClick={() => this.elevate()}>Dvigni
             stopnjo</Button>]
         )

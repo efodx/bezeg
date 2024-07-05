@@ -1,10 +1,10 @@
 import React from 'react';
 import '../../App.css';
-import {BaseCurveGraph, BaseCurveGraphProps} from "../base/BaseCurveGraph";
-import {BaseGraphStates} from "../base/BaseGraph";
+import {BaseBezierCurveGraph, BaseCurveGraphProps} from "../base/BaseBezierCurveGraph";
+import {BaseGraphStates} from "../base/BaseCurveGraph";
 import {Button} from "react-bootstrap";
 
-class ElevationGraph extends BaseCurveGraph<BaseCurveGraphProps, BaseGraphStates> {
+class ElevationGraph extends BaseBezierCurveGraph<BaseCurveGraphProps, BaseGraphStates> {
     initialize() {
         this.createJSXBezierCurve([[-3, 2], [0, -2], [1, 2], [3, -2]])
     }

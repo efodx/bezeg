@@ -1,207 +1,278 @@
-import BaseGraph, {BaseGraphProps, BaseGraphStates} from "./BaseGraph";
-import {JSXBezierCurve} from "../bezier/JSXBezierCurve";
-import Slider from "../../inputs/Slider";
-import {BezierCurve} from "../../bezeg/interfaces/bezier-curve";
-import React from "react";
-import {Button} from "react-bootstrap";
+import React from 'react';
+import '../../App.css';
+
+import {Board} from "jsxgraph";
+import {Point} from "./Point";
+import {Select} from "../../inputs/Select";
+import {AbstractJSXPointControlledCurve} from "./AbstractJSXPointControlledCurve";
+import {PointControlledCurve} from "../../bezeg/interfaces/point-controlled-curve";
+import {Form} from "react-bootstrap";
 import {OnOffSwitch} from "../../inputs/OnOffSwitch";
-import {SizeContext} from "../../Contexts";
+import {Commands} from "./Commands";
+import BaseGraph from "./BaseGraph";
+import {VisibilityContext} from "../context/VisibilityContext";
 
-function ShowControlPoints(props: { initialState?: boolean, onChange: (checked: boolean) => void }) {
-    return <OnOffSwitch initialState={props.initialState} onChange={props.onChange} label="Kontrolne točke"/>
+enum SelectedCurveOption {
+    MOVE_CURVE,
+    ADD_POINTS,
+    DELETE_POINTS
 }
 
-interface BaseCurveGraphProps extends BaseGraphProps {
-    allowSelectedCurveSubdivision: boolean,
-    allowSelectedCurveExtrapolation: boolean,
-    allowSelectedCurveDecasteljau: boolean,
-    allowSelectedCurveElevation: boolean,
-    allowSelectedCurveShrink: boolean,
-    allowSelectedCurveShowPoints: boolean
+interface BaseGraphProps {
+    areCurvesSelectable?: boolean
+    allowSelectedCurveControlPolygon?: boolean
 }
 
-export abstract class BaseCurveGraph<P extends BaseCurveGraphProps, S extends BaseGraphStates> extends BaseGraph<BezierCurve, JSXBezierCurve, P, S> {
+interface BaseGraphStates {
+    selectedCurveOption: SelectedCurveOption;
+    showingControlPolygon: boolean;
+    curveSelected: boolean;
+}
+
+
+/**
+ * Abstract class for creating graphs.
+ */
+abstract class BaseCurveGraph<U extends PointControlledCurve, T extends AbstractJSXPointControlledCurve<U>, P extends BaseGraphProps, S extends BaseGraphStates> extends BaseGraph<P, S> {
     static defaultProps = {
-        ...BaseGraph.defaultProps,
-        allowSelectedCurveSubdivision: true,
-        allowSelectedCurveElevation: true,
-        allowSelectedCurveExtrapolation: true,
-        allowSelectedCurveDecasteljau: true,
-        allowSelectedCurveShowPoints: true
+        areCurvesSelectable: true,
+        allowSelectedCurveControlPolygon: true
     }
-    private subdivisionT: number = 0.5;
-    private extrapolationT: number = 1.2;
-    private decasteljauT: number = 0.5;
-    private subdivisionPoint: JXG.Point | null = null;
-    private extrapolationPoint: JXG.Point | null = null;
+    public override readonly state = this.getInitialState();
+    protected inputsDisabled: boolean = false;
+    protected jsxBezierCurves: T[] = [];
+    protected graphJXGPoints: JXG.Point[] = [];
 
-    newJSXBezierCurve(points: number[][]): JSXBezierCurve {
-        return new JSXBezierCurve(points, this.board);
+    getInitialState(): S {
+        return {
+            selectedCurveOption: SelectedCurveOption.MOVE_CURVE,
+            curveSelected: false,
+            showingControlPolygon: false
+        } as S
     }
 
-    override getSelectedCurveCommands(): JSX.Element[] {
-        this.createSubdivisionPoint()
-        this.createExtrapolationPoint()
-        const selectedCurveCommands = super.getSelectedCurveCommands()
-        if (this.props.allowSelectedCurveSubdivision) {
-            selectedCurveCommands.push(<div onMouseEnter={() => this.showSubdivisionPoint()}
-                                            onMouseLeave={() => this.hideSubdivisionPoint()}>
-                <Slider min={0} max={1}
-                        initialValue={this.subdivisionT}
-                        onChange={(t) => this.setSubdivisionT(t)}></Slider>
-                <Button variant={"dark"} onClick={() => this.subdivideSelectedCurve()}>Subdiviziraj</Button>
-            </div>)
+    getFirstCurve(): U {
+        return this.getFirstJsxCurve()?.getCurve()
+    }
+
+    getFirstJsxCurve() {
+        return this.jsxBezierCurves[0]
+    }
+
+    getAllJxgPoints() {
+        return this.jsxBezierCurves.flatMap(c => c.getJxgPoints()).concat(this.graphJXGPoints)
+    }
+
+    override componentDidMount() {
+        super.componentDidMount()
+        this.board.on('down', (e) => this.handleDown(e));
+        this.board.on('up', (e) => this.handleUp(e));
+        this.board.on('move', (e) => this.handleMove(e));
+    }
+
+    abstract newJSXBezierCurve(points: number[][]): T;
+
+    createJSXBezierCurve(points: number[][]): T {
+        let newBezierCurve = this.newJSXBezierCurve(points)
+        this.jsxBezierCurves.push(newBezierCurve)
+        return newBezierCurve
+    }
+
+    /**
+     * Creates a JSXGraph point ands wraps it with the Point interface.
+     * @param x
+     * @param y
+     * @param opts
+     */
+    createJSXGraphPoint(x: number | (() => number), y: number | (() => number), opts?: any): Point {
+        let point;
+        if (opts) {
+            point = this.board.create('point', [x, y], opts);
+        } else {
+            point = this.board.create('point', [x, y]);
         }
-        if (this.props.allowSelectedCurveExtrapolation) {
-            selectedCurveCommands.push(<div onMouseEnter={() => this.showExtrapolationPoint()}
-                                            onMouseLeave={() => this.hideExtrapolationPoint()}>
-                <Slider min={1} max={1.5}
-                        initialValue={this.extrapolationT}
-                        onChange={(t) => this.setExtrapolationT(t)}></Slider>
-                <Button variant={"dark"}
-                        onClick={() => this.extrapolateSelectedCurve(this.extrapolationT)}>Ekstrapoliraj</Button>
-            </div>)
+        this.graphJXGPoints.push(point)
+        return new Point(point);
+    }
+
+    // TODO change e to pointerevent
+    getMouseCoords(e: any) {
+        const pos = this.board.getMousePosition(e);
+        return new JXG.Coords(JXG.COORDS_BY_SCREEN, pos, this.board as Board);
+    }
+
+    getSelect() {
+        return <Select onChange={e => this.onSelectChange(e)}
+                       options={[
+                           {
+                               "value": "0",
+                               "text": "Operiraj s krivuljo"
+                           },
+                           {
+                               "value": "1",
+                               "text": "Dodajaj točke"
+                           },
+                           {
+                               "value": "2",
+                               "text": "Briši točke"
+                           }
+                       ]}/>
+    }
+
+    override getGraphCommandsArea(): React.JSX.Element | null {
+        return this.state.curveSelected ? this.getSelectableCurveArea() : super.getGraphCommandsArea();
+    }
+
+    getSelectedCurveCommands(): JSX.Element[] {
+        if (this.props.allowSelectedCurveControlPolygon) {
+            return [<Form> <Form.Check // prettier-ignore
+                type="switch"
+                id="custom-switch"
+                label="Kontrolni poligon"
+                checked={this.getSelectedCurve().isShowingControlPolygon()}
+                onChange={(e) => this.showControlPolygon(e.target.checked)}/>
+            </Form>]
         }
-        if (this.props.allowSelectedCurveShrink) {
-            selectedCurveCommands.push(<div onMouseEnter={() => this.showSubdivisionPoint()}
-                                            onMouseLeave={() => this.hideSubdivisionPoint()}>
-                <Slider min={0} max={1}
-                        initialValue={this.subdivisionT}
-                        onChange={(t) => this.setSubdivisionT(t)}></Slider>
-                <Button variant={"dark"} onClick={() => this.extrapolateSelectedCurve(this.subdivisionT)}>Skrči</Button>
-            </div>)
-        }
-        if (this.props.allowSelectedCurveDecasteljau) {
-            selectedCurveCommands.push(<div onMouseEnter={() => this.showSelectedCurveDecasteljauScheme()}
-                                            onMouseLeave={() => this.hideSelectedCurveDecasteljauScheme()}>
-                <Slider min={0} max={1}
-                        initialValue={this.decasteljauT}
-                        onChange={(t) => this.setDecasteljauT(t)}></Slider>
-            </div>)
-        }
-        if (this.props.allowSelectedCurveElevation) {
-            selectedCurveCommands.push(<div>
-                <Button variant={"dark"} onClick={() => this.elevateSelectedCurve()}>Dvigni stopnjo</Button></div>)
-        }
-        if (this.props.allowSelectedCurveShowPoints) {
-            selectedCurveCommands.push(<ShowControlPoints
-                initialState={this.getFirstJsxCurve().isShowingJxgPoints()}
-                onChange={checked => this.showJxgPointsOfSelectedCurve(checked)}/>)
-        }
-        selectedCurveCommands.push(<OnOffSwitch label={"Konveksna ovojnica"}
-                                                initialState={this.getSelectedCurve().isShowingConvexHull()}
-                                                onChange={(checked) => this.getSelectedCurve().showConvexHull(checked)}></OnOffSwitch>)
-        return selectedCurveCommands;
+        return []
     }
 
-    showSubdivisionPoint() {
-        this.subdivisionPoint?.show()
-    }
-
-    hideSubdivisionPoint() {
-        this.subdivisionPoint?.hide()
-    }
-
-    showExtrapolationPoint() {
-        this.getSelectedCurve().setIntervalEnd(() => this.extrapolationT)
-        this.extrapolationPoint?.show()
-    }
-
-    hideExtrapolationPoint() {
-        this.getSelectedCurve().setIntervalEnd(1)
-        this.extrapolationPoint?.hide()
-    }
-
-    extrapolateSelectedCurve(t: number) {
-        this.board.suspendUpdate()
-        this.getSelectedCurve().extrapolate(t)
-        this.unsuspendBoardUpdate()
-    }
-
-    subdivideSelectedCurve() {
-        this.board.suspendUpdate()
-        let newCurve = this.getSelectedCurve().subdivide(this.subdivisionT)
-        this.jsxBezierCurves.push(newCurve);
-        this.deselectSelectedCurve()
-        this.unsuspendBoardUpdate()
-    }
-
-    elevateSelectedCurve() {
-        this.board.suspendUpdate()
-        this.getSelectedCurve().elevate()
-        if (this.getSelectedCurve().isShowingControlPolygon()) {
-            this.getSelectedCurve().showControlPolygon()
-        }
-        this.unsuspendBoardUpdate()
-    }
-
-    showJxgPointsOfSelectedCurve(show: boolean) {
+    showControlPolygon(show: boolean) {
         this.board.suspendUpdate()
         if (show) {
-            this.getSelectedCurve().showJxgPoints()
+            this.getSelectedCurve().showControlPolygon()
         } else {
-            this.getSelectedCurve().hideJxgPoints()
+            this.getSelectedCurve().hideControlPolygon()
         }
+        this.setState({...this.state, showingControlPolygon: show})
         this.unsuspendBoardUpdate()
     }
 
-    override deselectSelectedCurve() {
-        if (this.subdivisionPoint) {
+    handleDown(e: PointerEvent) {
+        if (this.inputsDisabled) {
+            return
+        }
+        this.board.suspendUpdate()
+        let coords = this.getMouseCoords(e);
+        let selectedCurve, selectableCurve;
+        if (this.state.selectedCurveOption === SelectedCurveOption.MOVE_CURVE) {
+            selectedCurve = this.getSelectedCurve()
+            if (selectedCurve) {
+                selectedCurve.coords = coords
+                if (selectedCurve.isMouseInsidePaddedBoundingBox()) {
+                    selectedCurve.processMouseDown(e)
+                } else {
+                    this.deselectSelectedCurve();
+                }
+            }
+            selectedCurve = this.getSelectedCurve()
+            if (!selectedCurve) {
+                // @ts-ignore
+                if (!this.getAllJxgPoints().some(p => p.hasPoint(coords.scrCoords[1], coords.scrCoords[2])) && this.props.areCurvesSelectable) {
+                    selectableCurve = this.jsxBezierCurves.filter(curve => curve.isSelectable(e))[0]
+                    if (selectableCurve) {
+                        this.selectCurve(selectableCurve);
+                    }
+                }
+            }
+            this.unsuspendBoardUpdate()
+            return
+        }
+        let canCreate = true;
+
+        for (let el of this.board.objectsList) {
             // @ts-ignore
-            this.board.removeObject(this.subdivisionPoint)
+            if (JXG.isPoint(el) && el.hasPoint(coords.scrCoords[1], coords.scrCoords[2])) {
+                canCreate = false;
+                break;
+            }
         }
-        if (this.extrapolationPoint) {
-            this.board.removeObject(this.extrapolationPoint)
+        if (canCreate && this.state.selectedCurveOption === SelectedCurveOption.ADD_POINTS && this.getSelectedCurve()) {
+            this.getSelectedCurve().addPoint(coords.usrCoords[1], coords.usrCoords[2])
         }
-        super.deselectSelectedCurve();
-        this.subdivisionPoint = null
-        this.extrapolationPoint = null
-    }
-
-    private setSubdivisionT(t: number) {
-        this.subdivisionT = t
-        this.board.update()
-    }
-
-    private setExtrapolationT(t: number) {
-        this.extrapolationT = t
-        this.board.update()
-    }
-
-    private createSubdivisionPoint() {
-        if (this.board && !this.subdivisionPoint && this.getSelectedCurve()) {
-            this.subdivisionPoint = this.board.create('point', [() => this.getSelectedCurve().getCurve().calculatePointAtT(this.subdivisionT).X(),
-                () => this.getSelectedCurve().getCurve().calculatePointAtT(this.subdivisionT).Y()], {size: () => SizeContext.pointSize}) as JXG.Point;
-            this.subdivisionPoint.hide()
+        if (!canCreate && this.state.selectedCurveOption === SelectedCurveOption.DELETE_POINTS && this.getSelectedCurve()) {
+            this.getSelectedCurve().getJxgPoints().every(
+                (point, i) => {
+                    // @ts-ignore
+                    if (point.hasPoint(coords.scrCoords[1], coords.scrCoords[2])) {
+                        this.getFirstJsxCurve().removePoint(i)
+                        return false
+                    }
+                    return true
+                }
+            )
         }
-    }
 
-    private createExtrapolationPoint() {
-        if (this.board && !this.extrapolationPoint && this.getSelectedCurve()) {
-            this.extrapolationPoint = this.board.create('point', [() => this.getSelectedCurve().getCurve().calculatePointAtT(this.extrapolationT).X(),
-                () => this.getSelectedCurve().getCurve().calculatePointAtT(this.extrapolationT).Y()], {size: () => SizeContext.pointSize}) as JXG.Point;
-            this.extrapolationPoint.hide()
-        }
-    }
-
-    private showSelectedCurveDecasteljauScheme() {
-        this.board.suspendUpdate()
-        this.getSelectedCurve().showDecasteljauSchemeForT(this.decasteljauT)
         this.unsuspendBoardUpdate()
+    };
 
+    getSelectedCurve() {
+        return this.jsxBezierCurves.filter(curve => curve.isSelected())[0];
     }
 
-    private hideSelectedCurveDecasteljauScheme() {
+
+    override getTools(): JSX.Element[] {
+        return super.getTools().concat(<OnOffSwitch label="Oznake točk"
+                                                    initialState={VisibilityContext.pointsVisible()}
+                                                    onChange={checked => this.showPointLabels(checked)}/>)
+    }
+
+    deselectSelectedCurve() {
+        this.getSelectedCurve().deselect()
+
+        this.setState({...this.state, curveSelected: false, showingControlPolygon: false})
+    }
+
+    getAllJxgCurves() {
+        return this.jsxBezierCurves.map(curve => curve.getJxgCurve());
+    }
+
+    getSelectableCurveArea() {
+        let commands = [this.getSelect()]
+        if (this.state.selectedCurveOption === SelectedCurveOption.MOVE_CURVE) {
+            commands = commands.concat(this.getSelectedCurveCommands())
+        }
+        return <Commands commands={commands} title={"Izbrana krivulja"}></Commands>
+    }
+
+    protected selectCurve(selectableCurve: T, additionalState = {}) {
+        selectableCurve.select()
+        this.setState({...this.state, curveSelected: true, ...additionalState})
+    }
+
+    private handleUp(e: PointerEvent) {
+        if (this.state.selectedCurveOption !== SelectedCurveOption.MOVE_CURVE) {
+            // only handle when we're just moving curve
+            return
+        }
         this.board.suspendUpdate()
-        this.getSelectedCurve().hideDecasteljauScheme()
+        let selectedCurve = this.getSelectedCurve()
+        selectedCurve?.processMouseUp(e)
         this.unsuspendBoardUpdate()
     }
 
-    private setDecasteljauT(t: number) {
-        this.decasteljauT = t;
-        this.showSelectedCurveDecasteljauScheme()
+    private handleMove(e: PointerEvent) {
+        if (this.state.selectedCurveOption !== SelectedCurveOption.MOVE_CURVE) {
+            return
+        }
+        this.board.suspendUpdate()
+        let selectedCurve = this.getSelectedCurve()
+        selectedCurve?.processMouseMove(e)
+        this.unsuspendBoardUpdate()
     }
 
+    private onSelectChange(e: React.ChangeEvent<HTMLSelectElement>) {
+        let selectTool = e.target.value
+        let selectedCurveOption = Number(selectTool)
+        this.setState({...this.state, selectedCurveOption: selectedCurveOption})
+    }
+
+    private showPointLabels(show: boolean) {
+        this.board.suspendUpdate()
+        VisibilityContext.setPointVisibility(show)
+        this.unsuspendBoardUpdate()
+    }
 }
 
-export type {BaseCurveGraphProps}
+export default BaseCurveGraph;
+export type {BaseGraphProps, BaseGraphStates};
+

@@ -1,8 +1,3 @@
-import {createContext} from "react";
-
-export const RefreshContext = createContext(null)
-export const CacheContext = {context: 0}
-
 const dFontSize = 2
 const dStrokeWidth = 0.5
 const dPointSize = 1

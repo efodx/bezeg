@@ -5,7 +5,7 @@ import {RationalBezierCurve} from "../../bezeg/rational-bezier-curve";
 import {Board} from "jsxgraph";
 import {AbstractJSXBezierCurve} from "../base/AbstractJSXBezierCurve";
 import {PointStyles} from "../styles/PointStyles";
-import {SizeContext} from "../../Contexts";
+import {SizeContext} from "../context/SizeContext";
 
 export class JSXRationalBezierCurve extends AbstractJSXBezierCurve<RationalBezierCurve> {
     private weightLabels: JXG.GeometryElement[] = [];
@@ -18,14 +18,14 @@ export class JSXRationalBezierCurve extends AbstractJSXBezierCurve<RationalBezie
         this.pointControlledCurve.setWeights(weights)
     }
 
-    addPoint(x: number, y: number) {
+    override addPoint(x: number, y: number) {
         super.addPoint(x, y)
         this.pointControlledCurve.getWeights().push(1)
         this.hideWeights()
         this.showWeights()
     }
 
-    removePoint(i: number) {
+    override removePoint(i: number) {
         super.removePoint(i);
         this.pointControlledCurve.getWeights().splice(1, 1)
         this.hideWeights()
