@@ -1,4 +1,4 @@
-import {Point as BezegPoint} from "../../bezeg/interfaces/point";
+import {Point as BezegPoint} from "../../bezeg/api/point/point";
 import {Point as JSXPoint} from "jsxgraph";
 
 /**

@@ -1,6 +1,6 @@
 import {Board} from "jsxgraph";
 import {Point} from "./Point";
-import {PointControlledCurve} from "../../bezeg/interfaces/point-controlled-curve";
+import {PointControlledCurve} from "../../bezeg/api/curve/point-controlled-curve";
 import {SizeContext} from "../context/SizeContext"
 import {PointStyles} from "../styles/PointStyles";
 import {CurveStyles} from "../styles/CurveStyles";

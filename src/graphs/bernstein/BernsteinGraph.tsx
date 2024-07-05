@@ -1,7 +1,7 @@
 import {Button, ButtonGroup} from "react-bootstrap";
 import React from "react";
-import {BezierCurveImpl} from "../../bezeg/bezier-curve-impl";
-import {PointImpl} from "../../bezeg/point/point-impl";
+import {BezierCurveImpl} from "../../bezeg/impl/curve/bezier-curve-impl";
+import {PointImpl} from "../../bezeg/impl/point/point-impl";
 import {Colors} from "../bezier/utilities/Colors";
 import BaseGraph from "../base/BaseGraph";
 import {OnOffSwitch} from "../../inputs/OnOffSwitch";

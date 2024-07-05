@@ -1,6 +1,6 @@
-import {Point} from "./interfaces/point";
+import {Point} from "../../api/point/point";
 import {BezierCurveImpl} from "./bezier-curve-impl";
-import {PointImpl} from "./point/point-impl";
+import {PointImpl} from "../point/point-impl";
 import {PointControlledCurveImpl} from "./point-controlled-curve-impl";
 
 enum Continuity {

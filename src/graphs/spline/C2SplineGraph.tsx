@@ -1,5 +1,5 @@
 import {BaseSplineCurveGraph} from "./BaseSplineCurveGraph";
-import {Continuity} from "../../bezeg/bezier-spline";
+import {Continuity} from "../../bezeg/impl/curve/bezier-spline";
 
 class Graph extends BaseSplineCurveGraph {
     initialize() {

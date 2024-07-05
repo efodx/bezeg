@@ -1,7 +1,7 @@
 /**
  * Class that wraps a BezierCurve with methods for dealing with JSXGraph
  */
-import {RationalBezierCurve} from "../../bezeg/rational-bezier-curve";
+import {RationalBezierCurve} from "../../bezeg/impl/curve/rational-bezier-curve";
 import {Board} from "jsxgraph";
 import {AbstractJSXBezierCurve} from "../base/AbstractJSXBezierCurve";
 import {PointStyles} from "../styles/PointStyles";

@@ -1,6 +1,6 @@
 import {BezierCurveImpl} from "./bezier-curve-impl";
-import {Point} from "./interfaces/point";
-import {PointImpl} from "./point/point-impl";
+import {Point} from "../../api/point/point";
+import {PointImpl} from "../point/point-impl";
 
 /**
  * Represents a PH Bezier curve.

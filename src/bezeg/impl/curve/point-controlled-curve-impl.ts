@@ -1,5 +1,5 @@
-import {Point} from "./interfaces/point";
-import {PointControlledCurve} from "./interfaces/point-controlled-curve";
+import {Point} from "../../api/point/point";
+import {PointControlledCurve} from "../../api/curve/point-controlled-curve";
 
 export abstract class PointControlledCurveImpl implements PointControlledCurve {
     points: Array<Point>;

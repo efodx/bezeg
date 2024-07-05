@@ -1,4 +1,4 @@
-import {Point} from "./point";
+import {Point} from "../point/point";
 import {PointControlledCurve} from "./point-controlled-curve";
 
 export interface BezierCurve extends PointControlledCurve {

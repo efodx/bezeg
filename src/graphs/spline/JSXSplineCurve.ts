@@ -2,7 +2,7 @@
  * Class that wraps a BezierCurve with methods for dealing with JSXGraph
  */
 import {AbstractJSXPointControlledCurve} from "../base/AbstractJSXPointControlledCurve";
-import {BezierSpline, Continuity} from "../../bezeg/bezier-spline";
+import {BezierSpline, Continuity} from "../../bezeg/impl/curve/bezier-spline";
 import {Board} from "jsxgraph";
 import {PointStyles} from "../styles/PointStyles";
 

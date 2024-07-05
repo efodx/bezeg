@@ -5,7 +5,7 @@ import {Board} from "jsxgraph";
 import {Point} from "./Point";
 import {Select} from "../../inputs/Select";
 import {AbstractJSXPointControlledCurve} from "./AbstractJSXPointControlledCurve";
-import {PointControlledCurve} from "../../bezeg/interfaces/point-controlled-curve";
+import {PointControlledCurve} from "../../bezeg/api/curve/point-controlled-curve";
 import {Form} from "react-bootstrap";
 import {OnOffSwitch} from "../../inputs/OnOffSwitch";
 import {Commands} from "./Commands";

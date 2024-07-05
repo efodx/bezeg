@@ -1,6 +1,6 @@
 import '../../App.css';
 import {BaseCurveGraphProps} from "../base/BaseBezierCurveGraph";
-import {PhBezierCurve} from "../../bezeg/ph-bezier-curve";
+import {PhBezierCurve} from "../../bezeg/impl/curve/ph-bezier-curve";
 import Slider from "../../inputs/Slider";
 import Form from 'react-bootstrap/Form';
 import BasePhBezierCurveGraph, {BasePhBezierCurveGraphStates} from "../ph/BasePhBezierCurveGraph";

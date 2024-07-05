@@ -1,5 +1,5 @@
 import BaseCurveGraph, {BaseGraphProps, BaseGraphStates} from "../base/BaseCurveGraph";
-import {RationalBezierCurve} from "../../bezeg/rational-bezier-curve";
+import {RationalBezierCurve} from "../../bezeg/impl/curve/rational-bezier-curve";
 import {JSXRationalBezierCurve} from "./JSXRationalBezierCurve";
 import Slider from "../../inputs/Slider";
 import React from "react";
@@ -160,10 +160,6 @@ export abstract class BaseRationalCurveGraph<P extends BaseRationalBezierCurveGr
         selectableCurve.getJxgPoints()[this.weightNumber].setAttribute({
             color: "yellow"
         })
-    }
-
-    changeWeight2(dw: number) {
-        this.setWeight(Math.round(100 * this.getSelectedCurve().getCurve().getWeights()[this.weightNumber] * dw) / 100)
     }
 
     changeWeight(dw: number) {

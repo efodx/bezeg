@@ -2,7 +2,7 @@ import '../../App.css';
 import {BaseBezierCurveGraph, BaseCurveGraphProps} from "../base/BaseBezierCurveGraph";
 import {BaseGraphStates} from "../base/BaseCurveGraph";
 import {JSXPHBezierCurve} from "./JSXPHBezierCurve";
-import {PhBezierCurve} from "../../bezeg/ph-bezier-curve";
+import {PhBezierCurve} from "../../bezeg/impl/curve/ph-bezier-curve";
 import Slider from "../../inputs/Slider";
 import {HodographInputbox} from "./HodographInputBox";
 import {Point} from "../base/Point";

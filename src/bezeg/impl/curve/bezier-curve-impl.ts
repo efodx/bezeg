@@ -1,9 +1,9 @@
-import {PointImpl} from "./point/point-impl";
-import {Point} from "./interfaces/point";
-import {BezierCurve} from "./interfaces/bezier-curve";
+import {PointImpl} from "../point/point-impl";
+import {Point} from "../../api/point/point";
+import {BezierCurve} from "../../api/curve/bezier-curve";
 import {PointControlledCurveImpl} from "./point-controlled-curve-impl";
 
-import {CacheContext} from "../graphs/context/CacheContext";
+import {CacheContext} from "../../../graphs/context/CacheContext";
 
 
 export class BezierCurveImpl extends PointControlledCurveImpl implements BezierCurve {

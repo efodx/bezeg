@@ -1,6 +1,6 @@
-import {Point} from "./interfaces/point";
-import {PointImpl} from "./point/point-impl";
-import {BezierCurve} from "./interfaces/bezier-curve";
+import {Point} from "../../api/point/point";
+import {PointImpl} from "../point/point-impl";
+import {BezierCurve} from "../../api/curve/bezier-curve";
 import {BezierCurveImpl} from "./bezier-curve-impl";
 import {RationalBezierCurve} from "./rational-bezier-curve";
 
@@ -140,7 +140,7 @@ export class PhBezierCurve implements BezierCurve {
                 const sumPart = new PointImpl(() => scalar * (sigma[j]() * p[k - j].X() + d() * n * deltaPravokotenP[j].X()),
                     () => scalar * (sigma[j]() * p[k - j].Y() + d() * n * deltaPravokotenP[j].Y()))
                 sumParts.push(sumPart)
- 
+
                 // We also pack the calculation of w in a point for some caching, ideally Point would be of any dimension
                 const wSumPart = new PointImpl(() => scalar * sigma[j](), 0)
                 wSumParts.push(wSumPart)

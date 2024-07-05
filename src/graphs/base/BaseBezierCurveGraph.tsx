@@ -1,7 +1,7 @@
 import BaseCurveGraph, {BaseGraphProps, BaseGraphStates} from "./BaseCurveGraph";
 import {JSXBezierCurve} from "../bezier/JSXBezierCurve";
 import Slider from "../../inputs/Slider";
-import {BezierCurve} from "../../bezeg/interfaces/bezier-curve";
+import {BezierCurve} from "../../bezeg/api/curve/bezier-curve";
 import React from "react";
 import {Button} from "react-bootstrap";
 import {OnOffSwitch} from "../../inputs/OnOffSwitch";

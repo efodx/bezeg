@@ -21,7 +21,8 @@
 - [ ] Osnova grafa naj bo renderirana enako pri Bernsteinovih polinomih kot BaseGraph... trenutno je skopirana
 - [x] Size context?
 - [ ] Različni preseti za inicializacijo grafa - torej primeri iz magistrske, ki jih lahko kar izbereš iz dropdownov!
-  Tako bom zagotovil konsistenco med slikami. V inicializacijo lahko dodam tudi bounding box parameter itd.
+  Tako bom zagotovil konsistenco med slikami. V inicializacijo lahko dodam tudi bounding box parameter itd. - to je
+  lahko kr graph property - presets, potem jih class poljubno uporabi pri inicializaciji
 - [ ] Decasteljau generateLineSegments(slider: JXG.Slider) in se ena metoda... naj bo to abstrahirano kar je lahko.
 - [ ] Naj se da odstranit oznake točk tudi za segmente..... MORDA DODAM VISIBILITY MED CONTEXTE...
 
@@ -45,4 +46,5 @@
 - [x] Mogoce pri bernsteinovih naredit nek plotchart kolko kateri vpliva?
 - [ ] Decasteljau brez dejanske sheme, tako da narisem zadnji 2 bezierjevi krivulji ki sta interpolirani? :D za pokazat
   shemo...
+- [ ] Bezierjeve API spremenit na Subdividable, Expotrapolable, Elevatable......
 - [x]

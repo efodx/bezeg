@@ -1,6 +1,6 @@
-import {Point} from "../interfaces/point";
+import {Point} from "../../api/point/point";
 
-import {CacheContext} from "../../graphs/context/CacheContext";
+import {CacheContext} from "../../../graphs/context/CacheContext";
 
 export class PointImpl implements Point {
     private x: number | (() => number);
