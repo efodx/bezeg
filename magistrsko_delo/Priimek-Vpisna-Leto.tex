@@ -199,7 +199,7 @@ the content and not the structure of your work.}
         \subfloat[$n=2$]{\includegraphics[width = 0.45\textwidth]{images/bernstein-2}}
         \qquad
         \subfloat[$n=3$]{\includegraphics[width = 0.45\textwidth]{images/bernstein-3}}
-        \caption{Bernsteinovi bazni polinomi}
+        \caption{Bernsteinovi bazni polinomi stopenj $n=0,1,2,3$.}
         \label{fig:bernstein-base}
     \end{figure}
     Brez dokaza v naslednjem izreku naštejmo nekaj osnovnih lastnosti Bernsteinovih baznih polinomov.
@@ -275,7 +275,7 @@ the content and not the structure of your work.}
 %    \end{dokaz}
     Za konec podrazdelka izpeljimo še formulo za zmnožek dveh Bernsteinovih polinomov.
     \begin{izrek}
-        Naj bosta $f$ in $g$ Bernsteinova polinoma s funkcijskimi predpisi $f(t)=\sum_{i=0}^{m}B_i^m(t)$ in $g(t)=\sum_{i=0}^{n}B_i^n(t)$.
+        Naj bosta $f$ in $g$ Bernsteinova polinoma s funkcijskimi predpisi $f(t)=\sum_{i=0}^{m}\alpha_iB_i^m(t)$ in $g(t)=\sum_{i=0}^{n}\beta_iB_i^n(t)$.
         Potem za njun zmnožek velja
         \[ f(t)g(t) = \sum_{i=0}^{m+n}\left(\sum_{j=\max(0,i-n)}^{\min(m,i)} \frac{\binom{m}{j}\binom{n}{i-j}}{\binom{m+n}{i}} \alpha_i\beta_{i-j} \right)B_{i}^{m+n}(t).\]
     \end{izrek}
@@ -314,7 +314,7 @@ the content and not the structure of your work.}
     \begin{opomba}
         Pri slikovnem gradivu iz dela se bomo omejili na prostor dimenzije $d=2$, torej na Bezierjeve krivulje v ravnini.
     \end{opomba}
-    Na sliki~\ref{fig:bezierjeva-krivulja} si lahko ogledamo primere Bezierjevih krivulj in njihovih kontrolnih poligonov za stopnje $n=1,2,3,4$.
+    Na sliki~\ref{fig:bezierjeva-krivulja} si lahko ogledamo primere Bezierjevih krivulj stopenj $n=1,2,3,4$ s pripadajočimi kontrolnimi poligoni.
     \begin{figure}[ht!]
         \captionsetup[subfigure]{labelformat=empty}
         \centering
@@ -327,9 +327,8 @@ the content and not the structure of your work.}
         \caption{Bezierjeve krivulje s pripadajočimi kontrolnimi poligoni za stopnje $n=1,2,3,4$.}
         \label{fig:bezierjeva-krivulja}
     \end{figure}
-
     Zapišimo sedaj nekaj osnovnih lastnosti Bezierjevih krivulj.
-    \begin{izrek}{Bezierjeva krivulja $\mathbf{B}_n$ s kontrolnimi točkami $\p_i$ za $i=0,1\ldots,n$ ima sledeče lastnosti.}
+    \begin{izrek}{Bezierjeva krivulja $\mathbf{B}_n$ s kontrolnimi točkami $\p_i$, za $i=0,1\ldots,n$, ima sledeče lastnosti.}
         \label{izrek:lastnosti-bezierjevih-krivulj}
         \begin{enumerate}
             \item Interpolira končne točke, t.j\ velja $\bigbbod{n}{0}=\p_0$ in $\bigbbod{n}{1}=\p_n$.
@@ -356,7 +355,7 @@ the content and not the structure of your work.}
         \subfloat[Zrcaljenje čez $x$ os]{\includegraphics[width = 0.45\textwidth]{images/afine-transform-flip}}
         \qquad
         \subfloat[Rotiranje za $\frac{\pi}{2}$]{\includegraphics[width = 0.45\textwidth]{images/afine-transform-rotate}}
-        \caption{Afine transformacije Bezierjeve krivulje}
+        \caption{Afine transformacije Bezierjeve krivulje.}
         \label{fig:bezier-affine-transform}
     \end{figure}
     \begin{figure}[ht!]
@@ -365,7 +364,7 @@ the content and not the structure of your work.}
         \subfloat[]{\includegraphics[width = 0.45\textwidth]{images/bezier-curve-convex-hull-1}}
         \qquad
         \subfloat[]{\includegraphics[width = 0.45\textwidth]{images/bezier-curve-convex-hull-2}}
-        \caption{Konveksni ovojnici kontrolnih točk Bezierjevih krivulj}
+        \caption{Konveksni ovojnici kontrolnih točk Bezierjevih krivulj.}
         \label{fig:bezier-convex-hull}
     \end{figure}
 
@@ -392,7 +391,7 @@ the content and not the structure of your work.}
 
     \subsection{Decasteljaujev algoritem}
     Stabilnost metod je v CAD in CAGD sistemih bistvene narave.
-    Direktno računanje vrednosti Bernsteinovih polinomov preko enačb iz definicije~\ref{def:bernstein} pa ni stabilno~\cite{24ac2b10-13c2-3e17-bc91-5f7366bf076c}.
+    Direktno računanje vrednosti Bernsteinovih polinomov preko enačb iz definicije~\ref{def:bernstein} pa ni stabilno~\cite{placeholder}.
     Da lahko točke Bezierjevih krivulj računamo stabilno, potrebujemo sledeč izrek.
     \begin{izrek}
         \label{izrek:decastelaju-rekurzija}
@@ -512,21 +511,22 @@ the content and not the structure of your work.}
 
     \subsection{Subdivizija}
     V CAGD in CAD sistemih se mnogokrat zgodi, da uporabnik želeli ohraniti le en kos Bezierjeve krivulje.
-    Naj bo to kos krivulje, ki ga dobimo tako, da za prvotno krivuljo parameter $t$ omejimo na interval $[0,t_0]$ za neko pozitivno realno število $t_0<1$.
+    Naj bo to kos krivulje, ki ga dobimo tako, da za prvotno krivuljo parameter $t$ omejimo na interval $[0,t_0]$, za neko pozitivno realno število $t_0<1$.
     Ta del krivulje označimo z $B_{t_0-}$.
     Izkaže se, da lahko krivuljo $B_{t_0-}$ podamo kot Bezierjevo krivuljo s kontrolnimi točkami $\p_0^i(t_0)$ za $i=0,1,\ldots,n$, kjer točke $\p_0^i(t_0)$ dobimo iz Decasteljaujeve sheme pri $t=t_0$.
     Podobno se izkaže tudi to, da lahko preostali kos krivulje, $B_{t_0+}$, podamo kot Bezierjevo krivuljo s kontrolnimi točkami $\p_i^i(t_0)$ za $i=0,1,\ldots,n$.
-    Radovedni bralci lahko dokaz trditev najdejo v delu~\cite{24ac2b10-13c2-3e17-bc91-5f7366bf076c}.
+    Radovedni bralci lahko dokaz trditev najdejo v delu~\cite{placeholder}.
     Procesu deljenja krivulje na dva dela pravimo \textit{subdivizija}.
     Na sliki sheme Decasteljaujevega algoritma~\ref{fig:subdivizija} lahko vidimo, da pri določenem parametru $t_0$ točke $\p_0^0,\p_0^1,\p_0^2,\p_0^3$ tvorijo kontrolni poligon bezierjeve krivulje $B_{t_0-}$, točke $\p_0^0,\p_1^1,\p_2^2,\p_3^3$ pa kontrolni poligon krivulje $B_{t_0+}$.
-    \begin{figure}[h!]
+    \begin{figure}[h]
         \centering
         \includegraphics[width=0.8\textwidth]{images/subdivizija}
         \caption{Decasteljaujev algoritem}
         \label{fig:subdivizija}
     \end{figure}
+
     Če izberimo sedaj $t_0=\frac{1}{2}$ in subdiviziramo krivuljo, dobimo dve krivulji.
-    Če subdivizijo nato ponavljamo na dobljenih krivuljah, imamo po $k$ korakih $2^k$ krivulj.
+    Če subdivizijo nato  na dobljenih krivuljah ponavljamo, dobimo po $k$ korakih $2^k$ krivulj.
     Na sliki~\ref{fig:subdivizija-ponavljanje} si lahko ogledamo postopek za prve tri korake.
     Opazimo lahko, da so kontrolni poligoni dobljenih krivulj zmerom bližje krivulji.
     \begin{figure}[h]
