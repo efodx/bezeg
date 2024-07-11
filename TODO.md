@@ -23,6 +23,9 @@
 - [ ] Različni preseti za inicializacijo grafa - torej primeri iz magistrske, ki jih lahko kar izbereš iz dropdownov!
   Tako bom zagotovil konsistenco med slikami. V inicializacijo lahko dodam tudi bounding box parameter itd. - to je
   lahko kr graph property - presets, potem jih class poljubno uporabi pri inicializaciji
+  Naj se da Presete ustvarjat tudi svoje... Da shranis krivuljo recimo itd... nekako bo treba dosezt te stvari.
+  Tako bo lahko profesor si ustvaril krivuljo in jo potem shranil. In dosezem tudi, da lahko potem te presete poimensko
+  eksportam!
 - [ ] Decasteljau generateLineSegments(slider: JXG.Slider) in se ena metoda... naj bo to abstrahirano kar je lahko.
 - [ ] Naj se da odstranit oznake točk tudi za segmente..... MORDA DODAM VISIBILITY MED CONTEXTE...
 
@@ -47,4 +50,6 @@
 - [ ] Decasteljau brez dejanske sheme, tako da narisem zadnji 2 bezierjevi krivulji ki sta interpolirani? :D za pokazat
   shemo...
 - [ ] Bezierjeve API spremenit na Subdividable, Expotrapolable, Elevatable......
+- [ ] Ce clovek pogleda formulo za visanje krivulje... Iz nje sledi, da tiste tocke v resnici lezijo na kontrolnem
+  poligonu... To bi lahko prikazal!
 - [x]

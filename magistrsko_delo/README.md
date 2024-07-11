@@ -4,6 +4,7 @@ biber file
 pdflatex file
 
 TODO:
+
 - Prostostni parametri? parametri prostosti? prosti parametri?
 
 - Bezierjeve PH krivulje???? NE naj bojo samo PH krivulje. Vsak polinom lahko namrec napises v Bernsteinovi obliki
@@ -29,4 +30,5 @@ TODO:
   http://www.jstor.org/stable/2008438
 
 
-
+- Zlepki iz bezierjevih krivulj, ali zlepki bezierjevih krivulj? meni je to drugo lepse
+- 

@@ -124,7 +124,8 @@ the content and not the structure of your work.}
 \newcommand{\C}{\mathbb C}
 \newcommand{\Q}{\mathbb Q}
 \newcommand{\Pn}{\mathbb P_n}
-\newcommand{\p}{\textbf{p}}
+\newcommand{\p}{\mathbf{p}}
+\newcommand{\B}{\mathbf{B}}
 
 
 %Bernstein
@@ -236,7 +237,7 @@ the content and not the structure of your work.}
         \subfloat[$n=2$]{\includegraphics[width = 0.45\textwidth]{images/bernstein-sum-2}}
         \qquad
         \subfloat[$n=3$]{\includegraphics[width = 0.45\textwidth]{images/bernstein-sum-3}}
-        \caption{Naloženi ploščinski grafikoni Bernsteinovih baznih polinomov}
+        \caption{Naloženi ploščinski grafikoni Bernsteinovih baznih polinomov.}
         \label{fig:bernstein-base-sum}
     \end{figure}
 
@@ -411,10 +412,10 @@ the content and not the structure of your work.}
             &= \p_0(1-t)B_{0}^{n-1}(t) + \sum_{i=1}^{n-1}\left((1-t)B_i^{n-1}(t) + tB_{i-1}^{n-1}(t)\right)\p_{i} + \p_n B_{n-1}^{n-1}(t). \\
         \end{align*}
         Uporabimo še rekurzivno zvezo Bernsteinovih baznih polinomov iz izreka~\ref{izrek:bernsteinovi_lastnosti:rekruzija}, da dobimo
-       \begin{align*}
+        \begin{align*}
             \p_0B_{0}^{n}(t) + \sum_{i=1}^{n-1}\p_{i}B_i^n(t) + \p_n B_{n}^{n}(t) = \sum_{i=0}^{n}\p_{i}B_i^n(t).
         \end{align*}
-        \end{dokaz}
+    \end{dokaz}
     Označimo sedaj $\p_{i}^r(t) = \bigbbt_{[\p_i,\p_{i+1},\dots,\p_{i+r}]}$.
     Velja torej $\p_{i}^0(t)=\p_i$ in  $\p_{0}^n(t)=\bigbbt_{[\p_0,\p_1,\dots,\p_n]}$.
     Iz izreka~\ref{izrek:decastelaju-rekurzija} sledi, da lahko točke Bezierjeve krivulje $\bigbbt_{[\p_0,\p_1,\dots,\p_n]}$ računamo s pomočjo \textit{Decasteljaujeve sheme}, ki jo lahko vidimo na sliki~\ref{fig:decasteljau-scheme}.
@@ -524,9 +525,8 @@ the content and not the structure of your work.}
         \caption{Decasteljaujev algoritem}
         \label{fig:subdivizija}
     \end{figure}
-
     Če izberimo sedaj $t_0=\frac{1}{2}$ in subdiviziramo krivuljo, dobimo dve krivulji.
-    Če subdivizijo nato  na dobljenih krivuljah ponavljamo, dobimo po $k$ korakih $2^k$ krivulj.
+    Če subdivizijo nato na dobljenih krivuljah ponavljamo, dobimo po $k$ korakih $2^k$ krivulj.
     Na sliki~\ref{fig:subdivizija-ponavljanje} si lahko ogledamo postopek za prve tri korake.
     Opazimo lahko, da so kontrolni poligoni dobljenih krivulj zmerom bližje krivulji.
     \begin{figure}[h]
@@ -557,74 +557,63 @@ the content and not the structure of your work.}
 %        \end{align*}
 %
 %    \end{dokaz}
+
     \subsection{Ekstrapolacija}
     Ker so Bernsteinovi bazni polinomi definirani za vsa realna števila $t$, lahko krivuljo rišemo tudi izven intervala $[0,1]$.
     Recimo, da jo želimo risati na intervalu $[0,t_0]$, kjer je $t_0>$.
     Če želimo ekstrapolirano krivuljo želeli nato zapisati kot Bezierjevo krivuljo na intervalu $[0,1]$, lahko kontrolne točke ekstrapolirane krivulje pridobimo na enak način kot smo dobili kontrolne točke krivulje $B_{t_0-}$ pri subdiviziji.
 
     \subsection{Višanje stopnje}
-    TODO: DOKAZ NI PRAVILEN, nekje sem neki zajebal, malce zamakjeno bi moralo bit!
-    Nekateri algoritmi, ki delajo z Bezierjevimi krivuljami, za vhod potrebujejo dve Bezierjevi krivulji iste stopnje.
-    Recimo, da imamo Bezierjevo krivuljo $B$ stopnje $n$, ki jo želimo spraviti na stopnjo $n+1$.
-    Ker velja $1-t+t=1$ lahko Bezierjevo krivuljo $B(t)$ zapišemo tudi kot $B(t) = (1-t)B(t)+tB(t) = \sum_{i=0}^{n}\mathbf{p}_{i}(1-t)B_i^n(t) +\sum_{i=0}^{n}\mathbf{p}_{i}tB_i^n(t) $.
-    Razpišimo najprej prvi del.
+    Nekateri algoritmi v CAD/CAGD sistemih za vhod potrebujejo dve Bezierjevi krivulji iste stopnje.
+    Recimo, da imamo Bezierjevo krivuljo $\B$ stopnje $n$, ki jo želimo predstaviti kot Bezierjevo krivuljo stopnje $n+1$.
+    Upoštevajoč $1-t+t=1$, lahko parametrizacijo krivulje $\B$ zapišemo tudi kot
+    \begin{align}
+        \B(t) = (1-t)\B(t)+t\B(t) = \sum_{i=0}^{n}\mathbf{p}_{i}(1-t)B_i^n(t) +\sum_{i=0}^{n}\mathbf{p}_{i}tB_i^n(t). \label{eq:visanje-param}
+    \end{align}
+    Če sedaj zvezi za Bernsteinove bazne polinome
     \begin{align*}
     (1-t)
-        B_i^n(t) &= (1-t)\binom{n}{i}t^i(1-t)^{n-i} \\
-        &= \frac{n!}{(n-i)!i!}t^i(1-t)^{n+1-i} \\
-        &=\frac{n+1-i}{n+1}\frac{(n+1)!}{(n+1-i)!i!}t^i(1-t)^{n+1-i}\\
-        &=\frac{n+1-i}{n+1} \binom{n+1}{i}t^i(1-t)^{n+1-i} \\
-        &=\frac{n+1-i}{n+1}B_{i}^{n+1}(t)
+        B_i^n(t) &= & \frac{n+1-i}{n+1} \binom{n+1}{i}&t^i(1-t)^{n+1-i} & &=\frac{n+1-i}{n+1}B_{i}^{n+1}(t), \\
+        % &= \frac{n!}{(n-i)!i!}t^i(1-t)^{n+1-i}   &=\frac{n+1-i}{n+1}\frac{(n+1)!}{(n+1-i)!i!}t^i(1-t)^{n+1-i}
+        tB_i^n(t) &= & \frac{i+1}{n+1}\frac{(n+1)!}{(n-i)!(i+1)!}&t^{i+1}(1-t)^{n+1-i-1} & &= \frac{i+1}{n+1}B_{n+1}^{n+1}(t)
+        %t\binom{n}{i}t^i(1-t)^{n-i} \\
+        %&= \frac{n!}{(n-i)!i!}t^{i+1}(1-t)^{n+1-i-1} \\
     \end{align*}
-    Sedaj pa še za drugega.
+    vstavimo v parametrizacijo~\ref{eq:visanje-param}, dobimo
     \begin{align*}
-        tB_i^n(t) &= t\binom{n}{i}t^i(1-t)^{n-i} \\
-        &= \frac{n!}{(n-i)!i!}t^{i+1}(1-t)^{n+1-i-1} \\
-        &= \frac{i+1}{n+1}\frac{(n+1)!}{(n-i)!(i+1)!}t^{i+1}(1-t)^{n+1-i-1} \\
-        &= \frac{i+1}{n+1}B_{n+1}^{n+1}(t)
+        \B(t) &= \sum_{i=0}^{n}\mathbf{p}_{i}\frac{n+1-i}{n+1}B_{i}^{n+1}(t) +\sum_{i=0}^{n}\mathbf{p}_{i}\frac{i+1}{n+1}B_{i+1}^{n+1}(t)\\
+        &= \sum_{i=0}^{n}\mathbf{p}_{i}\frac{n+1-i}{n+1}B_{i}^{n+1}(t) +\sum_{i=1}^{n+1}\mathbf{p}_{i-1}\frac{i}{n+1}B_{i}^{n+1}(t).
+%&=\mathbf{p}_{0} + \sum_{i=1}^{n}\left(\mathbf{p}_{i}\frac{n+1-i}{n+1} + \mathbf{p}_{i-1}\frac{i}{n+1}\right)B_{i}^{n+1}(t)+\mathbf{p}_{n}.
     \end{align*}
-    Vstavimo v $B(t)$.
-    \begin{align*}
-        B(t) &= \sum_{i=0}^{n}\mathbf{p}_{i}\frac{n+1-i}{n+1}B_{i}^{n+1}(t) +\sum_{i=0}^{n}\mathbf{p}_{i}\frac{i+1}{n+1}B_{i+1}^{n+1}(t)\\
-        &= \sum_{i=0}^{n}\mathbf{p}_{i}\frac{n+1-i}{n+1}B_{i}^{n+1}(t) +\sum_{i=1}^{n+1}\mathbf{p}_{i-1}\frac{i}{n+1}B_{i}^{n+1}(t) \\
-        &=\mathbf{p}_{0} + \sum_{i=1}^{n}\left(\mathbf{p}_{i}\frac{n+1-i}{n+1} + \mathbf{p}_{i-1}\frac{i}{n+1}\right)B_{i}^{n+1}(t)+\mathbf{p}_{n}
-    \end{align*}
+    Od tod sledi, da lahko krivuljo $\B$ predstavimo kot Bezierjevo krivuljo stopnje $n+1$ s kontrolnimi točkami \[c_0=\p_0, \quad c_i=\mathbf{p}_{i}\frac{n+1-i}{n+1} + \mathbf{p}_{i-1}\frac{i}{n+1},\quad c_{n+1}=\p_n. \]
     Oglejmo si kako višanje stopnje izgleda na neki krivulji.
-    Na sliki~\ref{fig:višanje} imamo na prvem grafu narisano začetno Bezierjevo krivuljo stopnje $3$.
-    Na drugem grafu, smo stopnjo začetne krivulje zvišali za $1$.
-    Na tretjem, pa smo naredili $20$ višanj stopnje začetne krivulje.
+    Na sliki~\ref{fig:višanje} je na prvem grafu narisana Bezierjeva krivulja stopnje $3$.
+    Na drugem grafu, smo stopnjo krivulje zvišali za $1$.
+    Na tretjem in četrtem pa smo naredili $10$ oziroma $20$ višanj stopnje začetne krivulje.
     Krivulja je na vseh grafih enaka, imamo le več kontrolnih točk.
-    Opaziti je tudi možno, da so kontrolne točke z vsakim višanjem bližje začetni krivulji, njihov kontrolni poligon pa se zato z vsakim višanjem bolj prilega začetni krivulji.
-    Slednje je možno videti na sliki~\ref{fig:višanje-poligon}.
+    Opaziti je tudi možno, da so kontrolne točke z vsakim višanjem stopnje bližje začetni krivulji, kontrolni poligon pa se zmerom bolj prilega začetni krivulji.
     \begin{figure}[h]
         \centering
-        \subfloat[začetna krivulja]{\includegraphics[width = 0.25\textwidth]{images/dvig-prej}}
+        \subfloat[začetna krivulja]{\includegraphics[width = 0.45\textwidth]{images/dvig-prej}}
         \qquad
-        \subfloat[eno višanje]{\includegraphics[width = 0.25\textwidth]{images/dvig-po}}
+        \subfloat[eno višanje]{\includegraphics[width = 0.45\textwidth]{images/dvig-po}} \\
+        \subfloat[10 višanj]{\includegraphics[width = 0.45\textwidth]{images/dvig-n}}
         \qquad
-        \subfloat[20 višanj]{\includegraphics[width = 0.25\textwidth]{images/dvig-n}}
-        \caption{Višanje Bezierjeve krivulje}
+        \subfloat[20 višanj]{\includegraphics[width = 0.45\textwidth]{images/dvig-n2}}
+        \caption{Višanje stopnje Bezierjeve krivulje}
         \label{fig:višanje}
-    \end{figure}
-    \begin{figure}[h]
-        \centering
-        \subfloat[20 višanj]{\includegraphics[width = 0.45\textwidth]{images/dvig-n-poligon}}
-        \qquad
-        \subfloat[35 višanj]{\includegraphics[width = 0.45\textwidth]{images/dvig-n2-poligon}}
-        \caption{Prileganje kontrolnega poligona}
-        \label{fig:višanje-poligon}
     \end{figure}
 
     \subsection{Racionalne Bezierjeve krivulje}
-    Vseh krivulj se ne da opisati z navadnimi Bezierjevimi krivuljami.
-    Med njimi so tudi takšne, ki so za CAGD sisteme zelo pomembne, na primer razni izseki krožnice.
-    Za opis takšnih krivulj, lahko posežemo po racionalnih Bezierjevih krivuljah.
+    Vseh krivulj se ne moremo opisati z navadnimi Bezierjevimi krivuljami.
+    Med njimi so tudi takšne, ki so za CAGD sisteme zelo pomembne, na primer izsek krožnice.
+    Za opis takšnih krivulj lahko posežemo po racionalnih Bezierjevih krivuljah.
     Racionalno Bezierjevo krivuljo stopnje $n$ v $\R^d$ dobimo tako, da Bezierjevo krivuljo stopnje $n$ v $\R^{d+1}$ projiciramo na hiperravnino $w=1$.
     Točke iz $\R^{d+1}$ pri tem definiramo kot $(w,x_1,\ldots,x_n)$, projekcijo pa s predpisom $(w,\mathbf{x})\to(1,\frac{\mathbf{x}}{w})$.
     Takšna projekcija privede do naslednje definicije.
     \begin{definicija}
         \label{def:racionalna}
-        Racionalna Bezierjeva krivulja stopnje $n\in\N$ je podana s parametrizacijo $\mathbf{R}:[0,1]\to \R^d$  določeno s predpisom \[\mathbf{R}(t) = \frac{\sum^{n}_{i=0}w_i\p_i B^n_i(t)}{\sum^{n}_{i=0}w_i B^n_i(t)},\] kjer so kontrolne točke $\p_i\in\R^d$ in uteži $w_i\in\R$.
+        Racionalna Bezierjeva krivulja stopnje $n\in\N$ je podana s kontrolnimi točkami $\p_i$ za $i=0,1,\ldots,n$ in parametrizacijo $\mathbf{R}:[0,1]\to \R^d$  določeno s predpisom \[\mathbf{R}(t) = \frac{\sum^{n}_{i=0}w_i\p_i B^n_i(t)}{\sum^{n}_{i=0}w_i B^n_i(t)},\] kjer so kontrolne točke $\p_i\in\R^d$ in uteži $w_i\in\R$.
     \end{definicija}
     Uteži so prosti parametri, ki jih lahko uporabimo pri oblikovanju.
     Kadar so vse uteži enake, je racionalna Bezierjeva krivulja enaka Bezierjevi krivulji z istimi kontrolnimi točkami.
@@ -684,11 +673,11 @@ the content and not the structure of your work.}
     Racionalne Bezierjeve krivulje $\in\R^d$ so projekcije Bezierjevih krivulj $\in\R^{d+1}$.
     Metode, ki smo jih predstavili na Bezierjevih krivuljah, lahko enostavno razširimo tudi na racionalne Bezierjeve krivulje.
     To storimo tako, da metode uporabimo na Bezierjevi krivulji $\in\R^{d+1}$ ter jo nato projiciramo nazaj v ravnino $\in\R^{d}$.
+    Vse metode razen ekstrapolacije ohranjajo pozitivnost uteži. \mycomment{A je to res res?}
 
     \subsubsection{Decasteljaujev algoritem za racionalne Bezierjeve krivulje}
-    Točke racionalnih Bezierjevih krivulj bi lahko računali tako, kakor smo pokazali za metode.<slabtekstneberi
-    Takšno računanje je nestabilno*****, zato tudi tukaj podamo stabilnejši način računanja, ki je razširitev Decasteljaujevega algoritma.
-
+    Točke racionalnih Bezierjevih krivulj bi lahko računali tako, kakor smo pokazali za metode.\mycomment{<slabtekstneberi
+    Takšno računanje je nestabilno*****, zato tudi tukaj podamo stabilnejši način računanja, ki je razširitev Decasteljaujevega algoritma.}
     \begin{algorithm}[h!]
         \caption{Racionalni Decasteljaujev algoritem}
         \begin{algorithmic}
@@ -715,12 +704,12 @@ the content and not the structure of your work.}
     Uporabniku želimo delo olajšati tako, da pridelamo bolj naraven način kontroliranja uteži.
     Izkaže se, da imajo uteži racionalne Bezierjeve krivulje geometrijski pomeni, ki ga lahko za to uporabimo.
     Uteži lahko kontroliramo s t.i. \textit{Farinovimi točkami}.
-    Farinove točke ležijo na daljicah kontrolnega poligona in jih je toliko, kolikor je prostih parametrov uteži, tj.\ $n-1$.
-    $i$-ta Farinova točka, leži na $i$-ti daljici kontrolnega poligona in jo deli v razmerju $w_{i+1}:w_{i}$.
+    Farinove točke ležijo na daljicah kontrolnega poligona.
+    $i$-ta Farinova točka deli $i$-to daljico kontrolnega poligona v razmerju $w_{i+1}:w_{i}$.
     Slednje označimo z $\frac{|\mathbf{f}_i-\p_i|}{|\mathbf{f}_i-\p_{i+1}|} = \frac{w_{i+1}}{w_{i}}$.
-    S kontrolnimi točkami in utežmi jih lahko izrazimo takole
+    S kontrolnimi točkami in utežmi lahko Farinove točke izrazimo takole
     \[\mathbf{f}_i \coloneqq \frac{w_{i}}{w_{i}+w_{i+1}}\p_i +  \frac{w_{i+1}}{w_{i}+w_{i+1}}\p_{i+1}.\]
-    Želimo pa obratno – s Farinovimi točkami želimo izraziti uteži.
+    Želimo pa tudi obratno – s Farinovimi točkami želimo izraziti uteži.
     Brez izgube splošnosti lahko za prvo utež izberemo $w_0=1$.
     Ostale točke lahko nato rekurzivno izračunamo s pomočjo naslednjega izraza
     \[w_{i+1} = w_i\frac{|\mathbf{f}_i-\p_i|}{|\mathbf{f}_i-\p_{i+1}|}.\]
@@ -1019,7 +1008,7 @@ the content and not the structure of your work.}
     pri katerih mora veljati $u_0v_1-u_1v_0\neq 0$ in $(u_1-u_0)^2+(v_1-v_0)^2\neq 0$, da sta si polinoma $u$ in $v$ tuja, ter da vsaj en od njiju ni konstanten.
     Za polinom $w$ izberemo konstanten polinom $w(t)=1$.
     Ko polinome vstavimo v enačbo REFERENCANAENACBO, dobimo hodograf
-    % Realno to ni tako ocitno, bi blo fajn dejansko izpeljat!
+% Realno to ni tako ocitno, bi blo fajn dejansko izpeljat!
     \begin{align*}
         x'(t) &=(u_0^2-v_0^2)B_{0}^{2}(t)+(u_0u_1-v_0v_1)B_{1}^{2}(t) + (u_1^2-v_1^2)B_{2}^{2}(t)\\
         y'(t) &= 2u_0 v_0 B_{0}^{2}(t)+(u_0v_1+u_1v_0)B_{1}^{2}(t)+2u_1 v_1 B_{2}^{2}(t).
@@ -1211,6 +1200,7 @@ the content and not the structure of your work.}
 
 
     \newpage
+
 
     \section{Integrali po \texorpdfstring{$\omega$}{ω}-kompleksih}
 
