@@ -5,6 +5,7 @@ import Slider from "../../inputs/Slider";
 import React from "react";
 import {Button, ButtonGroup} from "react-bootstrap";
 import {OnOffSwitch} from "../../inputs/OnOffSwitch";
+import {PointStyles} from "../styles/PointStyles";
 
 interface BaseRationalBezierCurveGraphProps extends BaseGraphProps {
 
@@ -216,7 +217,7 @@ export abstract class BaseRationalCurveGraph<P extends BaseRationalBezierCurveGr
     private createSubdivisionPoint() {
         if (this.board && !this.subdivisionPoint && this.getSelectedCurve()) {
             this.subdivisionPoint = this.board.create('point', [() => this.getSelectedCurve().getCurve().calculatePointAtT(this.subdivisionT).X(),
-                () => this.getSelectedCurve().getCurve().calculatePointAtT(this.subdivisionT).Y()]);
+                () => this.getSelectedCurve().getCurve().calculatePointAtT(this.subdivisionT).Y()], PointStyles.default);
             this.subdivisionPoint.hide()
         }
     }
@@ -224,7 +225,7 @@ export abstract class BaseRationalCurveGraph<P extends BaseRationalBezierCurveGr
     private createExtrapolationPoint() {
         if (this.board && !this.extrapolationPoint && this.getSelectedCurve()) {
             this.extrapolationPoint = this.board.create('point', [() => this.getSelectedCurve().getCurve().calculatePointAtT(this.extrapolationT).X(),
-                () => this.getSelectedCurve().getCurve().calculatePointAtT(this.extrapolationT).Y()]);
+                () => this.getSelectedCurve().getCurve().calculatePointAtT(this.extrapolationT).Y()], PointStyles.default);
             this.extrapolationPoint.hide()
         }
     }
