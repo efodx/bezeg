@@ -128,8 +128,16 @@ class BezierSpline extends PointControlledCurveImpl {
         this.continuity = continuity
     }
 
+    getContinuity() {
+        return this.continuity
+    }
+
     setDegree(degree: number) {
         this.degree = degree
+    }
+
+    getDegree() {
+        return this.degree
     }
 
     setB(j: number, b: number) {

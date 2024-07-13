@@ -8,6 +8,11 @@ import {SegmentStyles} from "../styles/SegmentStyles";
 import {CacheContext} from "../context/CacheContext";
 import {SizeContext} from "../context/SizeContext";
 import {BezierCurveCommands} from "./inputs/BezierCurveCommands";
+import {Board} from "jsxgraph";
+
+interface JSXRationalBezierCurveConstructorParams {
+    points: number[][]
+}
 
 /**
  * Class that wraps a BezierCurve with methods for dealing with JSXGraph
@@ -26,6 +31,18 @@ export class JSXBezierCurve extends AbstractJSXBezierCurve<BezierCurve, BezierCu
     private extrapolationPoint: JXG.Point | null = null;
     private cachedDecasteljauScheme: Point[][] = [];
     private cacheContext: number = -1;
+
+    static toStr(curve: JSXBezierCurve): string {
+        return JSON.stringify({
+            points: curve.pointControlledCurve.getPoints().map(point => [point.X(), point.Y()])
+        } as JSXRationalBezierCurveConstructorParams)
+    }
+
+    static fromStr(str: string, board: Board): JSXBezierCurve {
+        console.log(str)
+        const params = JSON.parse(str) as JSXRationalBezierCurveConstructorParams
+        return new JSXBezierCurve(params.points, board)
+    }
 
     override getDefaultAttributes(): BezierCurveAttributes {
         return {

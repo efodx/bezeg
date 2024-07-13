@@ -18,6 +18,7 @@ import {JSXSplineCurve} from "../object/JSXSplineCurve";
 import {JSXBezierCurve} from "../object/JSXBezierCurve";
 import {JSXRationalBezierCurve} from "../object/JSXRationalBezierCurve";
 import {JSXPHBezierCurve} from "../object/JSXPHBezierCurve";
+import {Button} from "react-bootstrap";
 
 enum SelectedCurveOption {
     MOVE_CURVE,
@@ -83,6 +84,18 @@ abstract class BaseCurveGraph<P extends BaseGraphProps, S extends BaseGraphState
         return newBezierCurve
     }
 
+    createJSXSplineCurve(points: number[][], degree: number, continuity: Continuity): JSXSplineCurve {
+        let newBezierCurve = new JSXSplineCurve(points, continuity, degree, this.board);
+        this.jsxBezierCurves.push(newBezierCurve)
+        return newBezierCurve
+    }
+
+    createRationalJSXBezierCurve(points: number[][], weights: number[]): JSXRationalBezierCurve {
+        const curve = new JSXRationalBezierCurve(points, weights, this.board);
+        this.jsxBezierCurves.push(curve)
+        curve.setSubdivisionResultConsumer((jsxCrv) => this.jsxBezierCurves.push(jsxCrv))
+        return curve
+    }
 
     /**
      * Creates a JSXGraph point ands wraps it with the Point interface.
@@ -202,7 +215,10 @@ abstract class BaseCurveGraph<P extends BaseGraphProps, S extends BaseGraphState
     override getTools(): JSX.Element[] {
         return super.getTools().concat(<OnOffSwitch label="Oznake točk"
                                                     initialState={VisibilityContext.pointsVisible()}
-                                                    onChange={checked => this.showPointLabels(checked)}/>)
+                                                    onChange={checked => this.showPointLabels(checked)}/>,
+            <Button
+                onClick={() => this.fromString('["JSXRationalBezierCurve|{\\"points\\":[[0.045186640471512884,3.8359530885467827],[3.045186640471513,-0.16404691145321726],[4.045186640471513,3.8359530885467827],[6.045186640471513,-0.16404691145321726]],\\"weights\\":[1,5,1,1]}","JSXBezierCurve|{\\"points\\":[[-3.1308467781945186,-2.770707823123951],[-2.1308467781945186,2.229292176876049],[0.5312357365402549,-1.7982127347153072],[3.8691532218054814,-1.770707823123952]]}"]')}>čpčpč</Button>,
+            <Button onClick={() => console.log(this.exportToString())}> EXPORTAJ</Button>)
     }
 
     deselectSelectedCurve() {
@@ -223,17 +239,40 @@ abstract class BaseCurveGraph<P extends BaseGraphProps, S extends BaseGraphState
         return <Commands commands={commands} title={"Izbrana krivulja"}></Commands>
     }
 
-    createJSXSplineCurve(points: number[][], degree: number, continuity: Continuity): JSXSplineCurve {
-        let newBezierCurve = new JSXSplineCurve(points, continuity, degree, this.board);
-        this.jsxBezierCurves.push(newBezierCurve)
-        return newBezierCurve
+    exportToString() {
+        return JSON.stringify(this.jsxBezierCurves.map(curve => {
+            switch (curve.constructor) {
+                case JSXBezierCurve:
+                    return "JSXBezierCurve|" + JSXBezierCurve.toStr(curve as JSXBezierCurve)
+                case JSXRationalBezierCurve:
+                    return "JSXRationalBezierCurve|" + JSXRationalBezierCurve.toStr(curve as JSXRationalBezierCurve)
+                case JSXSplineCurve:
+                    return "JSXSplineCurve|" + JSXSplineCurve.toStr(curve as JSXSplineCurve)
+                default:
+                    return ""
+            }
+        }))
     }
 
-    createRationalJSXBezierCurve(points: number[][], weights: number[]): JSXRationalBezierCurve {
-        const curve = new JSXRationalBezierCurve(points, weights, this.board);
-        this.jsxBezierCurves.push(curve)
-        curve.setSubdivisionResultConsumer((jsxCrv) => this.jsxBezierCurves.push(jsxCrv))
-        return curve
+    fromString(str: string) {
+        // @ts-ignore
+        this.board.removeObject(this.getAllJxgCurves().concat(this.getAllJxgPoints()))
+        this.jsxBezierCurves = []
+        this.graphJXGPoints = []
+        const parsed: string[] = JSON.parse(str)
+        parsed.forEach(p => {
+            const [id, object] = p.split("|")
+            switch (id) {
+                case "JSXBezierCurve":
+                    return this.jsxBezierCurves.push(JSXBezierCurve.fromStr(object, this.board))
+                case "JSXRationalBezierCurve":
+                    return this.jsxBezierCurves.push(JSXRationalBezierCurve.fromStr(object, this.board))
+                case "JSXSplineCurve":
+                    return this.jsxBezierCurves.push(JSXSplineCurve.fromStr(object, this.board))
+                default:
+                    return
+            }
+        })
     }
 
     protected selectCurve(selectableCurve: AbstractJSXPointControlledCurve<PointControlledCurve, PointControlledCurveAttributes>, additionalState = {}) {

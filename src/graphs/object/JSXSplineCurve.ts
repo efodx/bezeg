@@ -6,6 +6,12 @@ import {BezierSpline, Continuity} from "../../bezeg/impl/curve/bezier-spline";
 import {Board} from "jsxgraph";
 import {PointStyles} from "../styles/PointStyles";
 
+interface JSXSplineConstructorParams {
+    points: number[][],
+    continuity: Continuity,
+    degree: number
+}
+
 export class JSXSplineCurve extends AbstractJSXPointControlledCurve<BezierSpline, any> {
     nonFreeJsxPoints!: JXG.Point[];
 
@@ -14,6 +20,19 @@ export class JSXSplineCurve extends AbstractJSXPointControlledCurve<BezierSpline
         this.pointControlledCurve.setContinuity(continuity)
         this.pointControlledCurve.setDegree(degree)
         this.pointControlledCurve.generateBezierCurves()
+    }
+
+    static toStr(curve: JSXSplineCurve): string {
+        return JSON.stringify({
+            points: curve.pointControlledCurve.getPoints().map(point => [point.X(), point.Y()]),
+            degree: curve.pointControlledCurve.getDegree(),
+            continuity: curve.pointControlledCurve.getContinuity()
+        } as JSXSplineConstructorParams)
+    }
+
+    static fromStr(str: string, board: Board): JSXSplineCurve {
+        const params = JSON.parse(str) as JSXSplineConstructorParams
+        return new JSXSplineCurve(params.points, params.degree, params.continuity, board)
     }
 
     override addPoint(x: number, y: number) {
@@ -66,6 +85,7 @@ export class JSXSplineCurve extends AbstractJSXPointControlledCurve<BezierSpline
                 }
             })
     }
+
 
     protected getStartingCurve(points: number[][]): BezierSpline {
         const jsxPoints = points.map((point, i) => this.createJSXGraphPoint(point[0], point[1], PointStyles.pi(i)))

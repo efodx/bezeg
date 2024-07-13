@@ -8,6 +8,11 @@ import {PointStyles} from "../styles/PointStyles";
 import {SizeContext} from "../context/SizeContext";
 import {RationalBezierCurveCommands} from "./inputs/RationalBezierCurveCommands";
 
+interface JSXRationalBezierCurveConstructorParams {
+    points: number[][],
+    weights: number[]
+}
+
 export class JSXRationalBezierCurve extends AbstractJSXBezierCurve<RationalBezierCurve, any> {
     subdivisionT: number = 0.5;
     extrapolationT: number = 1.2;
@@ -22,6 +27,18 @@ export class JSXRationalBezierCurve extends AbstractJSXBezierCurve<RationalBezie
     constructor(points: number[][], weights: number[], board: Board) {
         super(points, board);
         this.pointControlledCurve.setWeights(weights)
+    }
+
+    static toStr(curve: JSXRationalBezierCurve): string {
+        return JSON.stringify({
+            points: curve.pointControlledCurve.getPoints().map(point => [point.X(), point.Y()]),
+            weights: curve.pointControlledCurve.getWeights()
+        } as JSXRationalBezierCurveConstructorParams)
+    }
+
+    static fromStr(str: string, board: Board): JSXRationalBezierCurve {
+        const params = JSON.parse(str) as JSXRationalBezierCurveConstructorParams
+        return new JSXRationalBezierCurve(params.points, params.weights, board)
     }
 
     override addPoint(x: number, y: number) {
