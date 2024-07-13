@@ -1,5 +1,5 @@
 import BaseCurveGraph, {BaseGraphProps, BaseGraphStates} from "../base/BaseCurveGraph";
-import {JSXSplineCurve} from "./JSXSplineCurve";
+import {JSXSplineCurve} from "../object/JSXSplineCurve";
 import {BezierSpline, Continuity} from "../../bezeg/impl/curve/bezier-spline";
 
 export abstract class BaseSplineCurveGraph extends BaseCurveGraph<BezierSpline, JSXSplineCurve, BaseGraphProps, BaseGraphStates> {

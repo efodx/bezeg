@@ -9,7 +9,7 @@ function ShowControlPolygons(props: { onChange: (checked: boolean) => void }) {
     return <OnOffSwitch label="Kontrolni poligoni" onChange={props.onChange}/>
 }
 
-class Graph extends BaseBezierCurveGraph<BaseCurveGraphProps, BaseGraphStates> {
+class SubdivisionGraph extends BaseBezierCurveGraph<BaseCurveGraphProps, BaseGraphStates> {
     private slider?: JXG.Slider;
     private stepsDone: number = 0;
 
@@ -98,4 +98,4 @@ class Graph extends BaseBezierCurveGraph<BaseCurveGraphProps, BaseGraphStates> {
     }
 }
 
-export default Graph;
+export default SubdivisionGraph;

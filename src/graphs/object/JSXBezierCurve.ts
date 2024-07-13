@@ -1,31 +1,54 @@
 import {BezierCurveImpl} from "../../bezeg/impl/curve/bezier-curve-impl";
-import {AbstractJSXBezierCurve} from "../base/AbstractJSXBezierCurve";
+import {AbstractJSXBezierCurve, BezierCurveAttributes} from "./AbstractJSXBezierCurve";
 import {Point} from "../../bezeg/api/point/point";
 import {BezierCurve} from "../../bezeg/api/curve/bezier-curve";
-import {Colors} from "./utilities/Colors";
+import {Colors} from "../bezier/utilities/Colors";
 import {PointStyles} from "../styles/PointStyles";
 import {SegmentStyles} from "../styles/SegmentStyles";
 import {CacheContext} from "../context/CacheContext";
+import {SizeContext} from "../context/SizeContext";
+import {BezierCurveCommands} from "./inputs/BezierCurveCommands";
 
 /**
  * Class that wraps a BezierCurve with methods for dealing with JSXGraph
  */
-export class JSXBezierCurve extends AbstractJSXBezierCurve<BezierCurve> {
+export class JSXBezierCurve extends AbstractJSXBezierCurve<BezierCurve, BezierCurveAttributes> {
+    private subdivisionT: number = 0.5;
+    private decasteljauT: number = 0.5;
     private decasteljauSegments: JXG.Segment[] = []
     private decasteljauPoints: JXG.Point[] = []
     private decasteljauScheme: Point[][] = [];
     private decasteljauSlider: JXG.Slider | null = null;
     private lastDecasteljauT: number | null = null;
     private showingDecasteljauScheme: boolean = false;
-
+    private extrapolationT: number = 1.2;
+    private subdivisionPoint: JXG.Point | null = null;
+    private extrapolationPoint: JXG.Point | null = null;
     private cachedDecasteljauScheme: Point[][] = [];
     private cacheContext: number = -1;
+
+    override getDefaultAttributes(): BezierCurveAttributes {
+        return {
+            ...super.getDefaultAttributes(),
+            allowSubdivision: true,
+            allowShowControlPolygon: true,
+            allowDecasteljau: true,
+            allowElevation: true,
+            allowExtrapolation: true,
+            allowShowPoints: true,
+            allowShrink: true
+        };
+    }
 
     override hideControlPolygon() {
         super.hideControlPolygon();
         if (this.isShowingDecasteljauScheme()) {
             this.showControlPolygonInternal()
         }
+    }
+
+    override getCurveCommands(): JSX.Element[] {
+        return super.getCurveCommands().concat(...BezierCurveCommands(this));
     }
 
     isShowingDecasteljauScheme() {
@@ -204,14 +227,21 @@ export class JSXBezierCurve extends AbstractJSXBezierCurve<BezierCurve> {
         }
     }
 
-    subdivide(t: number): this {
+    subdivide(t?: number): this {
+        if (t === undefined) {
+            t = this.subdivisionT
+        }
         const [curve1, curve2]: BezierCurve[] = this.pointControlledCurve.subdivide(t);
         // Move this curve
         this.movePointsToNewPoints(curve1.getPoints())
 
         // Create second curve
         let curve2pointArray = curve2.getPoints().map(point => [point.X(), point.Y()])
-        return new JSXBezierCurve(curve2pointArray, this.board) as this
+        const newJsxCurve = new JSXBezierCurve(curve2pointArray, this.board) as this
+        if (this.subdivisionResultConsumer !== undefined) {
+            this.subdivisionResultConsumer(newJsxCurve)
+        }
+        return newJsxCurve
     }
 
     elevate() {
@@ -226,9 +256,104 @@ export class JSXBezierCurve extends AbstractJSXBezierCurve<BezierCurve> {
         this.movePointsToNewPoints(extrapolatedBezier.getPoints())
     }
 
+    override select() {
+        if (this.subdivisionPoint) {
+            // @ts-ignore
+            this.board.removeObject(this.subdivisionPoint)
+        }
+        if (this.extrapolationPoint) {
+            this.board.removeObject(this.extrapolationPoint)
+        }
+        super.select();
+        this.subdivisionPoint = null
+        this.extrapolationPoint = null
+    }
+
+    showJxgPointss(show: boolean) {
+        this.board.suspendUpdate()
+        if (show) {
+            this.showJxgPoints()
+        } else {
+            this.hideJxgPoints()
+        }
+        this.board.unsuspendUpdate()
+    }
+
+    setSubdivisionT(t: number) {
+        this.subdivisionT = t
+        this.board.update()
+    }
+
+    setExtrapolationT(t: number) {
+        this.extrapolationT = t
+        this.board.update()
+    }
+
+    getExtrapolationT() {
+        return this.extrapolationT
+    }
+
+    createSubdivisionPoint() {
+        if (this.board && !this.subdivisionPoint && this) {
+            this.subdivisionPoint = this.board.create('point', [() => this.getCurve().calculatePointAtT(this.subdivisionT).X(),
+                () => this.getCurve().calculatePointAtT(this.subdivisionT).Y()], {size: () => SizeContext.pointSize}) as JXG.Point;
+            this.subdivisionPoint.hide()
+        }
+    }
+
+    createExtrapolationPoint() {
+        if (this.board && !this.extrapolationPoint && this) {
+            this.extrapolationPoint = this.board.create('point', [() => this.getCurve().calculatePointAtT(this.extrapolationT).X(),
+                () => this.getCurve().calculatePointAtT(this.extrapolationT).Y()], {size: () => SizeContext.pointSize}) as JXG.Point;
+            this.extrapolationPoint.hide()
+        }
+    }
+
+    showCurrentDecasteljauScheme() {
+        this.board.suspendUpdate()
+        this.showDecasteljauSchemeForT(this.decasteljauT)
+        this.board.unsuspendUpdate()
+    }
+
+    hideSelectedCurveDecasteljauScheme() {
+        this.board.suspendUpdate()
+        this.hideDecasteljauScheme()
+        this.board.unsuspendUpdate()
+    }
+
+    showSubdivisionPoint() {
+        this.subdivisionPoint?.show()
+    }
+
+    hideSubdivisionPoint() {
+        this.subdivisionPoint?.hide()
+    }
+
+    showExtrapolationPoint() {
+        this.setIntervalEnd(() => this.extrapolationT)
+        this.extrapolationPoint?.show()
+    }
+
+    hideExtrapolationPoint() {
+        this.setIntervalEnd(1)
+        this.extrapolationPoint?.hide()
+    }
+
+    setDecasteljauT(t: number) {
+        this.decasteljauT = t;
+        this.showCurrentDecasteljauScheme()
+    }
+
+    getDecasteljauT() {
+        return this.decasteljauT
+    }
+
+    getSubdivisionT() {
+        return this.subdivisionT
+    }
+
     protected getStartingCurve(points: number[][]): BezierCurve {
         let jsxPoints = points.map((point, i) => this.createJSXGraphPoint(point[0], point[1], PointStyles.pi(i)))
         return new BezierCurveImpl(jsxPoints);
     }
-
 }

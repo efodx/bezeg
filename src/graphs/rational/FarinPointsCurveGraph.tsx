@@ -28,9 +28,10 @@ class RationalBezierCurveGraph extends BaseRationalCurveGraph<BaseRationalBezier
                 initialState={false}
                 onChange={(checked) => this.showFarinPoints(checked)} label={"Farinove Točke"}/>,
             <OnOffSwitch initialState={this.getFirstJsxCurve() ? this.getFirstJsxCurve().isShowingWeights() : false}
-                         onChange={(checked) => this.showWeights(checked)} label={"Uteži"}/>,
+                         onChange={(checked) => this.getFirstJsxCurve().showwWeights(checked)} label={"Uteži"}/>,
             <OnOffSwitch initialState={this.getFirstJsxCurve() ? this.getFirstJsxCurve().inStandardForm() : false}
-                         onChange={(checked) => this.setStandardForm(checked)} label={"Standardna Forma"}/>);
+                         onChange={(checked) => this.getFirstJsxCurve().setStandardForm(checked)}
+                         label={"Standardna Forma"}/>);
     }
 
     private showFarinPoints(checked: boolean) {

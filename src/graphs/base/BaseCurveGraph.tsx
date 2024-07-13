@@ -2,11 +2,10 @@ import React from 'react';
 import '../../App.css';
 
 import {Board} from "jsxgraph";
-import {Point} from "./Point";
+import {Point} from "../object/Point";
 import {Select} from "../../inputs/Select";
-import {AbstractJSXPointControlledCurve} from "./AbstractJSXPointControlledCurve";
+import {AbstractJSXPointControlledCurve} from "../object/AbstractJSXPointControlledCurve";
 import {PointControlledCurve} from "../../bezeg/api/curve/point-controlled-curve";
-import {Form} from "react-bootstrap";
 import {OnOffSwitch} from "../../inputs/OnOffSwitch";
 import {Commands} from "./Commands";
 import BaseGraph from "./BaseGraph";
@@ -20,24 +19,17 @@ enum SelectedCurveOption {
 
 interface BaseGraphProps {
     areCurvesSelectable?: boolean
-    allowSelectedCurveControlPolygon?: boolean
 }
 
 interface BaseGraphStates {
     selectedCurveOption: SelectedCurveOption;
-    showingControlPolygon: boolean;
     curveSelected: boolean;
 }
-
 
 /**
  * Abstract class for creating graphs.
  */
-abstract class BaseCurveGraph<U extends PointControlledCurve, T extends AbstractJSXPointControlledCurve<U>, P extends BaseGraphProps, S extends BaseGraphStates> extends BaseGraph<P, S> {
-    static defaultProps = {
-        areCurvesSelectable: true,
-        allowSelectedCurveControlPolygon: true
-    }
+abstract class BaseCurveGraph<U extends PointControlledCurve, T extends AbstractJSXPointControlledCurve<U, any>, P extends BaseGraphProps, S extends BaseGraphStates> extends BaseGraph<P, S> {
     public override readonly state = this.getInitialState();
     protected inputsDisabled: boolean = false;
     protected jsxBezierCurves: T[] = [];
@@ -46,8 +38,7 @@ abstract class BaseCurveGraph<U extends PointControlledCurve, T extends Abstract
     getInitialState(): S {
         return {
             selectedCurveOption: SelectedCurveOption.MOVE_CURVE,
-            curveSelected: false,
-            showingControlPolygon: false
+            curveSelected: false
         } as S
     }
 
@@ -124,27 +115,10 @@ abstract class BaseCurveGraph<U extends PointControlledCurve, T extends Abstract
     }
 
     getSelectedCurveCommands(): JSX.Element[] {
-        if (this.props.allowSelectedCurveControlPolygon) {
-            return [<Form> <Form.Check // prettier-ignore
-                type="switch"
-                id="custom-switch"
-                label="Kontrolni poligon"
-                checked={this.getSelectedCurve().isShowingControlPolygon()}
-                onChange={(e) => this.showControlPolygon(e.target.checked)}/>
-            </Form>]
+        if (this.getSelectedCurve()) {
+            return this.getSelectedCurve().getCurveCommands()
         }
         return []
-    }
-
-    showControlPolygon(show: boolean) {
-        this.board.suspendUpdate()
-        if (show) {
-            this.getSelectedCurve().showControlPolygon()
-        } else {
-            this.getSelectedCurve().hideControlPolygon()
-        }
-        this.setState({...this.state, showingControlPolygon: show})
-        this.unsuspendBoardUpdate()
     }
 
     handleDown(e: PointerEvent) {
@@ -236,6 +210,7 @@ abstract class BaseCurveGraph<U extends PointControlledCurve, T extends Abstract
 
     protected selectCurve(selectableCurve: T, additionalState = {}) {
         selectableCurve.select()
+        console.log("selected curve")
         this.setState({...this.state, curveSelected: true, ...additionalState})
     }
 

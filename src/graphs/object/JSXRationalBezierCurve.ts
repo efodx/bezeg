@@ -3,11 +3,17 @@
  */
 import {RationalBezierCurve} from "../../bezeg/impl/curve/rational-bezier-curve";
 import {Board} from "jsxgraph";
-import {AbstractJSXBezierCurve} from "../base/AbstractJSXBezierCurve";
+import {AbstractJSXBezierCurve} from "./AbstractJSXBezierCurve";
 import {PointStyles} from "../styles/PointStyles";
 import {SizeContext} from "../context/SizeContext";
+import {RationalBezierCurveCommands} from "./inputs/RationalBezierCurveCommands";
 
-export class JSXRationalBezierCurve extends AbstractJSXBezierCurve<RationalBezierCurve> {
+export class JSXRationalBezierCurve extends AbstractJSXBezierCurve<RationalBezierCurve, any> {
+    subdivisionT: number = 0.5;
+    extrapolationT: number = 1.2;
+    subdivisionPoint: JXG.Point | null = null;
+    extrapolationPoint: JXG.Point | null = null;
+    weightNumber: number = 1;
     private weightLabels: JXG.GeometryElement[] = [];
     private showingWeights: boolean = false;
     private sliders: JXG.Slider[] = [];
@@ -40,7 +46,11 @@ export class JSXRationalBezierCurve extends AbstractJSXBezierCurve<RationalBezie
 
         // Create second curve
         let curve2pointArray = curve2.getPoints().map(point => [point.X(), point.Y()])
-        return new JSXRationalBezierCurve(curve2pointArray, curve2.getWeights(), this.board) as this
+        const newJsxCurve = new JSXRationalBezierCurve(curve2pointArray, curve2.getWeights(), this.board) as this
+        if (this.subdivisionResultConsumer !== undefined) {
+            this.subdivisionResultConsumer(newJsxCurve)
+        }
+        return newJsxCurve
     }
 
     elevate() {
@@ -55,6 +65,15 @@ export class JSXRationalBezierCurve extends AbstractJSXBezierCurve<RationalBezie
         const extrapolatedBezier: RationalBezierCurve = this.pointControlledCurve.extrapolate(t)
         this.pointControlledCurve.setWeights(extrapolatedBezier.getWeights())
         this.movePointsToNewPoints(extrapolatedBezier.getPoints())
+    }
+
+    showwWeights(show: boolean) {
+        if (show) {
+            this.showWeights()
+        } else {
+            this.hideWeights()
+        }
+
     }
 
     showWeights() {
@@ -133,8 +152,159 @@ export class JSXRationalBezierCurve extends AbstractJSXBezierCurve<RationalBezie
         this.showingFarinPoints = show
     }
 
+    override getCurveCommands(): JSX.Element[] {
+        return super.getCurveCommands().concat(...RationalBezierCurveCommands(this));
+    }
+
+    setSubdivisionT(t: number) {
+        this.subdivisionT = t
+        this.board.update()
+    }
+
+    setExtrapolationT(t: number) {
+        this.extrapolationT = t
+        this.board.update()
+    }
+
+    createSubdivisionPoint() {
+        if (this.board && !this.subdivisionPoint && this) {
+            this.subdivisionPoint = this.board.create('point', [() => this.getCurve().calculatePointAtT(this.subdivisionT).X(),
+                () => this.getCurve().calculatePointAtT(this.subdivisionT).Y()]);
+            this.subdivisionPoint.hide()
+        }
+    }
+
+    createExtrapolationPoint() {
+        if (this.board && !this.extrapolationPoint && this) {
+            this.extrapolationPoint = this.board.create('point', [() => this.getCurve().calculatePointAtT(this.extrapolationT).X(),
+                () => this.getCurve().calculatePointAtT(this.extrapolationT).Y()]);
+            this.extrapolationPoint.hide()
+        }
+    }
+
+    showSubdivisionPoint() {
+        this.subdivisionPoint?.show()
+    }
+
+    hideSubdivisionPoint() {
+        this.subdivisionPoint?.hide()
+    }
+
+    showExtrapolationPoint() {
+        this.setIntervalEnd(() => this.extrapolationT)
+        this.extrapolationPoint?.show()
+    }
+
+    hideExtrapolationPoint() {
+        this.setIntervalEnd(1)
+        this.extrapolationPoint?.hide()
+    }
+
+    extrapolateSelectedCurve() {
+        this.board.suspendUpdate()
+        this.extrapolate(this.extrapolationT)
+        this.board.unsuspendUpdate()
+    }
+
+    subdivideSelectedCurve() {
+        this.board.suspendUpdate()
+        let newCurve = this.subdivide(this.subdivisionT)
+        // this.jsxBezierCurves.push(newCurve);
+        // this.deselectSelectedCurve()
+        this.board.unsuspendUpdate()
+        return newCurve
+    }
+
+    elevateSelectedCurve() {
+        this.board.suspendUpdate()
+        this.elevate()
+        if (this.isShowingControlPolygon()) {
+            this.showControlPolygon()
+        }
+        this.board.unsuspendUpdate()
+    }
+
+    setStandardForm(standard: boolean) {
+        this.pointControlledCurve.setStandardForm(standard)
+        this.board.update()
+    }
+
+    override select() {
+        super.select()
+        this.getJxgPoints()[this.weightNumber].setAttribute({
+            color: "yellow"
+        })
+    }
+
+    override deselect() {
+        if (this.subdivisionPoint) {
+            // @ts-ignore
+            this.board.removeObject(this.subdivisionPoint)
+        }
+        if (this.extrapolationPoint) {
+            this.board.removeObject(this.extrapolationPoint)
+        }
+        this.getJxgPoints()[this.weightNumber].setAttribute({
+            color: "#D55E00"
+        })
+        super.deselect();
+
+        this.subdivisionPoint = null
+        this.extrapolationPoint = null
+    }
+
+    nextWeight() {
+        this.setSelectedWeight(this.weightNumber + 1)
+    }
+
+    prevWeight() {
+        this.setSelectedWeight(this.weightNumber - 1)
+    }
+
+    setSelectedWeight(i: number) {
+        this.getJxgPoints()[this.weightNumber].setAttribute({
+            color: "#D55E00"
+        })
+        if (i > this.getCurve().getWeights().length - 1) {
+            this.weightNumber = 0;
+        } else if (i < 0) {
+            this.weightNumber = this.getCurve().getWeights().length - 1;
+        } else {
+            this.weightNumber = i;
+        }
+        this.getJxgPoints()[this.weightNumber].setAttribute({
+            color: "yellow  "
+        })
+        this.board.update()
+    }
+
+
+    changeWeight(dw: number) {
+        this.setWeight(this.getCurve().getWeights()[this.weightNumber] + dw)
+    }
+
+    setWeight(w: number) {
+        let newWeights = this.getCurve().getWeights().map(i => i)
+        newWeights[this.weightNumber] = w
+        this.getCurve().setWeights(newWeights)
+        this.board.update()
+    }
+
+    getWeightNumber() {
+        return this.weightNumber
+    }
+
+    getCurrentWeight() {
+        return this.getCurve().getWeights()[this.getWeightNumber()]
+    }
+
+    resetWeight() {
+        this.setWeight(1)
+    }
+
     protected getStartingCurve(points: number[][]): RationalBezierCurve {
         let jsxPoints = points.map((point, i) => this.createJSXGraphPoint(point[0], point[1], PointStyles.pi(i)))
         return new RationalBezierCurve(jsxPoints, jsxPoints.map(() => 1));
     }
+
 }
