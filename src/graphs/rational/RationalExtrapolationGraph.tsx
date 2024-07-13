@@ -1,13 +1,10 @@
 import React from 'react';
 import '../../App.css';
-import {
-    BaseRationalBezierCurveGraphProps,
-    BaseRationalBezierCurveGraphState,
-    BaseRationalCurveGraph
-} from "./BaseRationalCurveGraph";
+import {BaseRationalCurveGraph} from "./BaseRationalCurveGraph";
 import {Button} from "react-bootstrap";
+import {BaseGraphProps, BaseGraphStates} from "../base/BaseCurveGraph";
 
-class GraphExtrapolation extends BaseRationalCurveGraph<BaseRationalBezierCurveGraphProps, BaseRationalBezierCurveGraphState> {
+class GraphExtrapolation extends BaseRationalCurveGraph<BaseGraphProps, BaseGraphStates> {
     private slider?: JXG.Slider;
 
     initialize() {

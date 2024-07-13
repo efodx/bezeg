@@ -4,12 +4,20 @@ import '../../App.css';
 import {Board} from "jsxgraph";
 import {Point} from "../object/Point";
 import {Select} from "../../inputs/Select";
-import {AbstractJSXPointControlledCurve} from "../object/AbstractJSXPointControlledCurve";
+import {
+    AbstractJSXPointControlledCurve,
+    PointControlledCurveAttributes
+} from "../object/AbstractJSXPointControlledCurve";
 import {PointControlledCurve} from "../../bezeg/api/curve/point-controlled-curve";
 import {OnOffSwitch} from "../../inputs/OnOffSwitch";
 import {Commands} from "./Commands";
 import BaseGraph from "./BaseGraph";
 import {VisibilityContext} from "../context/VisibilityContext";
+import {Continuity} from "../../bezeg/impl/curve/bezier-spline";
+import {JSXSplineCurve} from "../object/JSXSplineCurve";
+import {JSXBezierCurve} from "../object/JSXBezierCurve";
+import {JSXRationalBezierCurve} from "../object/JSXRationalBezierCurve";
+import {JSXPHBezierCurve} from "../object/JSXPHBezierCurve";
 
 enum SelectedCurveOption {
     MOVE_CURVE,
@@ -29,10 +37,10 @@ interface BaseGraphStates {
 /**
  * Abstract class for creating graphs.
  */
-abstract class BaseCurveGraph<U extends PointControlledCurve, T extends AbstractJSXPointControlledCurve<U, any>, P extends BaseGraphProps, S extends BaseGraphStates> extends BaseGraph<P, S> {
+abstract class BaseCurveGraph<P extends BaseGraphProps, S extends BaseGraphStates> extends BaseGraph<P, S> {
     public override readonly state = this.getInitialState();
     protected inputsDisabled: boolean = false;
-    protected jsxBezierCurves: T[] = [];
+    protected jsxBezierCurves: AbstractJSXPointControlledCurve<PointControlledCurve, PointControlledCurveAttributes>[] = [];
     protected graphJXGPoints: JXG.Point[] = [];
 
     getInitialState(): S {
@@ -42,7 +50,7 @@ abstract class BaseCurveGraph<U extends PointControlledCurve, T extends Abstract
         } as S
     }
 
-    getFirstCurve(): U {
+    getFirstCurve() {
         return this.getFirstJsxCurve()?.getCurve()
     }
 
@@ -61,13 +69,20 @@ abstract class BaseCurveGraph<U extends PointControlledCurve, T extends Abstract
         this.board.on('move', (e) => this.handleMove(e));
     }
 
-    abstract newJSXBezierCurve(points: number[][]): T;
-
-    createJSXBezierCurve(points: number[][]): T {
-        let newBezierCurve = this.newJSXBezierCurve(points)
+    createJSXBezierCurve(points: number[][]) {
+        let newBezierCurve = new JSXBezierCurve(points, this.board)
+        newBezierCurve.setSubdivisionResultConsumer((jsxCrv) => this.jsxBezierCurves.push(jsxCrv))
         this.jsxBezierCurves.push(newBezierCurve)
         return newBezierCurve
     }
+
+    createJSXPHBezierCurve(points: number[][]) {
+        let newBezierCurve = new JSXPHBezierCurve(points, this.board) as JSXBezierCurve;
+        newBezierCurve.setSubdivisionResultConsumer((jsxCrv) => this.jsxBezierCurves.push(jsxCrv))
+        this.jsxBezierCurves.push(newBezierCurve)
+        return newBezierCurve
+    }
+
 
     /**
      * Creates a JSXGraph point ands wraps it with the Point interface.
@@ -141,7 +156,7 @@ abstract class BaseCurveGraph<U extends PointControlledCurve, T extends Abstract
             selectedCurve = this.getSelectedCurve()
             if (!selectedCurve) {
                 // @ts-ignore
-                if (!this.getAllJxgPoints().some(p => p.hasPoint(coords.scrCoords[1], coords.scrCoords[2])) && this.props.areCurvesSelectable) {
+                if (!this.getAllJxgPoints().some(p => p.hasPoint(coords.scrCoords[1], coords.scrCoords[2]))) {
                     selectableCurve = this.jsxBezierCurves.filter(curve => curve.isSelectable(e))[0]
                     if (selectableCurve) {
                         this.selectCurve(selectableCurve);
@@ -208,9 +223,21 @@ abstract class BaseCurveGraph<U extends PointControlledCurve, T extends Abstract
         return <Commands commands={commands} title={"Izbrana krivulja"}></Commands>
     }
 
-    protected selectCurve(selectableCurve: T, additionalState = {}) {
+    createJSXSplineCurve(points: number[][], degree: number, continuity: Continuity): JSXSplineCurve {
+        let newBezierCurve = new JSXSplineCurve(points, continuity, degree, this.board);
+        this.jsxBezierCurves.push(newBezierCurve)
+        return newBezierCurve
+    }
+
+    createRationalJSXBezierCurve(points: number[][], weights: number[]): JSXRationalBezierCurve {
+        const curve = new JSXRationalBezierCurve(points, weights, this.board);
+        this.jsxBezierCurves.push(curve)
+        curve.setSubdivisionResultConsumer((jsxCrv) => this.jsxBezierCurves.push(jsxCrv))
+        return curve
+    }
+
+    protected selectCurve(selectableCurve: AbstractJSXPointControlledCurve<PointControlledCurve, PointControlledCurveAttributes>, additionalState = {}) {
         selectableCurve.select()
-        console.log("selected curve")
         this.setState({...this.state, curveSelected: true, ...additionalState})
     }
 

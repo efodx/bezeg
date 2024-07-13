@@ -1,7 +1,6 @@
 import '../../App.css';
 import {BaseBezierCurveGraph, BaseCurveGraphProps} from "../base/BaseBezierCurveGraph";
 import {BaseGraphStates} from "../base/BaseCurveGraph";
-import {JSXPHBezierCurve} from "../object/JSXPHBezierCurve";
 import {PhBezierCurve} from "../../bezeg/impl/curve/ph-bezier-curve";
 import Slider from "../../inputs/Slider";
 import {HodographInputbox} from "./HodographInputBox";
@@ -12,7 +11,6 @@ import {OnOffSwitch} from "../../inputs/OnOffSwitch";
 import {Colors} from "../bezier/utilities/Colors";
 import {CurveStyles} from "../styles/CurveStyles";
 import {CacheContext} from "../context/CacheContext";
-import {JSXBezierCurve} from "../object/JSXBezierCurve";
 
 export interface BasePhBezierCurveGraphStates extends BaseGraphStates {
     showOffsetCurve: boolean,
@@ -58,12 +56,8 @@ abstract class BasePhBezierCurveGraph<P extends BaseCurveGraphProps, S extends B
     initialize() {
         const points = this.getStartingPoints()
         const hodographs = this.getStartingHodographs()
-        this.createJSXBezierCurve(points.concat(hodographs))
+        this.createJSXPHBezierCurve(points.concat(hodographs))
         this.generateJsxOffsetCurves(true);
-    }
-
-    override newJSXBezierCurve(points: number[][]) {
-        return new JSXPHBezierCurve(points, this.board) as JSXBezierCurve;
     }
 
     override getGraphCommands(): JSX.Element[] {

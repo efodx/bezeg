@@ -1,13 +1,10 @@
 import '../../App.css';
-import {
-    BaseRationalBezierCurveGraphProps,
-    BaseRationalBezierCurveGraphState,
-    BaseRationalCurveGraph
-} from "./BaseRationalCurveGraph";
+import {BaseRationalCurveGraph} from "./BaseRationalCurveGraph";
 import {Button} from "react-bootstrap";
+import {BaseGraphProps, BaseGraphStates} from "../base/BaseCurveGraph";
 
 
-class RationalBezierCurveGraph extends BaseRationalCurveGraph<BaseRationalBezierCurveGraphProps, BaseRationalBezierCurveGraphState> {
+class RationalBezierCurveGraph extends BaseRationalCurveGraph<BaseGraphProps, BaseGraphStates> {
 
 
     initialize() {
@@ -21,14 +18,6 @@ class RationalBezierCurveGraph extends BaseRationalCurveGraph<BaseRationalBezier
             kos</Button>).concat(
             <Button variant={"dark"} onClick={() => this.setN(this.getAllJxgCurves().length - 1)}>Odstrani
                 kos</Button>);
-    }
-
-    override getInitialState(): BaseRationalBezierCurveGraphState {
-        return {
-            ...super.getInitialState(),
-            currentWeight: 0.5
-        }
-
     }
 
     private generateCurves(n: number) {

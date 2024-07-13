@@ -1,12 +1,9 @@
 import '../../App.css';
-import {
-    BaseRationalBezierCurveGraphProps,
-    BaseRationalBezierCurveGraphState,
-    BaseRationalCurveGraph
-} from "./BaseRationalCurveGraph";
+import {BaseRationalCurveGraph} from "./BaseRationalCurveGraph";
+import {BaseGraphProps, BaseGraphStates} from "../base/BaseCurveGraph";
 
 
-class RationalBezierCurveGraph extends BaseRationalCurveGraph<BaseRationalBezierCurveGraphProps, BaseRationalBezierCurveGraphState> {
+class RationalBezierCurveGraph extends BaseRationalCurveGraph<BaseGraphProps, BaseGraphStates> {
 
     initialize() {
         let points = [[-3, 2], [0, -2], [1, 2], [3, -2]]
@@ -14,14 +11,7 @@ class RationalBezierCurveGraph extends BaseRationalCurveGraph<BaseRationalBezier
         this.createRationalJSXBezierCurve(points, weights)
     }
 
-    override getInitialState(): BaseRationalBezierCurveGraphState {
-        return {
-            ...super.getInitialState(),
-            currentWeight: 2
-        }
-
-    }
-
 }
+
 
 export default RationalBezierCurveGraph;

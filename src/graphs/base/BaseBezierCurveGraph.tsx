@@ -1,6 +1,5 @@
 import BaseCurveGraph, {BaseGraphProps, BaseGraphStates} from "./BaseCurveGraph";
 import {JSXBezierCurve} from "../object/JSXBezierCurve";
-import {BezierCurve} from "../../bezeg/api/curve/bezier-curve";
 
 
 interface BaseCurveGraphProps extends BaseGraphProps {
@@ -12,14 +11,14 @@ interface BaseCurveGraphProps extends BaseGraphProps {
     allowSelectedCurveShowPoints: boolean
 }
 
-export abstract class BaseBezierCurveGraph<P extends BaseCurveGraphProps, S extends BaseGraphStates> extends BaseCurveGraph<BezierCurve, JSXBezierCurve, P, S> {
-
-    newJSXBezierCurve(points: number[][]): JSXBezierCurve {
-        const curve = new JSXBezierCurve(points, this.board);
-        curve.setSubdivisionResultConsumer((jsxCrv) => this.jsxBezierCurves.push(jsxCrv))
-        return curve
+export abstract class BaseBezierCurveGraph<P extends BaseCurveGraphProps, S extends BaseGraphStates> extends BaseCurveGraph<P, S> {
+    override getFirstJsxCurve() {
+        return super.getFirstJsxCurve() as JSXBezierCurve
     }
 
+    override getSelectedCurve() {
+        return super.getSelectedCurve() as JSXBezierCurve
+    }
 }
 
 export type {BaseCurveGraphProps}

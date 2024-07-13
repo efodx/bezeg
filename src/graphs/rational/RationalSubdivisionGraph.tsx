@@ -1,13 +1,11 @@
 import React from 'react';
 import '../../App.css';
-import {
-    BaseRationalBezierCurveGraphProps,
-    BaseRationalBezierCurveGraphState,
-    BaseRationalCurveGraph
-} from "./BaseRationalCurveGraph";
+import {BaseRationalCurveGraph} from "./BaseRationalCurveGraph";
 import {Button} from "react-bootstrap";
+import {JSXRationalBezierCurve} from "../object/JSXRationalBezierCurve";
+import {BaseGraphProps, BaseGraphStates} from "../base/BaseCurveGraph";
 
-class Graph extends BaseRationalCurveGraph<BaseRationalBezierCurveGraphProps, BaseRationalBezierCurveGraphState> {
+class Graph extends BaseRationalCurveGraph<BaseGraphProps, BaseGraphStates> {
     private slider?: JXG.Slider;
     private stepsDone: number = 0;
 
@@ -23,10 +21,9 @@ class Graph extends BaseRationalCurveGraph<BaseRationalBezierCurveGraphProps, Ba
         }
         this.stepsDone = this.stepsDone + 1
         this.board.suspendUpdate()
-        let oldJsxBezierCurves = this.jsxBezierCurves.map(c => c)
+        let oldJsxBezierCurves = this.jsxBezierCurves.map(c => c as JSXRationalBezierCurve)
         for (let bezierCurve of oldJsxBezierCurves) {
-            let newCurve = bezierCurve.subdivide(this.slider!.Value())
-            this.jsxBezierCurves.push(newCurve);
+            bezierCurve.subdivide(this.slider!.Value())
         }
         this.unsuspendBoardUpdate()
     };

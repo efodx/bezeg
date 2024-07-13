@@ -4,6 +4,7 @@ import {BaseBezierCurveGraph, BaseCurveGraphProps} from "../base/BaseBezierCurve
 import {BaseGraphStates} from "../base/BaseCurveGraph";
 import {Button} from "react-bootstrap";
 import {OnOffSwitch} from "../../inputs/OnOffSwitch";
+import {JSXBezierCurve} from "../object/JSXBezierCurve";
 
 function ShowControlPolygons(props: { onChange: (checked: boolean) => void }) {
     return <OnOffSwitch label="Kontrolni poligoni" onChange={props.onChange}/>
@@ -22,7 +23,7 @@ class SubdivisionGraph extends BaseBezierCurveGraph<BaseCurveGraphProps, BaseGra
     }
 
     override getAllJxgPoints() {
-        return super.getAllJxgPoints().concat(this.jsxBezierCurves.flatMap(curve => curve.getJsxDecasteljauPoints()))
+        return super.getAllJxgPoints().concat(this.jsxBezierCurves.flatMap(curve => (curve as JSXBezierCurve).getJsxDecasteljauPoints()))
     }
 
     subdivide() {
@@ -32,7 +33,7 @@ class SubdivisionGraph extends BaseBezierCurveGraph<BaseCurveGraphProps, BaseGra
         this.stepsDone = this.stepsDone + 1
         // @ts-ignore
         this.board.suspendUpdate()
-        let oldJsxBezierCurves = this.jsxBezierCurves.map(c => c)
+        let oldJsxBezierCurves = this.jsxBezierCurves.map(c => c as JSXBezierCurve)
         for (let bezierCurve of oldJsxBezierCurves) {
             let newCurve = bezierCurve.subdivide(this.slider!.Value())
             bezierCurve.hideDecasteljauScheme()
@@ -70,7 +71,7 @@ class SubdivisionGraph extends BaseBezierCurveGraph<BaseCurveGraphProps, BaseGra
 
     private hideControlPolygons() {
         this.board.suspendUpdate()
-        this.jsxBezierCurves.forEach(curve => curve.hideDecasteljauScheme())
+        this.jsxBezierCurves.forEach(curve => (curve as JSXBezierCurve).hideDecasteljauScheme())
         this.jsxBezierCurves.forEach(curve => curve.hideControlPolygon())
         this.unsuspendBoardUpdate()
     }

@@ -27,7 +27,6 @@ class Graph extends BaseSplineCurveGraph {
         this.board.update()
     }
 
-
     private povecajB2() {
         this.getFirstCurve().setB(1, this.getFirstCurve().getB(1) * 1.1)
         this.board.update()
