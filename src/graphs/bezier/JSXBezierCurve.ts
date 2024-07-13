@@ -82,10 +82,8 @@ export class JSXBezierCurve extends AbstractJSXBezierCurve<BezierCurve> {
                     // @ts-ignore
                     pp1 = this.board.create('point', [() => this.getDecasteljauScheme(t)[r][i - 1].X(),
                         () => this.getDecasteljauScheme(t)[r][i - 1].Y()], {
-                        // @ts-ignore
-                        style: JXG.POINT_STYLE_X,
-                        color: Colors[r],
-                        name: "",
+                        ...PointStyles.default,
+                        color: Colors[r]
                     });
                 } else {
                     pp1 = this.decasteljauPoints[this.decasteljauPoints.length - 1]
@@ -95,10 +93,8 @@ export class JSXBezierCurve extends AbstractJSXBezierCurve<BezierCurve> {
 
                 pp2 = this.board.create('point', [() => this.getDecasteljauScheme(t)[r][i].X(),
                     () => this.getDecasteljauScheme(t)[r][i].Y()], {
-                    // @ts-ignore
-                    style: JXG.POINT_STYLE_X,
-                    color: Colors[r],
-                    name: ""
+                    ...PointStyles.default,
+                    color: Colors[r]
                 });
                 const segment = this.board!.create('segment', [pp1, pp2], SegmentStyles.default);
                 this.decasteljauSegments.push(segment)
@@ -108,11 +104,9 @@ export class JSXBezierCurve extends AbstractJSXBezierCurve<BezierCurve> {
                 this.decasteljauPoints.push(pp2)
             }
         }
-        let drawingPoint = this.board?.create('point', [() => this.getDecasteljauScheme(t)[n - 1][0].X(), () => this.getDecasteljauScheme(t)[n - 1][0].Y()], {
-            // @ts-ignore
-            style: JXG.POINT_STYLE_X,
-            color: Colors[n - 1],
-            trace: false
+        const drawingPoint = this.board?.create('point', [() => this.getDecasteljauScheme(t)[n - 1][0].X(), () => this.getDecasteljauScheme(t)[n - 1][0].Y()], {
+            ...PointStyles.default,
+            color: Colors[n - 1]
         });
 
         if (drawingPoint instanceof JXG.Point) {

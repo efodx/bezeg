@@ -9,8 +9,8 @@ import {PointStyles} from "../styles/PointStyles";
 export class JSXPHBezierCurve extends JSXBezierCurve {
 
     override getStartingCurve(points: number[][]): PhBezierCurve {
-        let pointsImpl = points.map(p => new PointImpl(p[0], p[1]))
-        let curve = new PhBezierCurve(pointsImpl.slice(0, 1), pointsImpl.slice(1));
+        const pointsImpl = points.map(p => new PointImpl(p[0], p[1]))
+        const curve = new PhBezierCurve(pointsImpl.slice(0, 1), pointsImpl.slice(1));
         curve.getPoints().map((p, i) => this.createJSXGraphPoint(() => p.X(), () => p.Y(), PointStyles.pi(i)))
         return curve
     }

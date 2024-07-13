@@ -759,63 +759,74 @@ the content and not the structure of your work.}
     \subsubsection{Izsek krožnice}
     V uvodu podrazdelka smo povedali, da se nekaterih krivulj ne da opisati z navadnimi Bezierjevimi krivuljami.
     Kot enega izmed primerov smo podali izsek krožnice.
-    V tem delu podrazdelka bomo izpeljali kontrolne točke in uteži racionalne Bezierjeve krivulje, da bo krivulja predstavljala izsek enotske krožnice s \mycomment{kotom $\alpha$}.
+    V tem delu podrazdelka bomo izpeljali kontrolne točke in uteži racionalne Bezierjeve krivulje, da bo krivulja predstavljala izsek krožnice s polmerom $R$ in \mycomment{kotom $\alpha$}.
     Izsek krožnice bomo podali s kvadratičnimi racionalnimi Bezierjevimi krivuljami.
     Za konstrukcijo imamo na voljo kontrolne točke $\p_0,\p_1$ in $\p_2$, ter uteži $w_0,w_1$ in $w_2$.
     Iz izreka~\ref{izrek:racionalne-utezi-1} sledi, da lahko robni uteži fiksiramo na $w_0=w_2=1$.
     Točki $\p_0$ in $\p_2$ morata ležati na začetku ter koncu izseka krožnice, saj racionalne Bezierjeve krivulje interpolirajo končne točke.
-    Da bo temu tako, mora veljati $\p_2=(\cos(\alpha),\sin(\alpha))$.
-    Ker je krožni izsek simetričen čez premico z naklonom $\frac{\alpha}{2}$, krivulja pa parabola, lahko pričakujemo, da bo točka $\p_1$ ležala na premici med točkama $\p_0$ in $\p_2$, tj.\ $\p_1=\left(R\cos\left(\frac{\alpha}{2}\right),R\sin\left(\frac{\alpha}{2}\right)\right)$.
-    Sedaj je cilj najti vrednosti $R$ in $w_1$.
-    Najprej po komponentah zapišimo parametrizacijo željene krivulje
-    \[\mathbf{R}(t) = \frac{\sum^{2}_{i=0}w_i\p_i B^2_i(t)}{\sum^{2}_{i=0}w_i B^2_i(t)} = \frac{\p_0 (1-t)^2 + w_1\p_1 2t(1-t) + \p_2 t^2}{(1-t)^2 + w_1 2t(1-t) + t^2},\]
-    ki po komponentah izgleda takole
+    Ker so racionalne Bezierjeve krivulje afino invariantne, lahko brez izgube splošnosti postavimo točki $\p_0$ in $\p_2$ tako, da velja $\p_0=-\p_2$.
+    Parametrizacija željene krivulje izgleda takole
+    \[\mathbf{R}(t) = \frac{\sum^{2}_{i=0}w_i\p_i B^2_i(t)}{\sum^{2}_{i=0}w_i B^2_i(t)} = \frac{\p_0 (1-t)^2 + w_1\p_1 2t(1-t) + \p_2 t^2}{(1-t)^2 + w_1 2t(1-t) + t^2}.\]
+    Velja torej $T=R(\frac{1}{2})= \frac{w_1\p_1}{w_1+1}$.
+    Poglejmo si sliko\mycomment{referenca}.
+    Iz nje lahko razberemo zvezi
     \begin{align*}
-        x(t) &= \frac{(1-t)^2 + w_1R\cos\left(\frac{\alpha}{2}\right) 2t(1-t) + \cos(\alpha)t^2}{(1-t)^2 + w_1 2t(1-t) + t^2} \\
-        y(t) &= \frac{w_12t(1-t)R\sin\left(\frac{\alpha}{2}\right) + \sin(\alpha)t^2}{(1-t)^2 + w_1 2t(1-t) + t^2}.
+        |OT|=|ST|-|SO| = R - R\sin\frac{\alpha}{2} = R(1-\sin\frac{\alpha}{2})\\
+        |O\p_1| = |S\p_1|-|SO| = \frac{R}{\sin\frac{\alpha}{2}} - R\sin\frac{\alpha}{2} = R\frac{1-\sin^2\frac{\alpha}{2}}{\sin\frac{\alpha}{2}}
     \end{align*}
-    Tangenta na enotsko krožnico je v točki $(1,0)$ vzporedna z ordinatno osjo, zato mora veljati $x'(0)=0$.
-    \mycomment{Odvod racionalne Bezierjeve krivulje v točki $(1,0)$ je enak $2(\p_{1}-\p_{0}) = 2\left(R\sin\left(\frac{\alpha}{2}\right)-r,R\cos\left(\frac{\alpha}{2}\right)\right)$.}
-    Iz česar sledi $R=\frac{r}{\cos\left(\frac{\alpha}{2}\right)}$.
-    \begin{align*}
-        w_1\left(\frac{r}{\sin\left(\frac{\alpha}{2}\right)}-r\right)\sin\left(\frac{\alpha}{2}\right)  &= r\sin\left(\frac{\alpha}{2}\right) - \frac{r}{2}\sin(\alpha) \\
-        w_1 &= \frac{r\sin\left(\frac{\alpha}{2}\right) - \frac{r}{2}\sin(\alpha)}{\left(\frac{r}{\sin\left(\frac{\alpha}{2}\right)}-r\right)\sin\left(\frac{\alpha}{2}\right) }
-    \end{align*}
+    Iz zveze $\frac{|OT|}{|O\p_1|} = \frac{\sin\frac{\alpha}{2}}{\sin\frac{\alpha}{2}+1} = \frac{w_1}{w_1+1}$ nato sledi $w_1=\sin\frac{\alpha}{2}$.
+    Pričakujemo, da bo točka $\p_1$ oblike $(0,y)$.
+    Velja torej $|O\p_1|=y=R\frac{1-\sin^2\frac{\alpha}{2}}{\sin\frac{\alpha}{2}}$.
 
-
-    Zaradi simetrije mora krivulja v $t=\frac{1}{2}$ interpolirati točko $\left(\cos\left(\frac{\alpha}{2}\right),\sin\left(\frac{\alpha}{2}\right)\right)$ iz česar sledi
-    \begin{align*}
-        x\left(\frac{1}{2}\right) &= \frac{\frac{1}{4} +  \frac{1}{2}w_1R\cos\left(\frac{\alpha}{2}\right) + \frac{1}{4}\cos(\alpha)}{\frac{1}{4}+ w_1\frac{1}{2} + \frac{1}{4}} = \frac{ \frac{1}{2} + w_1R\cos\left(\frac{\alpha}{2}\right) + \frac{1}{2}\cos(\alpha)}{1+w_1} = \cos\left(\frac{\alpha}{2}\right) \\
-        y\left(\frac{1}{2}\right) &= \frac{\frac{w_1}{2}R\sin\left(\frac{\alpha}{2}\right) + \frac{1}{4}\sin(\alpha)}{\frac{1}{4}+ w_1\frac{1}{2} + \frac{1}{4}} =  \frac{w_1R\sin\left(\frac{\alpha}{2}\right) + \frac{1}{2}\sin(\alpha)}{1+w_1} = \sin\left(\frac{\alpha}{2}\right).
-    \end{align*}
-    Iz enačbe izpostavimo $w_1$
-    \begin{align*}
-        \frac{1}{2} + w_1R\cos\left(\frac{\alpha}{2}\right) + \frac{1}{2}\cos(\alpha) &= (1+w_1)\cos\left(\frac{\alpha}{2}\right) \\
-        w_1R\cos\left(\frac{\alpha}{2}\right) - w_1\cos\left(\frac{\alpha}{2}\right) &= \cos\left(\frac{\alpha}{2}\right)-\frac{1}{2} - \frac{1}{2}\cos(\alpha) \\
-        w_1(R-1)\cos\left(\frac{\alpha}{2}\right) &= \left(\cos\left(\frac{\alpha}{2}\right)-\frac{1}{2} - \frac{1}{2}\cos(\alpha)\right)
-    \end{align*}
-    NEXT
-    \begin{align*}
-        w_1R\sin\left(\frac{\alpha}{2}\right) + \frac{1}{2}\sin(\alpha) &= (1+w_1)\sin\left(\frac{\alpha}{2}\right) \\
-        w_1(R-1)\sin\left(\frac{\alpha}{2}\right)  &= \sin\left(\frac{\alpha}{2}\right) - \frac{1}{2}\sin(\alpha)
-    \end{align*}
-
-    \begin{align*}
-        \frac{r}{2} + w_1R\cos\left(\frac{\alpha}{2}\right) + \frac{r}{2}\cos(\alpha) &=(1+w_1) r\cos\left(\frac{\alpha}{2}\right) \\
-        w_1R\cos\left(\frac{\alpha}{2}\right) - w_1r\cos\left(\frac{\alpha}{2}\right) &= r\cos\left(\frac{\alpha}{2}\right)-\frac{r}{2}\cos(\alpha)-\frac{r}{2} \\
-        w_1(R-r)\cos\left(\frac{\alpha}{2}\right) &= r\cos\left(\frac{\alpha}{2}\right)-\frac{r}{2}\cos(\alpha)-\frac{r}{2} \\
-        w_1 &=\frac{r\cos\left(\frac{\alpha}{2}\right)-\frac{r}{2}\cos(\alpha)-\frac{r}{2}}{(R-r)\cos\left(\frac{\alpha}{2}\right)}\\
-        w_1 &=\frac{r\cos\left(\frac{\alpha}{2}\right)-\frac{r}{2}\cos(\alpha)-\frac{r}{2}}{(R=\frac{r}{\cos\left(\frac{\alpha}{2}\right)}-r)\cos\left(\frac{\alpha}{2}\right)}
-    \end{align*}
-
-
-
-    \begin{align*}
-        w_1\left(\frac{r}{\sin\left(\frac{\alpha}{2}\right)}-r\right)\sin\left(\frac{\alpha}{2}\right)  &= r\sin\left(\frac{\alpha}{2}\right) - \frac{r}{2}\sin(\alpha) \\
-        w_1 &= \frac{r\sin\left(\frac{\alpha}{2}\right) - \frac{r}{2}\sin(\alpha)}{\left(\frac{r}{\sin\left(\frac{\alpha}{2}\right)}-r\right)\sin\left(\frac{\alpha}{2}\right) }
-    \end{align*}
-    Izračunajmo sedaj za $r=1$ in $\alpha = \frac{\pi}{2}$. $R=\frac{1}{\cos\left(\frac{\pi}{4}\right)} = \sqrt{2}.$
-    \[ w_1 = \frac{\frac{\sqrt{2}-1}{2}}{(\sqrt{2}-1)\frac{\sqrt{2}}{2}} = \frac{\sqrt{2}-1}{(\sqrt{2}-1)\sqrt{2}} = \frac{\sqrt{2}}{2} \]
+%
+%
+%%    po komponentah pa
+%%    \begin{align*}
+%%        x(t) &= \frac{(1-t)^2 + w_1R\cos\left(\frac{\alpha}{2}\right) 2t(1-t) + \cos(\alpha)t^2}{(1-t)^2 + w_1 2t(1-t) + t^2} \\
+%%        y(t) &= \frac{w_12t(1-t)R\sin\left(\frac{\alpha}{2}\right) + \sin(\alpha)t^2}{(1-t)^2 + w_1 2t(1-t) + t^2}.
+%%    \end{align*}
+%    Tangenta na enotsko krožnico je v točki $(1,0)$ vzporedna z ordinatno osjo, zato mora veljati $x'(0)=0$.
+%    \mycomment{Odvod racionalne Bezierjeve krivulje v točki $(1,0)$ je enak $2(\p_{1}-\p_{0}) = 2\left(R\sin\left(\frac{\alpha}{2}\right)-r,R\cos\left(\frac{\alpha}{2}\right)\right)$.}
+%    Iz česar sledi $R=\frac{r}{\cos\left(\frac{\alpha}{2}\right)}$.
+%    \begin{align*}
+%        w_1\left(\frac{r}{\sin\left(\frac{\alpha}{2}\right)}-r\right)\sin\left(\frac{\alpha}{2}\right)  &= r\sin\left(\frac{\alpha}{2}\right) - \frac{r}{2}\sin(\alpha) \\
+%        w_1 &= \frac{r\sin\left(\frac{\alpha}{2}\right) - \frac{r}{2}\sin(\alpha)}{\left(\frac{r}{\sin\left(\frac{\alpha}{2}\right)}-r\right)\sin\left(\frac{\alpha}{2}\right) }
+%    \end{align*}
+%
+%
+%    Zaradi simetrije mora krivulja v $t=\frac{1}{2}$ interpolirati točko $\left(\cos\left(\frac{\alpha}{2}\right),\sin\left(\frac{\alpha}{2}\right)\right)$ iz česar sledi
+%    \begin{align*}
+%        x\left(\frac{1}{2}\right) &= \frac{\frac{1}{4} +  \frac{1}{2}w_1R\cos\left(\frac{\alpha}{2}\right) + \frac{1}{4}\cos(\alpha)}{\frac{1}{4}+ w_1\frac{1}{2} + \frac{1}{4}} = \frac{ \frac{1}{2} + w_1R\cos\left(\frac{\alpha}{2}\right) + \frac{1}{2}\cos(\alpha)}{1+w_1} = \cos\left(\frac{\alpha}{2}\right) \\
+%        y\left(\frac{1}{2}\right) &= \frac{\frac{w_1}{2}R\sin\left(\frac{\alpha}{2}\right) + \frac{1}{4}\sin(\alpha)}{\frac{1}{4}+ w_1\frac{1}{2} + \frac{1}{4}} =  \frac{w_1R\sin\left(\frac{\alpha}{2}\right) + \frac{1}{2}\sin(\alpha)}{1+w_1} = \sin\left(\frac{\alpha}{2}\right).
+%    \end{align*}
+%    Iz enačbe izpostavimo $w_1$
+%    \begin{align*}
+%        \frac{1}{2} + w_1R\cos\left(\frac{\alpha}{2}\right) + \frac{1}{2}\cos(\alpha) &= (1+w_1)\cos\left(\frac{\alpha}{2}\right) \\
+%        w_1R\cos\left(\frac{\alpha}{2}\right) - w_1\cos\left(\frac{\alpha}{2}\right) &= \cos\left(\frac{\alpha}{2}\right)-\frac{1}{2} - \frac{1}{2}\cos(\alpha) \\
+%        w_1(R-1)\cos\left(\frac{\alpha}{2}\right) &= \left(\cos\left(\frac{\alpha}{2}\right)-\frac{1}{2} - \frac{1}{2}\cos(\alpha)\right)
+%    \end{align*}
+%    NEXT
+%    \begin{align*}
+%        w_1R\sin\left(\frac{\alpha}{2}\right) + \frac{1}{2}\sin(\alpha) &= (1+w_1)\sin\left(\frac{\alpha}{2}\right) \\
+%        w_1(R-1)\sin\left(\frac{\alpha}{2}\right)  &= \sin\left(\frac{\alpha}{2}\right) - \frac{1}{2}\sin(\alpha)
+%    \end{align*}
+%
+%    \begin{align*}
+%        \frac{r}{2} + w_1R\cos\left(\frac{\alpha}{2}\right) + \frac{r}{2}\cos(\alpha) &=(1+w_1) r\cos\left(\frac{\alpha}{2}\right) \\
+%        w_1R\cos\left(\frac{\alpha}{2}\right) - w_1r\cos\left(\frac{\alpha}{2}\right) &= r\cos\left(\frac{\alpha}{2}\right)-\frac{r}{2}\cos(\alpha)-\frac{r}{2} \\
+%        w_1(R-r)\cos\left(\frac{\alpha}{2}\right) &= r\cos\left(\frac{\alpha}{2}\right)-\frac{r}{2}\cos(\alpha)-\frac{r}{2} \\
+%        w_1 &=\frac{r\cos\left(\frac{\alpha}{2}\right)-\frac{r}{2}\cos(\alpha)-\frac{r}{2}}{(R-r)\cos\left(\frac{\alpha}{2}\right)}\\
+%        w_1 &=\frac{r\cos\left(\frac{\alpha}{2}\right)-\frac{r}{2}\cos(\alpha)-\frac{r}{2}}{(R=\frac{r}{\cos\left(\frac{\alpha}{2}\right)}-r)\cos\left(\frac{\alpha}{2}\right)}
+%    \end{align*}
+%
+%
+%
+%    \begin{align*}
+%        w_1\left(\frac{r}{\sin\left(\frac{\alpha}{2}\right)}-r\right)\sin\left(\frac{\alpha}{2}\right)  &= r\sin\left(\frac{\alpha}{2}\right) - \frac{r}{2}\sin(\alpha) \\
+%        w_1 &= \frac{r\sin\left(\frac{\alpha}{2}\right) - \frac{r}{2}\sin(\alpha)}{\left(\frac{r}{\sin\left(\frac{\alpha}{2}\right)}-r\right)\sin\left(\frac{\alpha}{2}\right) }
+%    \end{align*}
+%    Izračunajmo sedaj za $r=1$ in $\alpha = \frac{\pi}{2}$. $R=\frac{1}{\cos\left(\frac{\pi}{4}\right)} = \sqrt{2}.$
+%    \[ w_1 = \frac{\frac{\sqrt{2}-1}{2}}{(\sqrt{2}-1)\frac{\sqrt{2}}{2}} = \frac{\sqrt{2}-1}{(\sqrt{2}-1)\sqrt{2}} = \frac{\sqrt{2}}{2} \]
 
     \newpage
 

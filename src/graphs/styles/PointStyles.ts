@@ -14,7 +14,8 @@ const pointStyle: PointAttributes = {
         anchorX: "left",
         // @ts-ignore
         visible: () => VisibilityContext.pointsVisible()
-    }
+    },
+    name: "",
 }
 
 const fixedPointStyle: PointAttributes = {
