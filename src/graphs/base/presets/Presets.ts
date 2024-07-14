@@ -1,6 +1,6 @@
 const PRESETS_PREFIX = "preset-"
 
-interface Preset {
+export interface Preset {
     id: string,
     data: string,
 }
