@@ -57,8 +57,6 @@ export function BezierCurveCommands(curve: JSXBezierCurve): JSX.Element[] {
             initialState={curve.isShowingJxgPoints()}
             onChange={checked => curve.showJxgPointss(checked)}/>)
     }
-    commands.push(<OnOffSwitch label={"Konveksna ovojnica"}
-                               initialState={curve.isShowingConvexHull()}
-                               onChange={(checked) => curve.showConvexHull(checked)}></OnOffSwitch>)
+
     return commands;
 }

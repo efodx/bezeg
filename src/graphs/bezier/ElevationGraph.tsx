@@ -7,7 +7,7 @@ import {Button} from "react-bootstrap";
 class ElevationGraph extends BaseBezierCurveGraph<BaseCurveGraphProps, BaseGraphStates> {
 
     defaultPreset(): string {
-        return '["JSXBezierCurve|{\\"points\\":[[-3,2],[0,-2],[1,2],[3,-2]]}","JSXBezierCurve|{\\"points\\":[[-3,2],[0,-2],[1,2],[3,-2]]}"]'
+        return '["JSXBezierCurve|{\\"points\\":[[-3,2],[0,-2],[1,2],[3,-2]]}"]'
     }
     
     elevate() {

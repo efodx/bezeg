@@ -3,8 +3,14 @@ import '../../App.css';
 import {BaseRationalCurveGraph} from "./BaseRationalCurveGraph";
 import {Button} from "react-bootstrap";
 import {BaseGraphProps, BaseGraphStates} from "../base/BaseCurveGraph";
+import {Attributes} from "../attributes/Attributes";
 
 class Graph extends BaseRationalCurveGraph<BaseGraphProps, BaseGraphStates> {
+
+    override initialize() {
+        super.initialize();
+        this.getFirstJsxCurve().setAttributes(Attributes.bezierDisabled)
+    }
 
     elevate() {
         this.board.suspendUpdate()

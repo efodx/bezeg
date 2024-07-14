@@ -41,10 +41,6 @@ abstract class BasePhBezierCurveGraph<P extends BaseCurveGraphProps, S extends B
         })
     }
 
-    abstract getStartingPoints(): number[][];
-
-    abstract getStartingHodographs(): number[][];
-
     override getInitialState(): S {
         return {
             ...super.getInitialState(),

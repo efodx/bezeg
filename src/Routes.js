@@ -64,60 +64,37 @@ const routes = [
             {
                 group: BEZIER_CURVES_GROUP,
                 path: PATH_BEZIER_CURVES + "/curve",
-                element: <BezierCurveGraph areCurvesSelectable={true} allowSelectedCurveShrink={true}/>,
+                element: <BezierCurveGraph/>,
                 title: "Bezierjeva Krivulja"
             },
             {
                 group: BEZIER_CURVES_GROUP,
                 path: PATH_BEZIER_CURVES + "/decasteljau",
-                element: <DecasteljauGraph
-                    allowSelectedCurveDecasteljau={false}
-                    allowSelectedCurveElevation={false}
-                    allowSelectedCurveExtrapolation={false}
-                    allowSelectedCurveSubdivision={false}
-                    allowSelectedCurveControlPolygon={false}/>,
+                element: <DecasteljauGraph/>,
                 title: "Decasteljau"
             },
             {
                 group: BEZIER_CURVES_GROUP,
                 path: PATH_BEZIER_CURVES + "/affine",
-                element: <AffineBezierGraph
-                    allowSelectedCurveDecasteljau={false}
-                    allowSelectedCurveElevation={false}
-                    allowSelectedCurveExtrapolation={false}
-                    allowSelectedCurveSubdivision={false}/>,
+                element: <AffineBezierGraph/>,
                 title: "Afine Transformacije"
             },
             {
                 group: BEZIER_CURVES_GROUP,
                 path: PATH_BEZIER_CURVES + "/subdivision",
-                element: <GraphSubdivision
-                    allowSelectedCurveDecasteljau={false}
-                    allowSelectedCurveElevation={false}
-                    allowSelectedCurveExtrapolation={false}
-                    allowSelectedCurveSubdivision={false}/>,
+                element: <GraphSubdivision/>,
                 title: "Subdivizija"
             },
             {
                 group: BEZIER_CURVES_GROUP,
                 path: PATH_BEZIER_CURVES + "/extrapolation",
-                element: <ExtrapolationGraph
-                    allowSelectedCurveDecasteljau={false}
-                    allowSelectedCurveElevation={false}
-                    allowSelectedCurveExtrapolation={false}
-                    allowSelectedCurveSubdivision={false}
-                    allowSelectedCurveControlPolygon={false}/>,
+                element: <ExtrapolationGraph/>,
                 title: "Ekstrapolacija"
             },
             {
                 group: BEZIER_CURVES_GROUP,
                 path: PATH_BEZIER_CURVES + "/elevation",
-                element: <ElevationGraph
-                    allowSelectedCurveDecasteljau={false}
-                    allowSelectedCurveElevation={false}
-                    allowSelectedCurveExtrapolation={false}
-                    allowSelectedCurveSubdivision={false}
-                    allowSelectedCurveControlPolygon={true}/>,
+                element: <ElevationGraph/>,
                 title: "Dvig Stopnje"
             },
             {
@@ -207,48 +184,28 @@ const routes = [
             {
                 group_path: PATH_PH_CURVES,
                 path: PATH_PH_CURVES + "/cubic",
-                element: <CubicPhBezierCurveGraph
-                    allowSelectedCurveDecasteljau={false}
-                    allowSelectedCurveElevation={false}
-                    allowSelectedCurveExtrapolation={false}
-                    allowSelectedCurveSubdivision={false}
-                    allowSelectedCurveControlPolygon={true}/>,
+                element: <CubicPhBezierCurveGraph/>,
                 title: "Stopnje 3",
                 group: PH_CURVES_GROUP
             },
             {
                 group_path: PATH_PH_CURVES,
                 path: PATH_PH_CURVES + "/quintic",
-                element: <QuinticPhBezierCurve
-                    allowSelectedCurveDecasteljau={false}
-                    allowSelectedCurveElevation={false}
-                    allowSelectedCurveExtrapolation={false}
-                    allowSelectedCurveSubdivision={false}
-                    allowSelectedCurveControlPolygon={true}/>,
+                element: <QuinticPhBezierCurve/>,
                 title: "Stopnje 5",
                 group: PH_CURVES_GROUP
             },
             {
                 group_path: PATH_PARAM,
                 path: PATH_PARAM + "/param/alphaparam",
-                element: <AlphaParamBezierCurveGraph
-                    allowSelectedCurveDecasteljau={false}
-                    allowSelectedCurveElevation={false}
-                    allowSelectedCurveExtrapolation={false}
-                    allowSelectedCurveSubdivision={false}
-                    allowSelectedCurveControlPolygon={false}/>,
+                element: <AlphaParamBezierCurveGraph/>,
                 title: "Alpha Parametrizacija",
                 group: PARAMETRIZATION_GROUP
             },
             {
                 group_path: PATH_PARAM,
                 path: PATH_PARAM + "/param/uniform",
-                element: <UniformParamBezierCurveGraph
-                    allowSelectedCurveDecasteljau={false}
-                    allowSelectedCurveElevation={false}
-                    allowSelectedCurveExtrapolation={false}
-                    allowSelectedCurveSubdivision={false}
-                    allowSelectedCurveControlPolygon={false}/>,
+                element: <UniformParamBezierCurveGraph/>,
                 title: "Enakomerna Parametrizacija",
                 group: PARAMETRIZATION_GROUP
             }

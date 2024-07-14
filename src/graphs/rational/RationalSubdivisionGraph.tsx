@@ -6,14 +6,7 @@ import {JSXRationalBezierCurve} from "../object/JSXRationalBezierCurve";
 import {BaseGraphProps, BaseGraphStates} from "../base/BaseCurveGraph";
 
 class Graph extends BaseRationalCurveGraph<BaseGraphProps, BaseGraphStates> {
-    private slider?: JXG.Slider;
     private stepsDone: number = 0;
-
-    override initialize() {
-        super.initialize()
-        this.slider = this.board.create('slider', [[2, 2], [4, 2], [0, 0.5, 1]]);
-        //this.createJSXGraphPoint(() => curve.getBezierCurve().calculatePointAtT(this.slider!.Value()).X(), () => curve.getBezierCurve().calculatePointAtT(this.slider!.Value()).Y());
-    }
 
     subdivide() {
         if (this.stepsDone > 4) {
@@ -23,7 +16,8 @@ class Graph extends BaseRationalCurveGraph<BaseGraphProps, BaseGraphStates> {
         this.board.suspendUpdate()
         let oldJsxBezierCurves = this.jsxBezierCurves.map(c => c as JSXRationalBezierCurve)
         for (let bezierCurve of oldJsxBezierCurves) {
-            bezierCurve.subdivide(this.slider!.Value())
+            const newCurve = bezierCurve.subdivide(1 / 2)
+            this.jsxBezierCurves.push(newCurve)
         }
         this.unsuspendBoardUpdate()
     };

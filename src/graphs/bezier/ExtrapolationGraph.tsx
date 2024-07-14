@@ -3,10 +3,10 @@ import '../../App.css';
 import {BaseBezierCurveGraph, BaseCurveGraphProps} from "../base/BaseBezierCurveGraph";
 import {BaseGraphStates} from "../base/BaseCurveGraph";
 import {Button} from "react-bootstrap";
+import Slider from "../../inputs/Slider";
+import {BezierCurveAttributes} from "../object/AbstractJSXBezierCurve";
 
 class GraphExtrapolation extends BaseBezierCurveGraph<BaseCurveGraphProps, BaseGraphStates> {
-    private slider?: JXG.Slider;
-
     defaultPreset() {
         return "[\"JSXBezierCurve|{\\\"points\\\":[[-4,-3],[-3,2],[2,2],[3,-2]]}\"]"
     }
@@ -17,20 +17,26 @@ class GraphExtrapolation extends BaseBezierCurveGraph<BaseCurveGraphProps, BaseG
 
     override initialize() {
         super.initialize()
-        this.slider = this.board.create('slider', [[2, 2], [4, 2], [1, 1.1, 1.2]]);
-        this.getFirstJsxCurve().setIntervalEnd(() => this.slider!.Value())
+        this.getFirstJsxCurve().createExtrapolationPoint()
+        this.getFirstJsxCurve().showExtrapolationPoint()
+        this.getFirstJsxCurve().setAttributes({
+            allowShrink: false,
+            allowExtrapolation: false,
+            allowElevation: false,
+            allowDecasteljau: false,
+            allowSubdivision: false
+        } as BezierCurveAttributes)
     }
 
     override getGraphCommands(): JSX.Element[] {
-        return super.getGraphCommands().concat([<Button variant={"dark"}
-                                                        onClick={() => this.extrapolate()}>Ekstrapoliraj</Button>])
+        return this.state.initialized ? super.getGraphCommands().concat([<div>
+            <Slider min={1} max={1.5}
+                    initialValue={this.getFirstJsxCurve().getExtrapolationT()}
+                    onChange={(t) => this.getFirstJsxCurve().setExtrapolationT(t)}></Slider>
+            <Button variant={"dark"}
+                    onClick={() => this.getFirstJsxCurve().extrapolate(this.getFirstJsxCurve().getExtrapolationT())}>Ekstrapoliraj</Button>
+        </div>]) : []
     }
-
-    private extrapolate() {
-        this.getFirstJsxCurve().extrapolate(this.slider!.Value())
-        this.board.update()
-    }
-
 }
 
 export default GraphExtrapolation;

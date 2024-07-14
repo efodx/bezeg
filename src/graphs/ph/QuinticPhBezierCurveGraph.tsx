@@ -3,16 +3,13 @@ import BasePhBezierCurveGraph, {BasePhBezierCurveGraphStates} from "./BasePhBezi
 import {BaseCurveGraphProps} from "../base/BaseBezierCurveGraph";
 
 class QuinticPhBezierCurve extends BasePhBezierCurveGraph<BaseCurveGraphProps, BasePhBezierCurveGraphStates> {
-    getStartingHodographs(): number[][] {
-        return [[-3, 2], [2, 2], [1, 3]];
-    }
-
-    getStartingPoints(): number[][] {
-        return [[0, 0]];
-    }
 
     defaultPreset(): string {
-        return "";
+        return '["JSXPHBezierCurve|{\\"points\\":[[0,0]],\\"hodographs\\":[[-3,2],[2,2],[1,2]]}"]';
+    }
+
+    override presets(): string {
+        return "quintic-ph-graph"
     }
 
 }

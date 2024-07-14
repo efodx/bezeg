@@ -3,17 +3,27 @@
  */
 import {RationalBezierCurve} from "../../bezeg/impl/curve/rational-bezier-curve";
 import {Board} from "jsxgraph";
-import {AbstractJSXBezierCurve} from "./AbstractJSXBezierCurve";
+import {AbstractJSXBezierCurve, BezierCurveAttributes} from "./AbstractJSXBezierCurve";
 import {PointStyles} from "../styles/PointStyles";
 import {SizeContext} from "../context/SizeContext";
 import {RationalBezierCurveCommands} from "./inputs/RationalBezierCurveCommands";
+import {PointControlledCurveState} from "./AbstractJSXPointControlledCurve";
 
 interface JSXRationalBezierCurveConstructorParams {
     points: number[][],
-    weights: number[]
+    weights: number[],
+    state: JSXRationalBezierCurveState
 }
 
-export class JSXRationalBezierCurve extends AbstractJSXBezierCurve<RationalBezierCurve, any> {
+interface JSXRationalBezierCurveState extends PointControlledCurveState {
+    subdivisionT: number
+    extrapolationT: number
+    weightNumber: number
+    showingWeights: boolean
+    showingFarinPoints: boolean
+}
+
+export class JSXRationalBezierCurve extends AbstractJSXBezierCurve<RationalBezierCurve, BezierCurveAttributes> {
     subdivisionT: number = 0.5;
     extrapolationT: number = 1.2;
     subdivisionPoint: JXG.Point | null = null;
@@ -32,13 +42,51 @@ export class JSXRationalBezierCurve extends AbstractJSXBezierCurve<RationalBezie
     static toStr(curve: JSXRationalBezierCurve): string {
         return JSON.stringify({
             points: curve.pointControlledCurve.getPoints().map(point => [point.X(), point.Y()]),
-            weights: curve.pointControlledCurve.getWeights()
+            weights: curve.pointControlledCurve.getWeights(),
+            state: curve.exportState()
         } as JSXRationalBezierCurveConstructorParams)
     }
 
     static fromStr(str: string, board: Board): JSXRationalBezierCurve {
         const params = JSON.parse(str) as JSXRationalBezierCurveConstructorParams
-        return new JSXRationalBezierCurve(params.points, params.weights, board)
+        const curve = new JSXRationalBezierCurve(params.points, params.weights, board)
+        if (params.state) {
+            curve.importState(params.state)
+        }
+        return curve
+    }
+
+    override getDefaultAttributes(): BezierCurveAttributes {
+        return {
+            ...super.getDefaultAttributes(),
+            allowSubdivision: true,
+            allowShowControlPolygon: true,
+            allowDecasteljau: true,
+            allowElevation: true,
+            allowExtrapolation: true,
+            allowShowPoints: true,
+            allowShrink: true
+        };
+    }
+
+    override exportState(): JSXRationalBezierCurveState {
+        return {
+            ...super.exportState(),
+            subdivisionT: this.subdivisionT,
+            extrapolationT: this.extrapolationT,
+            showingWeights: this.showingWeights,
+            weightNumber: this.weightNumber,
+            showingFarinPoints: this.showingFarinPoints
+        } as JSXRationalBezierCurveState;
+    }
+
+    override importState(state: JSXRationalBezierCurveState) {
+        super.importState(state);
+        this.setSubdivisionT(state.subdivisionT)
+        this.setExtrapolationT(state.extrapolationT)
+        this.showwWeights(state.showingWeights)
+        this.weightNumber = state.weightNumber
+        this.showFarinPoints(state.showingFarinPoints)
     }
 
     override addPoint(x: number, y: number) {
@@ -319,9 +367,12 @@ export class JSXRationalBezierCurve extends AbstractJSXBezierCurve<RationalBezie
         this.setWeight(1)
     }
 
+    getExtrapolationT() {
+        return this.extrapolationT
+    }
+
     protected getStartingCurve(points: number[][]): RationalBezierCurve {
         let jsxPoints = points.map((point, i) => this.createJSXGraphPoint(point[0], point[1], PointStyles.pi(i)))
         return new RationalBezierCurve(jsxPoints, jsxPoints.map(() => 1));
     }
-
 }

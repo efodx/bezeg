@@ -11,13 +11,6 @@ class CubicPhBezierCurveGraph extends BasePhBezierCurveGraph<BaseCurveGraphProps
         return "cubic-ph"
     }
 
-    getStartingHodographs(): number[][] {
-        return [[-3, 2], [2, 2]];
-    }
-
-    getStartingPoints(): number[][] {
-        return [[0, 0]];
-    }
 }
 
 export default CubicPhBezierCurveGraph;

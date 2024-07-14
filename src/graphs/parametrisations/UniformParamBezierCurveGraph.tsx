@@ -18,7 +18,7 @@ class UniformParamBezierCurveGraph extends BasePhBezierCurveGraph<BaseCurveGraph
     private ts!: any[];
 
     defaultPreset(): string {
-        throw new Error('Method not implemented.');
+        return '["JSXPHBezierCurve|{\\"points\\":[[0,0]],\\"hodographs\\":[[-3,2],[2,2]]}"]'
     }
 
     override getInitialState(): UniformParamBezierCurveGraphStates {
@@ -27,15 +27,7 @@ class UniformParamBezierCurveGraph extends BasePhBezierCurveGraph<BaseCurveGraph
             isAlphaParam: true
         };
     }
-
-    getStartingHodographs(): number[][] {
-        return [[-3, 2], [2, 2]];
-    }
-
-    getStartingPoints(): number[][] {
-        return [[0, 0]];
-    }
-
+    
     alphaParam: (t: number) => number = (t: number) => (1 - this.alpha) * t / (this.alpha * (1 - t) + (1 - this.alpha) * t);
 
     override initialize() {

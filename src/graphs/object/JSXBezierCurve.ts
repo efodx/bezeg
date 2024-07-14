@@ -9,9 +9,18 @@ import {CacheContext} from "../context/CacheContext";
 import {SizeContext} from "../context/SizeContext";
 import {BezierCurveCommands} from "./inputs/BezierCurveCommands";
 import {Board} from "jsxgraph";
+import {PointControlledCurveState} from "./AbstractJSXPointControlledCurve";
 
 export interface JSXBezierCurveConstructorParams {
-    points: number[][]
+    points: number[][],
+    state: JSXBezierCurveState
+}
+
+export interface JSXBezierCurveState extends PointControlledCurveState {
+    subdivisionT: number
+    decasteljauT: number
+    extrapolationT: number
+    showingDecasteljauScheme: boolean
 }
 
 /**
@@ -34,13 +43,38 @@ export class JSXBezierCurve extends AbstractJSXBezierCurve<BezierCurve, BezierCu
 
     static toStr(curve: JSXBezierCurve): string {
         return JSON.stringify({
-            points: curve.pointControlledCurve.getPoints().map(point => [point.X(), point.Y()])
+            points: curve.pointControlledCurve.getPoints().map(point => [point.X(), point.Y()]),
+            state: curve.exportState()
         } as JSXBezierCurveConstructorParams)
     }
 
     static fromStr(str: string, board: Board): JSXBezierCurve {
         const params = JSON.parse(str) as JSXBezierCurveConstructorParams
-        return new JSXBezierCurve(params.points, board)
+        const curve = new JSXBezierCurve(params.points, board)
+        if (params.state) {
+            curve.importState(params.state)
+        }
+        return curve
+    }
+
+    override importState(state: JSXBezierCurveState) {
+        super.importState(state);
+        this.setSubdivisionT(state.subdivisionT)
+        this.setDecasteljauT(state.decasteljauT)
+        this.setExtrapolationT(state.extrapolationT)
+        if (!state.showingDecasteljauScheme) {
+            this.hideDecasteljauScheme()
+        }
+    }
+
+    override exportState(): JSXBezierCurveState {
+        return {
+            ...super.exportState(),
+            showingDecasteljauScheme: this.showingDecasteljauScheme,
+            subdivisionT: this.subdivisionT,
+            decasteljauT: this.decasteljauT,
+            extrapolationT: this.extrapolationT
+        } as JSXBezierCurveState
     }
 
     override getDefaultAttributes(): BezierCurveAttributes {
@@ -254,6 +288,7 @@ export class JSXBezierCurve extends AbstractJSXBezierCurve<BezierCurve, BezierCu
         // Create second curve
         let curve2pointArray = curve2.getPoints().map(point => [point.X(), point.Y()])
         const newJsxCurve = new JSXBezierCurve(curve2pointArray, this.board) as this
+        newJsxCurve.setAttributes(this.getAttributes())
         if (this.subdivisionResultConsumer !== undefined) {
             this.subdivisionResultConsumer(newJsxCurve)
         }
@@ -320,15 +355,18 @@ export class JSXBezierCurve extends AbstractJSXBezierCurve<BezierCurve, BezierCu
     createExtrapolationPoint() {
         if (this.board && !this.extrapolationPoint && this) {
             this.extrapolationPoint = this.board.create('point', [() => this.getCurve().calculatePointAtT(this.extrapolationT).X(),
-                () => this.getCurve().calculatePointAtT(this.extrapolationT).Y()], {size: () => SizeContext.pointSize}) as JXG.Point;
+                () => this.getCurve().calculatePointAtT(this.extrapolationT).Y()], PointStyles.default) as JXG.Point;
             this.extrapolationPoint.hide()
         }
     }
 
-    showCurrentDecasteljauScheme() {
-        this.board.suspendUpdate()
-        this.showDecasteljauSchemeForT(this.decasteljauT)
-        this.board.unsuspendUpdate()
+    showCurrentDecasteljauScheme(show?: boolean) {
+        // TODO.... just look at it...
+        if (show === undefined || show) {
+            this.board.suspendUpdate()
+            this.showDecasteljauSchemeForT(this.decasteljauT)
+            this.board.unsuspendUpdate()
+        }
     }
 
     hideSelectedCurveDecasteljauScheme() {

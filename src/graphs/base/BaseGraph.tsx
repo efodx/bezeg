@@ -1,9 +1,9 @@
-import React, {Component, useContext, useState} from 'react';
+import React, {Component, useContext} from 'react';
 import '../../App.css';
 
 import {Board, JSXGraph} from "jsxgraph";
 import {JGBox} from "../../JGBox";
-import {Button, Col, Container, Form, Modal, Row} from "react-bootstrap";
+import {Button, Col, Container, Row} from "react-bootstrap";
 import {SizeContext} from "../context/SizeContext";
 import {Commands} from "./Commands";
 import {Tools} from "./Tools";
@@ -15,6 +15,7 @@ import html2canvas from "html2canvas";
 import {CacheContext} from "../context/CacheContext";
 import {PresetService} from "./presets/Presets";
 import {PresetContext} from "../context/react/PresetContext";
+import {PresetSelector} from "./PresetSelector";
 
 function SizeRange(props: { board: () => JXG.Board }) {
     return <div><Slider customText={"Povečava"} min={0} max={10} initialValue={SizeContext.getSize()} step={1}
@@ -25,170 +26,27 @@ function SizeRange(props: { board: () => JXG.Board }) {
                         }}/></div>;
 }
 
-function SaveModal(props: { onSave: (name: string) => void }) {
-    const [show, setShow] = useState(false);
-    const [presetName, setPresetName] = useState("");
-
-    const handleClose = () => setShow(false);
-    const handleSave = () => {
-        props.onSave(presetName)
-        setShow(false);
-    }
-    const handleShow = () => setShow(true);
-
-    return (
-        <>
-            <Button variant="primary" onClick={handleShow}>
-                💾
-            </Button>
-
-            <Modal show={show} onHide={handleClose}>
-                <Modal.Header closeButton>
-                    <Modal.Title>Shrani Preset</Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
-                    <Form onSubmit={e => {
-                        e.preventDefault()
-                        handleSave()
-                    }}>
-                        <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-                            <Form.Label>Ime Preseta</Form.Label>
-                            <Form.Control
-                                onChange={event => setPresetName(event.target.value)}
-                                type="text"
-                                placeholder="zelo-licna-predstavitev"
-                                defaultValue={presetName}
-                                autoFocus
-                            />
-                        </Form.Group>
-                    </Form>
-                </Modal.Body>
-                <Modal.Footer>
-                    <Button variant="secondary" onClick={handleClose}>
-                        Close
-                    </Button>
-                    <Button variant="primary" onClick={handleSave}>
-                        Save
-                    </Button>
-                </Modal.Footer>
-            </Modal>
-        </>
-    );
-
-}
-
-function TrashModal(props: { trash: (name: string) => void }) {
-    const [show, setShow] = useState(false);
-    const [presetName, setPresetName] = useState("");
-
-    const handleClose = () => setShow(false);
-    const handleConfirm = () => {
-        props.trash(presetName)
-        setShow(false);
-    }
-    const handleShow = () => setShow(true);
-
-    return (
-        <>
-            <Button variant="primary" onClick={handleShow}>
-                🗑
-            </Button>
-            <Modal show={show} onHide={handleClose}>
-                <Modal.Header closeButton>
-                    <Modal.Title>Izbriši Preset?</Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
-                    <Button variant="secondary" onClick={handleConfirm}>
-                        Da
-                    </Button>
-                    <Button variant="primary" onClick={handleClose}>
-                        Ne
-                    </Button>
-                </Modal.Body>
-            </Modal>
-        </>
-    );
-
-}
-
-function PresetSelector(props: {
-    presetService: PresetService,
-    dataProvider: () => string
-}) {
-    const selectedPresetContext = useContext(PresetContext)
-
-    const [presets, setPresets] = useState({
-        presets: props.presetService.loadPresets(),
-        selectedPreset: props.presetService.getPreset(selectedPresetContext.selected)
-    })
-    return <div>
-        Presets
-        <Form.Select key={Math.random()} onChange={(value) => {
-            const preset = props.presetService.getPreset(value.target.value)
-            if (preset !== undefined) {
-                setPresets({
-                    presets: presets.presets,
-                    selectedPreset: preset
-                })
-                selectedPresetContext.setSelected(preset.id)
-            } else {
-                setPresets({
-                    presets: presets.presets,
-                    selectedPreset: preset
-                })
-                selectedPresetContext.setSelected("")
-            }
-        }} aria-label="Default select example"
-                     defaultValue={selectedPresetContext.selected}
-        >
-            <option value={""}>{"Privzet"}</option>
-            {presets.presets.data.map(preset =>
-                <option value={preset.id}>{preset.id}</option>)}
-        </Form.Select>
-        <SaveModal onSave={(name) => {
-            if (name === null || name === "") {
-                name = "preset-" + Math.random()
-            }
-            const newPresets = props.presetService.savePreset({
-                data: props.dataProvider(),
-                id: name
-            })
-            setPresets({
-                presets: newPresets,
-                selectedPreset: newPresets.data[newPresets.data.length - 1]
-            })
-            selectedPresetContext.setSelected(name)
-        }}></SaveModal>
-
-        <TrashModal trash={name => {
-            if (name !== undefined || name !== "") {
-                const newPresets = props.presetService.removePreset(presets.selectedPreset.id)
-                setPresets({
-                    presets: newPresets,
-                    selectedPreset: newPresets.data[0]
-                })
-                selectedPresetContext.setSelected(newPresets.data[0]?.id)
-            }
-        }}></TrashModal>
-    </div>
-}
-
 function SaveAsPng(props: { onClick: (fileName: string) => void }) {
     const presetContext = useContext(PresetContext)
     const fileName = presetContext.selected === "" ? "izvoz" : presetContext.selected
-    return <Button variant={"dark"} onClick={() => props.onClick(fileName + ".png")}>Izvozi kot PNG</Button>;
+    return <Button variant={"dark"} onClick={() => props.onClick(fileName + ".png")}>PNG</Button>;
 }
 
 function SaveAsSvg(props: { onClick: (fileName: string) => void }) {
     const presetContext = useContext(PresetContext)
     const fileName = presetContext.selected === "" ? "izvoz" : presetContext.selected
-    return <Button variant={"dark"} onClick={() => props.onClick(fileName + ".svg")}>Izvozi kot SVG</Button>;
+    return <Button variant={"dark"} onClick={() => props.onClick(fileName + ".svg")}>SVG</Button>;
 }
+
+export interface BaseGraphState {
+    initialized: boolean
+}
+
 
 /**
  * Abstract class for creating graphs.
  */
-abstract class BaseGraph<P, S> extends Component<P, S> {
+abstract class BaseGraph<P, S extends BaseGraphState> extends Component<P, S> {
     static override contextType = PresetContext
     // TODO fix this, it doesn't work for some reason :/
     //  declare context: React.ContextType<typeof PresetContext>
@@ -220,6 +78,7 @@ abstract class BaseGraph<P, S> extends Component<P, S> {
             });
 
             this.initialize()
+            this.setState({initialized: true})
         }
     }
 
@@ -261,14 +120,21 @@ abstract class BaseGraph<P, S> extends Component<P, S> {
 
     getTools(): JSX.Element[] {
         const tools = [
-            <SaveAsSvg onClick={(name) => this.saveAsSVG(name)}/>,
-            <SaveAsPng onClick={(name) => this.saveAsPNG(name)}/>,
+            <div>
+                Izvozi
+                <div>
+                    <SaveAsSvg onClick={(name) => this.saveAsSVG(name)}/>
+                    <SaveAsPng onClick={(name) => this.saveAsPNG(name)}/>
+                </div>
+            </div>,
             <ResetButton/>,
             <ShowAxis board={() => this.board}></ShowAxis>,
             <SizeRange board={() => this.board}/>
         ]
         if (this.presetService) {
-            tools.push(<PresetSelector presetService={this.presetService} dataProvider={() => this.exportPreset()}/>)
+            tools.push(<PresetSelector presetService={this.presetService}
+                                       exporter={(fileName: string) => this.saveAsPNG(fileName)}
+                                       dataProvider={() => this.exportPreset()}/>)
         }
         return tools
     }

@@ -1,7 +1,7 @@
 /**
  * Class that wraps a BezierCurve with methods for dealing with JSXGraph
  */
-import {AbstractJSXPointControlledCurve} from "./AbstractJSXPointControlledCurve";
+import {AbstractJSXPointControlledCurve, PointControlledCurveState} from "./AbstractJSXPointControlledCurve";
 import {BezierSpline, Continuity} from "../../bezeg/impl/curve/bezier-spline";
 import {Board} from "jsxgraph";
 import {PointStyles} from "../styles/PointStyles";
@@ -9,7 +9,8 @@ import {PointStyles} from "../styles/PointStyles";
 interface JSXSplineConstructorParams {
     points: number[][],
     continuity: Continuity,
-    degree: number
+    degree: number,
+    state: PointControlledCurveState
 }
 
 export class JSXSplineCurve extends AbstractJSXPointControlledCurve<BezierSpline, any> {
@@ -26,13 +27,18 @@ export class JSXSplineCurve extends AbstractJSXPointControlledCurve<BezierSpline
         return JSON.stringify({
             points: curve.pointControlledCurve.getPoints().map(point => [point.X(), point.Y()]),
             degree: curve.pointControlledCurve.getDegree(),
-            continuity: curve.pointControlledCurve.getContinuity()
+            continuity: curve.pointControlledCurve.getContinuity(),
+            state: curve.exportState()
         } as JSXSplineConstructorParams)
     }
 
     static fromStr(str: string, board: Board): JSXSplineCurve {
         const params = JSON.parse(str) as JSXSplineConstructorParams
-        return new JSXSplineCurve(params.points, params.continuity, params.degree, board)
+        const curve = new JSXSplineCurve(params.points, params.continuity, params.degree, board)
+        if (params.state) {
+            curve.importState(params.state)
+        }
+        return curve
     }
 
     override addPoint(x: number, y: number) {

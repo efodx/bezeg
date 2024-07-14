@@ -11,7 +11,7 @@ import {
 import {PointControlledCurve} from "../../bezeg/api/curve/point-controlled-curve";
 import {OnOffSwitch} from "../../inputs/OnOffSwitch";
 import {Commands} from "./Commands";
-import BaseGraph from "./BaseGraph";
+import BaseGraph, {BaseGraphState} from "./BaseGraph";
 import {VisibilityContext} from "../context/VisibilityContext";
 import {Continuity} from "../../bezeg/impl/curve/bezier-spline";
 import {JSXSplineCurve} from "../object/JSXSplineCurve";
@@ -30,7 +30,7 @@ interface BaseGraphProps {
     areCurvesSelectable?: boolean
 }
 
-interface BaseGraphStates {
+interface BaseGraphStates extends BaseGraphState {
     selectedCurveOption: SelectedCurveOption;
     curveSelected: boolean;
 }
@@ -53,8 +53,6 @@ abstract class BaseCurveGraph<P extends BaseGraphProps, S extends BaseGraphState
         if (preset) {
             this.fromString(preset.data)
         } else {
-            console.log("loading default")
-            console.log(this.defaultPreset())
             this.fromString(this.defaultPreset())
         }
     }

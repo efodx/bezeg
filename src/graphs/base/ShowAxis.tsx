@@ -4,7 +4,6 @@ import {Form} from "react-bootstrap";
 
 export function ShowAxis(props: { board: () => Board }) {
     const [checked, setChecked] = useState(true)
-
     return <Form> <Form.Check // prettier-ignore
         type="switch"
         id="custom-switch"

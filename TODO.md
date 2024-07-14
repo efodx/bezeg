@@ -14,11 +14,11 @@
 - [x] RESIZABLE GRAF!!! - **resizas okno, ostane pa aspect ratio!**
 - [x] Prikaz kontrolnih točk offset krivulje
 - [x] Dodajanje točk zlepkom
-- [ ] Select za krivuljo samo tam, kjer ima smisel!
-- [ ] Risanje kroga z racionalnimi bezierjevimi krivuljami
+- [x] Select za krivuljo samo tam, kjer ima smisel!
+- [x] Risanje kroga z racionalnimi bezierjevimi krivuljami
 - [x] Dodat bernsteinove polinome... ni cisto brezsmiselno. Graf pokaze koliko tocka za dolocen t doda pri kalkulaciji
   tocke na krivulji!!
-- [ ] Osnova grafa naj bo renderirana enako pri Bernsteinovih polinomih kot BaseGraph... trenutno je skopirana
+- [x] Osnova grafa naj bo renderirana enako pri Bernsteinovih polinomih kot BaseGraph... trenutno je skopirana
 - [x] Size context?
 - [ ] Različni preseti za inicializacijo grafa - torej primeri iz magistrske, ki jih lahko kar izbereš iz dropdownov!
   Tako bom zagotovil konsistenco med slikami. V inicializacijo lahko dodam tudi bounding box parameter itd. - to je
@@ -27,7 +27,9 @@
   Tako bo lahko profesor si ustvaril krivuljo in jo potem shranil. In dosezem tudi, da lahko potem te presete poimensko
   eksportam!
 - [ ] Decasteljau generateLineSegments(slider: JXG.Slider) in se ena metoda... naj bo to abstrahirano kar je lahko.
-- [ ] Naj se da odstranit oznake točk tudi za segmente..... MORDA DODAM VISIBILITY MED CONTEXTE...
+- [ ] ODSTRANI SLIDERJE KER DELAJO GUZVO NA SLIKAH
+- [x] Naj se da odstranit oznake točk tudi za segmente..... MORDA DODAM VISIBILITY MED CONTEXTE...
+- [ ] Na G1 zlepkih da premikamo alphe
 
 ### Low Priority
 
@@ -35,17 +37,17 @@
   spodoblo.
 - [x] Caching za kak izracun tock? Vsaj za tiste hodografe v PH (offset) krivuljah, se vseeno more bit vse skupaj
   reaktivno, ampak ce se le da, da se ne racunajo tolko hard vsak korak.
-- [ ] Selected curve commands bi se morali prebrat direktno iz krivulje. Tako bi lahko vec razlicnih krivulj na isti
+- [x] Selected curve commands bi se morali prebrat direktno iz krivulje. Tako bi lahko vec razlicnih krivulj na isti
   graf risal in bi dejansko vsaka svoje renderirala...
 - [ ] Mogoce celo, ce bi naredu interface za vsako "metodo" in potem naredu da ce implementira, potem nastavi command,
   drugace pa ne.
 - [ ] JSX/JXG imenovanje na pravih mestih pravo!
-- [ ] Uporabi Javascript get/set ne nekih svojih pisat!
+- [ ] Uporabi Javascript get/set ne nekih svojih pisat! -- to ni sans da se mi bo dalo popravljat x]
 - [ ] Make JGBox self-initiating! it should be possible!
-- [ ] Resizanje v obe smeri za PH krivulje...TOLE MOGOCE CELO NE GRE, dobro razmisli ce strig ohrani PH...
+- [x] Resizanje v obe smeri za PH krivulje...TOLE MOGOCE CELO NE GRE, dobro razmisli ce strig ohrani PH... NO GO BBY
 - [ ] Poglej še enkrat Decasteljau, tisto je bilo pisano DOLGO nazaj. Mogoče lahko tudi dam uporabiš caching sistem.
-- [ ] JSXKrivulje bi lahko imele "wrapControlPoints()", ki bi vzele krivuljo, in njene kontrolne tocke zawrappala v
-  JSXTocke...
+- [x] JSXKrivulje bi lahko imele "wrapControlPoints()", ki bi vzele krivuljo, in njene kontrolne tocke zawrappala v
+  JSXTocke... NAH
 - [x] Mogoce pri bernsteinovih naredit nek plotchart kolko kateri vpliva?
 - [ ] Decasteljau brez dejanske sheme, tako da narisem zadnji 2 bezierjevi krivulji ki sta interpolirani? :D za pokazat
   shemo...

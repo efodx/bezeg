@@ -6,15 +6,18 @@ import {PointStyles} from "../styles/PointStyles";
 import {CurveStyles} from "../styles/CurveStyles";
 import {SegmentStyles} from "../styles/SegmentStyles";
 import {CacheContext} from "../context/CacheContext";
-import {ShowControlPolygon} from "./inputs/ShowControlPolygon";
+import {PointControlledCurveCommands} from "./inputs/PointControlledCurveCommands";
 
 
 export interface PointControlledCurveAttributes {
     allowShowControlPolygon: boolean
+    allowShowConvexHull: boolean
 }
 
-export class defaultPointControlledCurveAttributes implements PointControlledCurveAttributes {
-    allowShowControlPolygon = true;
+export interface PointControlledCurveState {
+    showingControlPolygon: boolean;
+    showingJxgPoints: boolean;
+    showingConvexHull: boolean;
 }
 
 /**
@@ -78,8 +81,9 @@ export abstract class AbstractJSXPointControlledCurve<T extends PointControlledC
     }
 
     getDefaultAttributes(): Attr {
-        return {allowShowControlPolygon: true} as Attr
+        return {allowShowControlPolygon: true, allowShowConvexHull: true} as Attr
     }
+
 
     isShowingControlPolygon() {
         return this.showingControlPolygon
@@ -325,10 +329,15 @@ export abstract class AbstractJSXPointControlledCurve<T extends PointControlledC
         this.showingJxgPoints = false
     }
 
-    showJxgPoints() {
-        this.getJxgPoints().forEach(point => point.show())
-        this.showingJxgPoints = true
+    showJxgPoints(show?: boolean) {
+        if (show === undefined || show) {
+            this.getJxgPoints().forEach(point => point.show())
+            this.showingJxgPoints = true
+        } else {
+            this.hideJxgPoints()
+        }
     }
+
 
     isShowingJxgPoints() {
         return this.showingJxgPoints
@@ -353,13 +362,32 @@ export abstract class AbstractJSXPointControlledCurve<T extends PointControlledC
 
     getCurveCommands(): JSX.Element[] {
         if (this.attributes.allowShowControlPolygon) {
-            return [ShowControlPolygon(this)]
+            return PointControlledCurveCommands(this)
         }
         return []
     }
 
     getAttributes(): Attr {
         return this.attributes
+    }
+
+    exportState() {
+        return {
+            showingJxgPoints: this.showingJxgPoints,
+            showingControlPolygon: this.showingControlPolygon,
+            showingConvexHull: this.showingConvexHull,
+
+        } as PointControlledCurveState
+    }
+
+    importState(state: PointControlledCurveState) {
+        this.showConvexHull(state.showingConvexHull)
+        this.showControllPolygon(state.showingControlPolygon)
+        this.showJxgPoints(state.showingJxgPoints)
+    }
+
+    setAttributes(attributes: Attr) {
+        this.attributes = {...this.attributes, ...attributes}
     }
 
     protected abstract getStartingCurve(points: number[][]): T
@@ -457,9 +485,5 @@ export abstract class AbstractJSXPointControlledCurve<T extends PointControlledC
         } else {
             this.hideHullInternal()
         }
-    }
-
-    private setAttributes(attributes: Attr) {
-        this.attributes = {...this.attributes, ...attributes}
     }
 }

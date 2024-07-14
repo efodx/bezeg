@@ -5,28 +5,26 @@ import {BaseGraphStates} from "../base/BaseCurveGraph";
 import {Button} from "react-bootstrap";
 import {OnOffSwitch} from "../../inputs/OnOffSwitch";
 import {JSXBezierCurve} from "../object/JSXBezierCurve";
+import {Attributes} from "../attributes/Attributes";
 
 function ShowControlPolygons(props: { onChange: (checked: boolean) => void }) {
     return <OnOffSwitch label="Kontrolni poligoni" onChange={props.onChange}/>
 }
 
 class SubdivisionGraph extends BaseBezierCurveGraph<BaseCurveGraphProps, BaseGraphStates> {
-    private slider?: JXG.Slider;
     private stepsDone: number = 0;
 
+    override initialize() {
+        super.initialize();
+        this.getFirstJsxCurve().setAttributes(Attributes.bezierDisabled)
+    }
+
     defaultPreset() {
-        return "[\"JSXBezierCurve|{\\\"points\\\":[[-4,-3],[-3,2],[2,2],[3,-2]]}\"]"
+        return '["JSXBezierCurve|{\\"points\\":[[-4,-3],[-3,2],[2,2],[3,-2]],\\"state\\":{\\"showingJxgPoints\\":true,\\"showingControlPolygon\\":true,\\"showingConvexHull\\":false,\\"showingDecasteljauScheme\\":false,\\"subdivisionT\\":0.5,\\"decasteljauT\\":0.5,\\"extrapolationT\\":1.2}}"]'
     }
 
     override presets() {
         return "bezier-subdivision"
-    }
-
-    override initialize() {
-        super.initialize()
-        this.slider = this.board.create('slider', [[2, 3], [4, 3], [0, 0.5, 1]]);
-        this.getFirstJsxCurve().showDecasteljauSchemeForSlider(this.slider)
-        // this.createJSXGraphPoint(() => this.bezierCurves[0].calculatePointAtT(this.slider!.Value()).X(), () => this.bezierCurves[0].calculatePointAtT(this.slider!.Value()).Y());
     }
 
     override getAllJxgPoints() {
@@ -42,7 +40,7 @@ class SubdivisionGraph extends BaseBezierCurveGraph<BaseCurveGraphProps, BaseGra
         this.board.suspendUpdate()
         let oldJsxBezierCurves = this.jsxBezierCurves.map(c => c as JSXBezierCurve)
         for (let bezierCurve of oldJsxBezierCurves) {
-            let newCurve = bezierCurve.subdivide(this.slider!.Value())
+            let newCurve = bezierCurve.subdivide(1 / 2)
             bezierCurve.hideDecasteljauScheme()
             bezierCurve.showControlPolygon()
             newCurve.showControlPolygon()
@@ -92,7 +90,7 @@ class SubdivisionGraph extends BaseBezierCurveGraph<BaseCurveGraphProps, BaseGra
     private showDecasteljauScheme() {
         this.board.suspendUpdate()
         if (this.getSelectedCurve()) {
-            this.getSelectedCurve().showDecasteljauSchemeForSlider(this.slider!)
+            this.getSelectedCurve().showDecasteljauSchemeForT(1 / 2)
         }
         this.unsuspendBoardUpdate()
     }
