@@ -7,8 +7,8 @@ import {OnOffSwitch} from "../../inputs/OnOffSwitch";
 import {JSXBezierCurve} from "../object/JSXBezierCurve";
 import {Attributes} from "../attributes/Attributes";
 
-function ShowControlPolygons(props: { onChange: (checked: boolean) => void }) {
-    return <OnOffSwitch label="Kontrolni poligoni" onChange={props.onChange}/>
+function ShowControlPolygons(props: { initialState: boolean, onChange: (checked: boolean) => void }) {
+    return <OnOffSwitch initialState={props.initialState} label="Kontrolni poligoni" onChange={props.onChange}/>
 }
 
 class SubdivisionGraph extends BaseBezierCurveGraph<BaseCurveGraphProps, BaseGraphStates> {
@@ -51,16 +51,17 @@ class SubdivisionGraph extends BaseBezierCurveGraph<BaseCurveGraphProps, BaseGra
     };
 
     override getGraphCommands(): JSX.Element[] {
-        return super.getGraphCommands().concat([<Button variant={"dark"}
-                                                        onClick={() => this.subdivide()}>Subdiviziraj</Button>,
-            <ShowControlPolygons onChange={(checked) => {
-                if (checked) {
-                    this.showControlPolygons()
-                } else {
-                    this.hideControlPolygons()
-                }
-            }}/>
-        ])
+        return this.state.initialized ? super.getGraphCommands().concat([<Button variant={"dark"}
+                                                                                 onClick={() => this.subdivide()}>Subdiviziraj</Button>,
+            <ShowControlPolygons initialState={this.getFirstJsxCurve().isShowingControlPolygon()}
+                                 onChange={(checked) => {
+                                     if (checked) {
+                                         this.showControlPolygons()
+                                     } else {
+                                         this.hideControlPolygons()
+                                     }
+                                 }}/>
+        ]) : []
     }
 
     override getSelectedCurveCommands(): JSX.Element[] {

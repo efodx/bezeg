@@ -6,15 +6,23 @@ import {BaseGraphProps, BaseGraphStates} from "../base/BaseCurveGraph";
 
 
 class RationalBezierCurveGraph extends BaseRationalCurveGraph<BaseGraphProps, BaseGraphStates> {
+
+    override initialize() {
+        super.initialize();
+        if (this.getFirstJsxCurve().isShowingFarinPoints()) {
+            this.showFarinPoints(true)
+        }
+    }
+
     override getGraphCommands(): JSX.Element[] {
-        return super.getGraphCommands().concat(<OnOffSwitch
-                initialState={false}
+        return this.state.initialized ? super.getGraphCommands().concat(<OnOffSwitch
+                initialState={this.getFirstJsxCurve().isShowingFarinPoints()}
                 onChange={(checked) => this.showFarinPoints(checked)} label={"Farinove Točke"}/>,
-            <OnOffSwitch initialState={this.getFirstJsxCurve() ? this.getFirstJsxCurve().isShowingWeights() : false}
+            <OnOffSwitch initialState={this.getFirstJsxCurve().isShowingWeights()}
                          onChange={(checked) => this.getFirstJsxCurve().showwWeights(checked)} label={"Uteži"}/>,
-            <OnOffSwitch initialState={this.getFirstJsxCurve() ? this.getFirstJsxCurve().inStandardForm() : false}
+            <OnOffSwitch initialState={this.getFirstJsxCurve().inStandardForm()}
                          onChange={(checked) => this.getFirstJsxCurve().setStandardForm(checked)}
-                         label={"Standardna Forma"}/>);
+                         label={"Standardna Forma"}/>) : []
     }
 
     defaultPreset(): string {
