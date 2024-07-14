@@ -27,7 +27,6 @@ export class PresetService {
 
     savePresets(presets: Presets) {
         window.localStorage.setItem(PRESETS_PREFIX + this.id, JSON.stringify(presets))
-        console.log(JSON.stringify(presets))
     }
 
     removePreset(id: string) {
@@ -39,6 +38,8 @@ export class PresetService {
 
     savePreset(preset: Preset) {
         const presets = this.loadPresets()
+        console.log("Saving preset data:")
+        console.log(preset.data)
         const storedPreset = presets.data.find(preset2 => preset2.id === preset.id)
         if (storedPreset) {
             storedPreset.data = preset.data

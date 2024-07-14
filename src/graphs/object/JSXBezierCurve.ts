@@ -10,7 +10,7 @@ import {SizeContext} from "../context/SizeContext";
 import {BezierCurveCommands} from "./inputs/BezierCurveCommands";
 import {Board} from "jsxgraph";
 
-interface JSXRationalBezierCurveConstructorParams {
+export interface JSXBezierCurveConstructorParams {
     points: number[][]
 }
 
@@ -35,11 +35,11 @@ export class JSXBezierCurve extends AbstractJSXBezierCurve<BezierCurve, BezierCu
     static toStr(curve: JSXBezierCurve): string {
         return JSON.stringify({
             points: curve.pointControlledCurve.getPoints().map(point => [point.X(), point.Y()])
-        } as JSXRationalBezierCurveConstructorParams)
+        } as JSXBezierCurveConstructorParams)
     }
 
     static fromStr(str: string, board: Board): JSXBezierCurve {
-        const params = JSON.parse(str) as JSXRationalBezierCurveConstructorParams
+        const params = JSON.parse(str) as JSXBezierCurveConstructorParams
         return new JSXBezierCurve(params.points, board)
     }
 
@@ -368,7 +368,7 @@ export class JSXBezierCurve extends AbstractJSXBezierCurve<BezierCurve, BezierCu
         return this.subdivisionT
     }
 
-    protected getStartingCurve(points: number[][]): BezierCurve {
+    getStartingCurve(points: number[][]): BezierCurve {
         let jsxPoints = points.map((point, i) => this.createJSXGraphPoint(point[0], point[1], PointStyles.pi(i)))
         return new BezierCurveImpl(jsxPoints);
     }

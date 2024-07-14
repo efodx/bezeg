@@ -4,7 +4,11 @@ import {BaseCurveGraphProps} from "../base/BaseBezierCurveGraph";
 
 class CubicPhBezierCurveGraph extends BasePhBezierCurveGraph<BaseCurveGraphProps, BasePhBezierCurveGraphStates> {
     defaultPreset(): string {
-        throw new Error('Method not implemented.');
+        return '["JSXPHBezierCurve|{\\"points\\":[[0,0]],\\"hodographs\\":[[-3,2],[2,2]]}"]'
+    }
+
+    override presets(): string | undefined {
+        return "cubic-ph"
     }
 
     getStartingHodographs(): number[][] {

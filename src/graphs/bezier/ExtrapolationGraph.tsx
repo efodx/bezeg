@@ -16,7 +16,7 @@ class GraphExtrapolation extends BaseBezierCurveGraph<BaseCurveGraphProps, BaseG
     }
 
     override initialize() {
-        this.createJSXBezierCurve([[-3, 2], [0, -2], [1, 2], [3, -2]])
+        super.initialize()
         this.slider = this.board.create('slider', [[2, 2], [4, 2], [1, 1.1, 1.2]]);
         this.getFirstJsxCurve().setIntervalEnd(() => this.slider!.Value())
     }

@@ -53,6 +53,8 @@ abstract class BaseCurveGraph<P extends BaseGraphProps, S extends BaseGraphState
         if (preset) {
             this.fromString(preset.data)
         } else {
+            console.log("loading default")
+            console.log(this.defaultPreset())
             this.fromString(this.defaultPreset())
         }
     }
