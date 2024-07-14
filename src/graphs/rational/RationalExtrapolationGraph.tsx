@@ -2,11 +2,11 @@ import React from 'react';
 import '../../App.css';
 import {BaseRationalCurveGraph} from "./BaseRationalCurveGraph";
 import {Button} from "react-bootstrap";
-import {BaseGraphProps, BaseGraphStates} from "../base/BaseCurveGraph";
+import {BaseGraphStates} from "../base/BaseCurveGraph";
 import Slider from "../../inputs/Slider";
 import {BezierCurveAttributes} from "../object/AbstractJSXBezierCurve";
 
-class GraphExtrapolation extends BaseRationalCurveGraph<BaseGraphProps, BaseGraphStates> {
+class GraphExtrapolation extends BaseRationalCurveGraph<any, BaseGraphStates> {
     override initialize() {
         super.initialize()
         this.getFirstJsxCurve().createExtrapolationPoint()

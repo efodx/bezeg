@@ -1,15 +1,15 @@
 import React from 'react';
 import '../../App.css';
-import {BaseBezierCurveGraph, BaseCurveGraphProps} from "../base/BaseBezierCurveGraph";
+import {BaseBezierCurveGraph} from "../base/BaseBezierCurveGraph";
 import {BaseGraphStates} from "../base/BaseCurveGraph";
 import {Button} from "react-bootstrap";
 
-class ElevationGraph extends BaseBezierCurveGraph<BaseCurveGraphProps, BaseGraphStates> {
+class ElevationGraph extends BaseBezierCurveGraph<any, BaseGraphStates> {
 
     defaultPreset(): string {
         return '["JSXBezierCurve|{\\"points\\":[[-3,2],[0,-2],[1,2],[3,-2]]}"]'
     }
-    
+
     elevate() {
         this.board.suspendUpdate()
         this.getFirstJsxCurve().elevate()

@@ -1,9 +1,9 @@
 import '../../App.css';
-import {BaseBezierCurveGraph, BaseCurveGraphProps} from "../base/BaseBezierCurveGraph";
+import {BaseBezierCurveGraph} from "../base/BaseBezierCurveGraph";
 import {BaseGraphStates} from "../base/BaseCurveGraph";
 import Slider from "../../inputs/Slider";
 
-class AlphaParamBezierCurveGraph extends BaseBezierCurveGraph<BaseCurveGraphProps, BaseGraphStates> {
+class AlphaParamBezierCurveGraph extends BaseBezierCurveGraph<any, BaseGraphStates> {
     numberOfPoints: number = 10;
     alpha: number = 0.5;
 
@@ -12,7 +12,7 @@ class AlphaParamBezierCurveGraph extends BaseBezierCurveGraph<BaseCurveGraphProp
     }
 
     alphaParam: (t: number) => number = (t: number) => (1 - this.alpha) * t / (this.alpha * (1 - t) + (1 - this.alpha) * t);
-    
+
     override initialize() {
         super.initialize()
         this.generateParamPoints()

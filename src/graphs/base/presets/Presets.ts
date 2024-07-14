@@ -17,6 +17,20 @@ export class PresetService {
         this.id = id
     }
 
+    exportAllPresetsToString() {
+        return JSON.stringify({...window.localStorage})
+    }
+
+    importFromString(str: string) {
+        const stored = JSON.parse(str)
+        Object.entries(stored).map(entry => {
+            let key = entry[0];
+            let value = entry[1];
+            window.localStorage.setItem(key, value as string)
+        });
+        Object.entries(stored)
+    }
+
     loadPresets() {
         const preset = window.localStorage.getItem(PRESETS_PREFIX + this.id)
         if (preset) {

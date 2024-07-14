@@ -172,7 +172,14 @@ export function PresetSelector(props: {
         <Button onClick={() => {
             const allPresets = props.presetService.loadPresets()
             exportPresets(allPresets);
-        }}>EXPORTAJ VSE</Button>
+        }}>EXPORTAJ VSE SLIKE</Button>
+        <Button onClick={() => {
+            navigator.clipboard.writeText(props.presetService.exportAllPresetsToString())
+        }}>Export to clipboard</Button>
+        <Button onClick={() => {
+            navigator.clipboard.readText().then(value => props.presetService.importFromString(value))
+
+        }}>import</Button>
     </div>
 
 }

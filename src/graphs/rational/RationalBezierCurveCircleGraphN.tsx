@@ -1,10 +1,10 @@
 import '../../App.css';
 import {BaseRationalCurveGraph} from "./BaseRationalCurveGraph";
 import {Button} from "react-bootstrap";
-import {BaseGraphProps, BaseGraphStates} from "../base/BaseCurveGraph";
+import {BaseGraphStates} from "../base/BaseCurveGraph";
 
 
-class RationalBezierCurveGraph extends BaseRationalCurveGraph<BaseGraphProps, BaseGraphStates> {
+class RationalBezierCurveGraph extends BaseRationalCurveGraph<any, BaseGraphStates> {
     defaultPreset(): string {
         return "";
     }

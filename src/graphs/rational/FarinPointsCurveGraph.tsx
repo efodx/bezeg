@@ -2,10 +2,10 @@ import '../../App.css';
 import {BaseRationalCurveGraph} from "./BaseRationalCurveGraph";
 import {OnOffSwitch} from "../../inputs/OnOffSwitch";
 import React from "react";
-import {BaseGraphProps, BaseGraphStates} from "../base/BaseCurveGraph";
+import {BaseGraphStates} from "../base/BaseCurveGraph";
 
 
-class RationalBezierCurveGraph extends BaseRationalCurveGraph<BaseGraphProps, BaseGraphStates> {
+class RationalBezierCurveGraph extends BaseRationalCurveGraph<any, BaseGraphStates> {
 
     override initialize() {
         super.initialize();

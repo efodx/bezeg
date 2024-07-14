@@ -19,6 +19,7 @@ import {JSXBezierCurve} from "../object/JSXBezierCurve";
 import {JSXRationalBezierCurve} from "../object/JSXRationalBezierCurve";
 import {JSXPHBezierCurve} from "../object/JSXPHBezierCurve";
 import {ClassMapper} from "../object/ClassMapper";
+import {PointStyles} from "../styles/PointStyles";
 
 enum SelectedCurveOption {
     MOVE_CURVE,
@@ -26,19 +27,17 @@ enum SelectedCurveOption {
     DELETE_POINTS
 }
 
-interface BaseGraphProps {
-    areCurvesSelectable?: boolean
-}
-
 interface BaseGraphStates extends BaseGraphState {
     selectedCurveOption: SelectedCurveOption;
     curveSelected: boolean;
 }
 
+JXG.extend(JXG.Point.prototype, {})
+
 /**
  * Abstract class for creating graphs.
  */
-abstract class BaseCurveGraph<P extends BaseGraphProps, S extends BaseGraphStates> extends BaseGraph<P, S> {
+abstract class BaseCurveGraph<P, S extends BaseGraphStates> extends BaseGraph<P, S> {
     public override readonly state = this.getInitialState();
     protected inputsDisabled: boolean = false;
     protected jsxBezierCurves: AbstractJSXPointControlledCurve<PointControlledCurve, PointControlledCurveAttributes>[] = [];
@@ -121,7 +120,7 @@ abstract class BaseCurveGraph<P extends BaseGraphProps, S extends BaseGraphState
         if (opts) {
             point = this.board.create('point', [x, y], opts);
         } else {
-            point = this.board.create('point', [x, y]);
+            point = this.board.create('point', [x, y], PointStyles.default);
         }
         this.graphJXGPoints.push(point)
         return new Point(point);
@@ -250,13 +249,20 @@ abstract class BaseCurveGraph<P extends BaseGraphProps, S extends BaseGraphState
     }
 
     override exportPreset() {
-        return JSON.stringify(this.jsxBezierCurves.map(curve => {
+        return JSON.stringify(this.board.getBoundingBox()) + "BBOXENDOBEJCT" + JSON.stringify(this.jsxBezierCurves.map(curve => {
             // @ts-ignore
             return ClassMapper.getClassName(curve.constructor) + "|" + ClassMapper.getToStr(curve.constructor)(curve)
         }))
     }
 
     fromString(str: string) {
+        const lll = str.split("BBOXENDOBEJCT")
+        if (lll[1]) {
+            this.board.setBoundingBox(JSON.parse(lll[0]), true)
+            str = lll[1]
+        } else {
+            str = lll[0]
+        }
         // @ts-ignore
         this.board.removeObject(this.getAllJxgCurves().concat(this.getAllJxgPoints()))
         this.jsxBezierCurves = []
@@ -310,5 +316,5 @@ abstract class BaseCurveGraph<P extends BaseGraphProps, S extends BaseGraphState
 }
 
 export default BaseCurveGraph;
-export type {BaseGraphProps, BaseGraphStates};
+export type {BaseGraphStates};
 

@@ -1,12 +1,12 @@
 import React from 'react';
 import '../../App.css';
-import {BaseBezierCurveGraph, BaseCurveGraphProps} from "../base/BaseBezierCurveGraph";
+import {BaseBezierCurveGraph} from "../base/BaseBezierCurveGraph";
 import {BaseGraphStates} from "../base/BaseCurveGraph";
 import {Button} from "react-bootstrap";
 import Slider from "../../inputs/Slider";
 import {BezierCurveAttributes} from "../object/AbstractJSXBezierCurve";
 
-class GraphExtrapolation extends BaseBezierCurveGraph<BaseCurveGraphProps, BaseGraphStates> {
+class GraphExtrapolation extends BaseBezierCurveGraph<any, BaseGraphStates> {
     defaultPreset() {
         return "[\"JSXBezierCurve|{\\\"points\\\":[[-4,-3],[-3,2],[2,2],[3,-2]]}\"]"
     }

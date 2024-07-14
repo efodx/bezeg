@@ -2,10 +2,10 @@ import React from 'react';
 import '../../App.css';
 import {BaseRationalCurveGraph} from "./BaseRationalCurveGraph";
 import {Button} from "react-bootstrap";
-import {BaseGraphProps, BaseGraphStates} from "../base/BaseCurveGraph";
+import {BaseGraphStates} from "../base/BaseCurveGraph";
 import {Attributes} from "../attributes/Attributes";
 
-class Graph extends BaseRationalCurveGraph<BaseGraphProps, BaseGraphStates> {
+class Graph extends BaseRationalCurveGraph<any, BaseGraphStates> {
 
     override initialize() {
         super.initialize();

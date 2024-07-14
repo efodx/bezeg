@@ -1,6 +1,6 @@
 import React from 'react';
 import '../../App.css';
-import {BaseBezierCurveGraph, BaseCurveGraphProps} from "../base/BaseBezierCurveGraph";
+import {BaseBezierCurveGraph} from "../base/BaseBezierCurveGraph";
 import {BaseGraphStates} from "../base/BaseCurveGraph";
 import {Button} from "react-bootstrap";
 import {OnOffSwitch} from "../../inputs/OnOffSwitch";
@@ -11,7 +11,7 @@ function ShowControlPolygons(props: { initialState: boolean, onChange: (checked:
     return <OnOffSwitch initialState={props.initialState} label="Kontrolni poligoni" onChange={props.onChange}/>
 }
 
-class SubdivisionGraph extends BaseBezierCurveGraph<BaseCurveGraphProps, BaseGraphStates> {
+class SubdivisionGraph extends BaseBezierCurveGraph<any, BaseGraphStates> {
     private stepsDone: number = 0;
 
     override initialize() {

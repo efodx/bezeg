@@ -1,5 +1,5 @@
 import '../../App.css';
-import {BaseBezierCurveGraph, BaseCurveGraphProps} from "../base/BaseBezierCurveGraph";
+import {BaseBezierCurveGraph} from "../base/BaseBezierCurveGraph";
 import {BaseGraphStates} from "../base/BaseCurveGraph";
 import {PhBezierCurve} from "../../bezeg/impl/curve/ph-bezier-curve";
 import Slider from "../../inputs/Slider";
@@ -11,13 +11,18 @@ import {OnOffSwitch} from "../../inputs/OnOffSwitch";
 import {Colors} from "../bezier/utilities/Colors";
 import {CurveStyles} from "../styles/CurveStyles";
 import {CacheContext} from "../context/CacheContext";
+import {PointStyles} from "../styles/PointStyles";
 
 export interface BasePhBezierCurveGraphStates extends BaseGraphStates {
     showOffsetCurve: boolean,
     showOffsetCurveControlPoints: boolean
 }
 
-abstract class BasePhBezierCurveGraph<P extends BaseCurveGraphProps, S extends BasePhBezierCurveGraphStates> extends BaseBezierCurveGraph<P, S> {
+export interface BasePhBezierCurveGraphStatesDto extends BasePhBezierCurveGraphStates {
+    offsetCurveDistance: number
+}
+
+abstract class BasePhBezierCurveGraph<P, S extends BasePhBezierCurveGraphStates> extends BaseBezierCurveGraph<P, S> {
 
     private hodographBoard!: JXG.Board;
     private jsxOffsetCurves!: JXG.Curve[];
@@ -47,11 +52,6 @@ abstract class BasePhBezierCurveGraph<P extends BaseCurveGraphProps, S extends B
             showOffsetCurve: false,
             showOffsetCurveControlPoints: false
         };
-    }
-
-    override initialize() {
-        super.initialize()
-        this.generateJsxOffsetCurves(true);
     }
 
     override getGraphCommands(): JSX.Element[] {
@@ -92,6 +92,31 @@ abstract class BasePhBezierCurveGraph<P extends BaseCurveGraphProps, S extends B
 
     getFirstCurveAsPHBezierCurve() {
         return this.getFirstCurve() as PhBezierCurve
+    }
+
+    override exportPreset(): string {
+        return super.exportPreset() + "ENDGRAPHOBJECTS" + JSON.stringify({
+            showOffsetCurve: this.state.showOffsetCurve,
+            showOffsetCurveControlPoints: this.state.showOffsetCurveControlPoints,
+            offsetCurveDistance: this.getFirstCurveAsPHBezierCurve().getOffsetCurveDistance()
+        } as BasePhBezierCurveGraphStatesDto)
+    }
+
+    override fromString(str: string) {
+        const [objects, graphState] = str.split('ENDGRAPHOBJECTS')
+        super.fromString(objects);
+        this.generateJsxOffsetCurves(true)
+        if (graphState) {
+            this.importState(JSON.parse(graphState) as BasePhBezierCurveGraphStatesDto)
+        }
+    }
+
+    importState(parse: BasePhBezierCurveGraphStatesDto) {
+        this.generateJsxOffsetCurves(parse.showOffsetCurve);
+        this.showOffsetCurve = parse.showOffsetCurve
+        this.showOffsetCurveControlPoints(parse.showOffsetCurveControlPoints)
+        this.setOffsetCurveDistance(parse.offsetCurveDistance)
+        this.setState(parse as BasePhBezierCurveGraphStates)
     }
 
     private generateJsxOffsetCurves(hide?: boolean) {
@@ -147,7 +172,6 @@ abstract class BasePhBezierCurveGraph<P extends BaseCurveGraphProps, S extends B
         this.unsuspendBoardUpdate()
     }
 
-
     private showOffsetCurveControlPoints(checked: boolean) {
         this.board.removeObject(this.jxgOffsetControlPoints)
         this.board.removeObject(this.jxgOffsetControlPointsLines)
@@ -175,7 +199,6 @@ abstract class BasePhBezierCurveGraph<P extends BaseCurveGraphProps, S extends B
         this.board.unsuspendUpdate()
     }
 
-
     private generateLinesBetweenOffsetCurvePoints() {
         const numOfLines = this.getFirstCurveAsPHBezierCurve().getOffsetCurves()[0].getPoints().length
         for (let i = 0; i < numOfLines; i++) {
@@ -189,8 +212,7 @@ abstract class BasePhBezierCurveGraph<P extends BaseCurveGraphProps, S extends B
     private generateJxgOffsetCurveControlPoints() {
         this.getFirstCurveAsPHBezierCurve().getOffsetCurves().forEach(curve => {
             let jxgOffsetControlPoints = curve.getPoints().map((point, r) => this.board.create('point', [() => point.X(), () => point.Y()], {
-                // @ts-ignore
-                style: JXG.POINT_STYLE_X,
+                ...PointStyles.default,
                 color: Colors[r]
             }))
             // @ts-ignore

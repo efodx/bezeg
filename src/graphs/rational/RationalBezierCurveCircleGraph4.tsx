@@ -1,8 +1,8 @@
 import '../../App.css';
 import {BaseRationalCurveGraph} from "./BaseRationalCurveGraph";
-import {BaseGraphProps, BaseGraphStates} from "../base/BaseCurveGraph";
+import {BaseGraphStates} from "../base/BaseCurveGraph";
 
-class RationalBezierCurveGraph extends BaseRationalCurveGraph<BaseGraphProps, BaseGraphStates> {
+class RationalBezierCurveGraph extends BaseRationalCurveGraph<any, BaseGraphStates> {
 
     override initialize() {
         let points = [[0, 3], [3, 3], [3, 0]]

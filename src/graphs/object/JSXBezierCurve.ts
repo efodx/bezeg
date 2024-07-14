@@ -6,7 +6,6 @@ import {Colors} from "../bezier/utilities/Colors";
 import {PointStyles} from "../styles/PointStyles";
 import {SegmentStyles} from "../styles/SegmentStyles";
 import {CacheContext} from "../context/CacheContext";
-import {SizeContext} from "../context/SizeContext";
 import {BezierCurveCommands} from "./inputs/BezierCurveCommands";
 import {Board} from "jsxgraph";
 import {PointControlledCurveState} from "./AbstractJSXPointControlledCurve";
@@ -347,7 +346,7 @@ export class JSXBezierCurve extends AbstractJSXBezierCurve<BezierCurve, BezierCu
     createSubdivisionPoint() {
         if (this.board && !this.subdivisionPoint && this) {
             this.subdivisionPoint = this.board.create('point', [() => this.getCurve().calculatePointAtT(this.subdivisionT).X(),
-                () => this.getCurve().calculatePointAtT(this.subdivisionT).Y()], {size: () => SizeContext.pointSize}) as JXG.Point;
+                () => this.getCurve().calculatePointAtT(this.subdivisionT).Y()], PointStyles.default) as JXG.Point;
             this.subdivisionPoint.hide()
         }
     }

@@ -234,7 +234,7 @@ export class JSXRationalBezierCurve extends AbstractJSXBezierCurve<RationalBezie
     createSubdivisionPoint() {
         if (this.board && !this.subdivisionPoint && this) {
             this.subdivisionPoint = this.board.create('point', [() => this.getCurve().calculatePointAtT(this.subdivisionT).X(),
-                () => this.getCurve().calculatePointAtT(this.subdivisionT).Y()]);
+                () => this.getCurve().calculatePointAtT(this.subdivisionT).Y()], PointStyles.default);
             this.subdivisionPoint.hide()
         }
     }
@@ -242,7 +242,7 @@ export class JSXRationalBezierCurve extends AbstractJSXBezierCurve<RationalBezie
     createExtrapolationPoint() {
         if (this.board && !this.extrapolationPoint && this) {
             this.extrapolationPoint = this.board.create('point', [() => this.getCurve().calculatePointAtT(this.extrapolationT).X(),
-                () => this.getCurve().calculatePointAtT(this.extrapolationT).Y()]);
+                () => this.getCurve().calculatePointAtT(this.extrapolationT).Y()], PointStyles.default);
             this.extrapolationPoint.hide()
         }
     }

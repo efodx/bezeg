@@ -1,6 +1,6 @@
 import React from 'react';
 import '../../App.css';
-import {BaseBezierCurveGraph, BaseCurveGraphProps} from "../base/BaseBezierCurveGraph";
+import {BaseBezierCurveGraph} from "../base/BaseBezierCurveGraph";
 import {BaseGraphStates} from "../base/BaseCurveGraph";
 import {OnOffSwitch} from "../../inputs/OnOffSwitch";
 import Slider from "../../inputs/Slider";
@@ -10,7 +10,7 @@ interface DecasteljauGraphStates extends BaseGraphStates {
     t: number
 }
 
-class DecasteljauGraph extends BaseBezierCurveGraph<BaseCurveGraphProps, DecasteljauGraphStates> {
+class DecasteljauGraph extends BaseBezierCurveGraph<any, DecasteljauGraphStates> {
     private animating: boolean = false;
 
     override getInitialState(): DecasteljauGraphStates {

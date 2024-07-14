@@ -3,9 +3,9 @@ import '../../App.css';
 import {BaseRationalCurveGraph} from "./BaseRationalCurveGraph";
 import {Button} from "react-bootstrap";
 import {JSXRationalBezierCurve} from "../object/JSXRationalBezierCurve";
-import {BaseGraphProps, BaseGraphStates} from "../base/BaseCurveGraph";
+import {BaseGraphStates} from "../base/BaseCurveGraph";
 
-class Graph extends BaseRationalCurveGraph<BaseGraphProps, BaseGraphStates> {
+class Graph extends BaseRationalCurveGraph<any, BaseGraphStates> {
     private stepsDone: number = 0;
 
     subdivide() {
