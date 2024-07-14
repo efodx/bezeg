@@ -26,6 +26,7 @@ import RationalBezierCurveCircleGraphN from "./graphs/rational/RationalBezierCur
 import {BernsteinGraph} from "./graphs/bernstein/BernsteinGraph";
 import FarinPointsCurveGraph from "./graphs/rational/FarinPointsCurveGraph";
 import {RefreshContext} from "./graphs/context/react/RefreshContext";
+import {PresetContext} from "./graphs/context/react/PresetContext";
 
 const PATH_BEZIER_CURVES = "/bezeg/bezier"
 const BEZIER_CURVES_GROUP = "Bezierjeve Krivulje";
@@ -259,8 +260,13 @@ const routes = [
 
 function Refresher(props) {
     const [key, setKey] = useState(1)
+    const [selectedPreset, setSelectedPreset] = useState("")
+
+
     return <RefreshContext.Provider value={() => setKey(key + 1)}>
-        <div key={key}>{props.children}</div>
+        <PresetContext.Provider value={{selected: selectedPreset, setSelected: setSelectedPreset}}>
+            <div key={selectedPreset + key}>{props.children}</div>
+        </PresetContext.Provider>
     </RefreshContext.Provider>
 }
 

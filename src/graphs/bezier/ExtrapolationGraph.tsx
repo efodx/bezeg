@@ -7,11 +7,18 @@ import {Button} from "react-bootstrap";
 class GraphExtrapolation extends BaseBezierCurveGraph<BaseCurveGraphProps, BaseGraphStates> {
     private slider?: JXG.Slider;
 
-    initialize() {
+    defaultPreset() {
+        return "[\"JSXBezierCurve|{\\\"points\\\":[[-4,-3],[-3,2],[2,2],[3,-2]]}\"]"
+    }
+
+    override presets() {
+        return "bezier-extrapolation"
+    }
+
+    override initialize() {
         this.createJSXBezierCurve([[-3, 2], [0, -2], [1, 2], [3, -2]])
         this.slider = this.board.create('slider', [[2, 2], [4, 2], [1, 1.1, 1.2]]);
         this.getFirstJsxCurve().setIntervalEnd(() => this.slider!.Value())
-        //this.getFirstJsxCurve().showDecasteljauSchemeForSlider(this.slider)
     }
 
     override getGraphCommands(): JSX.Element[] {

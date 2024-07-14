@@ -18,7 +18,7 @@ import {JSXSplineCurve} from "../object/JSXSplineCurve";
 import {JSXBezierCurve} from "../object/JSXBezierCurve";
 import {JSXRationalBezierCurve} from "../object/JSXRationalBezierCurve";
 import {JSXPHBezierCurve} from "../object/JSXPHBezierCurve";
-import {Button} from "react-bootstrap";
+import {ClassMapper} from "../object/ClassMapper";
 
 enum SelectedCurveOption {
     MOVE_CURVE,
@@ -43,6 +43,21 @@ abstract class BaseCurveGraph<P extends BaseGraphProps, S extends BaseGraphState
     protected inputsDisabled: boolean = false;
     protected jsxBezierCurves: AbstractJSXPointControlledCurve<PointControlledCurve, PointControlledCurveAttributes>[] = [];
     protected graphJXGPoints: JXG.Point[] = [];
+
+    abstract defaultPreset(): string
+
+    initialize() {
+        let presetContext = this.context
+        // @ts-ignore
+        const preset = this.presetService?.getPreset(presetContext.selected)
+        if (preset) {
+            this.fromString(preset.data)
+        } else {
+            console.log("loading")
+            console.log(this.defaultPreset())
+            this.fromString(this.defaultPreset())
+        }
+    }
 
     getInitialState(): S {
         return {
@@ -215,10 +230,7 @@ abstract class BaseCurveGraph<P extends BaseGraphProps, S extends BaseGraphState
     override getTools(): JSX.Element[] {
         return super.getTools().concat(<OnOffSwitch label="Oznake točk"
                                                     initialState={VisibilityContext.pointsVisible()}
-                                                    onChange={checked => this.showPointLabels(checked)}/>,
-            <Button
-                onClick={() => this.fromString('["JSXRationalBezierCurve|{\\"points\\":[[0.045186640471512884,3.8359530885467827],[3.045186640471513,-0.16404691145321726],[4.045186640471513,3.8359530885467827],[6.045186640471513,-0.16404691145321726]],\\"weights\\":[1,5,1,1]}","JSXBezierCurve|{\\"points\\":[[-3.1308467781945186,-2.770707823123951],[-2.1308467781945186,2.229292176876049],[0.5312357365402549,-1.7982127347153072],[3.8691532218054814,-1.770707823123952]]}"]')}>čpčpč</Button>,
-            <Button onClick={() => console.log(this.exportToString())}> EXPORTAJ</Button>)
+                                                    onChange={checked => this.showPointLabels(checked)}/>)
     }
 
     deselectSelectedCurve() {
@@ -239,18 +251,10 @@ abstract class BaseCurveGraph<P extends BaseGraphProps, S extends BaseGraphState
         return <Commands commands={commands} title={"Izbrana krivulja"}></Commands>
     }
 
-    exportToString() {
+    override exportPreset() {
         return JSON.stringify(this.jsxBezierCurves.map(curve => {
-            switch (curve.constructor) {
-                case JSXBezierCurve:
-                    return "JSXBezierCurve|" + JSXBezierCurve.toStr(curve as JSXBezierCurve)
-                case JSXRationalBezierCurve:
-                    return "JSXRationalBezierCurve|" + JSXRationalBezierCurve.toStr(curve as JSXRationalBezierCurve)
-                case JSXSplineCurve:
-                    return "JSXSplineCurve|" + JSXSplineCurve.toStr(curve as JSXSplineCurve)
-                default:
-                    return ""
-            }
+            // @ts-ignore
+            return ClassMapper.getClassName(curve.constructor) + "|" + ClassMapper.getToStr(curve.constructor)(curve)
         }))
     }
 
@@ -262,16 +266,7 @@ abstract class BaseCurveGraph<P extends BaseGraphProps, S extends BaseGraphState
         const parsed: string[] = JSON.parse(str)
         parsed.forEach(p => {
             const [id, object] = p.split("|")
-            switch (id) {
-                case "JSXBezierCurve":
-                    return this.jsxBezierCurves.push(JSXBezierCurve.fromStr(object, this.board))
-                case "JSXRationalBezierCurve":
-                    return this.jsxBezierCurves.push(JSXRationalBezierCurve.fromStr(object, this.board))
-                case "JSXSplineCurve":
-                    return this.jsxBezierCurves.push(JSXSplineCurve.fromStr(object, this.board))
-                default:
-                    return
-            }
+            return this.jsxBezierCurves.push(ClassMapper.getFromStr(id)(object, this.board))
         })
     }
 
@@ -312,6 +307,8 @@ abstract class BaseCurveGraph<P extends BaseGraphProps, S extends BaseGraphState
         VisibilityContext.setPointVisibility(show)
         this.unsuspendBoardUpdate()
     }
+
+
 }
 
 export default BaseCurveGraph;

@@ -17,6 +17,10 @@ class UniformParamBezierCurveGraph extends BasePhBezierCurveGraph<BaseCurveGraph
     alpha: number = 0.5;
     private ts!: any[];
 
+    defaultPreset(): string {
+        throw new Error('Method not implemented.');
+    }
+
     override getInitialState(): UniformParamBezierCurveGraphStates {
         return {
             ...super.getInitialState(),

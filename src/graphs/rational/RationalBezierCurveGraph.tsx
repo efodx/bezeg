@@ -5,10 +5,12 @@ import {BaseGraphProps, BaseGraphStates} from "../base/BaseCurveGraph";
 
 class RationalBezierCurveGraph extends BaseRationalCurveGraph<BaseGraphProps, BaseGraphStates> {
 
-    initialize() {
-        let points = [[-3, 2], [0, -2], [1, 2], [3, -2]]
-        let weights = [1, 2, 1, 1]
-        this.createRationalJSXBezierCurve(points, weights)
+    defaultPreset(): string {
+        return '["JSXRationalBezierCurve|{\\"points\\":[[-3,2],[0,-2],[1,2],[3,-2]],\\"weights\\":[1,2,1,1]}"]';
+    }
+
+    override presets(): string {
+        return "rational-bezier"
     }
 
 }

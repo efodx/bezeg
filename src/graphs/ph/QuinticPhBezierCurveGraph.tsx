@@ -11,6 +11,10 @@ class QuinticPhBezierCurve extends BasePhBezierCurveGraph<BaseCurveGraphProps, B
         return [[0, 0]];
     }
 
+    defaultPreset(): string {
+        return "";
+    }
+
 }
 
 export default QuinticPhBezierCurve;

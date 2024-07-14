@@ -7,8 +7,8 @@ import {BaseGraphProps, BaseGraphStates} from "../base/BaseCurveGraph";
 class GraphExtrapolation extends BaseRationalCurveGraph<BaseGraphProps, BaseGraphStates> {
     private slider?: JXG.Slider;
 
-    initialize() {
-        this.createRationalJSXBezierCurve([[-3, 2], [0, -2], [1, 2], [3, -2]], [1, 5, 1, 1])
+    override initialize() {
+        super.initialize()
         this.slider = this.board.create('slider', [[2, 2], [4, 2], [1, 1.1, 1.2]]);
         this.getFirstJsxCurve().setIntervalEnd(this.slider!.Value())
         this.slider.on("drag", () => {
@@ -20,6 +20,14 @@ class GraphExtrapolation extends BaseRationalCurveGraph<BaseGraphProps, BaseGrap
     override getGraphCommands(): JSX.Element[] {
         return super.getGraphCommands().concat([<Button variant={"dark"}
                                                         onClick={() => this.extrapolate()}>Ekstrapoliraj</Button>])
+    }
+
+    defaultPreset(): string {
+        return '["JSXRationalBezierCurve|{\\"points\\":[[-3,2],[0,-2],[1,2],[3,-2]],\\"weights\\":[1,5,1,1]}"]';
+    }
+
+    override presets(): string {
+        return "rational-bezier-extrapolation"
     }
 
     private extrapolate() {

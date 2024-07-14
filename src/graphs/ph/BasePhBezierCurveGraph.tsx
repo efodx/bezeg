@@ -53,7 +53,7 @@ abstract class BasePhBezierCurveGraph<P extends BaseCurveGraphProps, S extends B
         };
     }
 
-    initialize() {
+    override initialize() {
         const points = this.getStartingPoints()
         const hodographs = this.getStartingHodographs()
         this.createJSXPHBezierCurve(points.concat(hodographs))

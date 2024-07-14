@@ -3,9 +3,13 @@ import {BaseBezierCurveGraph, BaseCurveGraphProps} from "../base/BaseBezierCurve
 import {BaseGraphStates} from "../base/BaseCurveGraph";
 
 class BezierCurveGraph extends BaseBezierCurveGraph<BaseCurveGraphProps, BaseGraphStates> {
-    initialize() {
-        const points = [[-4, -3], [-3, 2], [2, 2], [3, -2]]
-        this.createJSXBezierCurve(points)
+
+    defaultPreset() {
+        return "[\"JSXBezierCurve|{\\\"points\\\":[[-4,-3],[-3,2],[2,2],[3,-2]]}\"]"
+    }
+
+    override presets() {
+        return "bezier-curve"
     }
 }
 

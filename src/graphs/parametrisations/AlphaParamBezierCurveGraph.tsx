@@ -6,10 +6,15 @@ import Slider from "../../inputs/Slider";
 class AlphaParamBezierCurveGraph extends BaseBezierCurveGraph<BaseCurveGraphProps, BaseGraphStates> {
     numberOfPoints: number = 10;
     alpha: number = 0.5;
+
+    defaultPreset(): string {
+        throw new Error('Method not implemented.');
+    }
+
     alphaParam: (t: number) => number = (t: number) => (1 - this.alpha) * t / (this.alpha * (1 - t) + (1 - this.alpha) * t);
 
 
-    initialize() {
+    override initialize() {
         const points = [[-4, -3], [-3, 2], [2, 2], [3, -2]]
         this.createJSXBezierCurve(points)
         this.generateParamPoints()

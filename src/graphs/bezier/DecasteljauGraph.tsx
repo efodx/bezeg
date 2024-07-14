@@ -7,9 +7,16 @@ import {OnOffSwitch} from "../../inputs/OnOffSwitch";
 class DecasteljauGraph extends BaseBezierCurveGraph<BaseCurveGraphProps, BaseGraphStates> {
     private slider?: JXG.Slider;
 
-    initialize() {
-        const points = [[-4, -3], [-3, 2], [0, 3], [3, 2], [4, -3]]
-        this.createJSXBezierCurve(points)
+    defaultPreset(): string {
+        return '["JSXBezierCurve|{\\"points\\":[[-4,-3],[-3,2],[0,3],[3,2],[4,-3]]}"]'
+    }
+
+    override presets(): string {
+        return "decasteljau"
+    }
+
+    override initialize() {
+        super.initialize()
         this.graphJXGPoints = this.getFirstJsxCurve().getJxgPoints()
         this.slider = this.board.create('slider', [[2, 3], [4, 3], [0, 0.1, 1]]);
         this.getFirstJsxCurve().setIntervalEnd(() => this.slider!.Value())

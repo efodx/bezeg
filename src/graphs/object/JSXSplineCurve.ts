@@ -32,7 +32,7 @@ export class JSXSplineCurve extends AbstractJSXPointControlledCurve<BezierSpline
 
     static fromStr(str: string, board: Board): JSXSplineCurve {
         const params = JSON.parse(str) as JSXSplineConstructorParams
-        return new JSXSplineCurve(params.points, params.degree, params.continuity, board)
+        return new JSXSplineCurve(params.points, params.continuity, params.degree, board)
     }
 
     override addPoint(x: number, y: number) {
@@ -97,7 +97,6 @@ export class JSXSplineCurve extends AbstractJSXPointControlledCurve<BezierSpline
         this.nonFreeJsxPoints = spline.getNonFreePoints()
             .map((p, i) => this.createJSXGraphPoint(() => spline.getNonFreePoints()[i].X(), () => spline.getNonFreePoints()[i].Y(), PointStyles.fixed))
             .map(point => point.point)
-        console.log(this.nonFreeJsxPoints)
     }
 
 }

@@ -5,10 +5,12 @@ import {BaseGraphStates} from "../base/BaseCurveGraph";
 import {Button} from "react-bootstrap";
 
 export default class AffineTransformBezierCurveGraph extends BaseBezierCurveGraph<BaseCurveGraphProps, BaseGraphStates> {
+    override presets(): string {
+        return "affine-transform"
+    }
 
-    initialize() {
-        let points = [[-3, 2], [0, -2], [1, 2], [3, -2]]
-        this.createJSXBezierCurve(points)
+    defaultPreset(): string {
+        return '["JSXBezierCurve|{\\"points\\":[[-3,2],[0,-2],[1,2],[3,-2]]}"]'
     }
 
     override getGraphCommands(): JSX.Element[] {

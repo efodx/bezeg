@@ -26,7 +26,6 @@ class BezierSpline extends PointControlledCurveImpl {
         this.continuity = continuity
         this.bezierCurves = []
 
-        // TODO parameters correctness check
         this.generateBezierCurves()
     }
 
@@ -36,7 +35,6 @@ class BezierSpline extends PointControlledCurveImpl {
         this.nonFreePoints = []
         let step;
         if (this.degree <= 2) {
-            // TODO redesign
             return
         }
 

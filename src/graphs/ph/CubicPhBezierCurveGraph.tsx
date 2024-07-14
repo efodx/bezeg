@@ -3,6 +3,9 @@ import BasePhBezierCurveGraph, {BasePhBezierCurveGraphStates} from "./BasePhBezi
 import {BaseCurveGraphProps} from "../base/BaseBezierCurveGraph";
 
 class CubicPhBezierCurveGraph extends BasePhBezierCurveGraph<BaseCurveGraphProps, BasePhBezierCurveGraphStates> {
+    defaultPreset(): string {
+        throw new Error('Method not implemented.');
+    }
 
     getStartingHodographs(): number[][] {
         return [[-3, 2], [2, 2]];

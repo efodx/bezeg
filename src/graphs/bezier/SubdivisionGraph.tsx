@@ -14,9 +14,16 @@ class SubdivisionGraph extends BaseBezierCurveGraph<BaseCurveGraphProps, BaseGra
     private slider?: JXG.Slider;
     private stepsDone: number = 0;
 
-    initialize() {
-        const points = [[-4, -3], [-3, 2], [0, 3], [3, 2], [4, -3]]
-        this.createJSXBezierCurve(points)
+    defaultPreset() {
+        return "[\"JSXBezierCurve|{\\\"points\\\":[[-4,-3],[-3,2],[2,2],[3,-2]]}\"]"
+    }
+
+    override presets() {
+        return "bezier-subdivision"
+    }
+
+    override initialize() {
+        super.initialize()
         this.slider = this.board.create('slider', [[2, 3], [4, 3], [0, 0.5, 1]]);
         this.getFirstJsxCurve().showDecasteljauSchemeForSlider(this.slider)
         // this.createJSXGraphPoint(() => this.bezierCurves[0].calculatePointAtT(this.slider!.Value()).X(), () => this.bezierCurves[0].calculatePointAtT(this.slider!.Value()).Y());

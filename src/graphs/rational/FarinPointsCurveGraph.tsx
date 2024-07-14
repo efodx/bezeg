@@ -6,13 +6,6 @@ import {BaseGraphProps, BaseGraphStates} from "../base/BaseCurveGraph";
 
 
 class RationalBezierCurveGraph extends BaseRationalCurveGraph<BaseGraphProps, BaseGraphStates> {
-
-    initialize() {
-        let points = [[-2, -2], [-2, 2], [2, 2], [2, -2]]
-        let weights = [1, 1, 1, 1]
-        this.createRationalJSXBezierCurve(points, weights)
-    }
-    
     override getGraphCommands(): JSX.Element[] {
         return super.getGraphCommands().concat(<OnOffSwitch
                 initialState={false}
@@ -22,6 +15,14 @@ class RationalBezierCurveGraph extends BaseRationalCurveGraph<BaseGraphProps, Ba
             <OnOffSwitch initialState={this.getFirstJsxCurve() ? this.getFirstJsxCurve().inStandardForm() : false}
                          onChange={(checked) => this.getFirstJsxCurve().setStandardForm(checked)}
                          label={"Standardna Forma"}/>);
+    }
+
+    defaultPreset(): string {
+        return '["JSXRationalBezierCurve|{\\"points\\":[[-3,2],[0,-2],[1,2],[3,-2]],\\"weights\\":[1,5,1,1]}"]';
+    }
+
+    override presets(): string {
+        return "rational-bezier-farin"
     }
 
     private showFarinPoints(checked: boolean) {

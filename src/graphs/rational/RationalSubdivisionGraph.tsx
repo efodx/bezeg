@@ -9,8 +9,8 @@ class Graph extends BaseRationalCurveGraph<BaseGraphProps, BaseGraphStates> {
     private slider?: JXG.Slider;
     private stepsDone: number = 0;
 
-    initialize() {
-        this.createRationalJSXBezierCurve([[-3, 2], [0, -2], [1, 2], [3, -2]], [1, 5, 1, 1])
+    override initialize() {
+        super.initialize()
         this.slider = this.board.create('slider', [[2, 2], [4, 2], [0, 0.5, 1]]);
         //this.createJSXGraphPoint(() => curve.getBezierCurve().calculatePointAtT(this.slider!.Value()).X(), () => curve.getBezierCurve().calculatePointAtT(this.slider!.Value()).Y());
     }
@@ -32,6 +32,15 @@ class Graph extends BaseRationalCurveGraph<BaseGraphProps, BaseGraphStates> {
         return super.getGraphCommands().concat([<Button variant={"dark"}
                                                         onClick={() => this.subdivide()}>Subdiviziraj</Button>])
     }
+
+    defaultPreset(): string {
+        return '["JSXRationalBezierCurve|{\\"points\\":[[-3,2],[0,-2],[1,2],[3,-2]],\\"weights\\":[1,5,1,1]}"]';
+    }
+
+    override presets(): string {
+        return "rational-bezier-subdivision"
+    }
+
 
 }
 

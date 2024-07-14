@@ -1,20 +1,23 @@
 import React from "react";
 import {BaseSplineCurveGraph} from "./BaseSplineCurveGraph";
-import {Continuity} from "../../bezeg/impl/curve/bezier-spline";
 import {Button} from "react-bootstrap";
 
 class Graph extends BaseSplineCurveGraph {
 
-    initialize() {
-        const points = [[-3, 2], [-4, -1], [-3, -2], [-1, 1], [1, 2]]
-        this.createJSXSplineCurve(points, 3, Continuity.G1)
-    }
 
     override getGraphCommands(): JSX.Element[] {
         return super.getGraphCommands().concat([
             <div><Button variant={"dark"} onClick={() => this.povecajB1()}>Povečaj B1</Button>
                 <Button variant={"dark"} onClick={() => this.zmanjsajB1()}>Zmanjšaj B1</Button></div>
         ])
+    }
+
+    defaultPreset(): string {
+        return '["JSXSplineCurve|{\\"points\\":[[-3,2],[-4,-1],[-3,-2],[-1,1],[1,2]],\\"degree\\":3,\\"continuity\\":2}"]';
+    }
+
+    override presets(): string {
+        return "g1-spline-graph"
     }
 
     private povecajB1() {
