@@ -262,7 +262,7 @@ the content and not the structure of your work.}
     V kasnejših razdelkih bomo potrebovali tudi odvode Bernsteinovih baznih polinomov.
     Ker Bernsteinovi bazni polinomi stopnje $n$ tvorijo bazo prostora $\mathbb{P}_n$, lahko njihove odvode izrazimo v Bernsteinovi bazi stopnje $n-1$.
     Z nekaj računanja bi prišli do sledečega rezultata.
-    \begin{izrek}
+    \begin{izrek}\label{izrek:bernstein-odvod}
         Za odvode Bernsteinovih baznih polinomov velja zveza
         \[B_{i}^{n\prime}=n(B_{i-1}^{n-1} - B_{i}^{n-1}).\]
     \end{izrek}
@@ -588,8 +588,7 @@ the content and not the structure of your work.}
     Od tod sledi, da lahko krivuljo $\B$ predstavimo kot Bezierjevo krivuljo stopnje $n+1$ s kontrolnimi točkami \[c_0=\p_0, \quad c_i=\mathbf{p}_{i}\frac{n+1-i}{n+1} + \mathbf{p}_{i-1}\frac{i}{n+1},\quad c_{n+1}=\p_n. \]
     Oglejmo si kako višanje stopnje izgleda na neki krivulji.
     Na sliki~\ref{fig:višanje} je na prvem grafu narisana Bezierjeva krivulja stopnje $3$.
-    Na drugem grafu, smo stopnjo krivulje zvišali za $1$.
-    Na tretjem in četrtem pa smo naredili $10$ oziroma $20$ višanj stopnje začetne krivulje.
+    Na drugem grafu, smo stopnjo krivulje zvišali za $1$, na tretjem in četrtem grafu pa smo naredili $10$ oziroma $20$ višanj stopnje začetne krivulje.
     Krivulja je na vseh grafih enaka, imamo le več kontrolnih točk.
     Opaziti je tudi možno, da so kontrolne točke z vsakim višanjem stopnje bližje začetni krivulji, kontrolni poligon pa se zmerom bolj prilega začetni krivulji.
     \begin{figure}[h]
@@ -604,13 +603,28 @@ the content and not the structure of your work.}
         \label{fig:višanje}
     \end{figure}
 
+    \subsection{Odvod Bezierjeve krivulje}
+    V kasnejših razdelkih bomo potrebovali odvode Bezierjevih krivulj, zato jih na tem mestu izpeljemo.
+    Z upoštevanjem izreka o odvodu Bernsteinovih baznih polinomov~\ref{izrek:bernstein-odvod}, dobimo naslednje
+    \begin{align*}
+        \mathbf{B}'(t) &=   &   &\left(\sum_{i=0}^{n}\p_{i}B_i^n(t)\right)' & & =n \sum_{i=0}^{n}\p_{i}\left(B_{i-1}^{n-1}(t) - B_i^{n-1}(t)\right) \\
+        &=            &  &n \left( \sum_{i=1}^{n}\p_{i}B_{i-1}^{n-1}(t) - \sum_{i=0}^{n-1}\p_{i}B_i^{n-1}(t)\right) & &= n \sum_{i=0}^{n-1}(\p_{i+1}-\p_{i})B_i^{n-1}(t).
+    \end{align*}
+    Za krajše zapise višjih odvodov Bezierjeve krivulje, bomo uvedli operator $\Delta$, ki mu pravimo \textit{prema diferenca}.
+    Operator deluje na zaporedni točki $\p_i$, definiramo pa ga rekurzivno kot
+     \[\Delta^0\p_i=\p_i,\quad \Delta\p_i=\p_{i+1}-\p_{i}, \quad \Delta^k\p_i=\Delta^{k-1}\p_{i+1}-\Delta^{k-1}\p_{i}.\]
+    Za pozitivno naravno število $k$ lahko v zaključeni obliki podamo ekvivalenten zapis
+    \[ \Delta^k\p_i= \sum_{j=0}^k\binom{k}{j}(-1)^{k-j}\p_{i+j}.\]
+    Odvod Bezierjeve krivulje lahko z uporabo preme diference predstavimo kot
+    \[ \mathbf{B}'(t) =  n \sum_{i=0}^{n-1}\Delta\p_{i}B_i^{n-1}(t).\]
+    Višje odvode Bezierjeve krivulje pa lahko s pomočjo indukcije predstavimo kot \[ \mathbf{B}^{(k)}(t) = \frac{n!}{n-k!} \sum_{i=0}^{n-k}\Delta^{k}\p_{i}B_i^{n-k}(t). \]
     \subsection{Racionalne Bezierjeve krivulje}
     Vseh krivulj se ne moremo opisati z navadnimi Bezierjevimi krivuljami.
     Med njimi so tudi takšne, ki so za CAGD sisteme zelo pomembne, na primer izsek krožnice.
     Za opis takšnih krivulj lahko posežemo po racionalnih Bezierjevih krivuljah.
     Racionalno Bezierjevo krivuljo stopnje $n$ v $\R^d$ dobimo tako, da Bezierjevo krivuljo stopnje $n$ v $\R^{d+1}$ projiciramo na hiperravnino $w=1$.
     Točke iz $\R^{d+1}$ pri tem definiramo kot $(w,x_1,\ldots,x_n)$, projekcijo pa s predpisom $(w,\mathbf{x})\to(1,\frac{\mathbf{x}}{w})$.
-    Takšna projekcija privede do naslednje definicije.
+    Takšna izpeljava privede do naslednje parametrizacije.
     \begin{definicija}
         \label{def:racionalna}
         Racionalna Bezierjeva krivulja stopnje $n\in\N$ je podana s kontrolnimi točkami $\p_i$ za $i=0,1,\ldots,n$ in parametrizacijo $\mathbf{R}:[0,1]\to \R^d$  določeno s predpisom \[\mathbf{R}(t) = \frac{\sum^{n}_{i=0}w_i\p_i B^n_i(t)}{\sum^{n}_{i=0}w_i B^n_i(t)},\] kjer so kontrolne točke $\p_i\in\R^d$ in uteži $w_i\in\R$.
@@ -702,10 +716,9 @@ the content and not the structure of your work.}
     \subsubsection{Farinove točke}
     Ročno nastavljanje uteži z vpisovanjem, bi bilo za uporabnika CAGD sistema zamudno in nenaravno.
     Uporabniku želimo delo olajšati tako, da pridelamo bolj naraven način kontroliranja uteži.
-    Izkaže se, da imajo uteži racionalne Bezierjeve krivulje geometrijski pomeni, ki ga lahko za to uporabimo.
+    Racionalne Bezierjeve krivulje imajo geometrijski pomeni, ki ga lahko za ta namen uporabimo.
     Uteži lahko kontroliramo s t.i. \textit{Farinovimi točkami}.
-    Farinove točke ležijo na daljicah kontrolnega poligona.
-    $i$-ta Farinova točka deli $i$-to daljico kontrolnega poligona v razmerju $w_{i+1}:w_{i}$.
+    Farinove točke ležijo na daljicah kontrolnega poligona, kjer $i$-ta Farinova točka deli $i$-to daljico kontrolnega poligona v razmerju $w_{i+1}:w_{i}$.
     Slednje označimo z $\frac{|\mathbf{f}_i-\p_i|}{|\mathbf{f}_i-\p_{i+1}|} = \frac{w_{i+1}}{w_{i}}$.
     S kontrolnimi točkami in utežmi lahko Farinove točke izrazimo takole
     \[\mathbf{f}_i \coloneqq \frac{w_{i}}{w_{i}+w_{i+1}}\p_i +  \frac{w_{i+1}}{w_{i}+w_{i+1}}\p_{i+1}.\]
@@ -716,7 +729,7 @@ the content and not the structure of your work.}
     Po želji lahko točke nato še standardiziramo s pomočjo formule,\[\tilde{w}_{i} = \frac{w_i}{\sqrt[n]{w_n^i}},\]
     ki sledi iz dokaza~\ref{dokaz:standardna-forma}.
 
-    Na sliki~\ref{fig:farinove-tocke} si lahko ogledamo Farinove točke v akciji.
+    Na sliki~\ref{fig:farinove-tocke} si lahko ogledamo delovanje Farinovih točk.
     Uteži na sliki niso standardizirane zato, da lahko bolje vidimo razmerja med njimi.
     Na grafu (a) lahko vidimo, da $i$-ta Farinova točka leži točno na sredini med kontrolima točkama $\p_i$ in $\p_{i+1}$.
     Ker so vsa razmerja $|\p_i-\mathbf{f}_i|:|\p_{i+1}-\mathbf{f}_i|$ enaka, so vse uteži enake $1$.
@@ -726,7 +739,7 @@ the content and not the structure of your work.}
     Krivulja se točki približa, utež $w_1$ pa se poveča na več kot $1$.
     Ker na grafoma (b) in (c) druga in tretja Farinova točka ležita na sredini svojih daljic, so uteži $w_1$,$w_2$ in $w_3$ enake.
     Na grafoma (d) in (e) lahko vidimo, kako se krivulja in uteži obnašajo ob premiku druge Farinove točke.
-    Na grafoma (f) ter (g) pa lahko vidimo obnašanje, ko premaknemo prvo ter tretjo Farinovo točko hkrati gor ali dol.
+    Na grafoma (f) ter (g) pa lahko vidimo obnašanje krivulje, ko premaknemo prvo ter tretjo Farinovo točko hkrati gor oziroma dol.
     Poglejmo si še, kaj se zgodi, če vse tri točke premaknemo pomaknemo tako, da so razmerja na vseh daljicah enaka.
     Na levem grafu slike~\ref{fig:farinove-tocke-2} lahko vidimo, da krivulja izgleda kakor začetna.
     Če uteži standardiziramo, kar smo storili na desnem grafu, vidimo, da je temu res tako.

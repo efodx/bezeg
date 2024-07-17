@@ -4,6 +4,20 @@ import {PresetContext} from "../context/react/PresetContext";
 import {Button, Form, Modal} from "react-bootstrap";
 import {wait} from "@testing-library/user-event/dist/utils";
 
+
+function exportToFile(data: string) {
+    var element = document.createElement('a');
+    element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(data));
+    element.setAttribute('download', "presets.txt");
+
+    element.style.display = 'none';
+    document.body.appendChild(element);
+
+    element.click();
+
+    document.body.removeChild(element);
+}
+
 function SaveModal(props: { onSave: (name: string) => void }) {
     const [show, setShow] = useState(false);
     const [presetName, setPresetName] = useState("");
@@ -174,8 +188,8 @@ export function PresetSelector(props: {
             exportPresets(allPresets);
         }}>EXPORTAJ VSE SLIKE</Button>
         <Button onClick={() => {
-            navigator.clipboard.writeText(props.presetService.exportAllPresetsToString())
-        }}>Export to clipboard</Button>
+            exportToFile(props.presetService.exportAllPresetsToString())
+        }}>Export to file</Button>
         <Button onClick={() => {
             navigator.clipboard.readText().then(value => props.presetService.importFromString(value))
 

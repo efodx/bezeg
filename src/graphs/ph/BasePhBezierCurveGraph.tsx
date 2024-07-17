@@ -96,10 +96,11 @@ abstract class BasePhBezierCurveGraph<P, S extends BasePhBezierCurveGraphStates>
 
     override exportPreset(): string {
         return super.exportPreset() + "ENDGRAPHOBJECTS" + JSON.stringify({
-            showOffsetCurve: this.state.showOffsetCurve,
-            showOffsetCurveControlPoints: this.state.showOffsetCurveControlPoints,
-            offsetCurveDistance: this.getFirstCurveAsPHBezierCurve().getOffsetCurveDistance()
-        } as BasePhBezierCurveGraphStatesDto)
+                showOffsetCurve: this.state.showOffsetCurve,
+                showOffsetCurveControlPoints: this.state.showOffsetCurveControlPoints,
+                offsetCurveDistance: this.getFirstCurveAsPHBezierCurve().getOffsetCurveDistance()
+            } as BasePhBezierCurveGraphStatesDto,
+            null, '\t')
     }
 
     override fromString(str: string) {

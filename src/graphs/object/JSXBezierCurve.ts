@@ -44,7 +44,7 @@ export class JSXBezierCurve extends AbstractJSXBezierCurve<BezierCurve, BezierCu
         return JSON.stringify({
             points: curve.pointControlledCurve.getPoints().map(point => [point.X(), point.Y()]),
             state: curve.exportState()
-        } as JSXBezierCurveConstructorParams)
+        } as JSXBezierCurveConstructorParams, null, '\t')
     }
 
     static fromStr(str: string, board: Board): JSXBezierCurve {

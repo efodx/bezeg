@@ -29,7 +29,7 @@ export class JSXSplineCurve extends AbstractJSXPointControlledCurve<BezierSpline
             degree: curve.pointControlledCurve.getDegree(),
             continuity: curve.pointControlledCurve.getContinuity(),
             state: curve.exportState()
-        } as JSXSplineConstructorParams)
+        } as JSXSplineConstructorParams, null, '\t')
     }
 
     static fromStr(str: string, board: Board): JSXSplineCurve {

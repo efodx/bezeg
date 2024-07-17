@@ -27,7 +27,7 @@ export class JSXPHBezierCurve extends JSXBezierCurve {
             points: [curve.pointControlledCurve.getPoints().map(point => [point.X(), point.Y()])[0]],
             hodographs: (curve.getCurve() as PhBezierCurve).w.map(point => [point.X(), point.Y()]),
             state: curve.exportState()
-        } as JSXPHBezierCurveConstructorParams)
+        } as JSXPHBezierCurveConstructorParams, null, '\t')
     }
 
     static override fromStr(str: string, board: Board): JSXPHBezierCurve {

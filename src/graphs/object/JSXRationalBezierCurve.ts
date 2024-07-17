@@ -44,7 +44,7 @@ export class JSXRationalBezierCurve extends AbstractJSXBezierCurve<RationalBezie
             points: curve.pointControlledCurve.getPoints().map(point => [point.X(), point.Y()]),
             weights: curve.pointControlledCurve.getWeights(),
             state: curve.exportState()
-        } as JSXRationalBezierCurveConstructorParams)
+        } as JSXRationalBezierCurveConstructorParams, null, '\t')
     }
 
     static fromStr(str: string, board: Board): JSXRationalBezierCurve {

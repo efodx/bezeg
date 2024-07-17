@@ -31,4 +31,4 @@ TODO:
 
 
 - Zlepki iz bezierjevih krivulj, ali zlepki bezierjevih krivulj? meni je to drugo lepse
-- 
+-  Operator $\Delta$ deluje na zaporedni točk $\p_i$.  ..... A sse tako reče? Al je pravilno delovanje na zaporedju točk? Ker delovanje prav neki pomeni iz algebre, če se prav spomne...
