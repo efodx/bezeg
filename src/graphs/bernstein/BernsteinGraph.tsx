@@ -156,6 +156,10 @@ export class BernsteinGraph extends BaseGraph<any, any> {
                          label={"Sum graph"}/>);
     }
 
+    defaultPreset(): string {
+        return "";
+    }
+
     private setIsSumGraph(checked: boolean) {
         this.isSumGraph = checked
         this.board.removeObject(this.jxgObjects)

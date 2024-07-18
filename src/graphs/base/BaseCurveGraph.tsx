@@ -43,16 +43,17 @@ abstract class BaseCurveGraph<P, S extends BaseGraphStates> extends BaseGraph<P,
     protected jsxBezierCurves: AbstractJSXPointControlledCurve<PointControlledCurve, PointControlledCurveAttributes>[] = [];
     protected graphJXGPoints: JXG.Point[] = [];
 
-    abstract defaultPreset(): string
 
     initialize() {
         let presetContext = this.context
         // @ts-ignore
         const preset = this.presetService?.getPreset(presetContext.selected)
+        console.log("PRESET:")
+        console.log(preset)
         if (preset) {
-            this.fromString(preset.data)
+            this.importPresetData(preset.data!)
         } else {
-            this.fromString(this.defaultPreset())
+            this.importPresetData(this.defaultPreset())
         }
     }
 
@@ -248,26 +249,21 @@ abstract class BaseCurveGraph<P, S extends BaseGraphStates> extends BaseGraph<P,
         return <Commands commands={commands} title={"Izbrana krivulja"}></Commands>
     }
 
-    override exportPreset() {
-        return JSON.stringify(this.board.getBoundingBox()) + "BBOXENDOBEJCT" + JSON.stringify(this.jsxBezierCurves.map(curve => {
+    override exportPresetData() {
+        return JSON.stringify(this.jsxBezierCurves.map(curve => {
             // @ts-ignore
             return ClassMapper.getClassName(curve.constructor) + "|" + ClassMapper.getToStr(curve.constructor)(curve)
         }))
     }
 
-    fromString(str: string) {
-        const lll = str.split("BBOXENDOBEJCT")
-        if (lll[1]) {
-            this.board.setBoundingBox(JSON.parse(lll[0]), true)
-            str = lll[1]
-        } else {
-            str = lll[0]
-        }
+    override importPresetData(str: string) {
         // @ts-ignore
         this.board.removeObject(this.getAllJxgCurves().concat(this.getAllJxgPoints()))
         this.jsxBezierCurves = []
         this.graphJXGPoints = []
         const parsed: string[] = JSON.parse(str)
+        console.log("PARSED")
+        console.log(parsed)
         parsed.forEach(p => {
             const [id, object] = p.split("|")
             return this.jsxBezierCurves.push(ClassMapper.getFromStr(id)(object, this.board))

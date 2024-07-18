@@ -1,8 +1,12 @@
+import {BaseGraphState, BoardState} from "../BaseGraph";
+
 const PRESETS_PREFIX = "preset-"
 
 export interface Preset {
     id: string,
-    data: string,
+    data?: string,
+    boardState?: BoardState,
+    graphState?: BaseGraphState
 }
 
 export interface Presets {

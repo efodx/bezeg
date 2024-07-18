@@ -64,8 +64,6 @@ class DecasteljauGraph extends BaseBezierCurveGraph<any, DecasteljauGraphStates>
     }
 
     private setT(t: number) {
-        console.log("SETTING INITIAL STATE")
-        console.log(t)
         this.setState({...this.state, t: t})
         this.getFirstJsxCurve().setDecasteljauT(t)
         this.boardUpdate()

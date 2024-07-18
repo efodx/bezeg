@@ -1,4 +1,4 @@
-import {Presets, PresetService} from "./presets/Presets";
+import {Preset, Presets, PresetService} from "./presets/Presets";
 import React, {useContext, useState} from "react";
 import {PresetContext} from "../context/react/PresetContext";
 import {Button, Form, Modal} from "react-bootstrap";
@@ -106,7 +106,7 @@ function TrashModal(props: { trash: (name: string) => void, disabled?: boolean }
 
 export function PresetSelector(props: {
     presetService: PresetService,
-    dataProvider: () => string,
+    presetProvider: () => Preset,
     exporter?: any
 }) {
     const selectedPresetContext = useContext(PresetContext)
@@ -164,7 +164,7 @@ export function PresetSelector(props: {
                 name = "preset-" + Math.random()
             }
             const newPresets = props.presetService.savePreset({
-                data: props.dataProvider(),
+                ...props.presetProvider(),
                 id: name
             })
             setPresets({

@@ -1,9 +1,9 @@
-import React, {Component, useContext} from 'react';
+import React, {Component} from 'react';
 import '../../App.css';
 
 import {Board, JSXGraph} from "jsxgraph";
 import {JGBox} from "../../JGBox";
-import {Button, Col, Container, Row} from "react-bootstrap";
+import {Col, Container, Row} from "react-bootstrap";
 import {SizeContext} from "../context/SizeContext";
 import {Commands} from "./Commands";
 import {Tools} from "./Tools";
@@ -13,9 +13,10 @@ import {AxisStyles} from "../styles/AxisStyles";
 import Slider from "../../inputs/Slider";
 import html2canvas from "html2canvas";
 import {CacheContext} from "../context/CacheContext";
-import {PresetService} from "./presets/Presets";
+import {Preset, PresetService} from "./presets/Presets";
 import {PresetContext} from "../context/react/PresetContext";
 import {PresetSelector} from "./PresetSelector";
+import {SaveImage} from "./SaveImage";
 
 function SizeRange(props: { board: () => JXG.Board }) {
     return <div><Slider customText={"Povečava"} min={0} max={10} initialValue={SizeContext.getSize()} step={1}
@@ -26,22 +27,13 @@ function SizeRange(props: { board: () => JXG.Board }) {
                         }}/></div>;
 }
 
-function SaveAsPng(props: { onClick: (fileName: string) => void }) {
-    const presetContext = useContext(PresetContext)
-    const fileName = presetContext.selected === "" ? "izvoz" : presetContext.selected
-    return <Button variant={"dark"} onClick={() => props.onClick(fileName + ".png")}>PNG</Button>;
-}
-
-function SaveAsSvg(props: { onClick: (fileName: string) => void }) {
-    const presetContext = useContext(PresetContext)
-    const fileName = presetContext.selected === "" ? "izvoz" : presetContext.selected
-    return <Button variant={"dark"} onClick={() => props.onClick(fileName + ".svg")}>SVG</Button>;
-}
-
 export interface BaseGraphState {
     initialized: boolean
 }
 
+export interface BoardState {
+    boundingBox: [number, number, number, number]
+}
 
 /**
  * Abstract class for creating graphs.
@@ -76,9 +68,20 @@ abstract class BaseGraph<P, S extends BaseGraphState> extends Component<P, S> {
             this.board.on('update', (e) => {
                 CacheContext.context = CacheContext.context + 1
             });
-
             this.initialize()
+
+
+            let presetContext = this.context
             this.setState({initialized: true})
+            // @ts-ignore
+            const preset = this.presetService?.getPreset(presetContext.selected)
+            console.log("PRESET:")
+            console.log(preset)
+            if (preset) {
+                this.importPreset(preset)
+            } else {
+                this.importPresetData(this.defaultPreset())
+            }
         }
     }
 
@@ -120,13 +123,7 @@ abstract class BaseGraph<P, S extends BaseGraphState> extends Component<P, S> {
 
     getTools(): JSX.Element[] {
         const tools = [
-            <div>
-                Izvozi
-                <div>
-                    <SaveAsSvg onClick={(name) => this.saveAsSVG(name)}/>
-                    <SaveAsPng onClick={(name) => this.saveAsPNG(name)}/>
-                </div>
-            </div>,
+            <SaveImage saveAsSVG={name => this.saveAsSVG(name)} saveAsPNG={name => this.saveAsPNG(name)}/>,
             <ResetButton/>,
             <ShowAxis board={() => this.board}></ShowAxis>,
             <SizeRange board={() => this.board}/>
@@ -134,7 +131,7 @@ abstract class BaseGraph<P, S extends BaseGraphState> extends Component<P, S> {
         if (this.presetService) {
             tools.push(<PresetSelector presetService={this.presetService}
                                        exporter={(fileName: string) => this.saveAsPNG(fileName)}
-                                       dataProvider={() => this.exportPreset()}/>)
+                                       presetProvider={() => this.exportPreset()}/>)
         }
         return tools
     }
@@ -153,10 +150,40 @@ abstract class BaseGraph<P, S extends BaseGraphState> extends Component<P, S> {
         return undefined
     }
 
-    exportPreset() {
-        return "";
+    exportPreset(): Preset {
+        return {
+            id: this.presets()!,
+            boardState: this.boardState(),
+            graphState: this.state,
+            data: this.exportPresetData()
+        };
     }
 
+    importPreset(preset: Preset) {
+        if (preset.boardState) {
+            this.importBoardState(preset.boardState)
+        }
+        if (preset.graphState) {
+            this.setState(preset.graphState)
+        }
+        if (preset.data) {
+            this.importPresetData(preset.data)
+        }
+    }
+
+    boardState(): BoardState {
+        return {boundingBox: this.board.getBoundingBox()}
+    }
+
+    exportPresetData(): undefined | string {
+        return undefined;
+    }
+
+    importPresetData(data: string) {
+        throw "NOT IMPLEMENTED"
+    }
+
+    abstract defaultPreset(): string
 
     private saveAsPNG(fileName: string) {
         const mmls = document.querySelectorAll<HTMLElement>("mjx-assistive-mml");
@@ -172,6 +199,10 @@ abstract class BaseGraph<P, S extends BaseGraphState> extends Component<P, S> {
         })
         mmls.forEach(el =>
             el.style.removeProperty("display"));
+    }
+
+    private importBoardState(boardState: BoardState) {
+        this.board.setBoundingBox(boardState.boundingBox)
     }
 }
 

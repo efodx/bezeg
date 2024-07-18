@@ -2,10 +2,7 @@ import '../../App.css';
 import {PhBezierCurve} from "../../bezeg/impl/curve/ph-bezier-curve";
 import Slider from "../../inputs/Slider";
 import Form from 'react-bootstrap/Form';
-import BasePhBezierCurveGraph, {
-    BasePhBezierCurveGraphStates,
-    BasePhBezierCurveGraphStatesDto
-} from "../ph/BasePhBezierCurveGraph";
+import BasePhBezierCurveGraph, {BasePhBezierCurveGraphStates} from "../ph/BasePhBezierCurveGraph";
 import React from "react";
 import {range} from "../../utils/Range";
 
@@ -13,11 +10,11 @@ interface UniformParamBezierCurveGraphStates extends BasePhBezierCurveGraphState
     isAlphaParam: boolean
 }
 
-interface UniformPhBezierCurveStatesDto extends BasePhBezierCurveGraphStatesDto {
-    isAlphaParam: boolean,
-    numOfPoints: number,
-    alpha: number
-}
+// interface UniformPhBezierCurveStatesDto extends BasePhBezierCurveGraphStatesDto {
+//     isAlphaParam: boolean,
+//     numOfPoints: number,
+//     alpha: number
+// }
 
 
 class UniformParamBezierCurveGraph extends BasePhBezierCurveGraph<any, UniformParamBezierCurveGraphStates> {
@@ -123,31 +120,21 @@ class UniformParamBezierCurveGraph extends BasePhBezierCurveGraph<any, UniformPa
         }
     }
 
-    override exportPreset(): string {
-        // replace previous graph states with new
-        return super.exportPreset().split("ENDGRAPHOBJECTS")[0] + "ENDGRAPHOBJECTS" + JSON.stringify({
-            showOffsetCurve: this.state.showOffsetCurve,
-            showOffsetCurveControlPoints: this.state.showOffsetCurveControlPoints,
-            offsetCurveDistance: this.getFirstCurveAsPHBezierCurve().getOffsetCurveDistance(),
-            numOfPoints: this.numberOfPoints,
-            alpha: this.alpha
-        } as UniformPhBezierCurveStatesDto)
-    }
+    // override fromString(str: string) {
+    //     const [objects, graphState] = str.split('ENDGRAPHOBJECTS')
+    //     super.fromString(objects);
+    //     if (graphState) {
+    //         this.importState(JSON.parse(graphState) as UniformPhBezierCurveStatesDto)
+    //     }
+    // }
 
-    override fromString(str: string) {
-        const [objects, graphState] = str.split('ENDGRAPHOBJECTS')
-        super.fromString(objects);
-        if (graphState) {
-            this.importState(JSON.parse(graphState) as UniformPhBezierCurveStatesDto)
-        }
-    }
-
-    override importState(parse: UniformPhBezierCurveStatesDto) {
-        super.importState(parse)
-        this.setNumberOfPoints(parse.numOfPoints)
-        this.setAlpha(parse.alpha)
-        this.setState(parse as UniformPhBezierCurveStatesDto)
-    }
+    //
+    // override importState(parse: UniformPhBezierCurveStatesDto) {
+    //     super.importState(parse)
+    //     this.setNumberOfPoints(parse.numOfPoints)
+    //     this.setAlpha(parse.alpha)
+    //     this.setState(parse as UniformPhBezierCurveStatesDto)
+    // }
 
     override presets(): string | undefined {
         return "uniform-graph"

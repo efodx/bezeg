@@ -8,7 +8,7 @@ export default class AffineTransformBezierCurveGraph extends BaseBezierCurveGrap
     override presets(): string {
         return "affine-transform"
     }
- 
+
     defaultPreset(): string {
         return '["JSXBezierCurve|{\\"points\\":[[-3,2],[0,-2],[1,2],[3,-2]]}"]'
     }

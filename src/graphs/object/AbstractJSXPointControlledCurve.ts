@@ -26,8 +26,8 @@ export interface PointControlledCurveState {
 export abstract class AbstractJSXPointControlledCurve<T extends PointControlledCurve, Attr extends PointControlledCurveAttributes> {
     coords?: JXG.Coords;
     jxgPoints: JXG.Point[] = []
-    protected readonly pointControlledCurve: T
-    protected readonly board: Board
+    readonly pointControlledCurve: T
+    readonly board: Board
     private jxgCurve: JXG.Curve
     private boundBoxPoints: JXG.Point[] = []
     private boundBoxSegments: JXG.Segment[] = []

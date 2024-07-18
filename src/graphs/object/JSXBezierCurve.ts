@@ -51,7 +51,9 @@ export class JSXBezierCurve extends AbstractJSXBezierCurve<BezierCurve, BezierCu
         const params = JSON.parse(str) as JSXBezierCurveConstructorParams
         const curve = new JSXBezierCurve(params.points, board)
         if (params.state) {
+            board.suspendUpdate()
             curve.importState(params.state)
+            board.unsuspendUpdate()
         }
         return curve
     }
