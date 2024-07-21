@@ -22,9 +22,7 @@ import {ClassMapper} from "../object/ClassMapper";
 import {PointStyles} from "../styles/PointStyles";
 
 enum SelectedCurveOption {
-    MOVE_CURVE,
-    ADD_POINTS,
-    DELETE_POINTS
+    MOVE_CURVE, ADD_POINTS, DELETE_POINTS
 }
 
 interface BaseGraphStates extends BaseGraphState {
@@ -49,8 +47,7 @@ abstract class BaseCurveGraph<P, S extends BaseGraphStates> extends BaseGraph<P,
 
     getInitialState(): S {
         return {
-            selectedCurveOption: SelectedCurveOption.MOVE_CURVE,
-            curveSelected: false
+            selectedCurveOption: SelectedCurveOption.MOVE_CURVE, curveSelected: false
         } as S
     }
 
@@ -125,20 +122,13 @@ abstract class BaseCurveGraph<P, S extends BaseGraphStates> extends BaseGraph<P,
 
     getSelect() {
         return <Select onChange={e => this.onSelectChange(e)}
-                       options={[
-                           {
-                               "value": "0",
-                               "text": "Operiraj s krivuljo"
-                           },
-                           {
-                               "value": "1",
-                               "text": "Dodajaj točke"
-                           },
-                           {
-                               "value": "2",
-                               "text": "Briši točke"
-                           }
-                       ]}/>
+                       options={[{
+                           "value": "0", "text": "Operiraj s krivuljo"
+                       }, {
+                           "value": "1", "text": "Dodajaj točke"
+                       }, {
+                           "value": "2", "text": "Briši točke"
+                       }]}/>
     }
 
     override getGraphCommandsArea(): React.JSX.Element | null {
@@ -195,16 +185,14 @@ abstract class BaseCurveGraph<P, S extends BaseGraphStates> extends BaseGraph<P,
             this.getSelectedCurve().addPoint(coords.usrCoords[1], coords.usrCoords[2])
         }
         if (!canCreate && this.state.selectedCurveOption === SelectedCurveOption.DELETE_POINTS && this.getSelectedCurve()) {
-            this.getSelectedCurve().getJxgPoints().every(
-                (point, i) => {
-                    // @ts-ignore
-                    if (point.hasPoint(coords.scrCoords[1], coords.scrCoords[2])) {
-                        this.getFirstJsxCurve().removePoint(i)
-                        return false
-                    }
-                    return true
+            this.getSelectedCurve().getJxgPoints().every((point, i) => {
+                // @ts-ignore
+                if (point.hasPoint(coords.scrCoords[1], coords.scrCoords[2])) {
+                    this.getFirstJsxCurve().removePoint(i)
+                    return false
                 }
-            )
+                return true
+            })
         }
 
         this.unsuspendBoardUpdate()

@@ -3,9 +3,20 @@ import {BaseBezierCurveGraph} from "../base/BaseBezierCurveGraph";
 import {BaseGraphStates} from "../base/BaseCurveGraph";
 import Slider from "../../inputs/Slider";
 
-class AlphaParamBezierCurveGraph extends BaseBezierCurveGraph<any, BaseGraphStates> {
-    numberOfPoints: number = 10;
-    alpha: number = 0.5;
+interface AlphaParamGraphStates extends BaseGraphStates {
+    numberOfPoints: number;
+    alpha: number;
+}
+
+class AlphaParamBezierCurveGraph extends BaseBezierCurveGraph<any, AlphaParamGraphStates> {
+
+    override getInitialState() {
+        return {
+            ...super.getInitialState(),
+            numberOfPoints: 10,
+            alpha: 0.5,
+        }
+    }
 
     defaultPreset(): any {
         return [["JSXBezierCurve", {
@@ -21,39 +32,38 @@ class AlphaParamBezierCurveGraph extends BaseBezierCurveGraph<any, BaseGraphStat
         }]]
     }
 
-    alphaParam: (t: number) => number = (t: number) => (1 - this.alpha) * t / (this.alpha * (1 - t) + (1 - this.alpha) * t);
+    alphaParam: (t: number) => number = (t: number) => (1 - this.state.alpha) * t / (this.state.alpha * (1 - t) + (1 - this.state.alpha) * t);
 
-    override initialize() {
-        super.initialize()
-        this.generateParamPoints()
-    }
 
     override getGraphCommands(): JSX.Element[] {
-        return super.getGraphCommands().concat(this.alphaParamSlider(), this.numberOfPointsSlider());
+        if (this.state.initialized) {
+            this.generateParamPoints(this.state.numberOfPoints)
+        }
+        return this.state.initialized ? super.getGraphCommands().concat(this.alphaParamSlider(), this.numberOfPointsSlider()) : [];
     }
 
     setAlpha(alpha: number) {
         this.board.suspendUpdate()
-        this.alpha = alpha
+        this.setState({...this.state, alpha: alpha})
         this.unsuspendBoardUpdate()
     }
 
     setNumberOfPoints(numberOfPoints: number) {
         this.board.suspendUpdate()
-        this.numberOfPoints = numberOfPoints
+        this.setState({...this.state, numberOfPoints: numberOfPoints})
         this.clearPoints()
-        this.generateParamPoints()
+        this.generateParamPoints(numberOfPoints)
         this.unsuspendBoardUpdate()
     }
 
     alphaParamSlider() {
-        return <div>Alfa<Slider min={0} max={1} initialValue={this.alpha}
+        return <div>Alfa<Slider min={0} max={1} initialValue={this.state.alpha}
                                 onChange={(alpha) => this.setAlpha(alpha)}/></div>
     }
 
     numberOfPointsSlider() {
         return <div>Število točk <Slider min={1} max={40} step={1}
-                                         initialValue={this.numberOfPoints}
+                                         initialValue={this.state.numberOfPoints}
                                          onChange={(num) => this.setNumberOfPoints(num)}/>
         </div>
     }
@@ -63,11 +73,15 @@ class AlphaParamBezierCurveGraph extends BaseBezierCurveGraph<any, BaseGraphStat
         this.graphJXGPoints = []
     }
 
-    generateParamPoints() {
-        const dt = 1 / (this.numberOfPoints + 1)
-        for (let i = 1; i <= this.numberOfPoints; i++) {
+    generateParamPoints(numberOfPoints: number) {
+        const dt = 1 / (numberOfPoints + 1)
+        for (let i = 1; i <= numberOfPoints; i++) {
             this.createJSXGraphPoint(() => this.getFirstCurve()!.calculatePointAtT(this.alphaParam(i * dt)).X(), () => this.getFirstCurve()!.calculatePointAtT(this.alphaParam(i * dt)).Y())
         }
+    }
+
+    override presets(): string | undefined {
+        return "alpha-param"
     }
 }
 

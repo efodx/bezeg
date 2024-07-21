@@ -28,12 +28,12 @@ function OffsetCurveSettings({curve}: OffsetCurveSettingsProps) {
                   step={0.1}
                   onChange={e => curve.getCurve().setOffsetCurveDistance(e)}/>
           <OnOffSwitch
-              onChange={checked => {
-                  curve.setShowOffsetCurveControlPoints(checked)
-                  setShowOffSetCurveControlPoints(checked)
-              }}
-              label={"Kontrolne točke offset krivulje"}
-              initialState={showOffSetCurveControlPoints}/>
+            onChange={checked => {
+                curve.setShowOffsetCurveControlPoints(checked)
+                setShowOffSetCurveControlPoints(checked)
+            }}
+            label={"Kontrolne točke offset krivulje"}
+            initialState={showOffSetCurveControlPoints}/>
           <Button variant={"dark"} onClick={() => curve.addOffsetCurve()}>Dodaj
             krivuljo</Button>
           <Button variant={"dark"} onClick={() => curve.removeOffsetCurve()}>Odstrani
