@@ -5,10 +5,9 @@ import {BaseGraphStates} from "../base/BaseCurveGraph";
 
 
 class RationalBezierCurveGraph extends BaseRationalCurveGraph<any, BaseGraphStates> {
-    defaultPreset(): string {
-        return "";
+    defaultPreset(): any {
+        return [];
     }
-
 
     override initialize() {
         const n = 3;
@@ -22,7 +21,6 @@ class RationalBezierCurveGraph extends BaseRationalCurveGraph<any, BaseGraphStat
             <Button variant={"dark"} onClick={() => this.setN(this.getAllJxgCurves().length - 1)}>Odstrani
                 kos</Button>);
     }
-
 
     private generateCurves(n: number) {
         const r = 3;
@@ -43,8 +41,8 @@ class RationalBezierCurveGraph extends BaseRationalCurveGraph<any, BaseGraphStat
             const p3 = evenPoints[i + 1]
             const w = [1, Math.cos(alpha), 1]
             this.createRationalJSXBezierCurve([p1, p2, p3], w)
-
         }
+        this.boardUpdate()
     }
 
     private setN(n: number) {

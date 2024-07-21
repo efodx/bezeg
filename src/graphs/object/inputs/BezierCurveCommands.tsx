@@ -32,8 +32,8 @@ export function BezierCurveCommands(curve: JSXBezierCurve): JSX.Element[] {
         </div>)
     }
     if (curve.getAttributes().allowShrink) {
-        commands.push(<div onMouseEnter={() => curve.showSubdivisionPoint()}
-                           onMouseLeave={() => curve.hideSubdivisionPoint()}>
+        commands.push(<div onMouseEnter={() => curve.showCutPoint()}
+                           onMouseLeave={() => curve.hideCutPoint()}>
             <Slider min={0} max={1}
                     initialValue={curve.getSubdivisionT()}
                     onChange={(t) => curve.setSubdivisionT(t)}></Slider>

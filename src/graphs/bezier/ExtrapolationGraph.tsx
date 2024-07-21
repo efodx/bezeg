@@ -7,8 +7,18 @@ import Slider from "../../inputs/Slider";
 import {BezierCurveAttributes} from "../object/AbstractJSXBezierCurve";
 
 class GraphExtrapolation extends BaseBezierCurveGraph<any, BaseGraphStates> {
-    defaultPreset() {
-        return "[\"JSXBezierCurve|{\\\"points\\\":[[-4,-3],[-3,2],[2,2],[3,-2]]}\"]"
+    defaultPreset(): any {
+        return [["JSXBezierCurve", {
+            "points": [[-4, -3], [-3, 2], [2, 2], [3, -2]], "state": {
+                "showingJxgPoints": true,
+                "showingControlPolygon": false,
+                "showingConvexHull": false,
+                "showingDecasteljauScheme": false,
+                "subdivisionT": 0.5,
+                "decasteljauT": 0.5,
+                "extrapolationT": 1.2
+            }
+        }]]
     }
 
     override presets() {

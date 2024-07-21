@@ -30,8 +30,6 @@ export class JSXBezierCurve extends AbstractJSXBezierCurve<BezierCurve, BezierCu
     private decasteljauT: number = 0.5;
     private decasteljauSegments: JXG.Segment[] = []
     private decasteljauPoints: JXG.Point[] = []
-    private decasteljauScheme: Point[][] = [];
-    private decasteljauSlider: JXG.Slider | null = null;
     private lastDecasteljauT: number | null = null;
     private showingDecasteljauScheme: boolean = false;
     private extrapolationT: number = 1.2;
@@ -39,16 +37,16 @@ export class JSXBezierCurve extends AbstractJSXBezierCurve<BezierCurve, BezierCu
     private extrapolationPoint: JXG.Point | null = null;
     private cachedDecasteljauScheme: Point[][] = [];
     private cacheContext: number = -1;
+    private lastDecasteljauN: number = -1;
 
-    static toStr(curve: JSXBezierCurve): string {
-        return JSON.stringify({
+    static toStr(curve: JSXBezierCurve): JSXBezierCurveConstructorParams {
+        return {
             points: curve.pointControlledCurve.getPoints().map(point => [point.X(), point.Y()]),
             state: curve.exportState()
-        } as JSXBezierCurveConstructorParams, null, '\t')
+        }
     }
 
-    static fromStr(str: string, board: Board): JSXBezierCurve {
-        const params = JSON.parse(str) as JSXBezierCurveConstructorParams
+    static fromStr(params: JSXBezierCurveConstructorParams, board: Board): JSXBezierCurve {
         const curve = new JSXBezierCurve(params.points, board)
         if (params.state) {
             board.suspendUpdate()
@@ -116,37 +114,23 @@ export class JSXBezierCurve extends AbstractJSXBezierCurve<BezierCurve, BezierCu
         }
     }
 
-    showDecasteljauSchemeForSlider(slider: JXG.Slider) {
-        this.decasteljauSlider = slider;
-        if ((this.decasteljauSegments.length === 0 && this.getCurve().getPoints().length > 2) || this.decasteljauScheme.length !== this.getCurve().getPoints().length) {
-            this.generateLineSegments(slider)
+    showDecasteljauScheme() {
+        if ((this.getCurve().getPoints().length > 2) && this.lastDecasteljauN != this.pointControlledCurve.getPoints().length) {
+            this.lastDecasteljauN = this.pointControlledCurve.getPoints().length
+            this.generateLineSegments()
         } else {
             // @ts-ignore
-            this.decasteljauSegments.concat(this.decasteljauPoints).forEach(el => el.show())
             this.showControlPolygonInternal()
         }
         this.showingDecasteljauScheme = true;
     }
 
-    showDecasteljauSchemeForT(t: number) {
-        this.lastDecasteljauT = t
-        if ((this.getCurve().getPoints().length > 2) || this.decasteljauScheme.length !== this.getCurve().getPoints().length) {
-            this.generateLineSegmentsForT(t)
-        } else {
-            // @ts-ignore
-            this.decasteljauSegments.concat(this.decasteljauPoints).forEach(el => el.show())
-            this.showControlPolygonInternal()
-        }
-        this.showingDecasteljauScheme = true;
-    }
-
-    generateLineSegmentsForT(t: number) {
-        this.decasteljauScheme = this.pointControlledCurve.decasteljauScheme(t)
+    generateLineSegments() {
         // @ts-ignore
         this.board.removeObject(this.decasteljauPoints.concat(this.decasteljauSegments))
         this.decasteljauSegments = []
         this.decasteljauPoints = []
-        const n = this.decasteljauScheme.length
+        const n = this.pointControlledCurve.getPoints().length
         this.showControlPolygonInternal()
         for (let r = 1; r < n; r++) {
             for (let i = 1; i < n - r; i++) {
@@ -154,8 +138,8 @@ export class JSXBezierCurve extends AbstractJSXBezierCurve<BezierCurve, BezierCu
                 let pp2 = null;
                 if (i === 1) {
                     // @ts-ignore
-                    pp1 = this.board.create('point', [() => this.getDecasteljauScheme(t)[r][i - 1].X(),
-                        () => this.getDecasteljauScheme(t)[r][i - 1].Y()], {
+                    pp1 = this.board.create('point', [() => this.getDecasteljauScheme(this.decasteljauT)[r][i - 1].X(),
+                        () => this.getDecasteljauScheme(this.decasteljauT)[r][i - 1].Y()], {
                         ...PointStyles.default,
                         color: Colors[r]
                     });
@@ -165,8 +149,8 @@ export class JSXBezierCurve extends AbstractJSXBezierCurve<BezierCurve, BezierCu
                 // @ts-ignore
                 this.decasteljauPoints.push(pp1)
 
-                pp2 = this.board.create('point', [() => this.getDecasteljauScheme(t)[r][i].X(),
-                    () => this.getDecasteljauScheme(t)[r][i].Y()], {
+                pp2 = this.board.create('point', [() => this.getDecasteljauScheme(this.decasteljauT)[r][i].X(),
+                    () => this.getDecasteljauScheme(this.decasteljauT)[r][i].Y()], {
                     ...PointStyles.default,
                     color: Colors[r]
                 });
@@ -178,7 +162,7 @@ export class JSXBezierCurve extends AbstractJSXBezierCurve<BezierCurve, BezierCu
                 this.decasteljauPoints.push(pp2)
             }
         }
-        const drawingPoint = this.board?.create('point', [() => this.getDecasteljauScheme(t)[n - 1][0].X(), () => this.getDecasteljauScheme(t)[n - 1][0].Y()], {
+        const drawingPoint = this.board?.create('point', [() => this.getDecasteljauScheme(this.decasteljauT)[n - 1][0].X(), () => this.getDecasteljauScheme(this.decasteljauT)[n - 1][0].Y()], {
             ...PointStyles.default,
             color: Colors[n - 1]
         });
@@ -187,55 +171,6 @@ export class JSXBezierCurve extends AbstractJSXBezierCurve<BezierCurve, BezierCu
             this.decasteljauPoints.push(drawingPoint)
         }
 
-    }
-
-    generateLineSegments(slider: JXG.Slider) {
-        // @ts-ignore
-        this.board.removeObject(this.decasteljauPoints.concat(this.decasteljauSegments))
-        this.decasteljauSegments = []
-        this.decasteljauPoints = []
-        const n = this.getCurve().getPoints().length
-        this.showControlPolygonInternal()
-        for (let r = 1; r < n; r++) {
-            for (let i = 1; i < n - r; i++) {
-                let pp1 = null;
-                let pp2 = null;
-                if (i === 1) {
-                    // @ts-ignore
-                    pp1 = this.board.create('point', [() => this.getDecasteljauScheme(slider.Value())[r][i - 1].X(),
-                        () => this.getDecasteljauScheme(slider.Value())[r][i - 1].Y()], {
-                        ...PointStyles.default,
-                        color: Colors[r],
-                        name: "$$p_" + (i - 1) + "^" + r + "$$",
-                    });
-                } else {
-                    pp1 = this.decasteljauPoints[this.decasteljauPoints.length - 1]
-                }
-                // @ts-ignore
-                this.decasteljauPoints.push(pp1)
-
-                pp2 = this.board.create('point', [() => this.getDecasteljauScheme(slider.Value())[r][i].X(),
-                    () => this.getDecasteljauScheme(slider.Value())[r][i].Y()], {
-                    ...PointStyles.default,
-                    // @ts-ignore
-                    color: Colors[r],
-                    name: "$$p_" + i + "^" + r + "$$",
-                });
-                const segment = this.board!.create('segment', [pp1, pp2], SegmentStyles.default);
-                this.decasteljauSegments.push(segment)
-                // @ts-ignore
-                this.decasteljauPoints.push(pp1)
-                // @ts-ignore
-                this.decasteljauPoints.push(pp2)
-            }
-        }
-        let drawingPoint = this.board?.create('point', [() => this.getDecasteljauScheme(slider.Value())[n - 1][0].X(), () => this.getDecasteljauScheme(slider.Value())[n - 1][0].Y()], {
-            ...PointStyles.default,
-            color: Colors[n - 1],
-            trace: false,
-            name: "$$p_" + 0 + "^" + (n - 1) + "$$",
-        });
-        this.decasteljauPoints.push(drawingPoint)
     }
 
     getDecasteljauScheme(t: number) {
@@ -255,9 +190,6 @@ export class JSXBezierCurve extends AbstractJSXBezierCurve<BezierCurve, BezierCu
 
     override addPoint(x: number, y: number) {
         super.addPoint(x, y);
-        if (this.decasteljauSlider != null) {
-            this.generateLineSegments(this.decasteljauSlider)
-        }
         if (this.isShowingControlPolygon()) {
             this.showControlPolygon()
         }
@@ -265,10 +197,8 @@ export class JSXBezierCurve extends AbstractJSXBezierCurve<BezierCurve, BezierCu
 
     override removePoint(i: number) {
         super.removePoint(i);
-        if (this.decasteljauSlider != null) {
-            this.generateLineSegments(this.decasteljauSlider)
-        } else if (this.lastDecasteljauT != null) {
-            this.generateLineSegmentsForT(this.lastDecasteljauT)
+        if (this.lastDecasteljauT != null) {
+            this.generateLineSegments()
         }
         if (!this.showingDecasteljauScheme) {
             this.hideDecasteljauScheme()
@@ -365,15 +295,19 @@ export class JSXBezierCurve extends AbstractJSXBezierCurve<BezierCurve, BezierCu
         // TODO.... just look at it...
         if (show === undefined || show) {
             this.board.suspendUpdate()
-            this.showDecasteljauSchemeForT(this.decasteljauT)
+            this.showDecasteljauScheme()
             this.board.unsuspendUpdate()
         }
     }
 
-    hideSelectedCurveDecasteljauScheme() {
-        this.board.suspendUpdate()
-        this.hideDecasteljauScheme()
-        this.board.unsuspendUpdate()
+    showCutPoint() {
+        this.setIntervalEnd(() => this.subdivisionT)
+        this.subdivisionPoint?.show()
+    }
+
+    hideCutPoint() {
+        this.setIntervalEnd(1)
+        this.subdivisionPoint?.hide()
     }
 
     showSubdivisionPoint() {

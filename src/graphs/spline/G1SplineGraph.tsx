@@ -4,7 +4,6 @@ import {Button} from "react-bootstrap";
 
 class Graph extends BaseSplineCurveGraph {
 
-
     override getGraphCommands(): JSX.Element[] {
         return super.getGraphCommands().concat([
             <div><Button variant={"dark"} onClick={() => this.povecajB1()}>Povečaj B1</Button>
@@ -12,8 +11,12 @@ class Graph extends BaseSplineCurveGraph {
         ])
     }
 
-    defaultPreset(): string {
-        return '["JSXSplineCurve|{\\"points\\":[[-3,2],[-4,-1],[-3,-2],[-1,1],[1,2]],\\"degree\\":3,\\"continuity\\":2}"]';
+    defaultPreset(): any {
+        return [["JSXSplineCurve", {
+            "points": [[-3, 2], [-4, -1], [-3, -2], [-1, 1], [1, 2]], "degree": 3, "continuity": 2, "state": {
+                "showingJxgPoints": true, "showingControlPolygon": false, "showingConvexHull": false
+            }
+        }]];
     }
 
     override presets(): string {

@@ -233,7 +233,8 @@ export abstract class AbstractJSXPointControlledCurve<T extends PointControlledC
 
     startRotating() {
         this.rotating = true
-        this.rotationCenter = this.pointControlledCurve.getBoundingBoxCenter()
+        this.rotationCenter = [this.jxgPoints.map(point => point.X()).reduce((previousValue, currentValue) => previousValue + currentValue) / this.jxgPoints.length,
+            this.jxgPoints.map(point => point.Y()).reduce((previousValue, currentValue) => previousValue + currentValue) / this.jxgPoints.length]
         this.hideBoundingBox()
     }
 
@@ -433,8 +434,10 @@ export abstract class AbstractJSXPointControlledCurve<T extends PointControlledC
         } else {
             this.board!.removeObject(this.controlPolygonSegments)
             this.controlPolygonSegments = []
-            for (let i = 1; i < this.jxgPoints.length; i = i + 1) {
-                const segment = this.board.create('segment', [this.jxgPoints[i - 1], this.jxgPoints[i]], SegmentStyles.default);
+
+            const segmentPoints = this.getJxgPoints()
+            for (let i = 1; i < segmentPoints.length; i = i + 1) {
+                const segment = this.board.create('segment', [segmentPoints[i - 1], segmentPoints[i]], SegmentStyles.default);
                 this.controlPolygonSegments.push(segment)
             }
         }

@@ -9,8 +9,18 @@ export default class AffineTransformBezierCurveGraph extends BaseBezierCurveGrap
         return "affine-transform"
     }
 
-    defaultPreset(): string {
-        return '["JSXBezierCurve|{\\"points\\":[[-3,2],[0,-2],[1,2],[3,-2]]}"]'
+    defaultPreset(): any {
+        return [["JSXBezierCurve", {
+            "points": [[-3, 2], [0, -2], [1, 2], [3, -2]], "state": {
+                "showingJxgPoints": true,
+                "showingControlPolygon": false,
+                "showingConvexHull": false,
+                "showingDecasteljauScheme": false,
+                "subdivisionT": 0.5,
+                "decasteljauT": 0.5,
+                "extrapolationT": 1.2
+            }
+        }]]
     }
 
     override getGraphCommands(): JSX.Element[] {
@@ -24,8 +34,7 @@ export default class AffineTransformBezierCurveGraph extends BaseBezierCurveGrap
             <div><Button variant={"dark"} onClick={() => this.rotate(-0.10 * Math.PI)}>↻</Button>
                 <Button variant={"dark"} onClick={() => this.rotate(0.10 * Math.PI)}>↺</Button></div>,
             <div><Button variant={"dark"} onClick={() => this.flip(true, false)}>Zrcali Y</Button>
-                <Button variant={"dark"} onClick={() => this.flip(false, true)}>Zrcali X</Button></div>
-        ])
+                <Button variant={"dark"} onClick={() => this.flip(false, true)}>Zrcali X</Button></div>])
     }
 
     private moveFor(x: number, y: number) {

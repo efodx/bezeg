@@ -22,8 +22,8 @@ class RationalBezierCurveGraph extends BaseRationalCurveGraph<any, BaseGraphStat
         this.createRationalJSXBezierCurve(points4, weights4)
     }
 
-    defaultPreset(): string {
-        return "";
+    defaultPreset(): any {
+        return [];
     }
 
 }

@@ -29,22 +29,30 @@ abstract class BasePhBezierCurveGraph<P, S extends BasePhBezierCurveGraphStates>
     }
 
     override getGraphCommands(): JSX.Element[] {
-        if (this.getFirstJsxCurveAsPHCurve() == undefined) {
+        if (!this.state.initialized) {
             return []
         }
         const commands = []
-        commands.push(<OnOffSwitch onChange={checked => this.getFirstJsxCurveAsPHCurve().setShowOffsetCurve(checked)}
-                                   label={"Offset krivulje"}/>)
+        commands.push(<OnOffSwitch
+            initialState={this.getFirstJsxCurveAsPHCurve().isShowingOffsetCurve()}
+            onChange={checked => {
+                this.getFirstJsxCurveAsPHCurve().setShowOffsetCurve(checked)
+                this.setState({...this.state, showOffsetCurve: checked})
+            }}
+            label={"Offset krivulje"}/>)
 
 
-        if (this.getFirstJsxCurveAsPHCurve().isShowingOffsetCurve()) {
+        if (this.getFirstJsxCurveAsPHCurve().isShowingOffsetCurve() || this.state.showOffsetCurve) {
             commands.push(<Slider min={-3}
                                   max={3}
                                   initialValue={this.getFirstCurveAsPHBezierCurve()?.getOffsetCurveDistance() ? this.getFirstCurveAsPHBezierCurve()?.getOffsetCurveDistance() : 0}
                                   step={0.1}
                                   onChange={e => this.setOffsetCurveDistance(e)}/>)
             commands.push(<OnOffSwitch
-                onChange={checked => this.getFirstJsxCurveAsPHCurve().setShowOffsetCurveControlPoints(checked)}
+                onChange={checked => {
+                    this.getFirstJsxCurveAsPHCurve().setShowOffsetCurveControlPoints(checked)
+                    this.setState({...this.state, showOffsetCurveControlPoints: checked})
+                }}
                 label={"Kontrolne točke offset krivulje"}
                 initialState={this.state.showOffsetCurveControlPoints}/>)
             commands.push(<Button variant={"dark"} onClick={() => this.getFirstJsxCurveAsPHCurve().addOffsetCurve()}>Dodaj

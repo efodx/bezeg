@@ -38,7 +38,7 @@ export class BernsteinGraph extends BaseGraph<any, any> {
 
     initialize(): void {
         this.generateBernsteinPolynomials(this.board, this.state.n, this.isSumGraph)
-        this.board.setBoundingBox([-this.padding, 1 + this.padding * 2, 1 + this.padding, -this.padding], true)
+        this.board.setBoundingBox([-this.padding, 1 + this.padding * 2, 1 + this.padding, -this.padding])
         this.board.fullUpdate()
     }
 
@@ -157,7 +157,8 @@ export class BernsteinGraph extends BaseGraph<any, any> {
     }
 
     defaultPreset(): string {
-        return "";
+        return "[]";
+
     }
 
     private setIsSumGraph(checked: boolean) {

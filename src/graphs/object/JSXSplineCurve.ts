@@ -21,19 +21,19 @@ export class JSXSplineCurve extends AbstractJSXPointControlledCurve<BezierSpline
         this.pointControlledCurve.setContinuity(continuity)
         this.pointControlledCurve.setDegree(degree)
         this.pointControlledCurve.generateBezierCurves()
+        this.labelJxgPoints()
     }
 
-    static toStr(curve: JSXSplineCurve): string {
-        return JSON.stringify({
-            points: curve.pointControlledCurve.getPoints().map(point => [point.X(), point.Y()]),
+    static toStr(curve: JSXSplineCurve): JSXSplineConstructorParams {
+        return {
+            points: curve.pointControlledCurve.points.map(point => [point.X(), point.Y()]),
             degree: curve.pointControlledCurve.getDegree(),
             continuity: curve.pointControlledCurve.getContinuity(),
             state: curve.exportState()
-        } as JSXSplineConstructorParams, null, '\t')
+        }
     }
 
-    static fromStr(str: string, board: Board): JSXSplineCurve {
-        const params = JSON.parse(str) as JSXSplineConstructorParams
+    static fromStr(params: JSXSplineConstructorParams, board: Board): JSXSplineCurve {
         const curve = new JSXSplineCurve(params.points, params.continuity, params.degree, board)
         if (params.state) {
             curve.importState(params.state)

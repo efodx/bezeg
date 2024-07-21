@@ -10,7 +10,7 @@ export const Attributes = {
         allowShrink: false,
     } as BezierCurveAttributes,
     pointControlledDisabled: {
-        allowShowPoints: false,
+        allowShowPoints: true,
         allowShowControlPolygon: false,
         allowShowConvexHull: false
     } as PointControlledCurveAttributes

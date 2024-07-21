@@ -27,6 +27,7 @@ import {BernsteinGraph} from "./graphs/bernstein/BernsteinGraph";
 import FarinPointsCurveGraph from "./graphs/rational/FarinPointsCurveGraph";
 import {RefreshContext} from "./graphs/context/react/RefreshContext";
 import {PresetContext} from "./graphs/context/react/PresetContext";
+import C3SplineGraph from "./graphs/spline/C3SplineGraph";
 
 const PATH_BEZIER_CURVES = "/bezeg/bezier"
 const BEZIER_CURVES_GROUP = "Bezierjeve Krivulje";
@@ -172,6 +173,13 @@ const routes = [
                 path: PATH_SPLINE_CURVES + "/c2spline",
                 element: <C2SplineGraph/>,
                 title: "C2 Zlepek",
+                group: SPLINES_GROUP
+            },
+            {
+                group_path: PATH_SPLINE_CURVES,
+                path: PATH_SPLINE_CURVES + "/c3spline",
+                element: <C3SplineGraph/>,
+                title: "C3 Zlepek",
                 group: SPLINES_GROUP
             },
             {

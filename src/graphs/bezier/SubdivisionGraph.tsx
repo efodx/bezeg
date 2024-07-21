@@ -19,8 +19,18 @@ class SubdivisionGraph extends BaseBezierCurveGraph<any, BaseGraphStates> {
         this.getFirstJsxCurve().setAttributes(Attributes.bezierDisabled)
     }
 
-    defaultPreset() {
-        return '["JSXBezierCurve|{\\"points\\":[[-4,-3],[-3,2],[2,2],[3,-2]],\\"state\\":{\\"showingJxgPoints\\":true,\\"showingControlPolygon\\":true,\\"showingConvexHull\\":false,\\"showingDecasteljauScheme\\":false,\\"subdivisionT\\":0.5,\\"decasteljauT\\":0.5,\\"extrapolationT\\":1.2}}"]'
+    defaultPreset(): any {
+        return [["JSXBezierCurve", {
+            "points": [[-4, -3], [-3, 2], [2, 2], [3, -2]], "state": {
+                "showingJxgPoints": true,
+                "showingControlPolygon": true,
+                "showingConvexHull": false,
+                "showingDecasteljauScheme": false,
+                "subdivisionT": 0.5,
+                "decasteljauT": 0.5,
+                "extrapolationT": 1.2
+            }
+        }]]
     }
 
     override presets() {
@@ -60,8 +70,7 @@ class SubdivisionGraph extends BaseBezierCurveGraph<any, BaseGraphStates> {
                                      } else {
                                          this.hideControlPolygons()
                                      }
-                                 }}/>
-        ]) : []
+                                 }}/>]) : []
     }
 
     override getSelectedCurveCommands(): JSX.Element[] {
@@ -91,7 +100,8 @@ class SubdivisionGraph extends BaseBezierCurveGraph<any, BaseGraphStates> {
     private showDecasteljauScheme() {
         this.board.suspendUpdate()
         if (this.getSelectedCurve()) {
-            this.getSelectedCurve().showDecasteljauSchemeForT(1 / 2)
+            this.getSelectedCurve().setDecasteljauT(1 / 2)
+            this.getSelectedCurve().showDecasteljauScheme()
         }
         this.unsuspendBoardUpdate()
     }

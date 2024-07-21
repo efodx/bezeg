@@ -4,7 +4,7 @@ const PRESETS_PREFIX = "preset-"
 
 export interface Preset {
     id: string,
-    data?: string,
+    data?: any,
     boardState?: BoardState,
     graphState?: BaseGraphState
 }
@@ -22,14 +22,23 @@ export class PresetService {
     }
 
     exportAllPresetsToString() {
-        return JSON.stringify({...window.localStorage}, null, '\t')
+        const storage = {...window.localStorage}
+        const exportDto: any = {}
+        Object.entries(storage).forEach(entry => {
+            let key = entry[0];
+            let value = entry[1];
+            if (key.startsWith(PRESETS_PREFIX)) {
+                exportDto[key] = JSON.parse(value)
+            }
+        })
+        return JSON.stringify(exportDto, null, '\t')
     }
 
     importFromString(str: string) {
         const stored = JSON.parse(str)
         Object.entries(stored).forEach(entry => {
             let key = entry[0];
-            let value = entry[1];
+            let value = JSON.stringify(entry[1]);
             window.localStorage.setItem(key, value as string)
         });
     }
@@ -55,8 +64,8 @@ export class PresetService {
 
     savePreset(preset: Preset) {
         const presets = this.loadPresets()
-        console.log("Saving preset data:")
-        console.log(preset.data)
+        console.debug("Saving preset data:")
+        console.debug(preset.data)
         const storedPreset = presets.data.find(preset2 => preset2.id === preset.id)
         if (storedPreset) {
             storedPreset.data = preset.data

@@ -68,20 +68,23 @@ abstract class BaseGraph<P, S extends BaseGraphState> extends Component<P, S> {
             this.board.on('update', (e) => {
                 CacheContext.context = CacheContext.context + 1
             });
-            this.initialize()
 
 
             let presetContext = this.context
             this.setState({initialized: true})
             // @ts-ignore
             const preset = this.presetService?.getPreset(presetContext.selected)
-            console.log("PRESET:")
-            console.log(preset)
             if (preset) {
+                console.debug("PRESET:")
+                console.debug(preset)
                 this.importPreset(preset)
             } else {
+                console.debug("PRESET:")
+                console.debug(this.defaultPreset())
                 this.importPresetData(this.defaultPreset())
             }
+
+            this.initialize()
         }
     }
 
@@ -105,9 +108,9 @@ abstract class BaseGraph<P, S extends BaseGraphState> extends Component<P, S> {
         }
         return <Container fluid>
             <Row className={"align-items-center"} style={{height: "92vh"}}>
-                <Col xs={2}><Tools tools={this.getTools()}/></Col>
-                <Col xs={8}><JGBox/></Col>
-                <Col xs={2}>{this.getGraphCommandsArea()}</Col>
+                <Col xs={1} sm={2}><Tools tools={this.getTools()}/></Col>
+                <Col xs={10} sm={8}><JGBox/></Col>
+                <Col xs={1} sm={2}>{this.getGraphCommandsArea()}</Col>
             </Row>
         </Container>;
     }
@@ -175,12 +178,12 @@ abstract class BaseGraph<P, S extends BaseGraphState> extends Component<P, S> {
         return {boundingBox: this.board.getBoundingBox()}
     }
 
-    exportPresetData(): undefined | string {
+    exportPresetData(): undefined | any {
         return undefined;
     }
 
-    importPresetData(data: string) {
-        throw "NOT IMPLEMENTED"
+    importPresetData(data: any) {
+        // throw "NOT IMPLEMENTED"
     }
 
     abstract defaultPreset(): string

@@ -2,5 +2,5 @@ import {createContext} from "react";
 
 export const PresetContext = createContext({
     selected: "",
-    setSelected: (selected: string) => console.log(selected)
+    setSelected: (selected: string) => console.debug(selected)
 })

@@ -83,14 +83,20 @@ export abstract class PointControlledCurveImpl implements PointControlledCurve {
 
     affineTransform(A: number[][], b?: number[], center?: number[]): void {
         if (!center) {
-            center = this.getBoundingBoxCenter()
+            center = this.getPointsCenter()
         }
         let [xCenter, yCenter] = center
-
         this.points.forEach(point => {
             this.transformPoint(point, xCenter, yCenter, A, b);
         })
 
+    }
+
+    getPointsCenter() {
+        let [xc, yc] = this.getPoints().reduce((previousValue, currentValue) => [previousValue[0] + currentValue.X(), previousValue[1] + currentValue.Y()], [0, 0])
+        xc = xc / this.getPoints().length
+        yc = yc / this.getPoints().length
+        return [xc, yc]
     }
 
     transformPoint(point: Point, xCenter: number, yCenter: number, A: number[][], b?: number[]) {
@@ -132,7 +138,7 @@ export abstract class PointControlledCurveImpl implements PointControlledCurve {
     }
 
     getConvexHull(): Point[] {
-        const allPoints = this.points.map(point => point)
+        const allPoints = this.getPoints().map(point => point)
         const leftMostPoint = allPoints.sort((p1, p2) => p1.X() === p2.X() ? p1.Y() - p2.Y() : p1.X() - p2.X())[0]
         const pointsOnHull = [leftMostPoint]
         while (true) {

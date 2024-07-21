@@ -22,14 +22,25 @@ class UniformParamBezierCurveGraph extends BasePhBezierCurveGraph<any, UniformPa
     alpha: number = 0.5;
     private ts!: any[];
 
-    defaultPreset(): string {
-        return '["JSXPHBezierCurve|{\\"points\\":[[0,0]],\\"hodographs\\":[[-3,2],[2,2]]}"]'
+    defaultPreset(): any {
+        return [["JSXPHBezierCurve", {
+            "points": [[0, 0]], "hodographs": [[-3, 2], [2, 2]], "state": {
+                "showingJxgPoints": true,
+                "showingControlPolygon": false,
+                "showingConvexHull": false,
+                "showingDecasteljauScheme": false,
+                "subdivisionT": 0.5,
+                "decasteljauT": 0.5,
+                "extrapolationT": 1.2,
+                "showOffsetCurveControlPoints": false,
+                "showOffsetCurve": false
+            }
+        }]]
     }
 
     override getInitialState(): UniformParamBezierCurveGraphStates {
         return {
-            ...super.getInitialState(),
-            isAlphaParam: true
+            ...super.getInitialState(), isAlphaParam: true
         };
     }
 
@@ -115,8 +126,7 @@ class UniformParamBezierCurveGraph extends BasePhBezierCurveGraph<any, UniformPa
             this.ts = this.getUniformParamTs()
         }
         for (let i = 1; i <= this.numberOfPoints; i++) {
-            this.createJSXGraphPoint(() => this.getFirstCurve()!.calculatePointAtT(this.ts[i - 1]).X(),
-                () => this.getFirstCurve()!.calculatePointAtT(this.ts[i - 1]).Y())
+            this.createJSXGraphPoint(() => this.getFirstCurve()!.calculatePointAtT(this.ts[i - 1]).X(), () => this.getFirstCurve()!.calculatePointAtT(this.ts[i - 1]).Y())
         }
     }
 

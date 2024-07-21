@@ -12,13 +12,24 @@ interface DecasteljauGraphStates extends BaseGraphStates {
 
 class DecasteljauGraph extends BaseBezierCurveGraph<any, DecasteljauGraphStates> {
     private animating: boolean = false;
+    private currentT: number = 0.5
 
     override getInitialState(): DecasteljauGraphStates {
         return {...super.getInitialState(), t: 0.5};
     }
 
-    defaultPreset(): string {
-        return '["JSXBezierCurve|{\\"points\\":[[-4,-3],[-3,2],[0,3],[3,2],[4,-3]]}"]'
+    defaultPreset(): any {
+        return [["JSXBezierCurve", {
+            "points": [[-4, -3], [-3, 2], [0, 3], [3, 2], [4, -3]], "state": {
+                "showingJxgPoints": true,
+                "showingControlPolygon": false,
+                "showingConvexHull": false,
+                "showingDecasteljauScheme": true,
+                "subdivisionT": 0.5,
+                "decasteljauT": 0.5,
+                "extrapolationT": 1.2
+            }
+        }]]
     }
 
     override presets(): string {
@@ -30,7 +41,7 @@ class DecasteljauGraph extends BaseBezierCurveGraph<any, DecasteljauGraphStates>
         this.graphJXGPoints = this.getFirstJsxCurve().getJxgPoints()
         this.graphJXGPoints.forEach((point, i) => point.setName("$$p_" + i + "^0$$"))
         this.setT(this.getFirstJsxCurve().getDecasteljauT())
-        this.getFirstJsxCurve().setIntervalEnd(() => this.state.t)
+        this.getFirstJsxCurve().setIntervalEnd(() => this.currentT)
         this.getFirstJsxCurve().setAttributes(Attributes.bezierDisabled)
         this.boardUpdate()
     }
@@ -40,14 +51,13 @@ class DecasteljauGraph extends BaseBezierCurveGraph<any, DecasteljauGraphStates>
                                                                                       onChange={checked => this.animate(checked)}
                                                                                       label={"Animiraj"}></OnOffSwitch>,
             <Slider min={0} max={1} fixedValue={this.state.t}
-                    onChange={(t) => this.setT(t)}></Slider>]
-        ) : []
+                    onChange={(t) => this.setT(t)}></Slider>]) : []
     }
 
     private animate(animate: boolean) {
         if (animate) {
             this.animating = true
-            this.animateRecursive(this.state.t, 0.01)
+            this.animateRecursive(this.currentT, 0.01)
         } else {
             this.animating = false
         }
@@ -65,8 +75,8 @@ class DecasteljauGraph extends BaseBezierCurveGraph<any, DecasteljauGraphStates>
 
     private setT(t: number) {
         this.setState({...this.state, t: t})
+        this.currentT = t
         this.getFirstJsxCurve().setDecasteljauT(t)
-        this.boardUpdate()
     }
 }
 

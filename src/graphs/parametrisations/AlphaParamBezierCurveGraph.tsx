@@ -7,8 +7,18 @@ class AlphaParamBezierCurveGraph extends BaseBezierCurveGraph<any, BaseGraphStat
     numberOfPoints: number = 10;
     alpha: number = 0.5;
 
-    defaultPreset(): string {
-        return '[\"JSXBezierCurve|{\\\"points\\\":[[-4,-3],[-3,2],[2,2],[3,-2]]}\"]'
+    defaultPreset(): any {
+        return [["JSXBezierCurve", {
+            "points": [[-4, -3], [-3, 2], [2, 2], [3, -2]], "state": {
+                "showingJxgPoints": true,
+                "showingControlPolygon": false,
+                "showingConvexHull": false,
+                "showingDecasteljauScheme": false,
+                "subdivisionT": 0.5,
+                "decasteljauT": 0.5,
+                "extrapolationT": 1.2
+            }
+        }]]
     }
 
     alphaParam: (t: number) => number = (t: number) => (1 - this.alpha) * t / (this.alpha * (1 - t) + (1 - this.alpha) * t);
@@ -19,8 +29,7 @@ class AlphaParamBezierCurveGraph extends BaseBezierCurveGraph<any, BaseGraphStat
     }
 
     override getGraphCommands(): JSX.Element[] {
-        return super.getGraphCommands().concat(this.alphaParamSlider(),
-            this.numberOfPointsSlider());
+        return super.getGraphCommands().concat(this.alphaParamSlider(), this.numberOfPointsSlider());
     }
 
     setAlpha(alpha: number) {
@@ -57,8 +66,7 @@ class AlphaParamBezierCurveGraph extends BaseBezierCurveGraph<any, BaseGraphStat
     generateParamPoints() {
         const dt = 1 / (this.numberOfPoints + 1)
         for (let i = 1; i <= this.numberOfPoints; i++) {
-            this.createJSXGraphPoint(() => this.getFirstCurve()!.calculatePointAtT(this.alphaParam(i * dt)).X(),
-                () => this.getFirstCurve()!.calculatePointAtT(this.alphaParam(i * dt)).Y())
+            this.createJSXGraphPoint(() => this.getFirstCurve()!.calculatePointAtT(this.alphaParam(i * dt)).X(), () => this.getFirstCurve()!.calculatePointAtT(this.alphaParam(i * dt)).Y())
         }
     }
 }

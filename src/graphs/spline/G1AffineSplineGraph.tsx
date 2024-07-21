@@ -5,9 +5,9 @@ import {Button} from "react-bootstrap";
 class Graph extends BaseSplineCurveGraph {
 
     override getGraphCommands(): JSX.Element[] {
-        return super.getGraphCommands().concat([
-            <div><Button variant={"dark"} onClick={() => this.povecajB1()}>Povečaj B1</Button>
-                <Button variant={"dark"} onClick={() => this.zmanjsajB1()}>Zmanjšaj B1</Button></div>,
+        return super.getGraphCommands().concat([<div><Button variant={"dark"} onClick={() => this.povecajB1()}>Povečaj
+            B1</Button>
+            <Button variant={"dark"} onClick={() => this.zmanjsajB1()}>Zmanjšaj B1</Button></div>,
             <div><Button variant={"dark"} onClick={() => this.povecajB2()}>Povečaj B2</Button>
                 <Button variant={"dark"} onClick={() => this.zmanjsajB2()}>Zmanjšaj B2</Button>
                 <Button variant={"dark"} onClick={() => this.scale(1.2)}>Povečaj</Button>
@@ -19,16 +19,19 @@ class Graph extends BaseSplineCurveGraph {
             <div><Button variant={"dark"} onClick={() => this.rotate(0.10 * Math.PI)}>Rotiraj levo</Button>
                 <Button variant={"dark"} onClick={() => this.rotate(-0.10 * Math.PI)}>Rotiraj desno</Button></div>,
             <div><Button variant={"dark"} onClick={() => this.flip(true, false)}>Zrcali Y</Button>
-                <Button variant={"dark"} onClick={() => this.flip(false, true)}>Zrcali X</Button></div>
-        ])
+                <Button variant={"dark"} onClick={() => this.flip(false, true)}>Zrcali X</Button></div>])
     }
 
     override presets() {
         return "g1-spline"
     }
 
-    defaultPreset(): string {
-        return '["JSXSplineCurve|{\\"points\\":[[-3,2],[-4,-1],[-3,-2],[-1,1],[1,2],[4,2],[3,-1]],\\"degree\\":3,\\"continuity\\":2}"]';
+    defaultPreset(): any {
+        return [["JSXSplineCurve", {
+            "points": [[-3, 2], [-4, -1], [-3, -2], [-1, 1], [1, 2]], "degree": 3, "continuity": 2, "state": {
+                "showingJxgPoints": true, "showingControlPolygon": false, "showingConvexHull": false
+            }
+        }]];
     }
 
     private povecajB1() {

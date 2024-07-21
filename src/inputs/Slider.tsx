@@ -16,7 +16,8 @@ export default function Slider(props: SliderProps) {
     const {step = (props.max - props.min) / 100} = props
     const renderValue = props.fixedValue !== undefined ? props.fixedValue : value!
     return <Form>
-        {props.customText ? <Form.Text>{props.customText}</Form.Text> : <Form.Text>{renderValue.toFixed(2)}</Form.Text>}
+        {props.customText ? <Form.Label>{props.customText}</Form.Label> :
+            <Form.Text>{renderValue.toFixed(2)}</Form.Text>}
         <Form.Range min={props.min}
                     max={props.max} value={renderValue}
                     step={step}

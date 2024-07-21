@@ -4,9 +4,9 @@ import {Form} from "react-bootstrap";
 
 export function ShowAxis(props: { board: () => Board }) {
     const [checked, setChecked] = useState(true)
-    return <Form> <Form.Check // prettier-ignore
+    return <Form> <Form.Check
         type="switch"
-        id="custom-switch"
+        id="custom-switch2"
         label="Mreža"
         checked={checked}
         onChange={(e) => {

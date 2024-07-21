@@ -16,7 +16,7 @@ const classToNameMap = new Map<any, string>(
 
 
 export class ClassMapper {
-    static getFromStr(name: string): (s: string, board: Board) => any {
+    static getFromStr(name: string): (s: any, board: Board) => any {
         return nameToClassMap.get(name).fromStr
     }
 
@@ -24,7 +24,7 @@ export class ClassMapper {
         return classToNameMap.get(clazz)!
     }
 
-    static getToStr(clazz: any): (curve: any) => string {
+    static getToStr(clazz: any): (curve: any) => any {
         return clazz.toStr
     }
 
