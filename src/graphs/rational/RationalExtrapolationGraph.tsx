@@ -49,6 +49,11 @@ class GraphExtrapolation extends BaseRationalCurveGraph<any, BaseGraphStates> {
         return "rational-bezier-extrapolation"
     }
 
+    override deselectSelectedCurve() {
+        super.deselectSelectedCurve()
+        this.getFirstJsxCurve().createExtrapolationPoint()
+        this.getFirstJsxCurve().showExtrapolationPoint()
+    }
 
 }
 

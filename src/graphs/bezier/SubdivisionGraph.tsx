@@ -101,7 +101,6 @@ class SubdivisionGraph extends BaseBezierCurveGraph<any, BaseGraphStates> {
         this.board.suspendUpdate()
         if (this.getSelectedCurve()) {
             this.getSelectedCurve().setDecasteljauT(1 / 2)
-            this.getSelectedCurve().showDecasteljauScheme()
         }
         this.unsuspendBoardUpdate()
     }

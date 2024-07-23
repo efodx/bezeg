@@ -9,10 +9,9 @@ function ShowControlPoints(props: { initialState?: boolean, onChange: (checked: 
 }
 
 export function BezierCurveCommands(curve: JSXBezierCurve): JSX.Element[] {
-    curve.createSubdivisionPoint()
-    curve.createExtrapolationPoint()
     const commands = []
     if (curve.getAttributes().allowSubdivision) {
+        curve.createSubdivisionPoint()
         commands.push(<div onMouseEnter={() => curve.showSubdivisionPoint()}
                            onMouseLeave={() => curve.hideSubdivisionPoint()}>
             <Slider min={0} max={1}
@@ -22,6 +21,7 @@ export function BezierCurveCommands(curve: JSXBezierCurve): JSX.Element[] {
         </div>)
     }
     if (curve.getAttributes().allowExtrapolation) {
+        curve.createExtrapolationPoint()
         commands.push(<div onMouseEnter={() => curve.showExtrapolationPoint()}
                            onMouseLeave={() => curve.hideExtrapolationPoint()}>
             <Slider min={1} max={1.5}

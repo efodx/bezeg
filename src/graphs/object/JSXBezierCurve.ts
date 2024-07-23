@@ -120,6 +120,7 @@ export class JSXBezierCurve extends AbstractJSXBezierCurve<BezierCurve, BezierCu
             this.generateLineSegments()
         } else {
             // @ts-ignore
+            this.decasteljauPoints.concat(this.decasteljauSegments).forEach(el => el.show())
             this.showControlPolygonInternal()
         }
         this.showingDecasteljauScheme = true;
@@ -238,15 +239,14 @@ export class JSXBezierCurve extends AbstractJSXBezierCurve<BezierCurve, BezierCu
         this.movePointsToNewPoints(extrapolatedBezier.getPoints())
     }
 
-    override select() {
+    override deselect() {
         if (this.subdivisionPoint) {
-            // @ts-ignore
             this.board.removeObject(this.subdivisionPoint)
         }
         if (this.extrapolationPoint) {
             this.board.removeObject(this.extrapolationPoint)
         }
-        super.select();
+        super.deselect();
         this.subdivisionPoint = null
         this.extrapolationPoint = null
     }
@@ -324,6 +324,8 @@ export class JSXBezierCurve extends AbstractJSXBezierCurve<BezierCurve, BezierCu
     }
 
     hideExtrapolationPoint() {
+        console.log(this.extrapolationPoint)
+        console.log("hiding")
         this.setIntervalEnd(1)
         this.extrapolationPoint?.hide()
     }

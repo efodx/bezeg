@@ -125,13 +125,12 @@ function SaveModal(props: { onSave: (name: string) => void }) {
 
 }
 
-function TrashModal(props: { trash: (name: string) => void, disabled?: boolean }) {
+function TrashModal(props: { trash: () => void, disabled?: boolean }) {
     const [show, setShow] = useState(false);
-    const [presetName, setPresetName] = useState("");
 
     const handleClose = () => setShow(false);
     const handleConfirm = () => {
-        props.trash(presetName)
+        props.trash()
         setShow(false);
     }
     const handleShow = () => setShow(true);
@@ -230,15 +229,13 @@ export function PresetSelector(props: {
                 })
                 selectedPresetContext.setSelected(name)
             }}></SaveModal>
-            <TrashModal disabled={presets.selectedPreset === undefined} trash={name => {
-                if (name !== undefined || name !== "") {
-                    const newPresets = props.presetService.removePreset(presets.selectedPreset.id)
-                    setPresets({
-                        presets: newPresets,
-                        selectedPreset: newPresets.data[0]
-                    })
-                    selectedPresetContext.setSelected(newPresets.data[0]?.id)
-                }
+            <TrashModal disabled={presets.selectedPreset === undefined} trash={() => {
+                const newPresets = props.presetService.removePreset(presets.selectedPreset.id)
+                setPresets({
+                    presets: newPresets,
+                    selectedPreset: newPresets.data[0]
+                })
+                selectedPresetContext.setSelected(newPresets.data[0]?.id)
             }}></TrashModal>
         </Form.Group>
         <Form.Group className="mx-auto my-1">

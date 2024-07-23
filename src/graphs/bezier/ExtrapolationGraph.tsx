@@ -47,6 +47,12 @@ class GraphExtrapolation extends BaseBezierCurveGraph<any, BaseGraphStates> {
                     onClick={() => this.getFirstJsxCurve().extrapolate(this.getFirstJsxCurve().getExtrapolationT())}>Ekstrapoliraj</Button>
         </div>]) : []
     }
+
+    override deselectSelectedCurve() {
+        super.deselectSelectedCurve()
+        this.getFirstJsxCurve().createExtrapolationPoint()
+        this.getFirstJsxCurve().showExtrapolationPoint()
+    }
 }
 
 export default GraphExtrapolation;

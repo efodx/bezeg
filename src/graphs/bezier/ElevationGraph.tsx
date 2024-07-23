@@ -3,8 +3,13 @@ import '../../App.css';
 import {BaseBezierCurveGraph} from "../base/BaseBezierCurveGraph";
 import {BaseGraphStates} from "../base/BaseCurveGraph";
 import {Button} from "react-bootstrap";
+import {Attributes} from "../attributes/Attributes";
 
 class ElevationGraph extends BaseBezierCurveGraph<any, BaseGraphStates> {
+    override initialize() {
+        super.initialize();
+        this.getFirstJsxCurve().setAttributes(Attributes.bezierDisabled)
+    }
 
     defaultPreset(): any {
         return [["JSXBezierCurve", {

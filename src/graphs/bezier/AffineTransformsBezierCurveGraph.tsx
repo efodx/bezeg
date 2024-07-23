@@ -3,8 +3,15 @@ import '../../App.css';
 import {BaseBezierCurveGraph} from "../base/BaseBezierCurveGraph";
 import {BaseGraphStates} from "../base/BaseCurveGraph";
 import {Button} from "react-bootstrap";
+import {Attributes} from "../attributes/Attributes";
 
 export default class AffineTransformBezierCurveGraph extends BaseBezierCurveGraph<any, BaseGraphStates> {
+    override initialize() {
+        super.initialize();
+        this.getFirstJsxCurve().setAttributes(Attributes.bezierDisabled)
+    }
+
+
     override presets(): string {
         return "affine-transform"
     }
