@@ -44,7 +44,7 @@ class GraphExtrapolation extends BaseBezierCurveGraph<any, BaseGraphStates> {
                     initialValue={this.getFirstJsxCurve().getExtrapolationT()}
                     onChange={(t) => this.getFirstJsxCurve().setExtrapolationT(t)}></Slider>
             <Button variant={"dark"}
-                    onClick={() => this.getFirstJsxCurve().extrapolate(this.getFirstJsxCurve().getExtrapolationT())}>Ekstrapoliraj</Button>
+                    onClick={() => this.extrapolate()}>Ekstrapoliraj</Button>
         </div>]) : []
     }
 
@@ -52,6 +52,13 @@ class GraphExtrapolation extends BaseBezierCurveGraph<any, BaseGraphStates> {
         super.deselectSelectedCurve()
         this.getFirstJsxCurve().createExtrapolationPoint()
         this.getFirstJsxCurve().showExtrapolationPoint()
+    }
+
+    private extrapolate() {
+        this.board.suspendUpdate()
+        this.getFirstJsxCurve().extrapolate(this.getFirstJsxCurve().getExtrapolationT());
+        this.board.update()
+        this.unsuspendBoardUpdate()
     }
 }
 

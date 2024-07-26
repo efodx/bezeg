@@ -200,6 +200,10 @@ export abstract class AbstractJSXPointControlledCurve<T extends PointControlledC
         console.timeEnd("Processing mouse move event")
     }
 
+    needToProcessMoveEvent() {
+        return this.dragging || this.resizing || this.rotating
+    }
+
     getResizingDir(): number[] {
         // @ts-ignore
         if (this.boundBoxPoints[0].hasPoint(this.coords!.scrCoords[1], this.coords!.scrCoords[2])) {

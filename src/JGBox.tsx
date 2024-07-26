@@ -1,7 +1,3 @@
-interface JGBoxProps {
-    onResize: (width: number, height: number) => void
-}
-
 export function JGBox() {
     return <div id="jgbox" style={{
         width: "100%",

@@ -30,7 +30,6 @@ export class JSXBezierCurve extends AbstractJSXBezierCurve<BezierCurve, BezierCu
     private decasteljauT: number = 0.5;
     private decasteljauSegments: JXG.Segment[] = []
     private decasteljauPoints: JXG.Point[] = []
-    private lastDecasteljauT: number | null = null;
     private showingDecasteljauScheme: boolean = false;
     private extrapolationT: number = 1.2;
     private subdivisionPoint: JXG.Point | null = null;
@@ -115,7 +114,7 @@ export class JSXBezierCurve extends AbstractJSXBezierCurve<BezierCurve, BezierCu
     }
 
     showDecasteljauScheme() {
-        if ((this.getCurve().getPoints().length > 2) && this.lastDecasteljauN != this.pointControlledCurve.getPoints().length) {
+        if ((this.getCurve().getPoints().length > 2) && this.lastDecasteljauN !== this.pointControlledCurve.getPoints().length) {
             this.lastDecasteljauN = this.pointControlledCurve.getPoints().length
             this.generateLineSegments()
         } else {
@@ -191,6 +190,9 @@ export class JSXBezierCurve extends AbstractJSXBezierCurve<BezierCurve, BezierCu
 
     override addPoint(x: number, y: number) {
         super.addPoint(x, y);
+        if (this.decasteljauSegments.length !== 0) {
+            this.generateLineSegments()
+        }
         if (this.isShowingControlPolygon()) {
             this.showControlPolygon()
         }
@@ -198,7 +200,7 @@ export class JSXBezierCurve extends AbstractJSXBezierCurve<BezierCurve, BezierCu
 
     override removePoint(i: number) {
         super.removePoint(i);
-        if (this.lastDecasteljauT != null) {
+        if (this.decasteljauSegments.length !== 0) {
             this.generateLineSegments()
         }
         if (!this.showingDecasteljauScheme) {

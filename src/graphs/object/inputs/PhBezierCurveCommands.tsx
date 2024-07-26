@@ -11,7 +11,10 @@ interface OffsetCurveSettingsProps {
 
 function OffsetCurveSettings({curve}: OffsetCurveSettingsProps) {
     const [showOffsetCurve, setShowOffsetCurve] = useState(curve.isShowingOffsetCurve())
+    console.log('lolol', curve.isShowingOffsetCurveControlPoints())
+    console.log("lololwataf", curve.isShowingOffsetCurveControlPointsLines())
     const [showOffSetCurveControlPoints, setShowOffSetCurveControlPoints] = useState(curve.isShowingOffsetCurveControlPoints())
+    const [showOffSetCurveControlPointsLines, setShowOffSetCurveControlPointsLines] = useState(curve.isShowingOffsetCurveControlPointsLines())
 
     return <div>
         <OnOffSwitch
@@ -26,7 +29,7 @@ function OffsetCurveSettings({curve}: OffsetCurveSettingsProps) {
                   max={3}
                   initialValue={curve.getCurve().getOffsetCurveDistance()}
                   step={0.1}
-                  onChange={e => curve.getCurve().setOffsetCurveDistance(e)}/>
+                  onChange={e => curve.setOffsetCurveDistance(e)}/>
           <OnOffSwitch
             onChange={checked => {
                 curve.setShowOffsetCurveControlPoints(checked)
@@ -34,6 +37,14 @@ function OffsetCurveSettings({curve}: OffsetCurveSettingsProps) {
             }}
             label={"Kontrolne točke offset krivulje"}
             initialState={showOffSetCurveControlPoints}/>
+          <OnOffSwitch
+            disabled={!showOffSetCurveControlPoints}
+            onChange={checked => {
+                curve.setShowOffsetCurveControlPointsLines(checked)
+                setShowOffSetCurveControlPointsLines(checked)
+            }}
+            label={"Premice kontrolnih točke offset krivulje"}
+            initialState={showOffSetCurveControlPointsLines}/>
           <Button variant={"dark"} onClick={() => curve.addOffsetCurve()}>Dodaj
             krivuljo</Button>
           <Button variant={"dark"} onClick={() => curve.removeOffsetCurve()}>Odstrani

@@ -31,14 +31,21 @@ function connectCurves(c1: [x1: (t: number) => number, y1: (t: number) => number
 
 
 export class BernsteinGraph extends BaseGraph<any, any> {
-    override readonly state = {n: 2};
-    private isSumGraph: boolean = false;
+    override readonly state = {n: 2, isSumGraph: false};
     private jxgObjects: any = []
     private padding = 0.1
 
+    override componentDidUpdate(prevProps: Readonly<any>, prevState: Readonly<any>, snapshot?: any) {
+        this.generateBernsteinPolynomials(this.board, this.state.n, this.state.isSumGraph)
+    }
+
+    override presets() {
+        return "bernstein-graph"
+    }
+
     initialize(): void {
-        this.generateBernsteinPolynomials(this.board, this.state.n, this.isSumGraph)
-        this.board.setBoundingBox([-this.padding, 1 + this.padding * 2, 1 + this.padding, -this.padding])
+        this.generateBernsteinPolynomials(this.board, this.state.n, this.state.isSumGraph)
+        this.board.setBoundingBox([-this.padding, 1 + this.padding * 2, 1 + this.padding, -this.padding], true)
         this.board.fullUpdate()
     }
 
@@ -47,11 +54,11 @@ export class BernsteinGraph extends BaseGraph<any, any> {
             return
         }
         this.setState({...this.state, n: number})
-        this.board.removeObject(this.jxgObjects)
-        this.generateBernsteinPolynomials(this.board, number, this.isSumGraph)
+        this.generateBernsteinPolynomials(this.board, number, this.state.isSumGraph)
     }
 
     generateBernsteinPolynomials(board: JXG.Board, n: number, isSumGraph: boolean) {
+        this.board.removeObject(this.jxgObjects)
         const numOfPolynoms = n
         const polynoms: Array<(t: number) => number> = []
         const jxgObjects = []
@@ -152,19 +159,18 @@ export class BernsteinGraph extends BaseGraph<any, any> {
                 <Button variant={"dark"} onClick={() => this.setN(Math.max(this.state.n - 1, 1))}
                         className="btn-block">-</Button>
             </ButtonGroup>,
-            <OnOffSwitch initialState={this.isSumGraph} onChange={checked => this.setIsSumGraph(checked)}
+            <OnOffSwitch initialState={this.state.isSumGraph} onChange={checked => this.setIsSumGraph(checked)}
                          label={"Sum graph"}/>);
     }
 
     defaultPreset(): string {
         return "[]";
-
     }
 
     private setIsSumGraph(checked: boolean) {
-        this.isSumGraph = checked
+        this.setState({...this.state, isSumGraph: checked})
         this.board.removeObject(this.jxgObjects)
         this.jxgObjects = []
-        this.generateBernsteinPolynomials(this.board, this.state.n, this.isSumGraph)
+        this.generateBernsteinPolynomials(this.board, this.state.n, checked)
     }
 }

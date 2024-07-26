@@ -77,22 +77,6 @@ abstract class BasePhBezierCurveGraph<P, S extends BasePhBezierCurveGraphStates>
         return this.getFirstCurve() as PhBezierCurve
     }
 
-    // override exportPreset(): string {
-    //     return super.exportPreset() + "ENDGRAPHOBJECTS" + JSON.stringify({
-    //             showOffsetCurve: this.state.showOffsetCurve,
-    //             showOffsetCurveControlPoints: this.state.showOffsetCurveControlPoints,
-    //             offsetCurveDistance: this.getFirstCurveAsPHBezierCurve().getOffsetCurveDistance()
-    //         } as BasePhBezierCurveGraphStatesDto,
-    //         null, '\t')
-    // }
-
-    importState(parse: BasePhBezierCurveGraphStates) {
-        //this.generateJsxOffsetCurves(parse.showOffsetCurve);
-        //this.showOffsetCurve = parse.showOffsetCurve
-        //this.showOffsetCurveControlPoints(parse.showOffsetCurveControlPoints)
-        this.setState(parse as BasePhBezierCurveGraphStates)
-    }
-
     override getFirstJsxCurve(): JSXBezierCurve {
         return super.getFirstJsxCurve() as JSXBezierCurve
     }

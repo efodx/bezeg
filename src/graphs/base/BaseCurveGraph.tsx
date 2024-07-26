@@ -20,6 +20,7 @@ import {JSXRationalBezierCurve} from "../object/JSXRationalBezierCurve";
 import {JSXPHBezierCurve} from "../object/JSXPHBezierCurve";
 import {ClassMapper} from "../object/ClassMapper";
 import {PointStyles} from "../styles/PointStyles";
+import {Preset} from "./presets/Presets";
 
 enum SelectedCurveOption {
     MOVE_CURVE, ADD_POINTS, DELETE_POINTS
@@ -41,6 +42,13 @@ abstract class BaseCurveGraph<P, S extends BaseGraphStates> extends BaseGraph<P,
     protected jsxBezierCurves: AbstractJSXPointControlledCurve<PointControlledCurve, PointControlledCurveAttributes>[] = [];
     protected graphJXGPoints: JXG.Point[] = [];
 
+    override importPreset(preset: Preset) {
+        // TODO fix this in another way, this is ugly..
+        // @ts-ignore
+        preset.graphState = {...preset.graphState, curveSelected: false};
+        super.importPreset(preset)
+
+    }
 
     initialize() {
     }
@@ -258,20 +266,24 @@ abstract class BaseCurveGraph<P, S extends BaseGraphStates> extends BaseGraph<P,
             // only handle when we're just moving curve
             return
         }
-        this.board.suspendUpdate()
         let selectedCurve = this.getSelectedCurve()
-        selectedCurve?.processMouseUp(e)
-        this.unsuspendBoardUpdate()
+        if (selectedCurve && selectedCurve.needToProcessMoveEvent()) {
+            this.board.suspendUpdate()
+            selectedCurve?.processMouseUp(e)
+            this.unsuspendBoardUpdate()
+        }
     }
 
     private handleMove(e: PointerEvent) {
         if (this.state.selectedCurveOption !== SelectedCurveOption.MOVE_CURVE) {
             return
         }
-        this.board.suspendUpdate()
         let selectedCurve = this.getSelectedCurve()
-        selectedCurve?.processMouseMove(e)
-        this.unsuspendBoardUpdate()
+        if (selectedCurve && selectedCurve.needToProcessMoveEvent()) {
+            this.board.suspendUpdate()
+            selectedCurve?.processMouseMove(e)
+            this.unsuspendBoardUpdate()
+        }
     }
 
     private onSelectChange(e: React.ChangeEvent<HTMLSelectElement>) {

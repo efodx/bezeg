@@ -66,6 +66,7 @@ abstract class BaseGraph<P, S extends BaseGraphState> extends Component<P, S> {
                 // theme: 'mono_thin'
             });
             this.board.on('update', (e) => {
+                console.log("updating context")
                 CacheContext.context = CacheContext.context + 1
             });
 
@@ -140,7 +141,6 @@ abstract class BaseGraph<P, S extends BaseGraphState> extends Component<P, S> {
     }
 
     boardUpdate() {
-        CacheContext.context += 1
         this.board.update()
     }
 
@@ -205,23 +205,10 @@ abstract class BaseGraph<P, S extends BaseGraphState> extends Component<P, S> {
     }
 
     private importBoardState(boardState: BoardState) {
-        this.board.suspendUpdate()
-        this.board.setBoundingBox([-5, 5, 5, -5])
-        this.board.update()
-        this.board.keepaspectratio = true
-        this.board.suspendUpdate()
-
-
-        this.makeSquare(boardState.boundingBox)
-        this.board.setBoundingBox(boardState.boundingBox)
-        this.board.update()
+        this.board.setBoundingBox(boardState.boundingBox, true)
+        this.board.fullUpdate()
     }
 
-    private makeSquare(boundingBox: [number, number, number, number]) {
-        let [cX, cY] = [(boundingBox[0] + boundingBox[1]) / 2, (boundingBox[2] + boundingBox[3]) / 2]
-        // poglej kako je bounding box definiran, najdi center in potem spremeni v kvadrat, upam da bo to dovolj :/
-        return boundingBox
-    }
 }
 
 export default BaseGraph;

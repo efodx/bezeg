@@ -20,14 +20,14 @@
   tocke na krivulji!!
 - [x] Osnova grafa naj bo renderirana enako pri Bernsteinovih polinomih kot BaseGraph... trenutno je skopirana
 - [x] Size context?
-- [ ] Različni preseti za inicializacijo grafa - torej primeri iz magistrske, ki jih lahko kar izbereš iz dropdownov!
+- [x] Različni preseti za inicializacijo grafa - torej primeri iz magistrske, ki jih lahko kar izbereš iz dropdownov!
   Tako bom zagotovil konsistenco med slikami. V inicializacijo lahko dodam tudi bounding box parameter itd. - to je
   lahko kr graph property - presets, potem jih class poljubno uporabi pri inicializaciji
   Naj se da Presete ustvarjat tudi svoje... Da shranis krivuljo recimo itd... nekako bo treba dosezt te stvari.
   Tako bo lahko profesor si ustvaril krivuljo in jo potem shranil. In dosezem tudi, da lahko potem te presete poimensko
   eksportam!
-- [ ] Decasteljau generateLineSegments(slider: JXG.Slider) in se ena metoda... naj bo to abstrahirano kar je lahko.
-- [ ] ODSTRANI SLIDERJE KER DELAJO GUZVO NA SLIKAH
+- [x] Decasteljau generateLineSegments(slider: JXG.Slider) in se ena metoda... naj bo to abstrahirano kar je lahko.
+- [x] ODSTRANI SLIDERJE KER DELAJO GUZVO NA SLIKAH
 - [x] Naj se da odstranit oznake točk tudi za segmente..... MORDA DODAM VISIBILITY MED CONTEXTE...
 - [ ] Na G1 zlepkih da premikamo alphe
 
@@ -45,7 +45,7 @@
 - [ ] Uporabi Javascript get/set ne nekih svojih pisat! -- to ni sans da se mi bo dalo popravljat x]
 - [ ] Make JGBox self-initiating! it should be possible!
 - [x] Resizanje v obe smeri za PH krivulje...TOLE MOGOCE CELO NE GRE, dobro razmisli ce strig ohrani PH... NO GO BBY
-- [ ] Poglej še enkrat Decasteljau, tisto je bilo pisano DOLGO nazaj. Mogoče lahko tudi dam uporabiš caching sistem.
+- [x] Poglej še enkrat Decasteljau, tisto je bilo pisano DOLGO nazaj. Mogoče lahko tudi dam uporabiš caching sistem.
 - [x] JSXKrivulje bi lahko imele "wrapControlPoints()", ki bi vzele krivuljo, in njene kontrolne tocke zawrappala v
   JSXTocke... NAH
 - [x] Mogoce pri bernsteinovih naredit nek plotchart kolko kateri vpliva?

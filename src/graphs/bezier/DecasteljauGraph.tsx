@@ -7,15 +7,19 @@ import Slider from "../../inputs/Slider";
 import {Attributes} from "../attributes/Attributes";
 
 interface DecasteljauGraphStates extends BaseGraphStates {
-    t: number
+    t: number,
+    v: number
 }
 
 class DecasteljauGraph extends BaseBezierCurveGraph<any, DecasteljauGraphStates> {
     private animating: boolean = false;
-    private currentT: number = 0.5
 
     override getInitialState(): DecasteljauGraphStates {
-        return {...super.getInitialState(), t: 0.5};
+        return {...super.getInitialState(), t: 0.5, v: 1};
+    }
+
+    override componentDidUpdate(prevProps: Readonly<any>, prevState: Readonly<DecasteljauGraphStates>, snapshot?: any) {
+        this.getFirstJsxCurve().setDecasteljauT(this.state.t)
     }
 
     defaultPreset(): any {
@@ -40,8 +44,7 @@ class DecasteljauGraph extends BaseBezierCurveGraph<any, DecasteljauGraphStates>
         super.initialize()
         this.graphJXGPoints = this.getFirstJsxCurve().getJxgPoints()
         this.graphJXGPoints.forEach((point, i) => point.setName("$$p_" + i + "^0$$"))
-        this.setT(this.getFirstJsxCurve().getDecasteljauT())
-        this.getFirstJsxCurve().setIntervalEnd(() => this.currentT)
+        this.getFirstJsxCurve().setIntervalEnd(() => this.state.t)
         this.getFirstJsxCurve().setAttributes(Attributes.bezierDisabled)
         this.boardUpdate()
     }
@@ -50,34 +53,33 @@ class DecasteljauGraph extends BaseBezierCurveGraph<any, DecasteljauGraphStates>
         return this.state.initialized ? super.getGraphCommands().concat([<OnOffSwitch initialState={this.animating}
                                                                                       onChange={checked => this.animate(checked)}
                                                                                       label={"Animiraj"}></OnOffSwitch>,
-            <Slider min={0} max={1} fixedValue={this.state.t}
-                    onChange={(t) => this.setT(t)}></Slider>]) : []
+            <Slider customText={'t'} min={0} max={1} fixedValue={this.state.t}
+                    onChange={(t) => this.setState({...this.state, t: t})}></Slider>,
+            <Slider customText={'Hitrost animacije'} min={0} max={1} fixedValue={this.state.v}
+                    onChange={(v) => this.setState({...this.state, v: v})}></Slider>]) : []
     }
 
     private animate(animate: boolean) {
         if (animate) {
             this.animating = true
-            this.animateRecursive(this.currentT, 0.01)
+            console.log(0.01 * this.state.v)
+            this.animateRecursive(this.state.t)
         } else {
             this.animating = false
         }
     }
 
-    private animateRecursive(t: number, dt: number) {
+    private animateRecursive(t: number) {
+        let dt = 0.015 * this.state.v
         if (t + dt > 1) {
             t = 0
         }
-        this.setT(t)
+        this.setState({...this.state, t: t})
         if (this.animating) {
-            window.requestAnimationFrame(() => this.animateRecursive(t + dt, dt))
+            window.requestAnimationFrame(() => this.animateRecursive(t + dt))
         }
     }
 
-    private setT(t: number) {
-        this.setState({...this.state, t: t})
-        this.currentT = t
-        this.getFirstJsxCurve().setDecasteljauT(t)
-    }
 }
 
 export default DecasteljauGraph;
