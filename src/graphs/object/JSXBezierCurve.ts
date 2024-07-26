@@ -34,6 +34,7 @@ export class JSXBezierCurve extends AbstractJSXBezierCurve<BezierCurve, BezierCu
     private extrapolationT: number = 1.2;
     private subdivisionPoint: JXG.Point | null = null;
     private extrapolationPoint: JXG.Point | null = null;
+    private elevationPoints: JXG.Point[] = [];
     private cachedDecasteljauScheme: Point[][] = [];
     private cacheContext: number = -1;
     private lastDecasteljauN: number = -1;
@@ -234,6 +235,18 @@ export class JSXBezierCurve extends AbstractJSXBezierCurve<BezierCurve, BezierCu
         this.clearJxgPoints()
         const wrappedPoints = elevated.getPoints().map((point, i) => this.createJSXGraphPoint(point.X(), point.Y(), PointStyles.pi(i)))
         this.pointControlledCurve.setPoints(wrappedPoints);
+        // TODO how to do this efficiently
+        //this.importState(this.exportState())
+    }
+
+    showElevatePoints() {
+        const elevated = this.pointControlledCurve.elevate()
+        this.elevationPoints = elevated.getPoints().map(point => this.board.create('point', [() => point.X(),
+            () => point.Y()], PointStyles.default) as JXG.Point)
+    }
+
+    hideElevatePoints() {
+        this.board.removeObject(this.elevationPoints)
     }
 
     extrapolate(t: number) {

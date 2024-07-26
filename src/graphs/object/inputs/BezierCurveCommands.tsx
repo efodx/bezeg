@@ -44,7 +44,8 @@ export function BezierCurveCommands(curve: JSXBezierCurve): JSX.Element[] {
         </div>)
     }
     if (curve.getAttributes().allowElevation) {
-        commands.push(<div>
+        commands.push(<div onMouseEnter={() => curve.showElevatePoints()}
+                           onMouseLeave={() => curve.hideElevatePoints()}>
             <Button variant={"dark"} onClick={() => curve.elevate()}>Dvigni stopnjo</Button></div>)
     }
 
