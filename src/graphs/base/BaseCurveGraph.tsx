@@ -230,7 +230,7 @@ abstract class BaseCurveGraph<P, S extends BaseGraphStates> extends BaseGraph<P,
     override exportPresetData() {
         return this.jsxBezierCurves.map(curve => {
             // @ts-ignore
-            return [ClassMapper.getClassName(curve.constructor), ClassMapper.getToStr(curve.constructor)(curve)]
+            return [ClassMapper.getClassName(curve.constructor), ClassMapper.getToDto(curve.constructor)(curve)]
         })
     }
 
@@ -243,7 +243,7 @@ abstract class BaseCurveGraph<P, S extends BaseGraphStates> extends BaseGraph<P,
         // @ts-ignore
         str.forEach(p => {
             const [id, object] = [p[0], p[1]]
-            return this.jsxBezierCurves.push(ClassMapper.getFromStr(id)(object, this.board))
+            return this.jsxBezierCurves.push(ClassMapper.getFromDto(id)(object, this.board))
         })
 
     }

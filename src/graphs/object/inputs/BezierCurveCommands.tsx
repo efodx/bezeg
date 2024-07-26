@@ -1,12 +1,7 @@
 import Slider from "../../../inputs/Slider";
 import {Button} from "react-bootstrap";
-import {OnOffSwitch} from "../../../inputs/OnOffSwitch";
 import React from "react";
 import {JSXBezierCurve} from "../JSXBezierCurve";
-
-function ShowControlPoints(props: { initialState?: boolean, onChange: (checked: boolean) => void }) {
-    return <OnOffSwitch initialState={props.initialState} onChange={props.onChange} label="Kontrolne točke"/>
-}
 
 export function BezierCurveCommands(curve: JSXBezierCurve): JSX.Element[] {
     const commands = []
@@ -51,11 +46,6 @@ export function BezierCurveCommands(curve: JSXBezierCurve): JSX.Element[] {
     if (curve.getAttributes().allowElevation) {
         commands.push(<div>
             <Button variant={"dark"} onClick={() => curve.elevate()}>Dvigni stopnjo</Button></div>)
-    }
-    if (curve.getAttributes().allowShowPoints) {
-        commands.push(<ShowControlPoints
-            initialState={curve.isShowingJxgPoints()}
-            onChange={checked => curve.showJxgPointss(checked)}/>)
     }
 
     return commands;

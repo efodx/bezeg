@@ -11,7 +11,8 @@ import {PointControlledCurveCommands} from "./inputs/PointControlledCurveCommand
 
 export interface PointControlledCurveAttributes {
     allowShowControlPolygon: boolean
-    allowShowConvexHull: boolean
+    allowShowConvexHull: boolean,
+    allowShowPoints: boolean
 }
 
 export interface PointControlledCurveState {
@@ -391,6 +392,16 @@ export abstract class AbstractJSXPointControlledCurve<T extends PointControlledC
         this.attributes = {...this.attributes, ...attributes}
     }
 
+    showJxgPointss(show: boolean) {
+        this.board.suspendUpdate()
+        if (show) {
+            this.showJxgPoints()
+        } else {
+            this.hideJxgPoints()
+        }
+        this.board.unsuspendUpdate()
+    }
+
     protected abstract getStartingCurve(points: number[][]): T
 
     /**
@@ -489,4 +500,5 @@ export abstract class AbstractJSXPointControlledCurve<T extends PointControlledC
             this.hideHullInternal()
         }
     }
+
 }

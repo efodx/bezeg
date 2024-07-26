@@ -1,6 +1,7 @@
 import {BaseSplineCurveGraph} from "./BaseSplineCurveGraph";
+import {BaseGraphStates} from "../base/BaseCurveGraph";
 
-class C1SplineGraph extends BaseSplineCurveGraph {
+class C1SplineGraph extends BaseSplineCurveGraph<BaseGraphStates> {
 
     defaultPreset(): any {
         return [["JSXSplineCurve", {

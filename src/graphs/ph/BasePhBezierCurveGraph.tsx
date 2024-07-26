@@ -42,7 +42,7 @@ abstract class BasePhBezierCurveGraph<P, S extends BasePhBezierCurveGraphStates>
             label={"Offset krivulje"}/>)
 
 
-        if (this.getFirstJsxCurveAsPHCurve().isShowingOffsetCurve() || this.state.showOffsetCurve) {
+        if (this.state.showOffsetCurve) {
             commands.push(<Slider min={-3}
                                   max={3}
                                   initialValue={this.getFirstCurveAsPHBezierCurve()?.getOffsetCurveDistance() ? this.getFirstCurveAsPHBezierCurve()?.getOffsetCurveDistance() : 0}

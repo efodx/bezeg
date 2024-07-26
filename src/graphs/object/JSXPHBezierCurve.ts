@@ -23,6 +23,7 @@ interface JSXPHBezierCurveConstructorParams extends JSXBezierCurveConstructorPar
 interface JSXPHBezierCurveState extends JSXBezierCurveState {
     showOffsetCurve: boolean;
     showOffsetCurveControlPoints: boolean;
+    d: number
 }
 
 export class JSXPHBezierCurve extends JSXBezierCurve {
@@ -38,7 +39,7 @@ export class JSXPHBezierCurve extends JSXBezierCurve {
         this.setAttributes({...Attributes.bezierDisabled, allowShowConvexHull: false})
     }
 
-    static override toStr(curve: JSXBezierCurve): any {
+    static override toDto(curve: JSXBezierCurve): any {
         return {
             points: [curve.pointControlledCurve.getPoints().map(point => [point.X(), point.Y()])[0]],
             hodographs: (curve.getCurve() as PhBezierCurve).w.map(point => [point.X(), point.Y()]),
@@ -46,7 +47,7 @@ export class JSXPHBezierCurve extends JSXBezierCurve {
         } as JSXPHBezierCurveConstructorParams
     }
 
-    static override fromStr(params: JSXPHBezierCurveConstructorParams, board: Board): JSXBezierCurve {
+    static override fromDto(params: JSXPHBezierCurveConstructorParams, board: Board): JSXBezierCurve {
         const curve = new JSXPHBezierCurve(params.points.concat(params.hodographs), board)
         if (params.state) {
             curve.importState(params.state)
@@ -56,6 +57,9 @@ export class JSXPHBezierCurve extends JSXBezierCurve {
 
     override importState(state: JSXPHBezierCurveState) {
         super.importState(state);
+        if (state.d) {
+            this.getCurve().setOffsetCurveDistance(state.d)
+        }
         this.generateJsxOffsetCurves(!state.showOffsetCurve)
         this.setShowOffsetCurve(state.showOffsetCurve)
         this.setShowOffsetCurveControlPoints(state.showOffsetCurveControlPoints)
@@ -65,7 +69,9 @@ export class JSXPHBezierCurve extends JSXBezierCurve {
         return {
             ...super.exportState(),
             showOffsetCurveControlPoints: this.showOffsetCurveControlPoints,
-            showOffsetCurve: this.showOffsetCurve
+            showOffsetCurve: this.showOffsetCurve,
+            d: this.getCurve().getOffsetCurveDistance()
+
         } as JSXPHBezierCurveState
     }
 

@@ -6,8 +6,7 @@ export interface BezierCurveAttributes extends PointControlledCurveAttributes {
     allowExtrapolation: boolean,
     allowElevation: boolean
     allowDecasteljau: boolean,
-    allowShrink: boolean,
-    allowShowPoints: boolean
+    allowShrink: boolean
 }
 
 export abstract class AbstractJSXBezierCurve<T extends BezierCurve, Attr extends BezierCurveAttributes> extends AbstractJSXPointControlledCurve<T, Attr> {

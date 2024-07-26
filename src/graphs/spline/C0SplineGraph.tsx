@@ -1,6 +1,7 @@
 import {BaseSplineCurveGraph} from "./BaseSplineCurveGraph";
+import {BaseGraphStates} from "../base/BaseCurveGraph";
 
-class Graph extends BaseSplineCurveGraph {
+class Graph extends BaseSplineCurveGraph<BaseGraphStates> {
 
     override presets(): string {
         return "c0-spline"

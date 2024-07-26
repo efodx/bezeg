@@ -35,6 +35,8 @@ import FarinPointsCurveGraph from './graphs/rational/FarinPointsCurveGraph'
 import { RefreshContext } from './graphs/context/react/RefreshContext'
 import { PresetContext } from './graphs/context/react/PresetContext'
 import C3SplineGraph from './graphs/spline/C3SplineGraph'
+import C2SplineGraphParametrization
+  from './graphs/parametrisations/SplineAlphaParametrizationGraph'
 
 const PATH_BEZIER_CURVES = '/bezeg/bezier'
 const BEZIER_CURVES_GROUP = 'Bezierjeve Krivulje'
@@ -184,6 +186,12 @@ const routes = [
         element: <QuinticPhBezierCurve/>,
         title: 'Stopnje 5',
         group: PH_CURVES_GROUP,
+      }, {
+        group_path: PATH_PARAM,
+        path: PATH_PARAM + '/param/alphaparam2',
+        element: <C2SplineGraphParametrization/>,
+        title: 'Prava Alpha Parametrizacija',
+        group: PARAMETRIZATION_GROUP,
       }, {
         group_path: PATH_PARAM,
         path: PATH_PARAM + '/param/alphaparam',

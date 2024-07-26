@@ -24,7 +24,7 @@ export class JSXSplineCurve extends AbstractJSXPointControlledCurve<BezierSpline
         this.labelJxgPoints()
     }
 
-    static toStr(curve: JSXSplineCurve): JSXSplineConstructorParams {
+    static toDto(curve: JSXSplineCurve): JSXSplineConstructorParams {
         return {
             points: curve.pointControlledCurve.points.map(point => [point.X(), point.Y()]),
             degree: curve.pointControlledCurve.getDegree(),
@@ -33,7 +33,7 @@ export class JSXSplineCurve extends AbstractJSXPointControlledCurve<BezierSpline
         }
     }
 
-    static fromStr(params: JSXSplineConstructorParams, board: Board): JSXSplineCurve {
+    static fromDto(params: JSXSplineConstructorParams, board: Board): JSXSplineCurve {
         const curve = new JSXSplineCurve(params.points, params.continuity, params.degree, board)
         if (params.state) {
             curve.importState(params.state)

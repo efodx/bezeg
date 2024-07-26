@@ -13,6 +13,7 @@ class BezierSpline extends PointControlledCurveImpl {
     private bezierCurves: BezierCurveImpl[];
     private nonFreePoints: Array<Point> = []
     private b: number[] = []
+    private alpha: number = 1;
 
     /**
      * @constructor
@@ -29,6 +30,13 @@ class BezierSpline extends PointControlledCurveImpl {
         this.generateBezierCurves()
     }
 
+    setAlpha(alpha: number) {
+        this.alpha = alpha
+    }
+
+    getAlpha() {
+        return this.alpha
+    }
 
     generateBezierCurves() {
         this.bezierCurves = []
@@ -84,7 +92,24 @@ class BezierSpline extends PointControlledCurveImpl {
         }
         let n = this.bezierCurves.length
         let c = Math.floor(n * t)
-        t = n * t - c
+        let ts: number[] = [0]
+        for (let i = 0; i < n; i++) {
+            let curve = this.bezierCurves[i]
+            let pointStart = curve.getPoints()[0]
+            let pointEnd = curve.getPoints()[curve.getPoints().length - 1]
+            let d = Math.sqrt((pointStart.X() - pointEnd.X()) ** 2 + (pointStart.Y() - pointEnd.Y()) ** 2) ** this.alpha
+            ts.push(ts[ts.length - 1] + d)
+        }
+        ts = ts.map(t => t / ts[ts.length - 1])
+        for (let c = 0; c < n; c++) {
+            if (t < ts[c + 1]) {
+                t = t - ts[c]
+                t = t / (ts[c + 1] - ts[c])
+                //   console.log(c)
+                return this.bezierCurves[c].calculatePointAtT(t)
+                // t = n * t - c
+            }
+        }
         return this.bezierCurves[c].calculatePointAtT(t)
     }
 

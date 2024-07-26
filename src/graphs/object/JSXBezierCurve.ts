@@ -39,14 +39,14 @@ export class JSXBezierCurve extends AbstractJSXBezierCurve<BezierCurve, BezierCu
     private cacheContext: number = -1;
     private lastDecasteljauN: number = -1;
 
-    static toStr(curve: JSXBezierCurve): JSXBezierCurveConstructorParams {
+    static toDto(curve: JSXBezierCurve): JSXBezierCurveConstructorParams {
         return {
             points: curve.pointControlledCurve.getPoints().map(point => [point.X(), point.Y()]),
             state: curve.exportState()
         }
     }
 
-    static fromStr(params: JSXBezierCurveConstructorParams, board: Board): JSXBezierCurve {
+    static fromDto(params: JSXBezierCurveConstructorParams, board: Board): JSXBezierCurve {
         const curve = new JSXBezierCurve(params.points, board)
         if (params.state) {
             board.suspendUpdate()
@@ -249,16 +249,6 @@ export class JSXBezierCurve extends AbstractJSXBezierCurve<BezierCurve, BezierCu
         super.deselect();
         this.subdivisionPoint = null
         this.extrapolationPoint = null
-    }
-
-    showJxgPointss(show: boolean) {
-        this.board.suspendUpdate()
-        if (show) {
-            this.showJxgPoints()
-        } else {
-            this.hideJxgPoints()
-        }
-        this.board.unsuspendUpdate()
     }
 
     setSubdivisionT(t: number) {

@@ -1,8 +1,9 @@
 import React from "react";
 import {BaseSplineCurveGraph} from "./BaseSplineCurveGraph";
 import {Button} from "react-bootstrap";
-
-class Graph extends BaseSplineCurveGraph {
+import {BaseGraphStates} from "../base/BaseCurveGraph";
+ 
+class Graph extends BaseSplineCurveGraph<BaseGraphStates> {
 
     override getGraphCommands(): JSX.Element[] {
         return super.getGraphCommands().concat([<div><Button variant={"dark"} onClick={() => this.povecajB1()}>Povečaj
