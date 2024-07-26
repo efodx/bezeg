@@ -1,6 +1,6 @@
 import {BaseSplineCurveGraph} from "../spline/BaseSplineCurveGraph";
 import {PointStyles} from "../styles/PointStyles";
-import {Color} from "../bezier/utilities/Colors";
+import {Colors} from "../bezier/utilities/Colors";
 import Slider from "../../inputs/Slider";
 import {BaseGraphStates} from "../base/BaseCurveGraph";
 
@@ -81,7 +81,7 @@ class Graph extends BaseSplineCurveGraph<SplineAlphaParamGraphStates> {
         for (let i = 1; i <= numberOfPoints; i++) {
             this.createJSXGraphPoint(() => this.getFirstCurve()!.calculatePointAtT(i * dt).X(), () => this.getFirstCurve()!.calculatePointAtT(i * dt).Y(), {
                 ...PointStyles.default,
-                color: Color.Blueviolet
+                color: Colors[3]
             })
         }
     }

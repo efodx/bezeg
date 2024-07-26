@@ -466,6 +466,10 @@ export abstract class AbstractJSXPointControlledCurve<T extends PointControlledC
     private showHullInternal() {
         const hull = this.getCurve().getConvexHull()
         const jxgPoints = hull.map(p => this.jxgPoints.filter(point => point.X() === p.X() && point.Y() === p.Y())[0])
+        if (jxgPoints.filter(p => p !== undefined).length !== hull.length) {
+            console.debug("WE SHOULDN'T COME HERE, ASYNC STUFF IS SCARY!!")
+            return
+        }
         const segments = jxgPoints.slice(1).map((p, i) => this.board.create('segment', [jxgPoints[i], p], {strokeWidth: () => SizeContext.strokeWidth}))
         this.convexHullSegments.push(...segments)
         const lastSegment = this.board.create('segment', [jxgPoints[jxgPoints.length - 1], jxgPoints[0]], {strokeWidth: () => SizeContext.strokeWidth})

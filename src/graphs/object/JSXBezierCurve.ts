@@ -2,7 +2,7 @@ import {BezierCurveImpl} from "../../bezeg/impl/curve/bezier-curve-impl";
 import {AbstractJSXBezierCurve, BezierCurveAttributes} from "./AbstractJSXBezierCurve";
 import {Point} from "../../bezeg/api/point/point";
 import {BezierCurve} from "../../bezeg/api/curve/bezier-curve";
-import {Colors} from "../bezier/utilities/Colors";
+import {Color, Colors} from "../bezier/utilities/Colors";
 import {PointStyles} from "../styles/PointStyles";
 import {SegmentStyles} from "../styles/SegmentStyles";
 import {CacheContext} from "../context/CacheContext";
@@ -242,7 +242,7 @@ export class JSXBezierCurve extends AbstractJSXBezierCurve<BezierCurve, BezierCu
     showElevatePoints() {
         const elevated = this.pointControlledCurve.elevate()
         this.elevationPoints = elevated.getPoints().map(point => this.board.create('point', [() => point.X(),
-            () => point.Y()], PointStyles.default) as JXG.Point)
+            () => point.Y()], {...PointStyles.default, color: Color.LIGHT_GREEN}) as JXG.Point)
     }
 
     hideElevatePoints() {

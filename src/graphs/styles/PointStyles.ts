@@ -1,6 +1,7 @@
 import {PointAttributes} from "jsxgraph";
 import {SizeContext} from "../context/SizeContext";
 import {VisibilityContext} from "../context/VisibilityContext";
+import {Colors} from "../bezier/utilities/Colors";
 
 
 const pointStyle: PointAttributes = {
@@ -21,7 +22,7 @@ const pointStyle: PointAttributes = {
 const fixedPointStyle: PointAttributes = {
     ...pointStyle,
     fixed: true,
-    color: "blue"
+    color: Colors[2]
 }
 
 

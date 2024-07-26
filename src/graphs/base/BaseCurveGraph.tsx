@@ -21,6 +21,7 @@ import {JSXPHBezierCurve} from "../object/JSXPHBezierCurve";
 import {ClassMapper} from "../object/ClassMapper";
 import {PointStyles} from "../styles/PointStyles";
 import {Preset} from "./presets/Presets";
+import {AbstractJSXBezierCurve} from "../object/AbstractJSXBezierCurve";
 
 enum SelectedCurveOption {
     MOVE_CURVE, ADD_POINTS, DELETE_POINTS
@@ -251,7 +252,11 @@ abstract class BaseCurveGraph<P, S extends BaseGraphStates> extends BaseGraph<P,
         // @ts-ignore
         str.forEach(p => {
             const [id, object] = [p[0], p[1]]
-            return this.jsxBezierCurves.push(ClassMapper.getFromDto(id)(object, this.board))
+            let curve = ClassMapper.getFromDto(id)(object, this.board)
+            if (curve instanceof AbstractJSXBezierCurve) {
+                curve.setSubdivisionResultConsumer((jsxCrv) => this.jsxBezierCurves.push(jsxCrv))
+            }
+            return this.jsxBezierCurves.push(curve)
         })
 
     }
