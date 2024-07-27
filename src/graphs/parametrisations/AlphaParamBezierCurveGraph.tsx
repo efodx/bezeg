@@ -18,6 +18,10 @@ class AlphaParamBezierCurveGraph extends BaseBezierCurveGraph<any, AlphaParamGra
         }
     }
 
+    override componentDidUpdate(prevProps: Readonly<any>, prevState: Readonly<AlphaParamGraphStates>, snapshot?: any) {
+        this.generateParamPoints(this.state.numberOfPoints)
+    }
+
     defaultPreset(): any {
         return [["JSXBezierCurve", {
             "points": [[-4, -3], [-3, 2], [2, 2], [3, -2]], "state": {
@@ -34,11 +38,7 @@ class AlphaParamBezierCurveGraph extends BaseBezierCurveGraph<any, AlphaParamGra
 
     alphaParam: (t: number) => number = (t: number) => (1 - this.state.alpha) * t / (this.state.alpha * (1 - t) + (1 - this.state.alpha) * t);
 
-
     override getGraphCommands(): JSX.Element[] {
-        if (this.state.initialized) {
-            this.generateParamPoints(this.state.numberOfPoints)
-        }
         return this.state.initialized ? super.getGraphCommands().concat(this.alphaParamSlider(), this.numberOfPointsSlider()) : [];
     }
 
