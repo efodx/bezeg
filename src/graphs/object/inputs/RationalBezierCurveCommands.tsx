@@ -1,8 +1,8 @@
-import Slider from "../../../inputs/Slider";
 import {Button, ButtonGroup} from "react-bootstrap";
 import {OnOffSwitch} from "../../../inputs/OnOffSwitch";
 import React, {useState} from "react";
 import {JSXRationalBezierCurve} from "../JSXRationalBezierCurve";
+import {BezierCurveCommands} from "./BezierCurveCommands";
 
 function WeightController(props: { curve: JSXRationalBezierCurve }): JSX.Element {
     const [stateRefresher, setStateRefresher] = useState(1)
@@ -34,34 +34,7 @@ function WeightController(props: { curve: JSXRationalBezierCurve }): JSX.Element
 }
 
 export function RationalBezierCurveCommands(curve: JSXRationalBezierCurve): JSX.Element[] {
-    curve.createSubdivisionPoint()
-    curve.createExtrapolationPoint()
-    let {
-        allowSubdivision,
-        allowExtrapolation,
-        allowElevation,
-    } = curve.getAttributes()
-    const commands = []
-    if (allowSubdivision) {
-        commands.push(<div onMouseEnter={() => curve.showSubdivisionPoint()}
-                           onMouseLeave={() => curve.hideSubdivisionPoint()}><Slider min={0} max={1}
-                                                                                     initialValue={curve.subdivisionT}
-                                                                                     onChange={(t) => curve.setSubdivisionT(t)}></Slider>
-            <Button variant={"dark"} onClick={() => curve.subdivideSelectedCurve()}>Subdiviziraj</Button></div>)
-    }
-    if (allowExtrapolation) {
-        commands.push(<div onMouseEnter={() => curve.showExtrapolationPoint()}
-                           onMouseLeave={() => curve.hideExtrapolationPoint()}>
-            <Slider min={1} max={1.5}
-                    initialValue={curve.extrapolationT}
-                    onChange={(t) => curve.setExtrapolationT(t)}></Slider>
-            <Button variant={"dark"} onClick={() => curve.extrapolateSelectedCurve()}>Ekstrapoliraj</Button></div>)
-    }
-    if (allowElevation) {
-        commands.push(
-            <div>
-                <Button variant={"dark"} onClick={() => curve.elevateSelectedCurve()}>Dvigni stopnjo</Button></div>)
-    }
+    const commands = BezierCurveCommands(curve as any);
     commands.push(<div>
         <OnOffSwitch initialState={curve.isShowingWeights()}
                      onChange={(checked) => curve.showwWeights(checked)} label={"Uteži"}/>

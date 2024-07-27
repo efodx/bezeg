@@ -23,17 +23,18 @@ class DecasteljauGraph extends BaseBezierCurveGraph<any, DecasteljauGraphStates>
     }
 
     defaultPreset(): any {
-        return [["JSXBezierCurve", {
-            "points": [[-4, -3], [-3, 2], [0, 3], [3, 2], [4, -3]], "state": {
+        return [["JSXRationalBezierCurve", {
+            "points": [[-3, 2], [0, -2], [1, 2], [3, -2]], "weights": [1, 2, 1, 1], "state": {
                 "showingJxgPoints": true,
                 "showingControlPolygon": false,
                 "showingConvexHull": false,
-                "showingDecasteljauScheme": true,
                 "subdivisionT": 0.5,
-                "decasteljauT": 0.5,
-                "extrapolationT": 1.2
+                "extrapolationT": 1.2,
+                "showingWeights": false,
+                "weightNumber": 1,
+                "showingFarinPoints": false
             }
-        }]]
+        }]];
     }
 
     override presets(): string {
@@ -53,7 +54,7 @@ class DecasteljauGraph extends BaseBezierCurveGraph<any, DecasteljauGraphStates>
         return this.state.initialized ? super.getGraphCommands().concat([<OnOffSwitch initialState={this.animating}
                                                                                       onChange={checked => this.animate(checked)}
                                                                                       label={"Animiraj"}></OnOffSwitch>,
-            <Slider customText={'t'} min={0} max={1} fixedValue={this.state.t}
+            <Slider customText={'t' + this.state.t} min={0} max={1} fixedValue={this.state.t}
                     onChange={(t) => this.setState({...this.state, t: t})}></Slider>,
             <Slider customText={'Hitrost animacije'} min={0} max={1} fixedValue={this.state.v}
                     onChange={(v) => this.setState({...this.state, v: v})}></Slider>]) : []

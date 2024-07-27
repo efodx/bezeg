@@ -11,8 +11,6 @@ interface OffsetCurveSettingsProps {
 
 function OffsetCurveSettings({curve}: OffsetCurveSettingsProps) {
     const [showOffsetCurve, setShowOffsetCurve] = useState(curve.isShowingOffsetCurve())
-    console.log('lolol', curve.isShowingOffsetCurveControlPoints())
-    console.log("lololwataf", curve.isShowingOffsetCurveControlPointsLines())
     const [showOffSetCurveControlPoints, setShowOffSetCurveControlPoints] = useState(curve.isShowingOffsetCurveControlPoints())
     const [showOffSetCurveControlPointsLines, setShowOffSetCurveControlPointsLines] = useState(curve.isShowingOffsetCurveControlPointsLines())
 

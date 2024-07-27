@@ -84,7 +84,7 @@ abstract class BasePhBezierCurveGraph<P, S extends BasePhBezierCurveGraphStates>
     getFirstJsxCurveAsPHCurve(): JSXPHBezierCurve {
         return super.getFirstJsxCurve() as JSXPHBezierCurve
     }
-
+ 
     private initializeHodographs(hodographs: number[][]) {
         if (this.hodographBoard === undefined) {
             setTimeout(() => this.initializeHodographs(hodographs), 10)

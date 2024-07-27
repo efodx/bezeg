@@ -7,7 +7,7 @@ import {AbstractJSXBezierCurve, BezierCurveAttributes} from "./AbstractJSXBezier
 import {PointStyles} from "../styles/PointStyles";
 import {SizeContext} from "../context/SizeContext";
 import {RationalBezierCurveCommands} from "./inputs/RationalBezierCurveCommands";
-import {PointControlledCurveState} from "./AbstractJSXPointControlledCurve";
+import {JSXBezierCurveState} from "./JSXBezierCurve";
 
 interface JSXRationalBezierCurveConstructorParams {
     points: number[][],
@@ -15,19 +15,13 @@ interface JSXRationalBezierCurveConstructorParams {
     state: JSXRationalBezierCurveState
 }
 
-interface JSXRationalBezierCurveState extends PointControlledCurveState {
-    subdivisionT: number
-    extrapolationT: number
+interface JSXRationalBezierCurveState extends JSXBezierCurveState {
     weightNumber: number
     showingWeights: boolean
     showingFarinPoints: boolean
 }
 
 export class JSXRationalBezierCurve extends AbstractJSXBezierCurve<RationalBezierCurve, BezierCurveAttributes> {
-    subdivisionT: number = 0.5;
-    extrapolationT: number = 1.2;
-    subdivisionPoint: JXG.Point | null = null;
-    extrapolationPoint: JXG.Point | null = null;
     weightNumber: number = 1;
     private weightLabels: JXG.GeometryElement[] = [];
     private showingWeights: boolean = false;
@@ -71,8 +65,6 @@ export class JSXRationalBezierCurve extends AbstractJSXBezierCurve<RationalBezie
     override exportState(): JSXRationalBezierCurveState {
         return {
             ...super.exportState(),
-            subdivisionT: this.subdivisionT,
-            extrapolationT: this.extrapolationT,
             showingWeights: this.showingWeights,
             weightNumber: this.weightNumber,
             showingFarinPoints: this.showingFarinPoints
@@ -91,18 +83,25 @@ export class JSXRationalBezierCurve extends AbstractJSXBezierCurve<RationalBezie
     override addPoint(x: number, y: number) {
         super.addPoint(x, y)
         this.pointControlledCurve.getWeights().push(1)
-        this.hideWeights()
-        this.showWeights()
+        if (this.showingWeights) {
+            this.hideWeights()
+            this.showWeights()
+        }
     }
 
     override removePoint(i: number) {
         super.removePoint(i);
         this.pointControlledCurve.getWeights().splice(1, 1)
-        this.hideWeights()
-        this.showWeights()
+        if (this.showingWeights) {
+            this.hideWeights()
+            this.showWeights()
+        }
     }
 
-    subdivide(t: number): this {
+    subdivide(t?: number): this {
+        if (t === undefined) {
+            t = this.subdivisionT
+        }
         const [curve1, curve2]: RationalBezierCurve[] = this.pointControlledCurve.subdivide(t);
         // Move this curve
         this.movePointsToNewPoints(curve1.getPoints())
@@ -220,74 +219,6 @@ export class JSXRationalBezierCurve extends AbstractJSXBezierCurve<RationalBezie
         return super.getCurveCommands().concat(...RationalBezierCurveCommands(this));
     }
 
-    setSubdivisionT(t: number) {
-        this.subdivisionT = t
-        this.board.update()
-    }
-
-    setExtrapolationT(t: number) {
-        this.extrapolationT = t
-        this.board.update()
-    }
-
-    createSubdivisionPoint() {
-        if (this.board && !this.subdivisionPoint && this) {
-            this.subdivisionPoint = this.board.create('point', [() => this.getCurve().calculatePointAtT(this.subdivisionT).X(),
-                () => this.getCurve().calculatePointAtT(this.subdivisionT).Y()], PointStyles.default);
-            this.subdivisionPoint.hide()
-        }
-    }
-
-    createExtrapolationPoint() {
-        if (this.board && !this.extrapolationPoint && this) {
-            this.extrapolationPoint = this.board.create('point', [() => this.getCurve().calculatePointAtT(this.extrapolationT).X(),
-                () => this.getCurve().calculatePointAtT(this.extrapolationT).Y()], PointStyles.default);
-            this.extrapolationPoint.hide()
-        }
-    }
-
-    showSubdivisionPoint() {
-        this.subdivisionPoint?.show()
-    }
-
-    hideSubdivisionPoint() {
-        this.subdivisionPoint?.hide()
-    }
-
-    showExtrapolationPoint() {
-        this.setIntervalEnd(() => this.extrapolationT)
-        this.extrapolationPoint?.show()
-    }
-
-    hideExtrapolationPoint() {
-        this.setIntervalEnd(1)
-        this.extrapolationPoint?.hide()
-    }
-
-    extrapolateSelectedCurve() {
-        this.board.suspendUpdate()
-        this.extrapolate(this.extrapolationT)
-        this.board.unsuspendUpdate()
-    }
-
-    subdivideSelectedCurve() {
-        this.board.suspendUpdate()
-        let newCurve = this.subdivide(this.subdivisionT)
-        // this.jsxBezierCurves.push(newCurve);
-        // this.deselectSelectedCurve()
-        this.board.unsuspendUpdate()
-        return newCurve
-    }
-
-    elevateSelectedCurve() {
-        this.board.suspendUpdate()
-        this.elevate()
-        if (this.isShowingControlPolygon()) {
-            this.showControlPolygon()
-        }
-        this.board.unsuspendUpdate()
-    }
-
     setStandardForm(standard: boolean) {
         this.pointControlledCurve.setStandardForm(standard)
         this.board.update()
@@ -301,20 +232,10 @@ export class JSXRationalBezierCurve extends AbstractJSXBezierCurve<RationalBezie
     }
 
     override deselect() {
-        if (this.subdivisionPoint) {
-            // @ts-ignore
-            this.board.removeObject(this.subdivisionPoint)
-        }
-        if (this.extrapolationPoint) {
-            this.board.removeObject(this.extrapolationPoint)
-        }
         this.getJxgPoints()[this.weightNumber].setAttribute({
             color: "#D55E00"
         })
         super.deselect();
-
-        this.subdivisionPoint = null
-        this.extrapolationPoint = null
     }
 
     nextWeight() {
@@ -342,7 +263,6 @@ export class JSXRationalBezierCurve extends AbstractJSXBezierCurve<RationalBezie
         this.board.update()
     }
 
-
     changeWeight(dw: number) {
         this.setWeight(this.getCurve().getWeights()[this.weightNumber] + dw)
     }
@@ -364,10 +284,6 @@ export class JSXRationalBezierCurve extends AbstractJSXBezierCurve<RationalBezie
 
     resetWeight() {
         this.setWeight(1)
-    }
-
-    getExtrapolationT() {
-        return this.extrapolationT
     }
 
     protected getStartingCurve(points: number[][]): RationalBezierCurve {

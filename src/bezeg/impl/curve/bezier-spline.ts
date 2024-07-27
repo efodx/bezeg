@@ -105,9 +105,7 @@ class BezierSpline extends PointControlledCurveImpl {
             if (t < ts[c + 1]) {
                 t = t - ts[c]
                 t = t / (ts[c + 1] - ts[c])
-                //   console.log(c)
                 return this.bezierCurves[c].calculatePointAtT(t)
-                // t = n * t - c
             }
         }
         return this.bezierCurves[c].calculatePointAtT(t)

@@ -37,6 +37,8 @@ import { PresetContext } from './graphs/context/react/PresetContext'
 import C3SplineGraph from './graphs/spline/C3SplineGraph'
 import C2SplineGraphParametrization
   from './graphs/parametrisations/SplineAlphaParametrizationGraph'
+import RationalDecasteljauGraph
+  from './graphs/rational/RationalDecasteljauGraph'
 
 const PATH_BEZIER_CURVES = '/bezeg/bezier'
 const BEZIER_CURVES_GROUP = 'Bezierjeve Krivulje'
@@ -102,7 +104,14 @@ const routes = [
         path: PATH_RATIONAL_CURVES + '/base',
         element: <RationalBezierCurveGraph/>,
         title: 'Racionalna Bezierjeva Krivulja',
-      }, {
+      },
+      {
+        group: RATIONAL_CURVES_GROUP,
+        path: PATH_RATIONAL_CURVES + '/rational-decasteljau',
+        element: <RationalDecasteljauGraph/>,
+        title: 'Racionalni Decasteljau',
+      },
+      {
         group: RATIONAL_CURVES_GROUP,
         group_path: PATH_RATIONAL_CURVES,
         path: PATH_RATIONAL_CURVES + '/rational-elevation',
