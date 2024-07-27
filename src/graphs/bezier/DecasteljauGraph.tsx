@@ -53,7 +53,8 @@ class DecasteljauGraph extends BaseBezierCurveGraph<any, DecasteljauGraphStates>
         return this.state.initialized ? super.getGraphCommands().concat([<OnOffSwitch initialState={this.animating}
                                                                                       onChange={checked => this.animate(checked)}
                                                                                       label={"Animiraj"}></OnOffSwitch>,
-            <Slider customText={'t'} min={0} max={1} fixedValue={this.state.t}
+            <Slider customText={'t = ' + this.state.t.toFixed(2)} min={0} max={1}
+                    fixedValue={this.state.t}
                     onChange={(t) => this.setState({...this.state, t: t})}></Slider>,
             <Slider customText={'Hitrost animacije'} min={0} max={1} fixedValue={this.state.v}
                     onChange={(v) => this.setState({...this.state, v: v})}></Slider>]) : []

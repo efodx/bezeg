@@ -24,4 +24,4 @@ class RationalDecasteljauGraph extends DecasteljauGraph {
 
 }
 
-export default DecasteljauGraph;
+export default RationalDecasteljauGraph;
