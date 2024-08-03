@@ -152,11 +152,11 @@ export class BernsteinGraph extends BaseGraph<any, any> {
 
     override getGraphCommands(): JSX.Element[] {
         return super.getGraphCommands().concat(<ButtonGroup>
-                <Button variant={"dark"} className="btn-block"
+                <Button className="btn-block"
                         onClick={() => this.setN(Math.min(this.state.n + 1, 6))}>+</Button>
                 <Button onClick={() => 1}
                         className="btn-block">{this.state.n - 1}</Button>
-                <Button variant={"dark"} onClick={() => this.setN(Math.max(this.state.n - 1, 1))}
+                <Button onClick={() => this.setN(Math.max(this.state.n - 1, 1))}
                         className="btn-block">-</Button>
             </ButtonGroup>,
             <OnOffSwitch initialState={this.state.isSumGraph} onChange={checked => this.setIsSumGraph(checked)}

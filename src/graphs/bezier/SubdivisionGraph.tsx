@@ -61,8 +61,8 @@ class SubdivisionGraph extends BaseBezierCurveGraph<any, BaseGraphStates> {
     };
 
     override getGraphCommands(): JSX.Element[] {
-        return this.state.initialized ? super.getGraphCommands().concat([<Button variant={"dark"}
-                                                                                 onClick={() => this.subdivide()}>Subdiviziraj</Button>,
+        return this.state.initialized ? super.getGraphCommands().concat([<Button
+            onClick={() => this.subdivide()}>Subdiviziraj</Button>,
             <ShowControlPolygons initialState={this.getFirstJsxCurve().isShowingControlPolygon()}
                                  onChange={(checked) => {
                                      if (checked) {

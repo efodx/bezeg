@@ -55,9 +55,9 @@ abstract class BasePhBezierCurveGraph<P, S extends BasePhBezierCurveGraphStates>
                 }}
                 label={"Kontrolne točke offset krivulje"}
                 initialState={this.state.showOffsetCurveControlPoints}/>)
-            commands.push(<Button variant={"dark"} onClick={() => this.getFirstJsxCurveAsPHCurve().addOffsetCurve()}>Dodaj
+            commands.push(<Button onClick={() => this.getFirstJsxCurveAsPHCurve().addOffsetCurve()}>Dodaj
                 krivuljo</Button>)
-            commands.push(<Button variant={"dark"} onClick={() => this.getFirstJsxCurveAsPHCurve().removeOffsetCurve()}>Odstrani
+            commands.push(<Button onClick={() => this.getFirstJsxCurveAsPHCurve().removeOffsetCurve()}>Odstrani
                 krivuljo</Button>)
         }
         return super.getGraphCommands().concat(commands);
@@ -68,9 +68,9 @@ abstract class BasePhBezierCurveGraph<P, S extends BasePhBezierCurveGraphStates>
                 setRef={board => {
                     this.setHodographBoard(board)
                     this.initializeHodographs(this.getFirstCurveAsPHBezierCurve().w.map(p => [p.X(), p.Y()]))
-                }}/>, <Button variant={"dark"}
-                              onClick={() => this.scale(1.2)}>Povečaj</Button>,
-            <Button variant={"dark"} onClick={() => this.scale(0.8)}>Pomanjšaj</Button>);
+                }}/>, <Button
+                onClick={() => this.scale(1.2)}>Povečaj</Button>,
+            <Button onClick={() => this.scale(0.8)}>Pomanjšaj</Button>);
     }
 
     getFirstCurveAsPHBezierCurve() {
@@ -84,7 +84,7 @@ abstract class BasePhBezierCurveGraph<P, S extends BasePhBezierCurveGraphStates>
     getFirstJsxCurveAsPHCurve(): JSXPHBezierCurve {
         return super.getFirstJsxCurve() as JSXPHBezierCurve
     }
- 
+
     private initializeHodographs(hodographs: number[][]) {
         if (this.hodographBoard === undefined) {
             setTimeout(() => this.initializeHodographs(hodographs), 10)

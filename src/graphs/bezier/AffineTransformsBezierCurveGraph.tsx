@@ -32,16 +32,16 @@ export default class AffineTransformBezierCurveGraph extends BaseBezierCurveGrap
 
     override getGraphCommands(): JSX.Element[] {
         return super.getGraphCommands().concat([<div>
-            <Button variant={"dark"} onClick={() => this.scale(1.2)}>+</Button>
-            <Button variant={"dark"} onClick={() => this.scale(0.8)}>-</Button></div>,
-            <div><Button variant={"dark"} onClick={() => this.moveFor(-0.5, 0)}>⇐</Button>
-                <Button variant={"dark"} onClick={() => this.moveFor(0.5, 0)}>⇒</Button></div>,
-            <div><Button variant={"dark"} onClick={() => this.moveFor(0, 0.5)}>⇑</Button>
-                <Button variant={"dark"} onClick={() => this.moveFor(0, -0.5)}>⇓</Button></div>,
-            <div><Button variant={"dark"} onClick={() => this.rotate(-0.10 * Math.PI)}>↻</Button>
-                <Button variant={"dark"} onClick={() => this.rotate(0.10 * Math.PI)}>↺</Button></div>,
-            <div><Button variant={"dark"} onClick={() => this.flip(true, false)}>Zrcali Y</Button>
-                <Button variant={"dark"} onClick={() => this.flip(false, true)}>Zrcali X</Button></div>])
+            <Button onClick={() => this.scale(1.2)}>+</Button>
+            <Button onClick={() => this.scale(0.8)}>-</Button></div>,
+            <div><Button onClick={() => this.moveFor(-0.5, 0)}>⇐</Button>
+                <Button onClick={() => this.moveFor(0.5, 0)}>⇒</Button></div>,
+            <div><Button onClick={() => this.moveFor(0, 0.5)}>⇑</Button>
+                <Button onClick={() => this.moveFor(0, -0.5)}>⇓</Button></div>,
+            <div><Button onClick={() => this.rotate(-0.10 * Math.PI)}>↻</Button>
+                <Button onClick={() => this.rotate(0.10 * Math.PI)}>↺</Button></div>,
+            <div><Button onClick={() => this.flip(true, false)}>Zrcali Y</Button>
+                <Button onClick={() => this.flip(false, true)}>Zrcali X</Button></div>])
     }
 
     private moveFor(x: number, y: number) {

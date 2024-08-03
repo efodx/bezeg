@@ -23,8 +23,8 @@ class Graph extends BaseRationalCurveGraph<any, BaseGraphStates> {
     };
 
     override getGraphCommands(): JSX.Element[] {
-        return super.getGraphCommands().concat([<Button variant={"dark"}
-                                                        onClick={() => this.subdivide()}>Subdiviziraj</Button>])
+        return super.getGraphCommands().concat([<Button
+            onClick={() => this.subdivide()}>Subdiviziraj</Button>])
     }
 
     defaultPreset(): any {

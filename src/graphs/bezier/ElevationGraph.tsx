@@ -36,7 +36,7 @@ class ElevationGraph extends BaseBezierCurveGraph<any, BaseGraphStates> {
     }
 
     override getGraphCommands(): JSX.Element[] {
-        return super.getGraphCommands().concat([<Button variant={"dark"} onClick={() => this.elevate()}>Dvigni
+        return super.getGraphCommands().concat([<Button onClick={() => this.elevate()}>Dvigni
             stopnjo</Button>])
     }
 }

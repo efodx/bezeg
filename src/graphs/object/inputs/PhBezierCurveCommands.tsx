@@ -43,9 +43,9 @@ function OffsetCurveSettings({curve}: OffsetCurveSettingsProps) {
             }}
             label={"Premice kontrolnih točke offset krivulje"}
             initialState={showOffSetCurveControlPointsLines}/>
-          <Button variant={"dark"} onClick={() => curve.addOffsetCurve()}>Dodaj
+          <Button onClick={() => curve.addOffsetCurve()}>Dodaj
             krivuljo</Button>
-          <Button variant={"dark"} onClick={() => curve.removeOffsetCurve()}>Odstrani
+          <Button onClick={() => curve.removeOffsetCurve()}>Odstrani
             krivuljo</Button></div>}
     </div>;
 }

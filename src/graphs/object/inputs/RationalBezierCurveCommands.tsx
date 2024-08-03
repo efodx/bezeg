@@ -7,12 +7,12 @@ import {BezierCurveCommands} from "./BezierCurveCommands";
 function WeightController(props: { curve: JSXRationalBezierCurve }): JSX.Element {
     const [stateRefresher, setStateRefresher] = useState(1)
     return <ButtonGroup key={stateRefresher} vertical={true}>
-        <Button variant={"dark"} className="btn-block" onClick={() => {
+        <Button className="btn-block" onClick={() => {
             props.curve.changeWeight(0.25)
             setStateRefresher(stateRefresher + 1)
         }}>+</Button>
         <ButtonGroup>
-            <Button variant={"dark"} className="btn-block" onClick={() => {
+            <Button className="btn-block" onClick={() => {
                 props.curve.prevWeight()
                 setStateRefresher(stateRefresher + 1)
             }}>{"<"}</Button>
@@ -21,11 +21,11 @@ function WeightController(props: { curve: JSXRationalBezierCurve }): JSX.Element
                 setStateRefresher(stateRefresher + 1)
             }}
                     className="btn-block">{props.curve.getCurrentWeight().toFixed(2)}</Button>
-            <Button variant={"dark"} onClick={() => {
+            <Button onClick={() => {
                 props.curve.nextWeight()
                 setStateRefresher(stateRefresher + 1)
             }} className="btn-block">{">"}</Button>
-        </ButtonGroup> <Button variant={"dark"} onClick={() => {
+        </ButtonGroup> <Button onClick={() => {
         props.curve.changeWeight(-0.25)
         setStateRefresher(stateRefresher + 1)
     }}

@@ -15,10 +15,10 @@ class RationalBezierCurveGraph extends BaseRationalCurveGraph<any, BaseGraphStat
     }
 
     override getGraphCommands(): JSX.Element[] {
-        return super.getGraphCommands().concat(<Button variant={"dark"}
-                                                       onClick={() => this.setN(this.getAllJxgCurves().length + 1)}>Dodaj
+        return super.getGraphCommands().concat(<Button
+            onClick={() => this.setN(this.getAllJxgCurves().length + 1)}>Dodaj
             kos</Button>).concat(
-            <Button variant={"dark"} onClick={() => this.setN(this.getAllJxgCurves().length - 1)}>Odstrani
+            <Button onClick={() => this.setN(this.getAllJxgCurves().length - 1)}>Odstrani
                 kos</Button>);
     }
 

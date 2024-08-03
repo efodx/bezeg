@@ -12,7 +12,7 @@ export function BezierCurveCommands(curve: JSXBezierCurve): JSX.Element[] {
             <Slider min={0} max={1}
                     initialValue={curve.getSubdivisionT()}
                     onChange={(t) => curve.setSubdivisionT(t)}></Slider>
-            <Button variant={"dark"} onClick={() => curve.subdivide()}>Subdiviziraj</Button>
+            <Button onClick={() => curve.subdivide()}>Subdiviziraj</Button>
         </div>)
     }
     if (curve.getAttributes().allowExtrapolation) {
@@ -22,8 +22,8 @@ export function BezierCurveCommands(curve: JSXBezierCurve): JSX.Element[] {
             <Slider min={1} max={1.5}
                     initialValue={curve.getExtrapolationT()}
                     onChange={(t) => curve.setExtrapolationT(t)}></Slider>
-            <Button variant={"dark"}
-                    onClick={() => curve.extrapolate(curve.getExtrapolationT())}>Ekstrapoliraj</Button>
+            <Button
+                onClick={() => curve.extrapolate(curve.getExtrapolationT())}>Ekstrapoliraj</Button>
         </div>)
     }
     if (curve.getAttributes().allowShrink) {
@@ -32,7 +32,7 @@ export function BezierCurveCommands(curve: JSXBezierCurve): JSX.Element[] {
             <Slider min={0} max={1}
                     initialValue={curve.getSubdivisionT()}
                     onChange={(t) => curve.setSubdivisionT(t)}></Slider>
-            <Button variant={"dark"} onClick={() => curve.extrapolate(curve.getSubdivisionT())}>Skrči</Button>
+            <Button onClick={() => curve.extrapolate(curve.getSubdivisionT())}>Skrči</Button>
         </div>)
     }
     if (curve.getAttributes().allowDecasteljau) {
@@ -46,7 +46,7 @@ export function BezierCurveCommands(curve: JSXBezierCurve): JSX.Element[] {
     if (curve.getAttributes().allowElevation) {
         commands.push(<div onMouseEnter={() => curve.showElevatePoints()}
                            onMouseLeave={() => curve.hideElevatePoints()}>
-            <Button variant={"dark"} onClick={() => curve.elevate()}>Dvigni stopnjo</Button></div>)
+            <Button onClick={() => curve.elevate()}>Dvigni stopnjo</Button></div>)
     }
 
     return commands;

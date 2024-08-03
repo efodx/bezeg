@@ -7,8 +7,8 @@ class Graph extends BaseSplineCurveGraph<BaseGraphStates> {
 
     override getGraphCommands(): JSX.Element[] {
         return super.getGraphCommands().concat([
-            <div><Button variant={"dark"} onClick={() => this.povecajB1()}>Povečaj B1</Button>
-                <Button variant={"dark"} onClick={() => this.zmanjsajB1()}>Zmanjšaj B1</Button></div>
+            <div><Button onClick={() => this.povecajB1()}>Povečaj B1</Button>
+                <Button onClick={() => this.zmanjsajB1()}>Zmanjšaj B1</Button></div>
         ])
     }
 

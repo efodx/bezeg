@@ -34,7 +34,7 @@ function ImportFromFileModal(props: { onConfirm: (fileContents: string) => void 
 
     return (
         <>
-            <Button className="ms-1" variant="dark" onClick={handleShow}>
+            <Button className="ms-1" onClick={handleShow}>
                 Uvozi
             </Button>
 
@@ -64,7 +64,7 @@ function ImportFromFileModal(props: { onConfirm: (fileContents: string) => void 
                     <Button variant="secondary" onClick={handleClose}>
                         Zapri
                     </Button>
-                    <Button variant="dark" onClick={handleConfirm}>
+                    <Button onClick={handleConfirm}>
                         Uvozi
                     </Button>
                 </Modal.Footer>
@@ -87,7 +87,7 @@ function SaveModal(props: { onSave: (name: string) => void }) {
 
     return (
         <>
-            <Button variant="dark" onClick={handleShow}>
+            <Button onClick={handleShow}>
                 💾
             </Button>
 
@@ -116,7 +116,7 @@ function SaveModal(props: { onSave: (name: string) => void }) {
                     <Button variant="secondary" onClick={handleClose}>
                         Zapri
                     </Button>
-                    <Button variant="dark" onClick={handleSave}>
+                    <Button onClick={handleSave}>
                         Shrani
                     </Button>
                 </Modal.Footer>
@@ -138,7 +138,7 @@ function TrashModal(props: { trash: () => void, disabled?: boolean }) {
 
     return (
         <>
-            <Button className="ms-1" variant="dark" disabled={props.disabled} onClick={handleShow}>
+            <Button className="ms-1" disabled={props.disabled} onClick={handleShow}>
                 🗑
             </Button>
             <Modal show={show} onHide={handleClose}>
@@ -240,14 +240,14 @@ export function PresetSelector(props: {
             }}></TrashModal>
         </Form.Group>
         <Form.Group className="mx-auto my-1">
-            <Button variant="dark" onClick={() => {
+            <Button onClick={() => {
                 exportToFile(props.presetService.exportAllPresetsToString())
             }}>Ivozi</Button>
             <ImportFromFileModal onConfirm={fileContents => {
                 props.presetService.importFromString(fileContents)
                 refreshContext()
             }}/></Form.Group>
-        <Button variant="dark" onClick={() => {
+        <Button onClick={() => {
             const allPresets = props.presetService.loadPresets()
             exportPresets(allPresets);
         }}>Generiraj slike</Button>

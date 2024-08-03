@@ -15,11 +15,11 @@ export function SaveImage(props: { saveAsSVG: (name: string) => void, saveAsPNG:
 function SaveAsPng(props: { onClick: (fileName: string) => void }) {
     const presetContext = useContext(PresetContext)
     const fileName = presetContext.selected === "" ? "izvoz" : presetContext.selected
-    return <Button variant={"dark"} className="ms-1" onClick={() => props.onClick(fileName + ".png")}>PNG</Button>;
+    return <Button className="ms-1" onClick={() => props.onClick(fileName + ".png")}>PNG</Button>;
 }
 
 function SaveAsSvg(props: { onClick: (fileName: string) => void }) {
     const presetContext = useContext(PresetContext)
     const fileName = presetContext.selected === "" ? "izvoz" : presetContext.selected
-    return <Button variant={"dark"} onClick={() => props.onClick(fileName + ".svg")}>SVG</Button>;
+    return <Button onClick={() => props.onClick(fileName + ".svg")}>SVG</Button>;
 }
