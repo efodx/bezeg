@@ -16,7 +16,7 @@ function WeightController(props: { curve: JSXRationalBezierCurve }): JSX.Element
                 props.curve.prevWeight()
                 setStateRefresher(stateRefresher + 1)
             }}>{"<"}</Button>
-            <Button onClick={() => {
+            <Button variant="light" onClick={() => {
                 props.curve.resetWeight()
                 setStateRefresher(stateRefresher + 1)
             }}

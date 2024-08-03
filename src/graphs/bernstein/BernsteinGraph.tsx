@@ -154,7 +154,7 @@ export class BernsteinGraph extends BaseGraph<any, any> {
         return super.getGraphCommands().concat(<ButtonGroup>
                 <Button className="btn-block"
                         onClick={() => this.setN(Math.min(this.state.n + 1, 6))}>+</Button>
-                <Button onClick={() => 1}
+                <Button variant="light" onClick={() => 1}
                         className="btn-block">{this.state.n - 1}</Button>
                 <Button onClick={() => this.setN(Math.max(this.state.n - 1, 1))}
                         className="btn-block">-</Button>

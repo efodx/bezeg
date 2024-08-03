@@ -1,4 +1,3 @@
-import '../../App.css';
 import DecasteljauGraph from "../bezier/DecasteljauGraph";
 
 class RationalDecasteljauGraph extends DecasteljauGraph {

@@ -1,6 +1,6 @@
 .App {
     text-align: center;
-    background-color: var(--bs-primary);
+    background-color: var(--dark-moss-green-2);
 }
 
 .App-logo {
@@ -25,17 +25,6 @@
     color: white;
 }
 
-.nav-item .dropdown-menu .dropdown-item.active {
-    background-color: lightgray;
-}
-
-.nav-item .dropdown-menu .dropdown-item:focus {
-    background-color: lightgray;
-}
-
-.nav-item .dropdown-menu .dropdown-item:current {
-    background-color: lightgray;
-}
 
 .navbar .navbar-nav > .open > a,
 .navbar .navbar-nav > .open > a:focus,

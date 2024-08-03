@@ -173,7 +173,7 @@ export function PresetSelector(props: {
     })
 
     function exportPresets(allPresets: Presets, index?: number) {
-        if (index == undefined) {
+        if (index === undefined) {
             index = 0
         }
         if (index === allPresets.data.length + 1) {

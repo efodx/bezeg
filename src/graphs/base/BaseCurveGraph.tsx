@@ -1,5 +1,5 @@
 import React from 'react';
-import '../../App.css';
+
 
 import {Board} from "jsxgraph";
 import {Point} from "../object/Point";

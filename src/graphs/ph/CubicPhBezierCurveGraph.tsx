@@ -1,4 +1,3 @@
-import '../../App.css';
 import BasePhBezierCurveGraph, {BasePhBezierCurveGraphStates} from "./BasePhBezierCurveGraph";
 
 class CubicPhBezierCurveGraph extends BasePhBezierCurveGraph<any, BasePhBezierCurveGraphStates> {

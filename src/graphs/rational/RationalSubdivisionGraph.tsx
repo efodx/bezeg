@@ -1,5 +1,5 @@
 import React from 'react';
-import '../../App.css';
+
 import {BaseRationalCurveGraph} from "./BaseRationalCurveGraph";
 import {Button} from "react-bootstrap";
 import {JSXRationalBezierCurve} from "../object/JSXRationalBezierCurve";

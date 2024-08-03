@@ -1,4 +1,3 @@
-import '../../App.css';
 import {BaseBezierCurveGraph} from "../base/BaseBezierCurveGraph";
 import {BaseGraphStates} from "../base/BaseCurveGraph";
 import Slider from "../../inputs/Slider";

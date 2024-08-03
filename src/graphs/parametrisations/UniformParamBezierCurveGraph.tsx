@@ -1,4 +1,3 @@
-import '../../App.css';
 import {PhBezierCurve} from "../../bezeg/impl/curve/ph-bezier-curve";
 import Slider from "../../inputs/Slider";
 import Form from 'react-bootstrap/Form';
@@ -44,7 +43,7 @@ class UniformParamBezierCurveGraph extends BasePhBezierCurveGraph<any, UniformPa
     }
 
     override getGraphCommands(): JSX.Element[] {
-        if (this.state.initialized && this.graphJXGPoints.length == 0) {
+        if (this.state.initialized && this.graphJXGPoints.length === 0) {
             this.generateParamPoints()
         }
         return super.getGraphCommands().concat(this.paramField());

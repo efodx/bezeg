@@ -1,5 +1,5 @@
 import React from 'react';
-import '../../App.css';
+
 import {BaseBezierCurveGraph} from "../base/BaseBezierCurveGraph";
 import {BaseGraphStates} from "../base/BaseCurveGraph";
 import {Button} from "react-bootstrap";

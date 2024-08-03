@@ -5,7 +5,6 @@ import reportWebVitals from './reportWebVitals';
 import {createBrowserRouter, RouterProvider} from "react-router-dom";
 import routes from "./Routes";
 
-//import 'bootstrap/dist/css/bootstrap.min.css';
 import './bootstrap-overrides.scss';
 // TODO Is there a better way to import this?
 import '../node_modules/jsxgraph/distrib/jsxgraph.css';

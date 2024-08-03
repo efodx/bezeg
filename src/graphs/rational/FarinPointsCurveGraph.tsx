@@ -1,4 +1,3 @@
-import '../../App.css';
 import {BaseRationalCurveGraph} from "./BaseRationalCurveGraph";
 import {OnOffSwitch} from "../../inputs/OnOffSwitch";
 import React from "react";

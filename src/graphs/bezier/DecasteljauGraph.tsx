@@ -1,5 +1,5 @@
 import React from 'react';
-import '../../App.css';
+
 import {BaseBezierCurveGraph} from "../base/BaseBezierCurveGraph";
 import {BaseGraphStates} from "../base/BaseCurveGraph";
 import {OnOffSwitch} from "../../inputs/OnOffSwitch";
@@ -53,9 +53,6 @@ class DecasteljauGraph extends BaseBezierCurveGraph<any, DecasteljauGraphStates>
         return this.state.initialized ? super.getGraphCommands().concat([<OnOffSwitch initialState={this.animating}
                                                                                       onChange={checked => this.animate(checked)}
                                                                                       label={"Animiraj"}></OnOffSwitch>,
-            <OnOffSwitch initialState={this.animating}
-                         onChange={checked => this.animate(checked)}
-                         label={"Oznake točk"}></OnOffSwitch>,
             <Slider customText={'t = ' + this.state.t.toFixed(2)} min={0} max={1}
                     fixedValue={this.state.t}
                     onChange={(t) => this.setState({...this.state, t: t})}></Slider>,

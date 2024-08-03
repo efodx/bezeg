@@ -1,12 +1,14 @@
 import React from 'react';
 import './App.css';
-import {NavLink, Outlet} from "react-router-dom";
+import {NavLink, Outlet, useLocation} from "react-router-dom";
 import routes from "./Routes";
 import Logo from "./images/elderflower.png"
 import {Container, Nav, Navbar, NavDropdown} from "react-bootstrap";
 import {LinkContainer} from 'react-router-bootstrap'
 
 function NavBar() {
+    const location = useLocation();
+    console.log(location)
     let groupedChildren = {}
     let children = routes.flatMap((mainEntry) => mainEntry.children)
         .filter(child => !child.index)
@@ -41,7 +43,9 @@ function NavBar() {
                         .map((child) => {
                             // We got the group key, so we take children from the group
                             if (typeof child == "string") {
-                                return <NavDropdown title={child}>{   // @ts-ignore
+                                return <NavDropdown
+                                    style={{backgroundColor: location.pathname == "lol" ? "white" : "black"}}
+                                    title={child}>{   // @ts-ignore
                                     groupedChildren[child].map(child => <LinkContainer to={child.path}>
                                             <NavDropdown.Item>{child.title}</NavDropdown.Item>
                                         </LinkContainer>

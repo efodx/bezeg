@@ -1,4 +1,3 @@
-import '../../App.css';
 import {BaseRationalCurveGraph} from "./BaseRationalCurveGraph";
 import {BaseGraphStates} from "../base/BaseCurveGraph";
 
