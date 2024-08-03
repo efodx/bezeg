@@ -7,7 +7,6 @@ import {Col, Container, Row} from "react-bootstrap";
 import {SizeContext} from "../context/SizeContext";
 import {Commands} from "./Commands";
 import {Tools} from "./Tools";
-import {ResetButton} from "./ResetButton";
 import {ShowAxis} from "./ShowAxis";
 import {AxisStyles} from "../styles/AxisStyles";
 import Slider from "../../inputs/Slider";
@@ -22,7 +21,7 @@ function SizeRange(props: { board: () => JXG.Board }) {
     return <div><Slider customText={"Povečava"} min={0} max={10} initialValue={SizeContext.getSize()} step={1}
                         onChange={(i) => {
                             SizeContext.setSize(i)
-                            CacheContext.context += 1
+                            CacheContext.update()
                             props.board().fullUpdate()
                         }}/></div>;
 }
@@ -67,7 +66,7 @@ abstract class BaseGraph<P, S extends BaseGraphState> extends Component<P, S> {
             });
             this.board.on('update', (e) => {
                 console.log("updating context")
-                CacheContext.context = CacheContext.context + 1
+                CacheContext.update()
             });
 
 
@@ -109,9 +108,9 @@ abstract class BaseGraph<P, S extends BaseGraphState> extends Component<P, S> {
         }
         return <Container fluid>
             <Row className={"align-items-center"} style={{height: "92vh"}}>
-                <Col xs={1} sm={2}><Tools tools={this.getTools()}/></Col>
-                <Col xs={10} sm={8}><JGBox/></Col>
-                <Col xs={1} sm={2}>{this.getGraphCommandsArea()}</Col>
+                <Col xs={0} lg={2}><Tools tools={this.getTools()}/></Col>
+                <Col xs={12} lg={8}><JGBox/></Col>
+                <Col xs={0} lg={2}>{this.getGraphCommandsArea()}</Col>
             </Row>
         </Container>;
     }
@@ -128,7 +127,6 @@ abstract class BaseGraph<P, S extends BaseGraphState> extends Component<P, S> {
     getTools(): JSX.Element[] {
         const tools = [
             <SaveImage saveAsSVG={name => this.saveAsSVG(name)} saveAsPNG={name => this.saveAsPNG(name)}/>,
-            <ResetButton/>,
             <ShowAxis board={() => this.board}></ShowAxis>,
             <SizeRange board={() => this.board}/>
         ]

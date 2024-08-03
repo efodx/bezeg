@@ -28,7 +28,7 @@ export abstract class PointControlledCurveImpl implements PointControlledCurve {
         if (yScale === undefined) {
             yScale = xScale
         }
-        this.affineTransform([[xScale, 0], [0, yScale]])
+        this.affineTransform([[xScale, 0], [0, yScale]], [0, 0], this.getBoundingBoxCenter())
     }
 
     moveFor(x: number, y: number): void {
@@ -79,11 +79,13 @@ export abstract class PointControlledCurveImpl implements PointControlledCurve {
     }
 
     affineTransform(A: number [][]): void
-    affineTransform(A: number [][], b?: number[]): void
+    affineTransform(A: number [][], b: number[]): void
+    affineTransform(A: number[][], b: number[], center: number[]): void
 
     affineTransform(A: number[][], b?: number[], center?: number[]): void {
         if (!center) {
             center = this.getPointsCenter()
+            // center = this.getBoundingBoxCenter()
         }
         let [xCenter, yCenter] = center
         this.points.forEach(point => {

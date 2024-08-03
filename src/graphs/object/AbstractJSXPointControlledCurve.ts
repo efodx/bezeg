@@ -1,11 +1,10 @@
-import {Board} from "jsxgraph";
+import {Board, PointAttributes} from "jsxgraph";
 import {Point} from "./Point";
 import {PointControlledCurve} from "../../bezeg/api/curve/point-controlled-curve";
 import {SizeContext} from "../context/SizeContext"
 import {PointStyles} from "../styles/PointStyles";
 import {CurveStyles} from "../styles/CurveStyles";
 import {SegmentStyles} from "../styles/SegmentStyles";
-import {CacheContext} from "../context/CacheContext";
 import {PointControlledCurveCommands} from "./inputs/PointControlledCurveCommands";
 
 
@@ -46,6 +45,7 @@ export abstract class AbstractJSXPointControlledCurve<T extends PointControlledC
     private rotationCenter?: number[];
     private readonly convexHullRefresher = this.refreshConvexHull.bind(this)
     private attributes: Attr = {allowShowControlPolygon: true} as Attr
+    private resizingPoint: JXG.Point | undefined;
 
 
     constructor(points: number[][], board: Board, attributes?: Attr) {
@@ -170,7 +170,6 @@ export abstract class AbstractJSXPointControlledCurve<T extends PointControlledC
         console.time("Processing mouse down event")
         this.coords = this.getMouseCoords(e);
         // @ts-ignore
-        // @ts-ignore
         if (this.boundBoxPoints?.some(point => point.hasPoint(this.coords!.scrCoords[1], this.coords!.scrCoords[2])) && this.selected) {
             this.startResizing()
         } else if (!this.isMouseInsideBoundingBox() && this.isMouseInsidePaddedBoundingBox() && this.selected) {
@@ -196,7 +195,6 @@ export abstract class AbstractJSXPointControlledCurve<T extends PointControlledC
         }
         this.board.update()
         this.coords = newCoords
-        CacheContext.context = CacheContext.context + 1
         console.timeEnd("Processing mouse move event")
     }
 
@@ -222,10 +220,13 @@ export abstract class AbstractJSXPointControlledCurve<T extends PointControlledC
 
     startResizing() {
         this.resizing = true
+        // @ts-ignore
+        this.resizingPoint = this.boundBoxPoints.filter(point => point.hasPoint(this.coords!.scrCoords[1], this.coords!.scrCoords[2]))[0]
     }
 
     stopResizing() {
         this.resizing = false
+        this.resizingPoint = undefined
     }
 
     startDragging() {
@@ -477,14 +478,28 @@ export abstract class AbstractJSXPointControlledCurve<T extends PointControlledC
     }
 
     private addBoundingBox() {
-        const pointStyle = {name: "", color: "gray", opacity: 0.4, size: () => SizeContext.pointSize}
+        var board = this.board
+        let over = function (p: JXG.Point) {
+            // @ts-ignore
+            if (!p.visProp.fixed) {
+                board.containerObj.style.cursor = 'pointer';
+            }
+        }
+        let out = function (p: JXG.Point) {
+            if (!p.visProp.fixed) {
+                board.containerObj.style.cursor = 'default';
+            }
+        };
+        // @ts-ignore
+        const pointStyle: PointAttributes = {name: "", color: "gray", opacity: 0.4, size: () => SizeContext.pointSize}
         const p = this.board.create('point', [() => this.pointControlledCurve.getBoundingBox()[0], () => this.pointControlledCurve.getBoundingBox()[2]], pointStyle);
         const p2 = this.board.create('point', [() => this.pointControlledCurve.getBoundingBox()[0], () => this.pointControlledCurve.getBoundingBox()[3]], pointStyle);
         const p3 = this.board.create('point', [() => this.pointControlledCurve.getBoundingBox()[1], () => this.pointControlledCurve.getBoundingBox()[3]], pointStyle);
         const p4 = this.board.create('point', [() => this.pointControlledCurve.getBoundingBox()[1], () => this.pointControlledCurve.getBoundingBox()[2]], pointStyle);
         // @ts-ignore
         this.boundBoxPoints = [p, p2, p3, p4]
-
+        this.boundBoxPoints.forEach(p => p.on('over', () => over(p)))
+        this.boundBoxPoints.forEach(p => p.on('out', () => out(p)))
 
         const segmentStyle = {color: "gray", strokeWidth: 0.5, dash: 2, highlight: false}
         const segment = this.board.create('segment', [p, p2], segmentStyle);

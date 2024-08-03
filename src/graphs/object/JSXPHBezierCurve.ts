@@ -92,7 +92,7 @@ export class JSXPHBezierCurve extends JSXBezierCurve {
         if (this.jsxOffsetCurves === undefined && show) {
             this.generateJsxOffsetCurves(false)
         }
-        CacheContext.context = CacheContext.context + 1
+        CacheContext.update()
         if (show) {
             this.jsxOffsetCurves.forEach(curve => curve.show())
         } else {

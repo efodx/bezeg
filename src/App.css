@@ -1,6 +1,6 @@
 .App {
     text-align: center;
-    background-color: #282c34;
+    background-color: var(--bs-primary);
 }
 
 .App-logo {
@@ -136,4 +136,13 @@
 }
 
 .smart-label-line2, .smart-label-point2 {
+}
+
+
+:root {
+    --dark-moss-green: #3B6704ff;
+    --dark-moss-green-2: #264901ff;
+    --cornflower-blue: #5896F9ff;
+    --citron: #CFCB7Aff;
+    --olivine: #AFB665ff;
 }

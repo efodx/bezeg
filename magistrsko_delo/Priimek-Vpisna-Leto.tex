@@ -147,6 +147,9 @@ the content and not the structure of your work.}
 
 % Komentarji znotraj vsebine
 \newcommand{\mycomment}[1]{\textbf{\textcolor{red}{#1}}}
+\newcommand{\missingref}[1]{\mycomment{referenca-#1}}
+
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % ZAČETEK VSEBINE
@@ -710,8 +713,15 @@ the content and not the structure of your work.}
             \State \Return $\p_0^n(t)$
         \end{algorithmic}\label{alg:racionalni-decasteljau}
     \end{algorithm}
+    Pravilnost algoritma podamo z naslednjim izrekom.
+    \begin{izrek} Za vmesne točke iz algoritma $\p_i^r(t)$ in poljubno realno število $t$ velja izraz
+    \[\p_i^r(t)= \frac{\sum^{r}_{j=0}w_{i+j}\p_{i+j} B^r_j(t)}{\sum^{n}_{i=0}w_{i+j} B^r_j(t)}. \]
+    \end{izrek}
 
-    Dokažimo
+    \begin{dokaz}
+
+    \end{dokaz}
+
 
     \subsubsection{Farinove točke}
     Ročno nastavljanje uteži z vpisovanjem, bi bilo za uporabnika CAGD sistema zamudno in nenaravno.
@@ -846,8 +856,8 @@ the content and not the structure of your work.}
 
     \section{Zlepki Bezierjevih krivulj}
     Če si ponovno ogledamo Decasteljaujev algoritem~\ref{alg:decasteljau}, lahko hitro opazimo, da je časovna kompleksnost algoritma $O(n^2)$.
-    Računanje točk Bezierjevih krivulj pri visokih stopnjah $n$ je zato lahko zamudno.
-    Takšne krivulje se zato v CAD sistemih izkažejo za neuporabne.
+    Računanje točk Bezierjevih krivulj pri visokih stopnjah $n$ je zato zamudno.
+    \mycomment{Takšne krivulje se zato v CAD sistemih izkažejo za neuporabne.}
     Da bi ohranili čim večjo kontrolo krivulj s čim manj računanja, posežemo po zlepkih Bezierjevih krivulj.
     \begin{definicija}
         Zlepek krivulj  $\mathbf{S}:[a,b]\to \R^d$ stopnje $n$ nad zaporedjem stičnih točk $a=u_0 < u\_1 < \cdots < u_{m-1} < u_m = b$
@@ -917,6 +927,11 @@ the content and not the structure of your work.}
     \end{figure}
 
     \subsection{Alfa parametrizacije}
+    Pri zlepkih se nam lahko zgodi, da imamo nekatere odseke krajše kakor druge.
+    Pri izbiri ekvidistantnih $t$ dobimo potem razmike na zlepku $s(t_i)-s(t_{i+1})$, ki lahko zelo varirajo.
+    Želeli bi, da so razmiki čimbolj podobni.
+    Pomagamo si lahko tako, da intervale definiramo glede na razdaljo med stičnimi točkami.
+    \[d_i=|T_i-T_{i-1}|^{\alpha}\]
     \mycomment{NE
     NE
     NE
@@ -1221,6 +1236,91 @@ the content and not the structure of your work.}
     Za ogrodje same spletne strani pa React.
 
     \subsection{Implementacija konceptov magistrskega dela}
+
+    \subsection{Orodja}
+    Na levi strani vsakega grafa se nahaja kartica~\ref{fig:bezeg:kartica-z-orodji} s funkcionalnostmi za vse grafe.
+    V naslednjih podrazdelkih bomo predstavili posamezno funkcionalnost.
+    \subsubsection{Izvoz slik}
+    Uporabnik lahko s stiskom na gumb SVG oziroma PNG izvozi sliko v izbranem formatu.
+    Pri izvozu v SVG format, zaradi pomankljivosti knjižnice JSXGraph, izgubimo oznake točk.
+    \subsubsection{Ponastavitev grafa}
+    Na kartici se nahaja priročen gumb za ponastavljanje grafa.
+    Ob pritisku se graf ponastavi na izbrano prednastavitev.
+    \subsubsection{Prikaz mreže}
+    Če uporabnik ne želi prikazovati mreže koordinatnega sistema, lahko za to uporabi preklopnik za prikaz mreže.
+    \subsubsection{Povečava}
+    Drsnik za povečavo omogoča povečavo elementov na grafu.
+    \subsubsection{Prednastavitve}
+        Uporabnik lahko na posameznem grafu pripravi željeni prikaz in ga nato s poljubnim imenom shrani kot prednastavitev.
+        Prednastavitve se shranjujejo lokalno v uporabnikovem brskalniku.
+        Če uporabnik želi svoje prednastavitve prenesti na drug računalnik, lahko to stori tako, da pritisne gumb izvozi.
+        S pritiskom na gumb se sproži prenos datoteke s podatki o prednastavitvah.
+        Na drugem računalniku lahko nato datoteko uvozi s pritiskom na gumb uvozi.
+        Uporabnik ima tudi možnost generirati slike svojih prednastavitev.
+        Ob pritisku na gumb 'Generiraj slike' začne orodje preklapljati med prednastavitvami ter izvažati slike.
+        Slike izvozi pod imenom prednastavitve, v PNG formatu.
+    \subsubsection{Preklopnik za oznake točk}
+    Preklopnik uporabniku omogoča izklop oznak točk na grafu.
+
+    \begin{figure}[h]
+        \centering
+        \includegraphics[width = 0.30\textwidth]{images/bezeg/orodja}
+        \caption{Kartica z orodji}
+        \label{fig:bezeg:kartica-z-orodji}
+    \end{figure}
+
+
+    \subsection{Ukazi izbrane krivulje}
+    Na desni strani vsakega grafa se, v primeru, da imamo izbrano krivuljo, prikazujejo ukazi izbrane krivulje.
+    V naslednjih podrazdelkih bomo predstavili katere ukaze premore kateri tip krivulje.
+    \subsubsection{Vse krivulje}
+    Vse krivulje omogočajo preklapljanje prikazovanja kontrolnega poligona, konveksne ovojnice kontrolnih točk, ter kontrolnih točk samih.
+    \subsubsection{Bezierjeva krivulja}
+    Bezierjeva krivulja premore poleg osnovih ukazov še ukaze za subdivizijo, ekstrapolacijo, skrčitev, višanje stopnje, ter prikazovanje decasteljaujeve sheme.
+    Premik miške na posamezni ukaz na grafu predstavi nekakšen predogled rezultata ukaza.
+    % tukaj lahko dam slike za subdivizijo ekstrapolacijo skrčitev itd
+    \subsubsection{Racionalna Bezierjeva Krivulja}
+    Poleg funkcionalnosti bezierjeve krivulje ima še dodane ukaze za prikaz in spreminjanje uteži, ter drsnik za preklapljanje forme uteži.
+
+    \subsubsection{PH Bezierjeva krivulja}
+    PH Bezierjeve krivulje nimajo ukazov, ki so jih imele Bezierjeve krivulje, saj se pri nekaterih ukazih izgubi lastnost PH.
+    Premorejo pa naslednje ukaze.
+    Prikazovanje odmičnih krivulj in spreminjanje odmika.
+    Prikaz kontrolnih točk odmik krivulj ter prikazovanje premic na katerih ležijo.
+    Dodajanje/odstranjevanje odmik krivulj.
+    Koordinatni sistem s hodografi, ki jih premikamo za premikanje krivulje.
+    Gumba za povečanje ter pomanjšanje krivulje.
+
+    \subsubsection{Zlepki}
+    Zlepki imajo le ukaze osnovne krivulje.
+
+
+    \subsection{Transformacije krivulje}
+    Uporabnik lahko izbere krivuljo tako, da nanjo klikne.
+    Ob kliku se okoli krivulje prikaže črtkan pravokotnik, ki izbrano krivuljo označuje.
+    Uporabnik lahko nato s transformacijo pravokotnika transformira tudi izbrano krivuljo.
+    Klik na oglišče pravokotnika zažene spreminjanje velikosti krivulje \missingref{slika}.
+    Klik ob stranici pravokotnika pa zažene rotiranje krivulje \missingref{slika}.
+    Klik znotraj pravokotnika zažene premikanje krivulje \missingref{slika}.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
     \newpage

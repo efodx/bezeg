@@ -25,6 +25,7 @@ export abstract class AbstractJSXBezierCurve<T extends BezierCurve, Attr extends
     cacheContext: number = -1;
     lastDecasteljauN: number = -1;
     showingDecasteljauScheme: boolean = false;
+    showingDecasteljauPoints: boolean = false
     protected subdivisionResultConsumer?: (curve: this) => void
     private decasteljauT: number = 0.5;
     private decasteljauSegments: JXG.Segment[] = []
@@ -140,7 +141,8 @@ export abstract class AbstractJSXBezierCurve<T extends BezierCurve, Attr extends
                     pp1 = this.board.create('point', [() => this.getDecasteljauScheme(this.decasteljauT)[r][i - 1].X(),
                         () => this.getDecasteljauScheme(this.decasteljauT)[r][i - 1].Y()], {
                         ...PointStyles.default,
-                        color: Colors[r]
+                        color: Colors[r],
+                        name: () => this.showingDecasteljauPoints ? `$$p_${i}^${r}$$` : ""
                     });
                 } else {
                     pp1 = this.decasteljauPoints[this.decasteljauPoints.length - 1]
@@ -151,7 +153,8 @@ export abstract class AbstractJSXBezierCurve<T extends BezierCurve, Attr extends
                 pp2 = this.board.create('point', [() => this.getDecasteljauScheme(this.decasteljauT)[r][i].X(),
                     () => this.getDecasteljauScheme(this.decasteljauT)[r][i].Y()], {
                     ...PointStyles.default,
-                    color: Colors[r]
+                    color: Colors[r],
+                    name: () => this.showingDecasteljauPoints ? `$$p_${i}^${r}$$` : ""
                 });
                 const segment = this.board!.create('segment', [pp1, pp2], SegmentStyles.default);
                 this.decasteljauSegments.push(segment)
@@ -163,13 +166,16 @@ export abstract class AbstractJSXBezierCurve<T extends BezierCurve, Attr extends
         }
         const drawingPoint = this.board?.create('point', [() => this.getDecasteljauScheme(this.decasteljauT)[n - 1][0].X(), () => this.getDecasteljauScheme(this.decasteljauT)[n - 1][0].Y()], {
             ...PointStyles.default,
-            color: Colors[n - 1]
+            color: Colors[n - 1],
+            name: () => this.showingDecasteljauPoints ? `$$p_${0}^${n}$$` : ""
         });
 
         if (drawingPoint instanceof JXG.Point) {
             this.decasteljauPoints.push(drawingPoint)
         }
 
+        // @ts-ignore
+        this.jxgPoints.forEach((point, i) => point.setAttribute({name: () => this.showingDecasteljauPoints ? `$$p_${i}^0$$` : ""}))
     }
 
     getDecasteljauScheme(t: number) {
@@ -228,7 +234,18 @@ export abstract class AbstractJSXBezierCurve<T extends BezierCurve, Attr extends
             this.extrapolationPoint.hide()
         }
     }
-    
+
+    showDecasteljauPoints() {
+        this.showingDecasteljauPoints = true
+    }
+
+    hideDecasteljauPoints() {
+        this.showingDecasteljauPoints = false
+    }
+
+    isShowingDecasteljauPoints() {
+        return this.showingDecasteljauPoints
+    }
 
     showCutPoint() {
         this.setIntervalEnd(() => this.subdivisionT)
@@ -254,8 +271,6 @@ export abstract class AbstractJSXBezierCurve<T extends BezierCurve, Attr extends
     }
 
     hideExtrapolationPoint() {
-        console.log(this.extrapolationPoint)
-        console.log("hiding")
         this.setIntervalEnd(1)
         this.extrapolationPoint?.hide()
     }

@@ -43,9 +43,9 @@ class DecasteljauGraph extends BaseBezierCurveGraph<any, DecasteljauGraphStates>
     override initialize() {
         super.initialize()
         this.graphJXGPoints = this.getFirstJsxCurve().getJxgPoints()
-        this.graphJXGPoints.forEach((point, i) => point.setName("$$p_" + i + "^0$$"))
         this.getFirstJsxCurve().setIntervalEnd(() => this.state.t)
         this.getFirstJsxCurve().setAttributes(Attributes.bezierDisabled)
+        this.getFirstJsxCurve().showDecasteljauPoints()
         this.boardUpdate()
     }
 
@@ -53,6 +53,9 @@ class DecasteljauGraph extends BaseBezierCurveGraph<any, DecasteljauGraphStates>
         return this.state.initialized ? super.getGraphCommands().concat([<OnOffSwitch initialState={this.animating}
                                                                                       onChange={checked => this.animate(checked)}
                                                                                       label={"Animiraj"}></OnOffSwitch>,
+            <OnOffSwitch initialState={this.animating}
+                         onChange={checked => this.animate(checked)}
+                         label={"Oznake točk"}></OnOffSwitch>,
             <Slider customText={'t = ' + this.state.t.toFixed(2)} min={0} max={1}
                     fixedValue={this.state.t}
                     onChange={(t) => this.setState({...this.state, t: t})}></Slider>,

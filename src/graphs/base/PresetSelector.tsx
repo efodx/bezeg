@@ -4,6 +4,7 @@ import {PresetContext} from "../context/react/PresetContext";
 import {Button, Form, Modal} from "react-bootstrap";
 import {wait} from "@testing-library/user-event/dist/utils";
 import {RefreshContext} from "../context/react/RefreshContext";
+import {ResetButton} from "./ResetButton";
 
 
 function exportToFile(data: string) {
@@ -250,6 +251,9 @@ export function PresetSelector(props: {
             const allPresets = props.presetService.loadPresets()
             exportPresets(allPresets);
         }}>Generiraj slike</Button>
+        <Form.Group className="mx-auto my-1">
+            <ResetButton/>
+        </Form.Group>
     </Form.Group>
 
 }

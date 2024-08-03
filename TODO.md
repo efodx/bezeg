@@ -30,6 +30,7 @@
 - [x] ODSTRANI SLIDERJE KER DELAJO GUZVO NA SLIKAH
 - [x] Naj se da odstranit oznake točk tudi za segmente..... MORDA DODAM VISIBILITY MED CONTEXTE...
 - [ ] Na G1 zlepkih da premikamo alphe
+- [ ] Oznake za transformacije pri izbrani krivulji - pac pointer changes.
 
 ### Low Priority
 
@@ -54,4 +55,51 @@
 - [ ] Bezierjeve API spremenit na Subdividable, Expotrapolable, Elevatable......
 - [ ] Ce clovek pogleda formulo za visanje krivulje... Iz nje sledi, da tiste tocke v resnici lezijo na kontrolnem
   poligonu... To bi lahko prikazal!
-- [x]
+
+USE THIS PALETTE
+
+/* CSS HEX */
+--dark-moss-green: #3B6704ff;
+--dark-moss-green-2: #264901ff;
+--cornflower-blue: #5896F9ff;
+--citron: #CFCB7Aff;
+--olivine: #AFB665ff;
+
+/* CSS HSL */
+--dark-moss-green: hsla(87, 93%, 21%, 1);
+--dark-moss-green-2: hsla(89, 97%, 15%, 1);
+--cornflower-blue: hsla(217, 93%, 66%, 1);
+--citron: hsla(57, 47%, 65%, 1);
+--olivine: hsla(65, 36%, 55%, 1);
+
+/* SCSS HEX */
+$dark-moss-green: #3B6704ff;
+$dark-moss-green-2: #264901ff;
+$cornflower-blue: #5896F9ff;
+$citron: #CFCB7Aff;
+$olivine: #AFB665ff;
+
+/* SCSS HSL */
+$dark-moss-green: hsla(87, 93%, 21%, 1);
+$dark-moss-green-2: hsla(89, 97%, 15%, 1);
+$cornflower-blue: hsla(217, 93%, 66%, 1);
+$citron: hsla(57, 47%, 65%, 1);
+$olivine: hsla(65, 36%, 55%, 1);
+
+/* SCSS RGB */
+$dark-moss-green: rgba(59, 103, 4, 1);
+$dark-moss-green-2: rgba(38, 73, 1, 1);
+$cornflower-blue: rgba(88, 150, 249, 1);
+$citron: rgba(207, 203, 122, 1);
+$olivine: rgba(175, 182, 101, 1);
+
+/* SCSS Gradient */
+$gradient-top: linear-gradient(0deg, #3B6704ff, #264901ff, #5896F9ff, #CFCB7Aff, #AFB665ff);
+$gradient-right: linear-gradient(90deg, #3B6704ff, #264901ff, #5896F9ff, #CFCB7Aff, #AFB665ff);
+$gradient-bottom: linear-gradient(180deg, #3B6704ff, #264901ff, #5896F9ff, #CFCB7Aff, #AFB665ff);
+$gradient-left: linear-gradient(270deg, #3B6704ff, #264901ff, #5896F9ff, #CFCB7Aff, #AFB665ff);
+$gradient-top-right: linear-gradient(45deg, #3B6704ff, #264901ff, #5896F9ff, #CFCB7Aff, #AFB665ff);
+$gradient-bottom-right: linear-gradient(135deg, #3B6704ff, #264901ff, #5896F9ff, #CFCB7Aff, #AFB665ff);
+$gradient-top-left: linear-gradient(225deg, #3B6704ff, #264901ff, #5896F9ff, #CFCB7Aff, #AFB665ff);
+$gradient-bottom-left: linear-gradient(315deg, #3B6704ff, #264901ff, #5896F9ff, #CFCB7Aff, #AFB665ff);
+$gradient-radial: radial-gradient(#3B6704ff, #264901ff, #5896F9ff, #CFCB7Aff, #AFB665ff);
