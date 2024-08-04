@@ -8,20 +8,22 @@ import {LinkContainer} from 'react-router-bootstrap'
 
 function NavBar() {
     const location = useLocation();
-    console.log(location)
     let groupedChildren = {}
+    let groupByTitle = {}
     let children = routes.flatMap((mainEntry) => mainEntry.children)
         .filter(child => !child.index)
         .flatMap(child => {
             if (child.group) {
                 // @ts-ignore
-                if (groupedChildren[child.group]) {
+                if (groupedChildren[child.group.title]) {
                     // @ts-ignore
-                    groupedChildren[child.group].push(child)
+                    groupedChildren[child.group.title].push(child)
                 } else {
                     // @ts-ignore
-                    groupedChildren[child.group] = [child]
-                    return child.group!
+                    groupedChildren[child.group.title] = [child]
+                    // @ts-ignore
+                    groupByTitle[child.group.title] = child.group
+                    return child.group.title
                 }
                 return []
             } else {
@@ -43,13 +45,14 @@ function NavBar() {
                         .map((child) => {
                             // We got the group key, so we take children from the group
                             if (typeof child == "string") {
-                                return <NavDropdown
-                                    style={{backgroundColor: location.pathname == "lol" ? "white" : "black"}}
-                                    title={child}>{   // @ts-ignore
-                                    groupedChildren[child].map(child => <LinkContainer to={child.path}>
-                                            <NavDropdown.Item>{child.title}</NavDropdown.Item>
-                                        </LinkContainer>
-                                    )}
+                                return <NavDropdown   // @ts-ignore
+                                    active={location.pathname.includes(groupByTitle[child].path)}
+                                    title={child}>
+                                    {   // @ts-ignore
+                                        groupedChildren[child].map(child => <LinkContainer to={child.path}>
+                                                <NavDropdown.Item>{child.title}</NavDropdown.Item>
+                                            </LinkContainer>
+                                        )}
                                 </NavDropdown>
                             } else {
                                 return <li className="nav-item">

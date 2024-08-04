@@ -41,19 +41,29 @@ import RationalDecasteljauGraph
   from './graphs/rational/RationalDecasteljauGraph'
 
 const PATH_BEZIER_CURVES = '/bezeg/bezier'
-const BEZIER_CURVES_GROUP = 'Bezierjeve Krivulje'
+const BEZIER_CURVES_GROUP = {
+  title: 'Bezierjeve Krivulje', path: PATH_BEZIER_CURVES,
+}
 
 const PATH_RATIONAL_CURVES = '/bezeg/rational'
-const RATIONAL_CURVES_GROUP = 'Racionalne Bezierjeve Krivulje'
+const RATIONAL_CURVES_GROUP = {
+  title: 'Racionalne Bezierjeve Krivulje', path: PATH_RATIONAL_CURVES,
+}
 
 const PATH_SPLINE_CURVES = '/bezeg/spline'
-const SPLINES_GROUP = 'Zlepki'
+const SPLINES_GROUP = {
+  title: 'Zlepki', path: PATH_SPLINE_CURVES,
+}
 
 const PATH_PH_CURVES = '/bezeg/ph'
-const PH_CURVES_GROUP = 'PH Krivulje'
+const PH_CURVES_GROUP = {
+  title: 'PH Krivulje', path: PATH_PH_CURVES,
+}
 
 const PATH_PARAM = '/bezeg/param'
-const PARAMETRIZATION_GROUP = 'Parametrizacije'
+const PARAMETRIZATION_GROUP = {
+  title: 'Parametrizacije', path: PATH_PARAM,
+}
 
 const routes = [
   {
@@ -100,115 +110,95 @@ const routes = [
         title: 'Dvig Stopnje',
       }, {
         group: RATIONAL_CURVES_GROUP,
-        group_path: PATH_RATIONAL_CURVES,
         path: PATH_RATIONAL_CURVES + '/base',
         element: <RationalBezierCurveGraph/>,
         title: 'Racionalna Bezierjeva Krivulja',
-      },
-      {
+      }, {
         group: RATIONAL_CURVES_GROUP,
         path: PATH_RATIONAL_CURVES + '/rational-decasteljau',
         element: <RationalDecasteljauGraph/>,
         title: 'Racionalni Decasteljau',
-      },
-      {
+      }, {
         group: RATIONAL_CURVES_GROUP,
-        group_path: PATH_RATIONAL_CURVES,
         path: PATH_RATIONAL_CURVES + '/rational-elevation',
         element: <RationalElevationGraph/>,
         title: 'Dvig Stopnje Racionalne',
       }, {
-        group_path: PATH_RATIONAL_CURVES,
         path: PATH_RATIONAL_CURVES + '/rational-extrapolation',
         element: <RationalExtrapolationGraph/>,
         title: 'Ekstrapolacija Racionalne',
         group: RATIONAL_CURVES_GROUP,
       }, {
-        group_path: PATH_RATIONAL_CURVES,
         path: PATH_RATIONAL_CURVES + '/rational-subdivision',
         element: <RationalSubdivisionGraph/>,
         title: 'Subdivizija Racionalne',
         group: RATIONAL_CURVES_GROUP,
       }, {
-        group_path: PATH_RATIONAL_CURVES,
         path: PATH_RATIONAL_CURVES + '/farin-points',
         element: <FarinPointsCurveGraph/>,
         title: 'Farinove Točke',
         group: RATIONAL_CURVES_GROUP,
       }, {
-        group_path: PATH_RATIONAL_CURVES,
         path: PATH_RATIONAL_CURVES + '/circle4',
         element: <RationalBezierCurveCircleGraph4/>,
         title: 'Krožnica iz 4 kosov',
         group: RATIONAL_CURVES_GROUP,
       }, {
-        group_path: PATH_RATIONAL_CURVES,
         path: PATH_RATIONAL_CURVES + '/circlen',
         element: <RationalBezierCurveCircleGraphN/>,
         title: 'Krožnica iz n kosov',
         group: RATIONAL_CURVES_GROUP,
       }, {
-        group_path: PATH_SPLINE_CURVES,
         path: PATH_SPLINE_CURVES + '/spline',
         element: <SplineGraph/>,
         title: 'C0 Zlepek',
         group: SPLINES_GROUP,
       }, {
-        group_path: PATH_SPLINE_CURVES,
         path: PATH_SPLINE_CURVES + '/c1spline',
         element: <C1SplineGraph/>,
         title: 'C1 Zlepek',
         group: SPLINES_GROUP,
       }, {
-        group_path: PATH_SPLINE_CURVES,
         path: PATH_SPLINE_CURVES + '/g1spline',
         element: <G1SplineGraph/>,
         title: 'G1 Zlepek',
         group: SPLINES_GROUP,
       }, {
-        group_path: PATH_SPLINE_CURVES,
         path: PATH_SPLINE_CURVES + '/c2spline',
         element: <C2SplineGraph/>,
         title: 'C2 Zlepek',
         group: SPLINES_GROUP,
       }, {
-        group_path: PATH_SPLINE_CURVES,
         path: PATH_SPLINE_CURVES + '/c3spline',
         element: <C3SplineGraph/>,
         title: 'C3 Zlepek',
         group: SPLINES_GROUP,
       }, {
-        group_path: PATH_SPLINE_CURVES,
         path: PATH_SPLINE_CURVES + '/g1affinespline',
         element: <G1AffineSplineGraph/>,
         title: 'G1 Afini Zlepek',
         group: SPLINES_GROUP,
       }, {
-        group_path: PATH_PH_CURVES,
         path: PATH_PH_CURVES + '/cubic',
         element: <CubicPhBezierCurveGraph/>,
         title: 'Stopnje 3',
         group: PH_CURVES_GROUP,
       }, {
-        group_path: PATH_PH_CURVES,
         path: PATH_PH_CURVES + '/quintic',
         element: <QuinticPhBezierCurve/>,
         title: 'Stopnje 5',
         group: PH_CURVES_GROUP,
       }, {
-        group_path: PATH_PARAM,
         path: PATH_PARAM + '/param/alphaparam2',
         element: <C2SplineGraphParametrization/>,
         title: 'Prava Alpha Parametrizacija',
         group: PARAMETRIZATION_GROUP,
       }, {
-        group_path: PATH_PARAM,
         path: PATH_PARAM + '/param/alphaparam',
         element: <AlphaParamBezierCurveGraph/>,
         title: 'Alpha Parametrizacija',
         group: PARAMETRIZATION_GROUP,
       }, {
-        group_path: PATH_PARAM,
         path: PATH_PARAM + '/param/uniform',
         element: <UniformParamBezierCurveGraph/>,
         title: 'Enakomerna Parametrizacija',
