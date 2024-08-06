@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/bezeg/static/css/main.be437fba.css",
-    "main.js": "/bezeg/static/js/main.5fd3d92c.js",
-    "static/js/787.28d82508.chunk.js": "/bezeg/static/js/787.28d82508.chunk.js",
+    "main.css": "/bezeg/static/css/main.e54580d6.css",
+    "main.js": "/bezeg/static/js/main.9153280c.js",
+    "static/js/453.a34e0363.chunk.js": "/bezeg/static/js/453.a34e0363.chunk.js",
     "index.html": "/bezeg/index.html",
-    "main.be437fba.css.map": "/bezeg/static/css/main.be437fba.css.map",
-    "main.5fd3d92c.js.map": "/bezeg/static/js/main.5fd3d92c.js.map",
-    "787.28d82508.chunk.js.map": "/bezeg/static/js/787.28d82508.chunk.js.map"
+    "main.e54580d6.css.map": "/bezeg/static/css/main.e54580d6.css.map",
+    "main.9153280c.js.map": "/bezeg/static/js/main.9153280c.js.map",
+    "453.a34e0363.chunk.js.map": "/bezeg/static/js/453.a34e0363.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.be437fba.css",
-    "static/js/main.5fd3d92c.js"
+    "static/css/main.e54580d6.css",
+    "static/js/main.9153280c.js"
   ]
 }
