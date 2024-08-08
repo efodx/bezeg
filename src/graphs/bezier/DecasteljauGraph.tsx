@@ -5,6 +5,7 @@ import {BaseGraphStates} from "../base/BaseCurveGraph";
 import {OnOffSwitch} from "../../inputs/OnOffSwitch";
 import Slider from "../../inputs/Slider";
 import {Attributes} from "../attributes/Attributes";
+import {CacheContext} from "../context/CacheContext";
 
 interface DecasteljauGraphStates extends BaseGraphStates {
     t: number,
@@ -19,7 +20,10 @@ class DecasteljauGraph extends BaseBezierCurveGraph<any, DecasteljauGraphStates>
     }
 
     override componentDidUpdate(prevProps: Readonly<any>, prevState: Readonly<DecasteljauGraphStates>, snapshot?: any) {
+        this.board.suspendUpdate()
         this.getFirstJsxCurve().setDecasteljauT(this.state.t)
+        CacheContext.update()
+        this.unsuspendBoardUpdate()
     }
 
     defaultPreset(): any {

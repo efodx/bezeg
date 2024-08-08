@@ -39,6 +39,7 @@ import C2SplineGraphParametrization
   from './graphs/parametrisations/SplineAlphaParametrizationGraph'
 import RationalDecasteljauGraph
   from './graphs/rational/RationalDecasteljauGraph'
+import { IzpeljavaGraf } from './graphs/rational/IzpeljavaGraf'
 
 const PATH_BEZIER_CURVES = '/bezeg/bezier'
 const BEZIER_CURVES_GROUP = {
@@ -148,7 +149,14 @@ const routes = [
         element: <RationalBezierCurveCircleGraphN/>,
         title: 'Krožnica iz n kosov',
         group: RATIONAL_CURVES_GROUP,
-      }, {
+      },
+      {
+        path: PATH_RATIONAL_CURVES + '/circleizpeljava',
+        element: <IzpeljavaGraf/>,
+        title: 'Izpeljava',
+        group: RATIONAL_CURVES_GROUP,
+      },
+      {
         path: PATH_SPLINE_CURVES + '/spline',
         element: <SplineGraph/>,
         title: 'C0 Zlepek',

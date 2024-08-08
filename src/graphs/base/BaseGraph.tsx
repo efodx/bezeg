@@ -1,9 +1,9 @@
-import React, {Component} from 'react';
+import React, {Component, useRef, useState} from 'react';
 
 
 import {Board, JSXGraph} from "jsxgraph";
 import {JGBox} from "../../JGBox";
-import {Col, Container, Row} from "react-bootstrap";
+import {Button, Col, Container, Overlay, Popover, Row} from "react-bootstrap";
 import {SizeContext} from "../context/SizeContext";
 import {Commands} from "./Commands";
 import {Tools} from "./Tools";
@@ -16,6 +16,49 @@ import {Preset, PresetService} from "./presets/Presets";
 import {PresetContext} from "../context/react/PresetContext";
 import {PresetSelector} from "./PresetSelector";
 import {SaveImage} from "./SaveImage";
+import {ShowTicks} from "./ShowTicks";
+import {VisibilityContext} from "../context/VisibilityContext";
+import {ShowTicksNumbers} from "./ShowTicksNumbers";
+
+
+function Example() {
+    const [show, setShow] = useState(false);
+    const [target, setTarget] = useState(null);
+    const ref = useRef(null);
+
+    const handleClick = (event: any) => {
+        setShow(!show);
+        setTarget(event.target);
+    };
+
+
+    return (
+        <div className={'help-button'} ref={ref}>
+            <Button onClick={handleClick}>ⓘ</Button>
+            <Overlay
+                show={show}
+                target={target}
+                placement="top-start"
+                container={ref}
+                containerPadding={20}
+            >
+                <Popover id="popover-contained">
+                    <Popover.Header as="h3">Premikanje po grafu</Popover.Header>
+                    <Popover.Body>
+                        <strong>Premik</strong>:
+                        <div><strong>Shift</strong> + <strong>Levi klik miške</strong></div>
+                    </Popover.Body>
+                    <Popover.Body>
+                        <strong>Povečava</strong>:
+                        <div>
+                            <strong>Shift</strong> + <strong>Miškin kolešček</strong>
+                        </div>
+                    </Popover.Body>
+                </Popover>
+            </Overlay>
+        </div>
+    );
+}
 
 function SizeRange(props: { board: () => JXG.Board }) {
     return <div><Slider customText={"Povečava"} min={0} max={10} initialValue={SizeContext.getSize()} step={1}
@@ -51,23 +94,24 @@ abstract class BaseGraph<P, S extends BaseGraphState> extends Component<P, S> {
         if (this.board == null) {
             // JXG.Options.text.display = 'internal';
             this.board = JSXGraph.initBoard("jgbox", {
-                showFullscreen: true,
+                showFullscreen: false,
                 boundingBox: [-5, 5, 5, -5],
-                axis: true,
+                // @ts-ignore
+                axis: () => VisibilityContext.axisVisible(),
                 keepAspectRatio: true,
-                showScreenshot: true,
+                showScreenshot: false,
                 showCopyright: false,
                 defaultAxes: {
-                    x: AxisStyles.default,
-                    y: AxisStyles.default
-                }
-                // @ts-ignore
-                // theme: 'mono_thin'
+                    x: AxisStyles.defaultX,
+                    y: AxisStyles.defaultY
+                },
+                //theme: 'mono_thin'
             });
-            this.board.on('update', (e) => {
-                console.log("updating context")
-                CacheContext.update()
-            });
+
+            // this is a way to brute force the updates, but it is not the most efficient
+            // this.board.on('update', (e) => {
+            //    CacheContext.update()
+            // });
 
 
             let presetContext = this.context
@@ -109,15 +153,18 @@ abstract class BaseGraph<P, S extends BaseGraphState> extends Component<P, S> {
         return <Container fluid>
             <Row className={"align-items-center"} style={{height: "92vh"}}>
                 <Col xs={0} lg={2}><Tools tools={this.getTools()}/></Col>
-                <Col xs={12} lg={8}><JGBox/></Col>
+                <Col xs={12} lg={8}><JGBox/>
+                    <div className={"help-container"}><Example></Example></div>
+                </Col>
                 <Col xs={0} lg={2}>{this.getGraphCommandsArea()}</Col>
             </Row>
         </Container>;
     }
 
     unsuspendBoardUpdate() {
-        this.board.unsuspendUpdate()
+        CacheContext.update()
         this.boardUpdate()
+        this.board.unsuspendUpdate()
     }
 
     getGraphCommands(): JSX.Element[] {
@@ -128,6 +175,8 @@ abstract class BaseGraph<P, S extends BaseGraphState> extends Component<P, S> {
         const tools = [
             <SaveImage saveAsSVG={name => this.saveAsSVG(name)} saveAsPNG={name => this.saveAsPNG(name)}/>,
             <ShowAxis board={() => this.board}></ShowAxis>,
+            <ShowTicks board={() => this.board}></ShowTicks>,
+            <ShowTicksNumbers board={() => this.board}></ShowTicksNumbers>,
             <SizeRange board={() => this.board}/>
         ]
         if (this.presetService) {

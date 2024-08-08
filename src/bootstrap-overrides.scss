@@ -10,11 +10,12 @@ $bezeg-primary: #97A7B6;
 $bezeg-primary: #9AB0BE;
 $bezeg-primary: darken(#1C768F, 2%);
 $bezeg-primary: #60787d;
-$bezeg-primary: #A9B5C2;
 $bezeg-primary: #728893;
 $bezeg-primary: #84A19B;
 $bezeg-primary: #89A5B1;
+$bezeg-primary: #669dce;
 $bezeg-primary: darken(#89A5B1, 5);
+$bezeg-primary: #A9B5C2;
 $bezeg-secondary: #FCF3DC;
 $bezeg-secondary: #faf9e0;
 $bezeg-secondary-dark: darken($bezeg-secondary, 12%);
@@ -23,7 +24,7 @@ $bezeg-light: lighten($bezeg-secondary, 15);
 
 // $bezeg-background: #032539;
 $bezeg-background: #202940;
-
+$popover-zindex: 12;
 $body-bg: $bezeg-secondary;
 $body-tertiary-bg: $bezeg-secondary;
 $border-color: $bezeg-secondary-dark;

@@ -22,6 +22,7 @@ import {ClassMapper} from "../object/ClassMapper";
 import {PointStyles} from "../styles/PointStyles";
 import {Preset} from "./presets/Presets";
 import {AbstractJSXBezierCurve} from "../object/AbstractJSXBezierCurve";
+import {CacheContext} from "../context/CacheContext";
 
 enum SelectedCurveOption {
     MOVE_CURVE, ADD_POINTS, DELETE_POINTS
@@ -119,6 +120,10 @@ abstract class BaseCurveGraph<P, S extends BaseGraphStates> extends BaseGraph<P,
         } else {
             point = this.board.create('point', [x, y], PointStyles.default);
         }
+        point.on('update', (e) => {
+            CacheContext.update()
+            console.log("moving da point")
+        })
         this.graphJXGPoints.push(point)
         return new Point(point);
     }

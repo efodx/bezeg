@@ -55,3 +55,4 @@
 - [ ] Bezierjeve API spremenit na Subdividable, Expotrapolable, Elevatable......
 - [ ] Ce clovek pogleda formulo za visanje krivulje... Iz nje sledi, da tiste tocke v resnici lezijo na kontrolnem
   poligonu... To bi lahko prikazal!
+- [ ] Svoj script setup!

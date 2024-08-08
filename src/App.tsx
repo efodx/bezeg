@@ -33,14 +33,14 @@ function NavBar() {
         .filter(child => typeof child != "undefined")
     return <Navbar expand="xl" className="bg-body-tertiary">
         <Container className={"w-100"}>
-            <LinkContainer to="/bezeg">
-                <Navbar.Brand style={{marginLeft: "1vw"}}>
-                    <img src={Logo} width="30" height="30" alt=""/>
-                </Navbar.Brand>
-            </LinkContainer>
             <Navbar.Toggle aria-controls="basic-navbar-nav"/>
             <Navbar.Collapse id="basic-navbar-nav">
-                <Nav className="me-auto">
+                <Nav className="m-auto">
+                    <LinkContainer to="/bezeg">
+                        <Navbar.Brand style={{marginLeft: "1vw"}}>
+                            <img src={Logo} width="30" height="30" alt=""/>
+                        </Navbar.Brand>
+                    </LinkContainer>
                     {children
                         .map((child) => {
                             // We got the group key, so we take children from the group

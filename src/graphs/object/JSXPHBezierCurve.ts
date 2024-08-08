@@ -81,6 +81,7 @@ export class JSXPHBezierCurve extends JSXBezierCurve {
 
     setOffsetCurveDistance(d: number) {
         this.getCurve().setOffsetCurveDistance(d)
+        CacheContext.update()
         this.board.update()
     }
 

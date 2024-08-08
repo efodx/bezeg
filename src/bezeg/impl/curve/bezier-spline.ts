@@ -62,6 +62,7 @@ class BezierSpline extends PointControlledCurveImpl {
                 break
             case Continuity.G1:
                 step = this.degree;
+                this.b = []
                 for (let i = 0; i < this.points.length - 1; i = i + step - 1) {
                     let bezierCurvePoints = this.points.slice(i, i + step)
                     let previousBezierCurve = this.bezierCurves[this.bezierCurves.length - 1]
@@ -128,11 +129,17 @@ class BezierSpline extends PointControlledCurveImpl {
     }
 
     setB(j: number, b: number) {
+        console.log("setting: " + j)
+        console.log(this.b)
         this.b[j] = b
     }
 
     getB(j: number) {
         return this.b[j]
+    }
+
+    getNumOfBs() {
+        return this.b.length
     }
 
     getNonFreePoints() {

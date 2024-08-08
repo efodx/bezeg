@@ -135,3 +135,22 @@
     --citron: #CFCB7Aff;
     --olivine: #AFB665ff;
 }
+
+
+.help-button {
+    position: absolute;
+    transform: translate(20%, -120%);
+    opacity: 30%;
+}
+
+.help-button:hover {
+    opacity: 1;
+}
+
+.popover {
+    width: max-content;
+}
+
+.JXGtext {
+    z-index: 0 !important;
+}

@@ -72,9 +72,7 @@ export abstract class AbstractJSXBezierCurve<T extends BezierCurve, Attr extends
     showCurrentDecasteljauScheme(show?: boolean) {
         // TODO.... just look at it...
         if (show === undefined || show) {
-            this.board.suspendUpdate()
             this.showDecasteljauScheme()
-            this.board.unsuspendUpdate()
         }
     }
 

@@ -6,6 +6,7 @@ import {PointStyles} from "../styles/PointStyles";
 import {CurveStyles} from "../styles/CurveStyles";
 import {SegmentStyles} from "../styles/SegmentStyles";
 import {PointControlledCurveCommands} from "./inputs/PointControlledCurveCommands";
+import {CacheContext} from "../context/CacheContext";
 
 
 export interface PointControlledCurveAttributes {
@@ -99,6 +100,7 @@ export abstract class AbstractJSXPointControlledCurve<T extends PointControlledC
     }
 
     addPoint(x: number, y: number) {
+        CacheContext.update()
         let p = this.createJSXGraphPoint(x, y, PointStyles.pi(this.pointControlledCurve.getPoints().length))
         this.pointControlledCurve.addPoint(p)
         this.labelJxgPoints()
@@ -422,6 +424,23 @@ export abstract class AbstractJSXPointControlledCurve<T extends PointControlledC
         } else {
             point = this.board.create('point', [x, y]);
         }
+        let over = (p: JXG.Point) => {
+            // @ts-ignore
+            if (!p.visProp.fixed) {
+                this.board.containerObj.style.cursor = 'pointer';
+            }
+        }
+        let out = (p: JXG.Point) => {
+            if (!p.visProp.fixed) {
+                this.board.containerObj.style.cursor = 'default';
+            }
+        };
+
+        point.on('over', () => over(point))
+        point.on('out', () => out(point))
+        point.on('drag', (e) => {
+            CacheContext.update()
+        })
         this.jxgPoints.push(point)
         return new Point(point);
     }

@@ -9,6 +9,7 @@ import {Button} from "react-bootstrap";
 import {OnOffSwitch} from "../../inputs/OnOffSwitch";
 import {JSXBezierCurve} from "../object/JSXBezierCurve";
 import {JSXPHBezierCurve} from "../object/JSXPHBezierCurve";
+import {CacheContext} from "../context/CacheContext";
 
 export interface BasePhBezierCurveGraphStates extends BaseGraphStates {
     showOffsetCurve: boolean,
@@ -93,6 +94,7 @@ abstract class BasePhBezierCurveGraph<P, S extends BasePhBezierCurveGraphStates>
         const hodographPoints = jxgGraphPoints.map(point => new Point(point))
 
         jxgGraphPoints.forEach(point => point.on("drag", () => {
+            CacheContext.update()
             this.board.update()
         }))
         this.board.addChild(this.hodographBoard)

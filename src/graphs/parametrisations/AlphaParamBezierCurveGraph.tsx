@@ -18,7 +18,10 @@ class AlphaParamBezierCurveGraph extends BaseBezierCurveGraph<any, AlphaParamGra
     }
 
     override componentDidUpdate(prevProps: Readonly<any>, prevState: Readonly<AlphaParamGraphStates>, snapshot?: any) {
-        this.generateParamPoints(this.state.numberOfPoints)
+        this.board.suspendUpdate()
+        this.clearPoints()
+        this.generateParamPoints()
+        this.unsuspendBoardUpdate()
     }
 
     defaultPreset(): any {
@@ -42,17 +45,11 @@ class AlphaParamBezierCurveGraph extends BaseBezierCurveGraph<any, AlphaParamGra
     }
 
     setAlpha(alpha: number) {
-        this.board.suspendUpdate()
         this.setState({...this.state, alpha: alpha})
-        this.unsuspendBoardUpdate()
     }
 
     setNumberOfPoints(numberOfPoints: number) {
-        this.board.suspendUpdate()
         this.setState({...this.state, numberOfPoints: numberOfPoints})
-        this.clearPoints()
-        this.generateParamPoints(numberOfPoints)
-        this.unsuspendBoardUpdate()
     }
 
     alphaParamSlider() {
@@ -72,9 +69,9 @@ class AlphaParamBezierCurveGraph extends BaseBezierCurveGraph<any, AlphaParamGra
         this.graphJXGPoints = []
     }
 
-    generateParamPoints(numberOfPoints: number) {
-        const dt = 1 / (numberOfPoints + 1)
-        for (let i = 1; i <= numberOfPoints; i++) {
+    generateParamPoints() {
+        const dt = 1 / (this.state.numberOfPoints + 1)
+        for (let i = 1; i <= this.state.numberOfPoints; i++) {
             this.createJSXGraphPoint(() => this.getFirstCurve()!.calculatePointAtT(this.alphaParam(i * dt)).X(), () => this.getFirstCurve()!.calculatePointAtT(this.alphaParam(i * dt)).Y())
         }
     }

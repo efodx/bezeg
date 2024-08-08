@@ -3,11 +3,11 @@ import React from "react";
 import {VisibilityContext} from "../context/VisibilityContext";
 import {OnOffSwitch} from "../../inputs/OnOffSwitch";
 
-export function ShowAxis(props: { board: () => Board }) {
+export function ShowTicks(props: { board: () => Board }) {
     return <OnOffSwitch
-        initialState={VisibilityContext.axisVisibility}
+        initialState={VisibilityContext.ticksVisibility}
         onChange={(checked) => {
-            VisibilityContext.setAxisVisible(checked)
+            VisibilityContext.setTicksVisibility(checked)
             props.board().fullUpdate()
-        }} label={"Mreža"}/>
+        }} label={"Vmesne črte"}/>
 }
