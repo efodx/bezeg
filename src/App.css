@@ -154,3 +154,107 @@
 .JXGtext {
     z-index: 0 !important;
 }
+
+:root {
+    --tools-transition-time: 0.35s;
+    --tools-transition-function: ease-out;
+}
+
+.tools-fs {
+    position: absolute;
+    z-index: 1;
+    opacity: 1;
+    transition-duration: var(--tools-transition-time);
+    transition-timing-function: var(--tools-transition-function);
+    background-color: var(--bs-border-color-translucent);
+    clip-path: polygon(0% 0%, 6% 0%, 6% 100%, 0 100%);
+    padding: var(--bs-border-width) !important;
+    padding-right: 0 !important;
+}
+
+.tools-fs > .card {
+    border-radius: 0px;
+    transition-duration: var(--tools-transition-time);
+    transition-timing-function: var(--tools-transition-function);
+    clip-path: polygon(0% 0%, 5% 0%, 5% 100%, 0 100%);;
+}
+
+.tools-fs:hover > .card {
+    clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0 100%);;
+}
+
+.tools-fs:hover {
+    clip-path: polygon(0% 0%, 101% 0%, 101% 100%, 0 100%);;
+    opacity: 1;
+}
+
+.graph-commands-fs {
+    right: 0;
+    position: absolute;
+    z-index: 1;
+    transition-duration: var(--tools-transition-time);
+    transition-timing-function: var(--tools-transition-function);
+    background-color: var(--bs-border-color-translucent);
+    clip-path: polygon(94% 0%, 100% 0%, 100% 100%, 94% 100%);
+    padding: var(--bs-border-width) !important;
+    padding-right: 0 !important;
+}
+
+
+.graph-commands-fs:hover {
+    clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0 100%);;
+}
+
+.graph-commands-fs > .card {
+    border-radius: 0px;
+    transition-duration: var(--tools-transition-time);
+    transition-timing-function: var(--tools-transition-function);
+    clip-path: polygon(95% 0%, 100% 0%, 100% 100%, 95% 100%);
+}
+
+.graph-commands-fs:hover > .card {
+    clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0 100%);
+}
+
+.graph-fs {
+    padding: 0 !important;
+}
+
+
+.fs-button {
+    position: absolute;
+    transform: translate(140%, -120%);
+    opacity: 30%;
+}
+
+.fs-button:hover {
+    opacity: 1;
+}
+
+.card-title {
+    white-space: nowrap;
+}
+
+.navbar-fs {
+    /*display: none !important;*/
+    position: absolute !important;
+    z-index: 1;
+    width: 100%;
+    border-bottom: var(--bs-border-width) solid var(--bs-border-color-translucent);
+    height: 2px;
+}
+
+.navbar-fs > * {
+    transition-duration: var(--tools-transition-time);
+    opacity: 0
+}
+
+.navbar-fs:hover > * {
+    opacity: 1;
+}
+
+.navbar-fs:hover {
+    transition-duration: var(--tools-transition-time);
+    height: auto;
+    /*height: 80px;*/
+}

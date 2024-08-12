@@ -1,5 +1,5 @@
 import React, {useContext} from "react";
-import {PresetContext} from "../context/react/PresetContext";
+import {SiteContext} from "../context/react/SiteContext";
 import {Button, Form} from "react-bootstrap";
 
 export function SaveImage(props: { saveAsSVG: (name: string) => void, saveAsPNG: (name: string) => void }) {
@@ -13,13 +13,13 @@ export function SaveImage(props: { saveAsSVG: (name: string) => void, saveAsPNG:
 }
 
 function SaveAsPng(props: { onClick: (fileName: string) => void }) {
-    const presetContext = useContext(PresetContext)
-    const fileName = presetContext.selected === "" ? "izvoz" : presetContext.selected
+    const siteContext = useContext(SiteContext)
+    const fileName = siteContext.preset.selected === "" ? "izvoz" : siteContext.preset.selected
     return <Button className="ms-1" onClick={() => props.onClick(fileName + ".png")}>PNG</Button>;
 }
 
 function SaveAsSvg(props: { onClick: (fileName: string) => void }) {
-    const presetContext = useContext(PresetContext)
-    const fileName = presetContext.selected === "" ? "izvoz" : presetContext.selected
+    const siteContext = useContext(SiteContext)
+    const fileName = siteContext.preset.selected === "" ? "izvoz" : siteContext.preset.selected
     return <Button onClick={() => props.onClick(fileName + ".svg")}>SVG</Button>;
 }

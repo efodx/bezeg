@@ -1,6 +1,6 @@
 import {Preset, Presets, PresetService} from "./presets/Presets";
 import React, {useContext, useRef, useState} from "react";
-import {PresetContext} from "../context/react/PresetContext";
+import {SiteContext} from "../context/react/SiteContext";
 import {Button, Form, Modal} from "react-bootstrap";
 import {wait} from "@testing-library/user-event/dist/utils";
 import {RefreshContext} from "../context/react/RefreshContext";
@@ -164,12 +164,13 @@ export function PresetSelector(props: {
     presetProvider: () => Preset,
     exporter?: any
 }) {
-    const selectedPresetContext = useContext(PresetContext)
+    const siteContext = useContext(SiteContext)
+    const presetContext = siteContext.preset
     const refreshContext = useContext(RefreshContext)
 
     const [presets, setPresets] = useState({
         presets: props.presetService.loadPresets(),
-        selectedPreset: props.presetService.getPreset(selectedPresetContext.selected)
+        selectedPreset: props.presetService.getPreset(presetContext.selected)
     })
 
     function exportPresets(allPresets: Presets, index?: number) {
@@ -182,7 +183,7 @@ export function PresetSelector(props: {
         const preset = allPresets.data[index]
         setTimeout(() => {
             if (preset) {
-                selectedPresetContext.setSelected(preset.id)
+                presetContext.setSelected(preset.id)
             }
             if (index! > 0) {
                 props.exporter(allPresets.data[index! - 1].id)
@@ -200,16 +201,16 @@ export function PresetSelector(props: {
                     presets: presets.presets,
                     selectedPreset: preset
                 })
-                selectedPresetContext.setSelected(preset.id)
+                presetContext.setSelected(preset.id)
             } else {
                 setPresets({
                     presets: presets.presets,
                     selectedPreset: preset
                 })
-                selectedPresetContext.setSelected("")
+                presetContext.setSelected("")
             }
         }} aria-label="Default select example"
-                     defaultValue={selectedPresetContext.selected}
+                     defaultValue={presetContext.selected}
         >
             <option value={""}>{"Privzeta"}</option>
             {presets.presets.data.map(preset =>
@@ -228,7 +229,7 @@ export function PresetSelector(props: {
                     presets: newPresets,
                     selectedPreset: newPresets.data[newPresets.data.length - 1]
                 })
-                selectedPresetContext.setSelected(name)
+                presetContext.setSelected(name)
             }}></SaveModal>
             <TrashModal disabled={presets.selectedPreset === undefined} trash={() => {
                 const newPresets = props.presetService.removePreset(presets.selectedPreset.id)
@@ -236,7 +237,7 @@ export function PresetSelector(props: {
                     presets: newPresets,
                     selectedPreset: newPresets.data[0]
                 })
-                selectedPresetContext.setSelected(newPresets.data[0]?.id)
+                presetContext.setSelected(newPresets.data[0]?.id)
             }}></TrashModal>
         </Form.Group>
         <Form.Group className="mx-auto my-1">

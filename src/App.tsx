@@ -1,13 +1,15 @@
-import React from 'react';
+import React, {useContext, useState} from 'react';
 import './App.css';
 import {NavLink, Outlet, useLocation} from "react-router-dom";
 import routes from "./Routes";
 import Logo from "./images/elderflower.png"
 import {Container, Nav, Navbar, NavDropdown} from "react-bootstrap";
 import {LinkContainer} from 'react-router-bootstrap'
+import {SiteContext} from "./graphs/context/react/SiteContext";
 
 function NavBar() {
     const location = useLocation();
+    const fullScreenContext = useContext(SiteContext).fullScreen
     let groupedChildren = {}
     let groupByTitle = {}
     let children = routes.flatMap((mainEntry) => mainEntry.children)
@@ -31,7 +33,8 @@ function NavBar() {
             }
         })
         .filter(child => typeof child != "undefined")
-    return <Navbar expand="xl" className="bg-body-tertiary">
+    console.log(fullScreenContext)
+    return <Navbar expand="xl" className={`bg-body-tertiary  ${fullScreenContext.fullScreen ? "navbar-fs" : ""}`}>
         <Container className={"w-100"}>
             <Navbar.Toggle aria-controls="basic-navbar-nav"/>
             <Navbar.Collapse id="basic-navbar-nav">
@@ -68,11 +71,22 @@ function NavBar() {
 }
 
 function App() {
-    return (
-        <div className="App">
-            <NavBar/>
-            <Outlet/>
-        </div>
+
+    const [selectedPreset, setSelectedPreset] = useState('')
+    const [fullScreen, setFullScreen] = useState(false)
+    return (<SiteContext.Provider
+            value={{
+                preset: {
+                    selected: selectedPreset, setSelected: setSelectedPreset,
+                }, fullScreen: {
+                    fullScreen: fullScreen, setFullScreen: setFullScreen,
+                },
+            }}>
+            <div className="App">
+                <NavBar/>
+                <Outlet/>
+            </div>
+        </SiteContext.Provider>
     );
 }
 

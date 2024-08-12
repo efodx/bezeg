@@ -49,7 +49,6 @@ abstract class BaseCurveGraph<P, S extends BaseGraphStates> extends BaseGraph<P,
         // @ts-ignore
         preset.graphState = {...preset.graphState, curveSelected: false};
         super.importPreset(preset)
-
     }
 
     initialize() {

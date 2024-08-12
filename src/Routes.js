@@ -33,7 +33,6 @@ import RationalBezierCurveCircleGraphN
 import { BernsteinGraph } from './graphs/bernstein/BernsteinGraph'
 import FarinPointsCurveGraph from './graphs/rational/FarinPointsCurveGraph'
 import { RefreshContext } from './graphs/context/react/RefreshContext'
-import { PresetContext } from './graphs/context/react/PresetContext'
 import C3SplineGraph from './graphs/spline/C3SplineGraph'
 import C2SplineGraphParametrization
   from './graphs/parametrisations/SplineAlphaParametrizationGraph'
@@ -149,14 +148,12 @@ const routes = [
         element: <RationalBezierCurveCircleGraphN/>,
         title: 'Krožnica iz n kosov',
         group: RATIONAL_CURVES_GROUP,
-      },
-      {
+      }, {
         path: PATH_RATIONAL_CURVES + '/circleizpeljava',
         element: <IzpeljavaGraf/>,
         title: 'Izpeljava',
         group: RATIONAL_CURVES_GROUP,
-      },
-      {
+      }, {
         path: PATH_SPLINE_CURVES + '/spline',
         element: <SplineGraph/>,
         title: 'C0 Zlepek',
@@ -218,13 +215,9 @@ const routes = [
 
 function Refresher (props) {
   const [key, setKey] = useState(1)
-  const [selectedPreset, setSelectedPreset] = useState('')
 
   return <RefreshContext.Provider value={() => setKey(key + 1)}>
-    <PresetContext.Provider
-      value={{ selected: selectedPreset, setSelected: setSelectedPreset }}>
-      <div key={selectedPreset + key}>{props.children}</div>
-    </PresetContext.Provider>
+    <div key={key}>{props.children}</div>
   </RefreshContext.Provider>
 }
 

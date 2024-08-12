@@ -13,7 +13,7 @@ import Slider from "../../inputs/Slider";
 import html2canvas from "html2canvas";
 import {CacheContext} from "../context/CacheContext";
 import {Preset, PresetService} from "./presets/Presets";
-import {PresetContext} from "../context/react/PresetContext";
+import {SiteContext} from "../context/react/SiteContext";
 import {PresetSelector} from "./PresetSelector";
 import {SaveImage} from "./SaveImage";
 import {ShowTicks} from "./ShowTicks";
@@ -21,7 +21,7 @@ import {VisibilityContext} from "../context/VisibilityContext";
 import {ShowTicksNumbers} from "./ShowTicksNumbers";
 
 
-function Example() {
+function Help() {
     const [show, setShow] = useState(false);
     const [target, setTarget] = useState(null);
     const ref = useRef(null);
@@ -81,7 +81,7 @@ export interface BoardState {
  * Abstract class for creating graphs.
  */
 abstract class BaseGraph<P, S extends BaseGraphState> extends Component<P, S> {
-    static override contextType = PresetContext
+    static override contextType = SiteContext
     // TODO fix this, it doesn't work for some reason :/
     //  declare context: React.ContextType<typeof PresetContext>
 
@@ -114,16 +114,16 @@ abstract class BaseGraph<P, S extends BaseGraphState> extends Component<P, S> {
             // });
 
 
-            let presetContext = this.context
+            let siteContext = this.context
             this.setState({initialized: true})
             // @ts-ignore
-            const preset = this.presetService?.getPreset(presetContext.selected)
+            const preset = this.presetService?.getPreset(siteContext.preset.selected)
             if (preset) {
-                console.debug("PRESET:")
+                console.debug("Loading preset:")
                 console.debug(preset)
                 this.importPreset(preset)
             } else {
-                console.debug("PRESET:")
+                console.debug("Loading default preset:")
                 console.debug(this.defaultPreset())
                 this.importPresetData(this.defaultPreset())
             }
@@ -150,13 +150,26 @@ abstract class BaseGraph<P, S extends BaseGraphState> extends Component<P, S> {
         if (presetsId) {
             this.presetService = new PresetService(presetsId)
         }
+        // @ts-ignore
+        const fullScreenContext = this.context.fullScreen
+        console.log(fullScreenContext.fullScreen)
         return <Container fluid>
             <Row className={"align-items-center"} style={{height: "92vh"}}>
-                <Col xs={0} lg={2}><Tools tools={this.getTools()}/></Col>
-                <Col xs={12} lg={8}><JGBox/>
-                    <div className={"help-container"}><Example></Example></div>
+                <Col className={fullScreenContext.fullScreen ? 'tools-fs' : 'tools'}
+                     xs={0} lg={2}><Tools
+                    tools={this.getTools()}/></Col>
+                <Col className={fullScreenContext.fullScreen ? 'graph-fs' : 'graph'} xs={12}
+                     lg={fullScreenContext.fullScreen ? 12 : 8}><JGBox/>
+                    <div className={"help-container"}><Help></Help>
+                        <div className={"fs-button"}>
+                            <Button
+                                onClick={() => fullScreenContext.setFullScreen(!fullScreenContext.fullScreen)}>⛶</Button>
+                        </div>
+                    </div>
                 </Col>
-                <Col xs={0} lg={2}>{this.getGraphCommandsArea()}</Col>
+                <Col className={fullScreenContext.fullScreen ? 'graph-commands-fs' : 'graph-commands'}
+                     xs={0}
+                     lg={2}>{this.getGraphCommandsArea()}</Col>
             </Row>
         </Container>;
     }
