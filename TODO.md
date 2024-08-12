@@ -56,3 +56,6 @@
 - [ ] Ce clovek pogleda formulo za visanje krivulje... Iz nje sledi, da tiste tocke v resnici lezijo na kontrolnem
   poligonu... To bi lahko prikazal!
 - [ ] Svoj script setup!
+- [ ] Dodajanje tock pri decasteljau 2
+- [ ] Premisli API... curve.board.update() to ne bi smelo bit potrebno tam, al? :/ Mogoce svoj wrapper za board s
+  contextom?

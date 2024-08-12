@@ -129,8 +129,6 @@ class BezierSpline extends PointControlledCurveImpl {
     }
 
     setB(j: number, b: number) {
-        console.log("setting: " + j)
-        console.log(this.b)
         this.b[j] = b
     }
 

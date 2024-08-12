@@ -121,7 +121,6 @@ abstract class BaseCurveGraph<P, S extends BaseGraphStates> extends BaseGraph<P,
         }
         point.on('update', (e) => {
             CacheContext.update()
-            console.log("moving da point")
         })
         this.graphJXGPoints.push(point)
         return new Point(point);

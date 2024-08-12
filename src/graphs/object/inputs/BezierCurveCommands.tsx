@@ -2,6 +2,7 @@ import Slider from "../../../inputs/Slider";
 import {Button} from "react-bootstrap";
 import React from "react";
 import {JSXBezierCurve} from "../JSXBezierCurve";
+import {CacheContext} from "../../context/CacheContext";
 
 export function BezierCurveCommands(curve: JSXBezierCurve): JSX.Element[] {
     const commands = []
@@ -12,7 +13,11 @@ export function BezierCurveCommands(curve: JSXBezierCurve): JSX.Element[] {
             <Slider min={0} max={1}
                     initialValue={curve.getSubdivisionT()}
                     onChange={(t) => curve.setSubdivisionT(t)}></Slider>
-            <Button onClick={() => curve.subdivide()}>Subdiviziraj</Button>
+            <Button onClick={() => {
+                CacheContext.update()
+                curve.subdivide()
+                curve.board.update()
+            }}>Subdiviziraj</Button>
         </div>)
     }
     if (curve.getAttributes().allowExtrapolation) {
@@ -23,7 +28,11 @@ export function BezierCurveCommands(curve: JSXBezierCurve): JSX.Element[] {
                     initialValue={curve.getExtrapolationT()}
                     onChange={(t) => curve.setExtrapolationT(t)}></Slider>
             <Button
-                onClick={() => curve.extrapolate(curve.getExtrapolationT())}>Ekstrapoliraj</Button>
+                onClick={() => {
+                    CacheContext.update()
+                    curve.extrapolate(curve.getExtrapolationT())
+                    curve.board.update()
+                }}>Ekstrapoliraj</Button>
         </div>)
     }
     if (curve.getAttributes().allowShrink) {
@@ -32,7 +41,11 @@ export function BezierCurveCommands(curve: JSXBezierCurve): JSX.Element[] {
             <Slider min={0} max={1}
                     initialValue={curve.getSubdivisionT()}
                     onChange={(t) => curve.setSubdivisionT(t)}></Slider>
-            <Button onClick={() => curve.extrapolate(curve.getSubdivisionT())}>Skrči</Button>
+            <Button onClick={() => {
+                CacheContext.update()
+                curve.extrapolate(curve.getSubdivisionT())
+                curve.board.update()
+            }}>Skrči</Button>
         </div>)
     }
     if (curve.getAttributes().allowDecasteljau) {
@@ -40,13 +53,21 @@ export function BezierCurveCommands(curve: JSXBezierCurve): JSX.Element[] {
                            onMouseLeave={() => curve.hideDecasteljauScheme()}>
             <Slider min={0} max={1}
                     initialValue={curve.getDecasteljauT()}
-                    onChange={(t) => curve.setDecasteljauT(t)}></Slider>
+                    onChange={(t) => {
+                        CacheContext.update()
+                        curve.setDecasteljauT(t)
+                        curve.board.update()
+                    }}></Slider>
         </div>)
     }
     if (curve.getAttributes().allowElevation) {
         commands.push(<div onMouseEnter={() => curve.showElevatePoints()}
                            onMouseLeave={() => curve.hideElevatePoints()}>
-            <Button onClick={() => curve.elevate()}>Dvigni stopnjo</Button></div>)
+            <Button onClick={() => {
+                CacheContext.update()
+                curve.elevate()
+                curve.board.update()
+            }}>Dvigni stopnjo</Button></div>)
     }
 
     return commands;

@@ -45,8 +45,11 @@ export class JSXBezierCurve extends AbstractJSXBezierCurve<BezierCurve, BezierCu
         this.setSubdivisionT(state.subdivisionT)
         this.setDecasteljauT(state.decasteljauT)
         this.setExtrapolationT(state.extrapolationT)
+        // todo this is not nice, the showing of decasteljau scheme should be grouped
         if (!state.showingDecasteljauScheme) {
             this.hideDecasteljauScheme()
+        } else {
+            this.showCurrentDecasteljauScheme(state.showingDecasteljauScheme)
         }
     }
 

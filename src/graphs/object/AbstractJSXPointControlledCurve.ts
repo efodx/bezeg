@@ -12,7 +12,8 @@ import {CacheContext} from "../context/CacheContext";
 export interface PointControlledCurveAttributes {
     allowShowControlPolygon: boolean
     allowShowConvexHull: boolean,
-    allowShowPoints: boolean
+    allowShowPoints: boolean,
+    selectable: boolean | undefined
 }
 
 export interface PointControlledCurveState {
@@ -162,6 +163,9 @@ export abstract class AbstractJSXPointControlledCurve<T extends PointControlledC
     }
 
     isSelectable(e: PointerEvent) {
+        if (this.attributes.selectable === false) {
+            return false
+        }
         let coords = this.getMouseCoords(e);
         // @ts-ignore
         return this.jxgCurve?.hasPoint(coords.scrCoords[1], coords.scrCoords[2])

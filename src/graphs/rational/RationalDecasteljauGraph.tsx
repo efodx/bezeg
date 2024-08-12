@@ -12,7 +12,8 @@ class RationalDecasteljauGraph extends DecasteljauGraph {
                 "extrapolationT": 1.2,
                 "showingWeights": false,
                 "weightNumber": 1,
-                "showingFarinPoints": false
+                "showingFarinPoints": false,
+                "showingDecasteljauScheme": true
             }
         }]];
     }

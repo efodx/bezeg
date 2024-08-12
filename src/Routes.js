@@ -39,6 +39,7 @@ import C2SplineGraphParametrization
 import RationalDecasteljauGraph
   from './graphs/rational/RationalDecasteljauGraph'
 import { IzpeljavaGraf } from './graphs/rational/IzpeljavaGraf'
+import DecasteljauGraph2 from './graphs/bezier/DecasteljauGraph2'
 
 const PATH_BEZIER_CURVES = '/bezeg/bezier'
 const BEZIER_CURVES_GROUP = {
@@ -87,7 +88,12 @@ const routes = [
         group: BEZIER_CURVES_GROUP,
         path: PATH_BEZIER_CURVES + '/decasteljau',
         element: <DecasteljauGraph/>,
-        title: 'Decasteljau',
+        title: 'De Casteljau',
+      }, {
+        group: BEZIER_CURVES_GROUP,
+        path: PATH_BEZIER_CURVES + '/decasteljau2',
+        element: <DecasteljauGraph2/>,
+        title: 'De Casteljau Drugače',
       }, {
         group: BEZIER_CURVES_GROUP,
         path: PATH_BEZIER_CURVES + '/affine',

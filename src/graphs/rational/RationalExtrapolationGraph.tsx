@@ -18,6 +18,7 @@ class GraphExtrapolation extends BaseRationalCurveGraph<any, BaseGraphStates> {
             allowDecasteljau: false,
             allowSubdivision: false
         } as BezierCurveAttributes)
+        this.boardUpdate()
     }
 
     override getGraphCommands(): JSX.Element[] {

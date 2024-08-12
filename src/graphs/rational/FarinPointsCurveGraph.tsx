@@ -2,6 +2,7 @@ import {BaseRationalCurveGraph} from "./BaseRationalCurveGraph";
 import {OnOffSwitch} from "../../inputs/OnOffSwitch";
 import React from "react";
 import {BaseGraphStates} from "../base/BaseCurveGraph";
+import {CacheContext} from "../context/CacheContext";
 
 
 class RationalBezierCurveGraph extends BaseRationalCurveGraph<any, BaseGraphStates> {
@@ -11,6 +12,7 @@ class RationalBezierCurveGraph extends BaseRationalCurveGraph<any, BaseGraphStat
         if (this.getFirstJsxCurve().isShowingFarinPoints()) {
             this.showFarinPoints(true)
         }
+        CacheContext.update()
     }
 
     override getGraphCommands(): JSX.Element[] {

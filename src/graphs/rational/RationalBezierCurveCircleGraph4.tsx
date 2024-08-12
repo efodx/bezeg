@@ -19,6 +19,7 @@ class RationalBezierCurveGraph extends BaseRationalCurveGraph<any, BaseGraphStat
         let points4 = [[-3, 0], [-3, 3], [0, 3]]
         let weights4 = [1, Math.sqrt(2) / 2, 1]
         this.createRationalJSXBezierCurve(points4, weights4)
+        this.boardUpdate()
     }
 
     defaultPreset(): any {

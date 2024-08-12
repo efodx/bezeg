@@ -175,7 +175,6 @@ abstract class BaseGraph<P, S extends BaseGraphState> extends Component<P, S> {
     }
 
     unsuspendBoardUpdate() {
-        CacheContext.update()
         this.boardUpdate()
         this.board.unsuspendUpdate()
     }
@@ -201,6 +200,7 @@ abstract class BaseGraph<P, S extends BaseGraphState> extends Component<P, S> {
     }
 
     boardUpdate() {
+        CacheContext.update()
         this.board.update()
     }
 

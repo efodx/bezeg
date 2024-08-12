@@ -33,7 +33,6 @@ function NavBar() {
             }
         })
         .filter(child => typeof child != "undefined")
-    console.log(fullScreenContext)
     return <Navbar expand="xl" className={`bg-body-tertiary  ${fullScreenContext.fullScreen ? "navbar-fs" : ""}`}>
         <Container className={"w-100"}>
             <Navbar.Toggle aria-controls="basic-navbar-nav"/>

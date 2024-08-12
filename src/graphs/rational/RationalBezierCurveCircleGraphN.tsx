@@ -11,6 +11,7 @@ class RationalBezierCurveGraph extends BaseRationalCurveGraph<any, BaseGraphStat
     override initialize() {
         const n = 3;
         this.generateCurves(n);
+        this.boardUpdate()
     }
 
     override getGraphCommands(): JSX.Element[] {

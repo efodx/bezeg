@@ -275,7 +275,9 @@ export abstract class AbstractJSXBezierCurve<T extends BezierCurve, Attr extends
 
     setDecasteljauT(t: number) {
         this.decasteljauT = t;
-        this.showCurrentDecasteljauScheme()
+        if (this.showingDecasteljauScheme) {
+            this.showCurrentDecasteljauScheme()
+        }
     }
 
     getDecasteljauT() {

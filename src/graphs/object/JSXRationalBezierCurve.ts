@@ -8,6 +8,7 @@ import {PointStyles} from "../styles/PointStyles";
 import {SizeContext} from "../context/SizeContext";
 import {RationalBezierCurveCommands} from "./inputs/RationalBezierCurveCommands";
 import {JSXBezierCurveState} from "./JSXBezierCurve";
+import {CacheContext} from "../context/CacheContext";
 
 interface JSXRationalBezierCurveConstructorParams {
     points: number[][],
@@ -76,6 +77,11 @@ export class JSXRationalBezierCurve extends AbstractJSXBezierCurve<RationalBezie
         this.setSubdivisionT(state.subdivisionT)
         this.setExtrapolationT(state.extrapolationT)
         this.showwWeights(state.showingWeights)
+        if (!state.showingDecasteljauScheme) {
+            this.hideDecasteljauScheme()
+        } else {
+            this.showCurrentDecasteljauScheme(state.showingDecasteljauScheme)
+        }
         this.weightNumber = state.weightNumber
         this.showFarinPoints(state.showingFarinPoints)
     }
@@ -201,6 +207,23 @@ export class JSXRationalBezierCurve extends AbstractJSXBezierCurve<RationalBezie
                         label: {fontSize: 0}
                     });
                 this.sliders.push(slider)
+                let over = (p: JXG.Slider) => {
+                    // @ts-ignore
+                    if (!p.visProp.fixed) {
+                        this.board.containerObj.style.cursor = 'pointer';
+                    }
+                }
+                let out = (p: JXG.Slider) => {
+                    if (!p.visProp.fixed) {
+                        this.board.containerObj.style.cursor = 'default';
+                    }
+                };
+
+                slider.on('over', () => over(slider))
+                slider.on('out', () => out(slider))
+                slider.on('drag', (e) => {
+                    CacheContext.update()
+                })
                 const ratio = () => slider.Value() / (1 - slider.Value())
                 const weight = () => reactiveWeights[i]() * ratio()
                 reactiveWeights.push(weight)

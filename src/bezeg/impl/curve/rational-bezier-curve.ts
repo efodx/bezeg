@@ -93,7 +93,6 @@ export class RationalBezierCurve extends BezierCurveImpl {
      * @param t
      */
     override subdivide(t: number): this[] {
-        console.log("RATIONAL SUBDIVISION")
         const points = this.points.map((point, i) => [point.X() * this.weights[i], point.Y() * this.weights[i], this.weights[i]])
         const decasteljauScheme = super.decasteljau(t, points)
         const n = decasteljauScheme.length
