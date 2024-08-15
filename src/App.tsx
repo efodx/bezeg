@@ -73,6 +73,7 @@ function App() {
 
     const [selectedPreset, setSelectedPreset] = useState('')
     const [fullScreen, setFullScreen] = useState(false)
+
     return (<SiteContext.Provider
             value={{
                 preset: {
@@ -81,7 +82,7 @@ function App() {
                     fullScreen: fullScreen, setFullScreen: setFullScreen,
                 },
             }}>
-            <div className="App">
+            <div key={selectedPreset} className="App">
                 <NavBar/>
                 <Outlet/>
             </div>

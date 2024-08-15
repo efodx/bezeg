@@ -160,7 +160,7 @@ export class BernsteinGraph extends BaseGraph<any, any> {
                         className="btn-block">-</Button>
             </ButtonGroup>,
             <OnOffSwitch initialState={this.state.isSumGraph} onChange={checked => this.setIsSumGraph(checked)}
-                         label={"Naloženi ploščinski graf"}/>);
+                         label={"Naloženi ploščinski grafikon"}/>);
     }
 
     defaultPreset(): string {

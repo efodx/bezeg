@@ -61,7 +61,7 @@ function Help() {
 }
 
 function SizeRange(props: { board: () => JXG.Board }) {
-    return <div><Slider customText={"Povečava"} min={0} max={10} initialValue={SizeContext.getSize()} step={1}
+    return <div><Slider customText={"Povečava"} min={0} max={25} initialValue={SizeContext.getSize()} step={1}
                         onChange={(i) => {
                             SizeContext.setSize(i)
                             CacheContext.update()
@@ -97,10 +97,11 @@ abstract class BaseGraph<P, S extends BaseGraphState> extends Component<P, S> {
                 showFullscreen: false,
                 boundingBox: [-5, 5, 5, -5],
                 // @ts-ignore
-                axis: () => VisibilityContext.axisVisible(),
+                axis: VisibilityContext.axisVisible,
                 keepAspectRatio: true,
                 showScreenshot: false,
                 showCopyright: false,
+                showNavigation: false,
                 defaultAxes: {
                     x: AxisStyles.defaultX,
                     y: AxisStyles.defaultY

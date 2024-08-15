@@ -32,3 +32,11 @@ TODO:
 
 - Zlepki iz bezierjevih krivulj, ali zlepki bezierjevih krivulj? meni je to drugo lepse
 -  Operator $\Delta$ deluje na zaporedni točk $\p_i$.  ..... A sse tako reče? Al je pravilno delovanje na zaporedju točk? Ker delovanje prav neki pomeni iz algebre, če se prav spomne...
+
+Dodatni popravki:
+- Vejica po tj.?
+- Manjše slike?
+- nisem dal saj, ker ni to razlog, da lahko upravlja krivuljo... on lahko upravlja s krivuljo, ta krivulja je pa zmeraj v blizini svojih kontrolnih tock
+
+
+- odvod bezierjeve krivulje... a se rece odvod krivulje? ker a ni krivulja v resnici slika te parametrzicije?
