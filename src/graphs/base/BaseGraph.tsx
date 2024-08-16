@@ -19,6 +19,7 @@ import {SaveImage} from "./SaveImage";
 import {ShowTicks} from "./ShowTicks";
 import {VisibilityContext} from "../context/VisibilityContext";
 import {ShowTicksNumbers} from "./ShowTicksNumbers";
+import {ShowMinorTicks} from "./ShowMinorTicks";
 
 
 function Help() {
@@ -189,6 +190,7 @@ abstract class BaseGraph<P, S extends BaseGraphState> extends Component<P, S> {
             <SaveImage saveAsSVG={name => this.saveAsSVG(name)} saveAsPNG={name => this.saveAsPNG(name)}/>,
             <ShowAxis board={() => this.board}></ShowAxis>,
             <ShowTicks board={() => this.board}></ShowTicks>,
+            <ShowMinorTicks board={() => this.board}></ShowMinorTicks>,
             <ShowTicksNumbers board={() => this.board}></ShowTicksNumbers>,
             <SizeRange board={() => this.board}/>
         ]

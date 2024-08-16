@@ -2,12 +2,14 @@ const dPointVisibility = true
 const dTickNumbersVisibility = true
 const dTicksVisibility = true
 const dAxisVisibility = true
+const dMinorVisibility = true
 
 class VisibilityContextSingleton {
     pointVisibility = dPointVisibility
     tickNumbersVisibility = dTickNumbersVisibility
     ticksVisibility = dTicksVisibility
     axisVisibility = dAxisVisibility;
+    minorVisibility = dMinorVisibility;
 
     setPointVisibility(visible: boolean) {
         this.pointVisibility = visible
@@ -45,6 +47,13 @@ class VisibilityContextSingleton {
         this.axisVisibility = visible
     }
 
+    minorVisible() {
+        return this.minorVisibility
+    }
+
+    setMinorVisible(visible: boolean) {
+        this.minorVisibility = visible
+    }
 }
 
 export const VisibilityContext = new VisibilityContextSingleton()

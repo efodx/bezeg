@@ -12,7 +12,7 @@ const tick: TicksOptions = {
     // @ts-ignore
     // majorHeight: () => Contexts.majorHeight,
     // @ts-ignore
-    minorHeight: () => SizeContext.minorHeight,
+    minorHeight: () => SizeContext.minorHeight * VisibilityContext.minorVisible(),
     label: {
         // @ts-ignore
         fontSize: () => SizeContext.fontSize * 0.6,

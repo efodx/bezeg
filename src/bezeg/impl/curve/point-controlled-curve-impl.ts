@@ -45,7 +45,7 @@ export abstract class PointControlledCurveImpl implements PointControlledCurve {
      */
     rotate(theta: number) {
         const rotationMatrix = [[Math.cos(theta), -Math.sin(theta)], [Math.sin(theta), Math.cos(theta)]]
-        this.affineTransform(rotationMatrix)
+        this.affineTransform(rotationMatrix, [0, 0], [0, 0])
     }
 
     getBoundingBox() {

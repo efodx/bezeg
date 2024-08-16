@@ -38,7 +38,7 @@ export default class AffineTransformBezierCurveGraph extends BaseBezierCurveGrap
                 <Button onClick={() => this.moveFor(0.5, 0)}>⇒</Button></div>,
             <div><Button onClick={() => this.moveFor(0, 0.5)}>⇑</Button>
                 <Button onClick={() => this.moveFor(0, -0.5)}>⇓</Button></div>,
-            <div><Button onClick={() => this.rotate(-0.10 * Math.PI)}>↻</Button>
+            <div><Button onClick={() => this.rotate(Math.PI / 2)}>↻</Button>
                 <Button onClick={() => this.rotate(0.10 * Math.PI)}>↺</Button></div>,
             <div><Button onClick={() => this.flip(true, false)}>Zrcali Y</Button>
                 <Button onClick={() => this.flip(false, true)}>Zrcali X</Button></div>])
