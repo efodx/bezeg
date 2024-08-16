@@ -21,6 +21,8 @@ export enum Color {
     W2 = '#a9a9a9',
     F3 = '#ffffff',
     C = '#000000',
+    GREAT_ORANGE = '#F8650B',
+    GREATE_CYAN = '#0b9ef8'
     // Red = "red",
     // Green = "green",
     // Blue = "blue",

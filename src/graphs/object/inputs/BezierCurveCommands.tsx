@@ -14,8 +14,8 @@ export function BezierCurveCommands(curve: JSXBezierCurve): JSX.Element[] {
                     initialValue={curve.getSubdivisionT()}
                     onChange={(t) => curve.setSubdivisionT(t)}></Slider>
             <Button onClick={() => {
-                CacheContext.update()
                 curve.subdivide()
+                CacheContext.update()
                 curve.board.update()
             }}>Subdiviziraj</Button>
         </div>)
@@ -29,8 +29,8 @@ export function BezierCurveCommands(curve: JSXBezierCurve): JSX.Element[] {
                     onChange={(t) => curve.setExtrapolationT(t)}></Slider>
             <Button
                 onClick={() => {
-                    CacheContext.update()
                     curve.extrapolate(curve.getExtrapolationT())
+                    CacheContext.update()
                     curve.board.update()
                 }}>Ekstrapoliraj</Button>
         </div>)
@@ -42,8 +42,8 @@ export function BezierCurveCommands(curve: JSXBezierCurve): JSX.Element[] {
                     initialValue={curve.getSubdivisionT()}
                     onChange={(t) => curve.setSubdivisionT(t)}></Slider>
             <Button onClick={() => {
-                CacheContext.update()
                 curve.extrapolate(curve.getSubdivisionT())
+                CacheContext.update()
                 curve.board.update()
             }}>Skrči</Button>
         </div>)
@@ -54,8 +54,8 @@ export function BezierCurveCommands(curve: JSXBezierCurve): JSX.Element[] {
             <Slider min={0} max={1}
                     initialValue={curve.getDecasteljauT()}
                     onChange={(t) => {
-                        CacheContext.update()
                         curve.setDecasteljauT(t)
+                        CacheContext.update()
                         curve.board.update()
                     }}></Slider>
         </div>)
@@ -64,8 +64,8 @@ export function BezierCurveCommands(curve: JSXBezierCurve): JSX.Element[] {
         commands.push(<div onMouseEnter={() => curve.showElevatePoints()}
                            onMouseLeave={() => curve.hideElevatePoints()}>
             <Button onClick={() => {
-                CacheContext.update()
                 curve.elevate()
+                CacheContext.update()
                 curve.board.update()
             }}>Dvigni stopnjo</Button></div>)
     }

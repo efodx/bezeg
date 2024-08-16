@@ -14,6 +14,8 @@ const pointStyle: PointAttributes = {
         anchorY: "bottom",
         anchorX: "left",
         // @ts-ignore
+        offset: () => [0, SizeContext.fontSize * -0.3],
+        // @ts-ignore
         visible: () => VisibilityContext.pointsVisible()
     },
     name: "",

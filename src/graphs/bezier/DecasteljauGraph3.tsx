@@ -6,7 +6,7 @@ import {OnOffSwitch} from "../../inputs/OnOffSwitch";
 import Slider from "../../inputs/Slider";
 import {Attributes} from "../attributes/Attributes";
 import {CurveStyles} from "../styles/CurveStyles";
-import {Colors} from "./utilities/Colors";
+import {Color} from "./utilities/Colors";
 
 interface DecasteljauGraphStates extends BaseGraphStates {
     t: number,
@@ -29,7 +29,7 @@ class DecasteljauGraph extends BaseBezierCurveGraph<any, DecasteljauGraphStates>
 
     defaultPreset(): any {
         return [["JSXBezierCurve", {
-            "points": [[-4, -3], [-3, 2], [0, 3], [3, 2], [4, -3]], "state": {
+            "points": [[-4, -3], [-3, 3], [3, 3], [4, -3]], "state": {
                 "showingJxgPoints": true,
                 "showingControlPolygon": false,
                 "showingConvexHull": false,
@@ -42,7 +42,7 @@ class DecasteljauGraph extends BaseBezierCurveGraph<any, DecasteljauGraphStates>
     }
 
     override presets(): string {
-        return "decasteljau"
+        return "decasteljau3"
     }
 
     override initialize() {
@@ -62,7 +62,7 @@ class DecasteljauGraph extends BaseBezierCurveGraph<any, DecasteljauGraphStates>
                 },
                 () => this.state.t,
                 1
-            ], {...CurveStyles.default, strokeColor: Colors[2], visible: () => this.state.wholeCurve}
+            ], {...CurveStyles.default, strokeColor: Color.GREAT_ORANGE, visible: () => this.state.wholeCurve}
         );
         this.boardUpdate()
     }

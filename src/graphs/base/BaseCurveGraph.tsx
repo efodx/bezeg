@@ -119,7 +119,7 @@ abstract class BaseCurveGraph<P, S extends BaseGraphStates> extends BaseGraph<P,
         } else {
             point = this.board.create('point', [x, y], PointStyles.default);
         }
-        point.on('update', (e) => {
+        point.on('drag', (e) => {
             CacheContext.update()
         })
         this.graphJXGPoints.push(point)

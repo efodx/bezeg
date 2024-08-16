@@ -31,6 +31,7 @@
 - [x] Naj se da odstranit oznake točk tudi za segmente..... MORDA DODAM VISIBILITY MED CONTEXTE...
 - [ ] Na G1 zlepkih da premikamo alphe
 - [ ] Oznake za transformacije pri izbrani krivulji - pac pointer changes.
+- [ ] Kontrolne točke racionalnih se ne prikazujejo!! :(
 
 ### Low Priority
 

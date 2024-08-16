@@ -31,7 +31,7 @@ function connectCurves(c1: [x1: (t: number) => number, y1: (t: number) => number
 
 
 export class BernsteinGraph extends BaseGraph<any, any> {
-    override readonly state = {n: 2, isSumGraph: false};
+    override readonly state = {n: 2, isSumGraph: false, showLabels: false};
     private jxgObjects: any = []
     private padding = 0.1
 
@@ -141,7 +141,8 @@ export class BernsteinGraph extends BaseGraph<any, any> {
             let text = board.create('text', [anchor[0] - 0.06, anchor[1], () => "$$B^{" + (n - 1) + "}_{" + i + "}(t)$$"], {
                 useMathJax: true,
                 color: Colors[i],
-                fontSize: () => SizeContext.fontSize - 5
+                fontSize: () => SizeContext.fontSize - 5,
+                visible: () => this.state.showLabels
             })
             jxgObjects.push(text)
             this.jxgObjects.push(...curves)

@@ -40,6 +40,7 @@ import RationalDecasteljauGraph
   from './graphs/rational/RationalDecasteljauGraph'
 import { IzpeljavaGraf } from './graphs/rational/IzpeljavaGraf'
 import DecasteljauGraph2 from './graphs/bezier/DecasteljauGraph2'
+import DecasteljauGraph3 from './graphs/bezier/DecasteljauGraph3'
 
 const PATH_BEZIER_CURVES = '/bezeg/bezier'
 const BEZIER_CURVES_GROUP = {
@@ -99,11 +100,17 @@ const routes = [
         path: PATH_BEZIER_CURVES + '/affine',
         element: <AffineBezierGraph/>,
         title: 'Afine Transformacije',
+      },
+      {
+        group: BEZIER_CURVES_GROUP,
+        path: PATH_BEZIER_CURVES + '/subdivision-2',
+        element: <DecasteljauGraph3/>,
+        title: 'Subdivizija',
       }, {
         group: BEZIER_CURVES_GROUP,
         path: PATH_BEZIER_CURVES + '/subdivision',
         element: <GraphSubdivision/>,
-        title: 'Subdivizija',
+        title: 'Zaporedna subdivizija',
       }, {
         group: BEZIER_CURVES_GROUP,
         path: PATH_BEZIER_CURVES + '/extrapolation',

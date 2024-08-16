@@ -171,9 +171,8 @@ export abstract class AbstractJSXBezierCurve<T extends BezierCurve, Attr extends
         if (drawingPoint instanceof JXG.Point) {
             this.decasteljauPoints.push(drawingPoint)
         }
+        this.jxgPoints.forEach((point, i) => point.setAttribute({name: () => this.showingDecasteljauPoints ? `$$p_${i}^0$$` : `$$p_${i}$$`}))
 
-        // @ts-ignore
-        this.jxgPoints.forEach((point, i) => point.setAttribute({name: () => this.showingDecasteljauPoints ? `$$p_${i}^0$$` : ""}))
     }
 
     getDecasteljauScheme(t: number) {

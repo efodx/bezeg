@@ -159,6 +159,8 @@ export class JSXRationalBezierCurve extends AbstractJSXBezierCurve<RationalBezie
                 highlightCssClass: "smart-label-point2",
                 useMathJax: true,
                 parse: false,
+                anchorY: 'top',
+                anchorX: 'middle',
                 autoPosition: true
             }));
         this.showingWeights = true
