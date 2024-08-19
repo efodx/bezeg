@@ -92,7 +92,7 @@ export abstract class AbstractJSXBezierCurve<T extends BezierCurve, Attr extends
     }
 
     showDecasteljauScheme() {
-        if ((this.getCurve().getPoints().length > 2) && this.lastDecasteljauN !== this.pointControlledCurve.getPoints().length) {
+        if ((this.getCurve().getPoints().length > 1) && this.lastDecasteljauN !== this.pointControlledCurve.getPoints().length) {
             this.lastDecasteljauN = this.pointControlledCurve.getPoints().length
             this.generateLineSegments()
         } else {
@@ -162,6 +162,7 @@ export abstract class AbstractJSXBezierCurve<T extends BezierCurve, Attr extends
                 this.decasteljauPoints.push(pp2)
             }
         }
+        console.log("DRAWING POINT BBY")
         const drawingPoint = this.board?.create('point', [() => this.getDecasteljauScheme(this.decasteljauT)[n - 1][0].X(), () => this.getDecasteljauScheme(this.decasteljauT)[n - 1][0].Y()], {
             ...PointStyles.default,
             color: Colors[n - 1],

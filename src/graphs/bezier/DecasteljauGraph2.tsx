@@ -110,7 +110,6 @@ class DecasteljauGraph extends BaseBezierCurveGraph<any, DecasteljauGraphStates>
                 () => 1
             ], {...CurveStyles.default, strokeColor: Color.G, layer: 2}
         );
-
         const drawingPoint = this.board?.create('point', [() => this.getFirstJsxCurve().getCurve().calculatePointAtT(this.state.t).X(), () => this.getFirstJsxCurve().getCurve().calculatePointAtT(this.state.t).Y()], {
             ...PointStyles.default,
             color: Colors[4],

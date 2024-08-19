@@ -40,3 +40,4 @@ Dodatni popravki:
 
 
 - odvod bezierjeve krivulje... a se rece odvod krivulje? ker a ni krivulja v resnici slika te parametrzicije?
+- DECASTELJAU ZA N=1

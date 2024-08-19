@@ -74,9 +74,9 @@ function ImportFromFileModal(props: { onConfirm: (fileContents: string) => void 
 
 }
 
-function SaveModal(props: { onSave: (name: string) => void }) {
+function SaveModal(props: { onSave: (name: string) => void, initialValue: string }) {
     const [show, setShow] = useState(false);
-    const [presetName, setPresetName] = useState("");
+    const [presetName, setPresetName] = useState(props.initialValue);
 
     const handleClose = () => setShow(false);
     const handleSave = () => {
@@ -231,7 +231,7 @@ export function PresetSelector(props: {
                     selectedPreset: newPresets.data[newPresets.data.length - 1]
                 })
                 presetContext.setSelected(name)
-            }}></SaveModal>
+            }} initialValue={presetContext.selected}></SaveModal>
             <TrashModal disabled={presets.selectedPreset === undefined} trash={() => {
                 const newPresets = props.presetService.removePreset(presets.selectedPreset.id)
                 setPresets({
