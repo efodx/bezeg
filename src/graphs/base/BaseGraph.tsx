@@ -7,7 +7,6 @@ import {Button, Col, Container, Overlay, Popover, Row} from "react-bootstrap";
 import {SizeContext} from "../context/SizeContext";
 import {Commands} from "./Commands";
 import {Tools} from "./Tools";
-import {ShowAxis} from "./ShowAxis";
 import {AxisStyles} from "../styles/AxisStyles";
 import Slider from "../../inputs/Slider";
 import html2canvas from "html2canvas";
@@ -16,10 +15,8 @@ import {Preset, PresetService} from "./presets/Presets";
 import {SiteContext} from "../context/react/SiteContext";
 import {PresetSelector} from "./PresetSelector";
 import {SaveImage} from "./SaveImage";
-import {ShowTicks} from "./ShowTicks";
-import {VisibilityContext} from "../context/VisibilityContext";
-import {ShowTicksNumbers} from "./ShowTicksNumbers";
-import {ShowMinorTicks} from "./ShowMinorTicks";
+import {AxisSelector} from "./AxisSelector";
+import {AxisContext} from "../context/AxisContext";
 
 
 function Help() {
@@ -98,7 +95,7 @@ abstract class BaseGraph<P, S extends BaseGraphState> extends Component<P, S> {
                 showFullscreen: false,
                 boundingBox: [-5, 5, 5, -5],
                 // @ts-ignore
-                axis: VisibilityContext.axisVisible,
+                axis: AxisContext.axisVisible,
                 keepAspectRatio: true,
                 showScreenshot: false,
                 showCopyright: false,
@@ -186,13 +183,9 @@ abstract class BaseGraph<P, S extends BaseGraphState> extends Component<P, S> {
     }
 
     getTools(): JSX.Element[] {
-        const tools = [
+        const tools = [<AxisSelector board={() => this.board}></AxisSelector>,
+            <SizeRange board={() => this.board}/>,
             <SaveImage saveAsSVG={name => this.saveAsSVG(name)} saveAsPNG={name => this.saveAsPNG(name)}/>,
-            <ShowAxis board={() => this.board}></ShowAxis>,
-            <ShowTicks board={() => this.board}></ShowTicks>,
-            <ShowMinorTicks board={() => this.board}></ShowMinorTicks>,
-            <ShowTicksNumbers board={() => this.board}></ShowTicksNumbers>,
-            <SizeRange board={() => this.board}/>
         ]
         if (this.presetService) {
             tools.push(<PresetSelector presetService={this.presetService}

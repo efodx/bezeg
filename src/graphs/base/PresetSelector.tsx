@@ -196,7 +196,7 @@ export function PresetSelector(props: {
         <Form.Label>Prednastavitve</Form.Label>
         <Form.Select key={Math.random()} onChange={(value) => {
             const preset = props.presetService.getPreset(value.target.value)
-            console.log(preset)
+            console.debug("Preset:", preset)
             if (preset !== undefined) {
                 setPresets({
                     presets: presets.presets,

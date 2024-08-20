@@ -1,10 +1,10 @@
 import {AxisAttributes, TicksOptions} from "jsxgraph";
 import {SizeContext} from "../context/SizeContext";
-import {VisibilityContext} from "../context/VisibilityContext";
+import {AxisContext} from "../context/AxisContext";
 
 const tick: TicksOptions = {
     // @ts-ignore
-    visible: () => VisibilityContext.ticksVisible(),
+    visible: () => AxisContext.ticksVisible(),
     // @ts-ignore
     strokeWidth: () => SizeContext.strokeWidth * 0.5,
     // @ts-ignore
@@ -12,12 +12,12 @@ const tick: TicksOptions = {
     // @ts-ignore
     // majorHeight: () => Contexts.majorHeight,
     // @ts-ignore
-    minorHeight: () => SizeContext.minorHeight * VisibilityContext.minorVisible(),
+    minorHeight: () => SizeContext.minorHeight * AxisContext.minorVisible(),
     label: {
         // @ts-ignore
         fontSize: () => SizeContext.fontSize * 0.6,
         // @ts-ignore
-        visible: () => VisibilityContext.tickNumbersVisible(),
+        visible: () => AxisContext.tickNumbersVisible(),
         parse: false,
         useMathJax: true,
         cssStyle: 'font-family: MJXZERO, MJXTEX',
@@ -40,7 +40,7 @@ const tickY: TicksOptions = {
 function axisStyle(tick: TicksOptions): AxisAttributes {
     return {
         strokeWidth: () => SizeContext.strokeWidth,
-        visible: () => VisibilityContext.axisVisible(),
+        visible: () => AxisContext.axisVisible(),
         ticks: tick,
         lastArrow: false
     }
