@@ -13,7 +13,7 @@ class BezierSpline extends PointControlledCurveImpl {
     private bezierCurves: BezierCurveImpl[];
     private nonFreePoints: Array<Point> = []
     private b: number[] = []
-    private alpha: number = 1;
+    private alpha: number = 0;
 
     /**
      * @constructor
@@ -93,19 +93,11 @@ class BezierSpline extends PointControlledCurveImpl {
         }
         let n = this.bezierCurves.length
         let c = Math.floor(n * t)
-        let ts: number[] = [0]
-        for (let i = 0; i < n; i++) {
-            let curve = this.bezierCurves[i]
-            let pointStart = curve.getPoints()[0]
-            let pointEnd = curve.getPoints()[curve.getPoints().length - 1]
-            let d = Math.sqrt((pointStart.X() - pointEnd.X()) ** 2 + (pointStart.Y() - pointEnd.Y()) ** 2) ** this.alpha
-            ts.push(ts[ts.length - 1] + d)
-        }
-        ts = ts.map(t => t / ts[ts.length - 1])
+        let u = this.getU();
         for (let c = 0; c < n; c++) {
-            if (t < ts[c + 1]) {
-                t = t - ts[c]
-                t = t / (ts[c + 1] - ts[c])
+            if (t < u[c + 1]) {
+                t = t - u[c]
+                t = t / (u[c + 1] - u[c])
                 return this.bezierCurves[c].calculatePointAtT(t)
             }
         }
@@ -192,6 +184,19 @@ class BezierSpline extends PointControlledCurveImpl {
         return [minX, maxX, minY, maxY]
     }
 
+    private getU() {
+        const n = this.bezierCurves.length;
+        const u = [0]
+        for (let i = 0; i < n; i++) {
+            let curve = this.bezierCurves[i]
+            let pointStart = curve.getPoints()[0]
+            let pointEnd = curve.getPoints()[curve.getPoints().length - 1]
+            let d = Math.sqrt((pointStart.X() - pointEnd.X()) ** 2 + (pointStart.Y() - pointEnd.Y()) ** 2) ** this.alpha
+            u.push(u[u.length - 1] + d)
+        }
+        return u.map(t => t / u[u.length - 1])
+    }
+
     private generateForContinuity(c: number) {
         let step = this.degree - c;
         let bezierCurvePoints = this.points.slice(0, this.degree + 1)
@@ -201,17 +206,30 @@ class BezierSpline extends PointControlledCurveImpl {
             let bezierCurvePoints = [this.points[i]]
 
             let previousBezierCurve = this.bezierCurves[this.bezierCurves.length - 1]
-
+            const curveNumber = this.bezierCurves.length
             const nonFreePoints = []
             for (let j = 1; j <= c; j++) {
                 // TODO MAKE THIS EFFICIENT
                 let nonFreePoint = new PointImpl(() => {
-                    let bc = previousBezierCurve.extrapolate(2)
-                    let [lc, rc] = bc.subdivide(0.5)
+                    const u = this.getU()
+                    const deltaU1 = u[curveNumber] - u[curveNumber - 1]
+                    const deltaU2 = u[curveNumber + 1] - u[curveNumber]
+
+                    let nextT = (deltaU2 + deltaU1) / deltaU1
+
+                    let bc = previousBezierCurve.extrapolate(nextT)
+                    let [lc, rc] = bc.subdivide(deltaU1 / (deltaU1 + deltaU2))
                     return rc.getPoints()[j].X()
                 }, () => {
-                    let bc = previousBezierCurve.extrapolate(2)
-                    let [lc, rc] = bc.subdivide(0.5)
+                    const u = this.getU()
+                    const deltaU1 = u[curveNumber] - u[curveNumber - 1]
+                    const deltaU2 = u[curveNumber + 1] - u[curveNumber]
+
+                    let nextT = (deltaU2 + deltaU1) / deltaU1
+
+                    let bc = previousBezierCurve.extrapolate(nextT)
+                    let [lc, rc] = bc.subdivide(deltaU1 / (deltaU1 + deltaU2))
+
                     return rc.getPoints()[j].Y()
                 })
                 nonFreePoints.push(nonFreePoint)

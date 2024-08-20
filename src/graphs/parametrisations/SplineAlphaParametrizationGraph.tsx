@@ -22,6 +22,7 @@ class Graph extends BaseSplineCurveGraph<SplineAlphaParamGraphStates> {
     override initialize() {
         super.initialize();
         this.generateParamPoints(15)
+        this.setState({...this.state, alpha: this.getFirstCurve().getAlpha()})
     }
 
     override presets(): string {
@@ -59,7 +60,7 @@ class Graph extends BaseSplineCurveGraph<SplineAlphaParamGraphStates> {
     }
 
     numberOfPointsSlider() {
-        return <div>Število točk <Slider min={1} max={40} step={1}
+        return <div>Število točk <Slider min={0} max={40} step={1}
                                          initialValue={this.state.numberOfPoints}
                                          onChange={(num) => this.setNumberOfPoints(num)}/>
         </div>
