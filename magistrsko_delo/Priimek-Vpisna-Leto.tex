@@ -21,10 +21,10 @@
 \avtor{Kevin Štampar}
 
 % - naslov dela v slovenščini
-\naslov{Orodje za grafični prikaz konceptov Bézierjevih in PH krivulj}
+\naslov{Orodje za grafični prikaz lastnosti Bézierjevih in PH krivulj}
 
 % - naslov dela v angleščini
-\title{Tool for graphically displaying concepts of Bézier and PH curves}
+\title{Tool for graphically displaying the properties of Bézier and PH curves}
 
 % - ime mentorja/mentorice s polnim nazivom:
 %   - doc.~dr.~Ime Priimek
@@ -182,7 +182,7 @@ the content and not the structure of your work.}
     \noindent Iz definicije je očitno, da so za indekse $i>n$, oziroma $i<0$, Bernsteinovi bazni polinomi ničelni.
     Pri določeni stopnji $n$ je neničelnih Bernsteinovih baznih polinomov torej $n+1$.
     Brez dokaza povejmo, da so linearno neodvisni in zato tvorijo bazo prostora polinomov stopnje manjše ali enake $n$ ($\mathbb{P}_n$).
-    Takšni bazi pravimo \textit{Bernsteinova baza}, polinomu izraženemu v njej pa pravimo \textit{Bernsteinov polinom}.
+    Takšni bazi pravimo \textit{Bernsteinova baza}, polinomu, izraženemu v njej, pa pravimo \textit{Bernsteinov polinom}.
     \begin{primer}
         \label{primer:bernsteinovi}
         Za primer si bomo ogledali Bernsteinove bazne polinome stopenj $n=0,1,2,3$.
@@ -263,7 +263,6 @@ the content and not the structure of your work.}
 %        \end{align*}
 %        kjer smo pri enakosti (1) uporabili lastnost binomskega simbola $\binom{n-1}{i} + \binom{n-1}{i-1} = \binom{n}{i}.$
 %    \end{dokaz}
-
     V kasnejših razdelkih bomo potrebovali tudi odvode Bernsteinovih baznih polinomov.
     Ker Bernsteinovi bazni polinomi stopnje $n$ tvorijo bazo prostora $\mathbb{P}_n$, lahko njihove odvode izrazimo v Bernsteinovi bazi dimenzije $n-1$.
     Z nekaj računanja pridemo do sledečega rezultata.
@@ -302,7 +301,7 @@ the content and not the structure of your work.}
     Da bodo zapisi v sledečih razdelkih bolj pregledni, bomo uvedli večdimenzionalne oznake.
 %    Večdimenzionalnost bomo ponazarjali z odebelitvijo črke.
     Točke v večdimenzionalnem prostoru bomo označili z odebeljenimi črkami, na primer $\mathbf{x}=(x_0,x_1,\dots,x_n)\in\R^{n+1}$.
-    Podobno bomo odebelili črke funkcij, ki v večdimenzionalni prostor slikajo, na primer $\mathbf{f}:\R\to\R^{n+1}$, $\mathbf{f}=\left( f_0,f_1,\dots,f_n\right)$.
+    Podobno bomo odebelili črke funkcij, ki v večdimenzionalni prostor slikajo, na primer $\mathbf{f}:\R\to\R^{n+1}$.
 %    Tako bomo večdimenzionalnost točke $x\in\R^{n+1}$ označili z $\mathbf{x}=(x_0,x_1,\dots,x_n)$, večdimenzionalnost funkcije $f:\R\to\R^{n+1}$ pa z $\mathbf{f}=\left( f_0,f_1,\dots,f_n\right)$.
 
     \subsection{Bézierjeve krivulje}
@@ -339,7 +338,7 @@ the content and not the structure of your work.}
     \begin{izrek}{Bézierjeva krivulja $\mathbf{B}$ s kontrolnimi točkami $\p_i$, $i=0,1\ldots,n$, ima sledeče lastnosti.}
         \label{izrek:lastnosti-bezierjevih-krivulj}
         \begin{enumerate}
-            \item Interpolira končni točki, tj.\ velja $\bigbbod{n}{0}=\p_0$ in $\bigbbod{n}{1}=\p_n$.
+            \item Interpolira končni točki, tj.\ velja $\mathbf{B}(0)=\p_0$ in $\mathbf{B}(1)=\p_n$.
             \item Je afino invariantna, tj.\ za poljubno afino transformacijo $A$ velja \[A \left(\bernsteinsump{i}{n}\right) =\bernsteinsumtritri{i}{n}{A(\p_i)}.\]
             \item Leži znotraj konveksne ovojnice svojih kontrolnih točk.
         \end{enumerate}
@@ -357,12 +356,12 @@ the content and not the structure of your work.}
     \begin{figure}[ht!]
         \captionsetup[subfigure]{labelformat=empty}
         \centering
-        \subfloat[Začetna krivulja]{\includegraphics[width = \groupimagewidth]{images/afine-transform-start}}
+        \subfloat[začetna krivulja]{\includegraphics[width = \groupimagewidth]{images/afine-transform-start}}
         \qquad
-        \subfloat[Povečanje]{\includegraphics[width = \groupimagewidth]{images/afine-transform-bigger}} \\
-        \subfloat[Zrcaljenje čez $x$ os]{\includegraphics[width = \groupimagewidth]{images/afine-transform-flip}}
+        \subfloat[povečanje]{\includegraphics[width = \groupimagewidth]{images/afine-transform-bigger}} \\
+        \subfloat[zrcaljenje čez $x$ os]{\includegraphics[width = \groupimagewidth]{images/afine-transform-flip}}
         \qquad
-        \subfloat[Rotiranje za $\frac{\pi}{2}$]{\includegraphics[width = \groupimagewidth]{images/afine-transform-rotate}}
+        \subfloat[rotiranje za $\frac{\pi}{2}$]{\includegraphics[width = \groupimagewidth]{images/afine-transform-rotate}}
         \caption{Afine transformacije Bézierjeve krivulje.}
         \label{fig:bezier-affine-transform}
     \end{figure}
@@ -399,7 +398,7 @@ the content and not the structure of your work.}
 
     \subsection{De Casteljaujev algoritem}
     Stabilnost metod je v CAD in CAGD sistemih bistvene narave.
-    Direktno računanje vrednosti Bernsteinovih polinomov preko izrazov iz definicije~\ref{def:bernstein} pa ni stabilno~\cite{placeholder}.
+    Direktno računanje vrednosti Bernsteinovih polinomov preko izrazov iz definicije~\ref{def:bernstein} pa ni stabilno~\ref{placeholder}.
     Da lahko točke Bézierjevih krivulj računamo stabilno, potrebujemo sledeč izrek.
     \begin{izrek}
         \label{izrek:decastelaju-rekurzija}
@@ -440,7 +439,7 @@ the content and not the structure of your work.}
 
     Označimo sedaj $\p_{i}^r(t) = \bigbbt_{[\p_i,\p_{i+1},\dots,\p_{i+r}]}$.
     Velja torej $\p_{i}^0(t)=\p_i$ in  $\p_{0}^n(t)=\bigbbt_{[\p_0,\p_1,\dots,\p_n]}$.
-    Iz izreka~\ref{izrek:decastelaju-rekurzija} sledi, da lahko točke Bézierjeve krivulje $\bigbbt_{[\p_0,\p_1,\dots,\p_n]}$ računamo s pomočjo \textit{De Casteljaujeve sheme}, ki jo lahko vidimo na sliki~\ref{fig:decasteljau-scheme}.
+    Iz izreka~\ref{izrek:decastelaju-rekurzija} sledi, da lahko točke Bézierjeve krivulje $\bigbbt_{[\p_0,\p_1,\dots,\p_n]}$ računamo s pomočjo \textit{de Casteljaujeve sheme}, ki jo lahko vidimo na sliki~\ref{fig:decasteljau-scheme}.
     V shemi diagonalne puščice ponazarjajo množenje točke z vrednostjo $t$, vertikalne pa z vrednostjo $1-t$.
     V vrhu puščic dobljene vrednosti seštejemo.
     \begin{figure}[H]
@@ -457,7 +456,7 @@ the content and not the structure of your work.}
         \end{tabular}
         \caption{De Casteljaujeva shema.}
     \end{figure}
-    \noindent Izračun točke Bézierjeve krivulje pri poljubnem parametru $t$ lahko sedaj podamo v obliki \textit{De Casteljaujevega algoritma}~\ref{alg:decasteljau}.
+    \noindent Izračun točke Bézierjeve krivulje pri poljubnem parametru $t$ lahko sedaj podamo v obliki \textit{de Casteljaujevega algoritma}~\ref{alg:decasteljau}.
     \begin{algorithm}[H]
         \caption{De Casteljaujev algoritem}
         \label{alg:decasteljau}
@@ -475,7 +474,7 @@ the content and not the structure of your work.}
             \State \Return $\p_0^n(t)$
         \end{algorithmic}
     \end{algorithm}
-    \noindent Algoritem~\ref{alg:decasteljau} ima tudi geometrijski pomen.
+    \noindent De Casteljaujev algoritem ima tudi geometrijski pomen.
     Pri stopnji $n=1$ se prevede na interpolacijo dveh točk, kar lahko vidimo na sliki~\ref{fig:dec-alg-n1}.
     Pri višjih stopnjah $n$ pa algoritem predstavlja zaporedno interpolacijo točk, saj v njem za vsak nivo $r=1,2,\ldots,n$ interpoliramo sosednje točke prejšnjega nivoja.
     Slednje lahko vidimo na slikama~\ref{fig:dec-alg-n2} in~\ref{fig:dec-alg-n3}.
@@ -536,17 +535,19 @@ the content and not the structure of your work.}
     V CAGD in CAD sistemih se mnogokrat zgodi, da uporabnik želi ohraniti le en del Bézierjeve krivulje.
     Naj bo to tisti del krivulje, ki ga dobimo tako, da za prvotno krivuljo parameter $t$ omejimo na interval $[0,t_0]$, za neko pozitivno realno število $t_0<1$.
     Ta del krivulje označimo z $B_{t_0-}$.
-    Izkaže se, da lahko krivuljo $B_{t_0-}$ podamo kot Bézierjevo krivuljo s kontrolnimi točkami $\p_0^i(t_0)$ za $i=0,1,\ldots,n$, kjer točke $\p_0^i(t_0)$ dobimo iz De Casteljaujeve sheme pri $t=t_0$.
+    Izkaže se, da lahko krivuljo $B_{t_0-}$ podamo kot Bézierjevo krivuljo s kontrolnimi točkami $\p_0^i(t_0)$ za $i=0,1,\ldots,n$, kjer točke $\p_0^i(t_0)$ dobimo iz de Casteljaujeve sheme pri $t=t_0$.
     Podobno se izkaže tudi to, da lahko preostali del krivulje, $B_{t_0+}$, podamo kot Bézierjevo krivuljo s kontrolnimi točkami $\p_i^i(t_0)$,  $i=0,1,\ldots,n$.
+    Procesu deljenja krivulje na dva dela pravimo \textit{subdivizija}.
+    Radovedni bralci lahko dokaz trditev najdejo v delu~\ref{placeholder}.
     Primer si lahko ogledamo na sliki~\ref{fig:subdivizija}.
-    Radovedni bralci lahko dokaz trditev najdejo v delu~\cite{placeholder}.
     \begin{figure}[h]
         \centering
-        \includegraphics[width=0.4\textwidth]{images/subdivizija}
+        \includegraphics[width=\groupimagewidth]{images/subdivizija}
+        \qquad
+        \includegraphics[width=\groupimagewidth]{images/subdivision-split}
         \caption{De Casteljaujeva shema pri $t=t_0$ razdeli krivuljo na dva dela, modrega, $B_{t_0-}$, in oranžnega, $B_{t_0+}$. }
         \label{fig:subdivizija}
     \end{figure}
-    Procesu deljenja krivulje na dva dela pravimo \textit{subdivizija}.
 
     Če izberemo sedaj $t_0=\frac{1}{2}$ in krivuljo subdiviziramo, dobimo dve krivulji.
     Če subdivizijo nato na dobljenih krivuljah ponavljamo, dobimo po $k$ korakih $2^k$ krivulj.
@@ -583,10 +584,10 @@ the content and not the structure of your work.}
 %    \end{dokaz}
 
     \subsection{Ekstrapolacija}
-    Ker so Bernsteinovi bazni polinomi definirani za vsa realna števila $t$, lahko Bézierjeve krivulje rišemo tudi izven intervala $[0,1]$.
-    Recimo, da želimo neko Bézierjevo krivuljo risati na intervalu $[0,t_0]$, kjer je $t_0>1$.
-    Bézierjevo krivuljo na intervalu $[0,t_0]$ lahko zapišemo kot Bézierjevo krivuljo na intervalu $[0,1]$.
-    Pri tem kontrolne točke krivulje preberemo iz De Casteljaujeve sheme, kakor smo to storili za točke krivulje  $B_{t_0-}$ v prejšnjem razdelku. Na sliki~\ref{fig:ekstrapolacija} lahko na prvem grafu vidimo risanje krivulje izven intervala $[0,1]$, na drugem pa ekstrapolirano krivuljo.
+    Ker so Bernsteinovi bazni polinomi definirani za vsa realna števila $t$, lahko Bézierjeve krivulje rišemo tudi izven domene $[0,1]$.
+    Recimo, da želimo neko Bézierjevo krivuljo risati na domeni $[0,t_0]$, kjer je $t_0>1$.
+    Bézierjevo krivuljo na domeni $[0,t_0]$ lahko predstavimo kot Bézierjevo krivuljo na domeni $[0,1]$.
+    Pri tem kontrolne točke krivulje preberemo iz de Casteljaujeve sheme, kakor smo to storili za točke krivulje  $B_{t_0-}$ v prejšnjem razdelku. Na sliki~\ref{fig:ekstrapolacija} lahko na prvem grafu vidimo risanje krivulje izven intervala $[0,1]$, na drugem pa ekstrapolirano krivuljo.
     \begin{figure}[h]
         \captionsetup[subfigure]{labelformat=empty}
         \centering
@@ -609,7 +610,7 @@ the content and not the structure of your work.}
     (1-t)
         B_i^n(t) &= & \frac{n+1-i}{n+1} \binom{n+1}{i}&t^i(1-t)^{n+1-i} & &=\frac{n+1-i}{n+1}B_{i}^{n+1}(t), \\
         % &= \frac{n!}{(n-i)!i!}t^i(1-t)^{n+1-i}   &=\frac{n+1-i}{n+1}\frac{(n+1)!}{(n+1-i)!i!}t^i(1-t)^{n+1-i}
-        tB_i^n(t) &= & \frac{i+1}{n+1}\frac{(n+1)!}{(n-i)!(i+1)!}&t^{i+1}(1-t)^{n+1-i-1} & &= \frac{i+1}{n+1}B_{n+1}^{n+1}(t)
+        tB_i^n(t) &= & \frac{i+1}{n+1}\frac{(n+1)!}{(n-i)!(i+1)!}&t^{i+1}(1-t)^{n+1-i-1} & &= \frac{i+1}{n+1}B_{n+1}^{n+1}(t),
         %t\binom{n}{i}t^i(1-t)^{n-i} \\
         %&= \frac{n!}{(n-i)!i!}t^{i+1}(1-t)^{n+1-i-1} \\
     \end{align*}
@@ -638,7 +639,7 @@ the content and not the structure of your work.}
         \label{fig:višanje}
     \end{figure}
 
-    \subsection{Odvod Bézierjeve krivulje}
+    \subsection{Odvodi Bézierjeve krivulje}
     V kasnejših razdelkih bomo potrebovali odvode Bézierjevih krivulj, zato jih na tem mestu izpeljimo.
     Z upoštevanjem izreka o odvodu Bernsteinovih baznih polinomov~\ref{izrek:bernstein-odvod}, dobimo naslednje
     \begin{align*}
@@ -718,25 +719,25 @@ the content and not the structure of your work.}
         Želimo, da bi veljalo $\hat{w}_0=\hat{w}_n$, zato nastavimo $\rho= \sqrt[n]{\frac{w_n}{w_0}}$.
         Ker velja $\hat{w}_n=w_n$ lahko uteži $\hat{w}_i$ delimo z utežjo $w_n$, da dobimo željene uteži \[\tilde{w_i}=\frac{1}{w_n}\hat{w_i} = \frac{w_i}{\sqrt[n]{w^{i}_nw_0^{n-i}}}.\]
     \end{dokaz}
+    \begin{posledica}
+        Z uvedbo racionalnih Bézierjevih krivulj smo dobili le $n-1$ dodatnih prostih parametrov, glede na polinomske Bézierjeve krivulje z istim številom kontrolnih točk.
+    \end{posledica}
     \begin{opomba}
         Če velja $w_0=w_n=1$ pravimo, da je racionalna Bézierjeva krivulja predstavljena v \textit{standardni formi}.
     \end{opomba}
-    \begin{opomba}
-        Z uvedbo racionalnih Bézierjevih krivulj smo dobili le $n-1$ dodatnih prostih parametrov, glede na polinomske Bézierjeve krivulje z istim številom kontrolnih točk.
-    \end{opomba}
-    Brez dokaza povejmo, da lastnosti Bézierjevih krivulj, ki smo jih podali v izreku~\ref{izrek:lastnosti-bezierjevih-krivulj} veljajo tudi za racionalne Bézierjeve krivulje s pozitivnimi utežmi.
+    Brez dokaza povejmo, da lastnosti Bézierjevih krivulj, ki smo jih podali v izreku~\ref{izrek:lastnosti-bezierjevih-krivulj}, veljajo tudi za racionalne Bézierjeve krivulje s pozitivnimi utežmi.
     Subdiviziranje, ekstrapoliranje in višanje stopnje polinomske Bézierjeve krivulje lahko na racionalne Bézierjeve krivulje stopnje $d$ razširimo tako, da krivuljo zapišemo kot polinomsko Bézierjevo krivuljo stopnje $d+1$ s kontrolnimi točkami  $(w_i,w_{i}\p_i)\in R^{d+1}$.
     Polinomsko krivuljo nato subdiviziramo/ekstrapoliramo/ji zvišamo stopnjo in iz dobljenih kontrolnih točk $(\tilde{w}_i,\tilde{w}_{i}\tilde{\p}_i)\in\R^{d+1}$ preberemo nove kontrolne točke $\tilde{\p_i}\in\R^d$ in uteži $\tilde{w_i}\in\R$.
     Pri takšnem procesu samo ekstrapolacija ne ohranja pozitivnosti uteži.
     Primere si lahko ogledamo na sliki~\ref{fig:razsirjene-metode}.
     \begin{figure}[h]
         \centering
-        \subfloat[]{\includegraphics[width = \groupimagewidth]{images/racionalna-start}}
+        \subfloat[začetna krivulja]{\includegraphics[width = \groupimagewidth]{images/racionalna-start}}
         \qquad
-        \subfloat[]{\includegraphics[width = \groupimagewidth]{images/racionalna-subdivizija}}\\
-        \subfloat[]{\includegraphics[width = \groupimagewidth]{images/racionalna-ekstrapolirana}}
+        \subfloat[subdivizija]{\includegraphics[width = \groupimagewidth]{images/racionalna-subdivizija}}\\
+        \subfloat[ekstrapolacija]{\includegraphics[width = \groupimagewidth]{images/racionalna-ekstrapolirana}}
         \qquad
-        \subfloat[]{\includegraphics[width = \groupimagewidth]{images/racionalna-dvig}}
+        \subfloat[višanje stopnje]{\includegraphics[width = \groupimagewidth]{images/racionalna-dvig}}
         \caption{Subdivizija, ekstrapolacija ter višanje stopnje racionalne Bézierjeve krivulje.}
         \label{fig:razsirjene-metode}
     \end{figure}
@@ -746,10 +747,10 @@ the content and not the structure of your work.}
 %    Če pri dokazu izreka~\ref{izrek:lastnosti-bezierjevih-krivulj} namesto Bernsteinovih polinomov $B_i^n(t)$ vstavimo funkcijo $N^n_i$ iz zgornjega zapisa, dobimo dokaz lastnosti za racionalne Bézierjeve krivulje.
 
     \subsection{De Casteljaujev algoritem za racionalne Bézierjeve krivulje}
-    Točke racionalnih Bézierjevih krivulj dimenzije $d$ bi lahko računali s pomočjo De Casteljaujevega algoritma za polinomske Bézierjeve krivulje stopnje $d+1$, na podoben način kot smo v prejšnjem razdelku razširili subdivizijo, ekstrapolacijo in višanje stopnje krivulje.
-    Takšno računanje točk se izkaže za nestabilno~\ref{placeholder}, zato na tem mestu podamo razširitev De Casteljaujevega algoritma za racionalne Bézierjeve krivulje~\ref{alg:racionalni-decasteljau}, ki točke racionalne Bézierjeve krivulje računa stabilno~\ref{placeholder}.
+    Točke racionalnih Bézierjevih krivulj dimenzije $d$ bi lahko računali s pomočjo de Casteljaujevega algoritma za polinomske Bézierjeve krivulje stopnje $d+1$, na podoben način kot smo v prejšnjem razdelku razširili subdivizijo, ekstrapolacijo in višanje stopnje krivulje.
+    Takšno računanje točk se izkaže za nestabilno~\ref{placeholder}, zato na tem mestu podamo razširitev de Casteljaujevega algoritma za racionalne Bézierjeve krivulje~\ref{alg:racionalni-decasteljau}, ki točke racionalne Bézierjeve krivulje računa stabilno~\ref{placeholder}.
     \begin{algorithm}[h!]
-        \caption{Racionalni De Casteljaujev algoritem}
+        \caption{Racionalni de Casteljaujev algoritem}
         \begin{algorithmic}
             \State $\p \gets \p_0,\p_1,\dots,\p_n$
             \State $w\gets w_0,w_1,\dots,w_n$
@@ -777,7 +778,7 @@ the content and not the structure of your work.}
     Uporabniku CAGD sistema želimo nuditi čim bolj naraven način kontroliranja uteži racionalne Bézierjeve krivulje.
     V ta namen lahko uteži predstavimo s \textit{Farinovimi točkami}.
     Farinove točke ležijo na daljicah kontrolnega poligona, kjer $i$-ta Farinova točka $\mathbf{f}_i$ deli $i$-to daljico kontrolnega poligona v razmerju $w_{i+1}:w_{i}$.
-    Slednje označimo z $$\frac{|\mathbf{f}_i-\p_i|}{|\mathbf{f}_i-\p_{i+1}|} = \frac{w_{i+1}}{w_{i}}.$$
+    Slednje lahko zapišemo kot \[\frac{|\mathbf{f}_i-\p_i|}{|\mathbf{f}_i-\p_{i+1}|} = \frac{w_{i+1}}{w_{i}}.\]
     S kontrolnimi točkami in utežmi lahko Farinove točke izrazimo takole
     \[\mathbf{f}_i \coloneqq \frac{w_{i}}{w_{i}+w_{i+1}}\p_i +  \frac{w_{i+1}}{w_{i}+w_{i+1}}\p_{i+1}.\]
     Da bi uporabnik lahko s Farinovimi točkami kontroliral uteži, pa želimo obratno — s Farinovimi točkami želimo izraziti uteži.
@@ -798,7 +799,7 @@ the content and not the structure of your work.}
     Ker na grafoma (b) in (c) druga in tretja Farinova točka ležita na sredini svojih daljic, so uteži $w_1$,$w_2$ in $w_3$ enake.
     Na grafoma (d) in (e) lahko vidimo, kako se krivulja in uteži obnašajo ob premiku druge Farinove točke.
     Na grafoma (f) ter (g) pa lahko vidimo obnašanje krivulje, ko premaknemo prvo ter tretjo Farinovo točko hkrati gor oziroma dol.
-    Poglejmo si še, kaj se zgodi, če vse tri točke premaknemo pomaknemo tako, da so razmerja na vseh daljicah enaka.
+    Poglejmo še, kaj se zgodi, če vse tri točke premaknemo pomaknemo tako, da so razmerja na vseh daljicah enaka.
     Na levem grafu slike~\ref{fig:farinove-tocke-2} lahko vidimo, da krivulja izgleda kakor začetna.
     Če uteži standardiziramo, kar smo storili na desnem grafu, vidimo, da je temu res tako.
     Da bi preprečili takšno izbiro Farinovih točk, lahko po vsakem premiku Farinove točke uteži standardiziramo, ter ponovno izračunamo Farinove točke.
@@ -905,7 +906,7 @@ the content and not the structure of your work.}
     \newpage
 
     \section{Zlepki Bézierjevih krivulj}
-    Če si ponovno ogledamo De Casteljaujev algoritem~\ref{alg:decasteljau}, lahko hitro opazimo, da je časovna kompleksnost algoritma $O(n^2)$.
+    Če si ponovno ogledamo de Casteljaujev algoritem~\ref{alg:decasteljau}, lahko hitro opazimo, da je časovna kompleksnost algoritma $O(n^2)$.
     Računanje točk kompleksnejše Bézierjeve krivulje, z veliko kontrolnimi točkami,  je zato zamudno.
     Da bi ohranili uporabniku naravno kontrolo krivulj ter hiter izračun točk, posežemo po zlepkih Bézierjevih krivulj.
     \begin{definicija}
@@ -931,6 +932,7 @@ the content and not the structure of your work.}
         \caption{$C^0$ zlepek dveh Bézierjevih krivulj.}
         \label{fig:zlepek-c0}
     \end{figure}
+
     \noindent Da bo zlepek vsaj zvezno odvedljiv, mora veljati~\eqref{c0-zlepek-ref}, morata pa v stični točki sovpadati tudi odvoda $\mathbf{S_1}'(u_1) = \mathbf{S_2}'(u_1)$.
     Iz izreka~\ref{izrek:odvod} sledi, da mora zato veljati
     \begin{align}
@@ -938,7 +940,7 @@ the content and not the structure of your work.}
     \end{align}
     Upoštevajoč~\eqref{c0-zlepek-ref} lahko enačbo zapišemo tudi kot
     $$\p_{n}^{(1)} =  \p_{0}^{(2)}  = \frac{\Delta u_0\p_{1}^{(2)}}{\Delta u_0+\Delta u_1} + \frac{\Delta u_1\p_{n-1}^{(1)}}{\Delta u_0+\Delta u_1} ,$$
-    iz česar je moč prebrati geometrijski pomen pogoja.
+    od koder je moč prebrati geometrijski pomen pogoja.
     Skupna točka $\p_{n}^{(1)} =  \p_{0}^{(2)}$ mora namreč deliti daljico $\p_{n-1}^{(1)}\p_{1}^{(2)}$ v razmerju $\frac{\Delta u_0}{\Delta u_1}$.
     Primer takšnega zlepka si lahko ogledamo na sliki~\ref{fig:zlepek-c1}.
     \begin{figure}[h]
@@ -947,7 +949,7 @@ the content and not the structure of your work.}
         \caption{$C^1$ zlepek dveh Bézierjevih krivulj, kjer je $\Delta u_0=\Delta u_1$.}
         \label{fig:zlepek-c1}
     \end{figure}
-    Podobno lahko iz izreka~\ref{izrek:odvod} preberemo pogoje gladkosti za $C^r([a,b])$
+    Podobno lahko iz izreka~\ref{izrek:odvod} preberemo pogoje gladkosti za $C^r([a,b])$,
     $$ \frac{1}{(\Delta u_0)^k}\Delta^k\p^{(1)}_{n-k}= \frac{1}{(\Delta u_1)^k}\Delta^k\p^{(2)}_{0}, \quad k=0,\dots,r.$$
     Primer $C^2$ oziroma $C^3$ zlepka si lahko ogledamo na sliki~\ref{fig:zlepek-c2} oziroma sliki~\ref{fig:zlepek-c3}.
     \begin{figure}[h]

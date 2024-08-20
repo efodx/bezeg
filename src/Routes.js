@@ -26,8 +26,6 @@ import AlphaParamBezierCurveGraph
 import UniformParamBezierCurveGraph
   from './graphs/parametrisations/UniformParamBezierCurveGraph'
 import { useState } from 'react'
-import RationalBezierCurveCircleGraph4
-  from './graphs/rational/RationalBezierCurveCircleGraph4'
 import RationalBezierCurveCircleGraphN
   from './graphs/rational/RationalBezierCurveCircleGraphN'
 import { BernsteinGraph } from './graphs/bernstein/BernsteinGraph'
@@ -38,7 +36,6 @@ import C2SplineGraphParametrization
   from './graphs/parametrisations/SplineAlphaParametrizationGraph'
 import RationalDecasteljauGraph
   from './graphs/rational/RationalDecasteljauGraph'
-import { IzpeljavaGraf } from './graphs/rational/IzpeljavaGraf'
 import DecasteljauGraph2 from './graphs/bezier/DecasteljauGraph2'
 import DecasteljauGraph3 from './graphs/bezier/DecasteljauGraph3'
 
@@ -120,7 +117,7 @@ const routes = [
         group: BEZIER_CURVES_GROUP,
         path: PATH_BEZIER_CURVES + '/elevation',
         element: <ElevationGraph/>,
-        title: 'Dvig Stopnje',
+        title: 'Višanje stopnje',
       }, {
         group: RATIONAL_CURVES_GROUP,
         path: PATH_RATIONAL_CURVES + '/base',
@@ -135,7 +132,7 @@ const routes = [
         group: RATIONAL_CURVES_GROUP,
         path: PATH_RATIONAL_CURVES + '/rational-elevation',
         element: <RationalElevationGraph/>,
-        title: 'Dvig Stopnje Racionalne',
+        title: 'Višanje stopnje Racionalne',
       }, {
         path: PATH_RATIONAL_CURVES + '/rational-extrapolation',
         element: <RationalExtrapolationGraph/>,
@@ -151,22 +148,27 @@ const routes = [
         element: <FarinPointsCurveGraph/>,
         title: 'Farinove Točke',
         group: RATIONAL_CURVES_GROUP,
-      }, {
-        path: PATH_RATIONAL_CURVES + '/circle4',
-        element: <RationalBezierCurveCircleGraph4/>,
-        title: 'Krožnica iz 4 kosov',
-        group: RATIONAL_CURVES_GROUP,
-      }, {
+      },
+      // {
+      //   path: PATH_RATIONAL_CURVES + '/circle4',
+      //   element: <RationalBezierCurveCircleGraph4/>,
+      //   title: 'Krožnica iz 4 kosov',
+      //   group: RATIONAL_CURVES_GROUP,
+      // },
+      //
+      {
         path: PATH_RATIONAL_CURVES + '/circlen',
         element: <RationalBezierCurveCircleGraphN/>,
         title: 'Krožnica iz n kosov',
         group: RATIONAL_CURVES_GROUP,
-      }, {
-        path: PATH_RATIONAL_CURVES + '/circleizpeljava',
-        element: <IzpeljavaGraf/>,
-        title: 'Izpeljava',
-        group: RATIONAL_CURVES_GROUP,
-      }, {
+      },
+      // {
+      //   path: PATH_RATIONAL_CURVES + '/circleizpeljava',
+      //   element: <IzpeljavaGraf/>,
+      //   title: 'Izpeljava',
+      //   group: RATIONAL_CURVES_GROUP,
+      // },
+      {
         path: PATH_SPLINE_CURVES + '/spline',
         element: <SplineGraph/>,
         title: 'C0 Zlepek',

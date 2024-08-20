@@ -140,7 +140,7 @@ export abstract class AbstractJSXBezierCurve<T extends BezierCurve, Attr extends
                         () => this.getDecasteljauScheme(this.decasteljauT)[r][i - 1].Y()], {
                         ...PointStyles.default,
                         color: Colors[r],
-                        name: () => this.showingDecasteljauPoints ? `$$p_${i}^${r}$$` : ""
+                        name: () => this.showingDecasteljauPoints && this.showingDecasteljauScheme ? `$$p_${i}^${r}$$` : ""
                     });
                 } else {
                     pp1 = this.decasteljauPoints[this.decasteljauPoints.length - 1]
@@ -152,7 +152,7 @@ export abstract class AbstractJSXBezierCurve<T extends BezierCurve, Attr extends
                     () => this.getDecasteljauScheme(this.decasteljauT)[r][i].Y()], {
                     ...PointStyles.default,
                     color: Colors[r],
-                    name: () => this.showingDecasteljauPoints ? `$$p_${i}^${r}$$` : ""
+                    name: () => this.showingDecasteljauPoints && this.showingDecasteljauScheme ? `$$p_${i}^${r}$$` : ""
                 });
                 const segment = this.board!.create('segment', [pp1, pp2], SegmentStyles.default);
                 this.decasteljauSegments.push(segment)
@@ -166,13 +166,13 @@ export abstract class AbstractJSXBezierCurve<T extends BezierCurve, Attr extends
         const drawingPoint = this.board?.create('point', [() => this.getDecasteljauScheme(this.decasteljauT)[n - 1][0].X(), () => this.getDecasteljauScheme(this.decasteljauT)[n - 1][0].Y()], {
             ...PointStyles.default,
             color: Colors[n - 1],
-            name: () => this.showingDecasteljauPoints ? `$$p_${0}^${n}$$` : ""
+            name: () => this.showingDecasteljauPoints && this.showingDecasteljauScheme ? `$$p_${0}^${n}$$` : ""
         });
 
         if (drawingPoint instanceof JXG.Point) {
             this.decasteljauPoints.push(drawingPoint)
         }
-        this.jxgPoints.forEach((point, i) => point.setAttribute({name: () => this.showingDecasteljauPoints ? `$$p_${i}^0$$` : `$$p_${i}$$`}))
+        this.jxgPoints.forEach((point, i) => point.setAttribute({name: () => this.showingDecasteljauPoints && this.showingDecasteljauScheme ? `$$p_${i}^0$$` : `$$p_${i}$$`}))
 
     }
 

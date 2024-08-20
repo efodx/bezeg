@@ -7,6 +7,7 @@ import Slider from "../../inputs/Slider";
 import {Attributes} from "../attributes/Attributes";
 import {CurveStyles} from "../styles/CurveStyles";
 import {Color} from "./utilities/Colors";
+import {Button} from "react-bootstrap";
 
 interface DecasteljauGraphStates extends BaseGraphStates {
     t: number,
@@ -79,7 +80,8 @@ class DecasteljauGraph extends BaseBezierCurveGraph<any, DecasteljauGraphStates>
                     fixedValue={this.state.t}
                     onChange={(t) => this.setState({...this.state, t: t})}></Slider>,
             <Slider customText={'Hitrost animacije'} min={0} max={1} fixedValue={this.state.v}
-                    onChange={(v) => this.setState({...this.state, v: v})}></Slider>]) : []
+                    onChange={(v) => this.setState({...this.state, v: v})}></Slider>,
+            <Button onClick={() => this.subdivide()}>Subdiviziraj</Button>]) : []
     }
 
     private animate(animate: boolean) {
@@ -102,6 +104,11 @@ class DecasteljauGraph extends BaseBezierCurveGraph<any, DecasteljauGraphStates>
         }
     }
 
+    private subdivide() {
+        const newcurve = this.getFirstJsxCurve().subdivide()
+        this.getFirstJsxCurve().showCurrentDecasteljauScheme(false)
+        newcurve.getJxgCurve().setAttribute({strokeColor: Color.GREAT_ORANGE})
+    }
 }
 
 export default DecasteljauGraph;
