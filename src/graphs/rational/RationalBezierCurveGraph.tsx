@@ -20,7 +20,7 @@ class RationalBezierCurveGraph extends BaseRationalCurveGraph<any, BaseGraphStat
     }
 
     override presets(): string {
-        return "rational-bezier"
+        return "rational-bezier";
     }
 
 }

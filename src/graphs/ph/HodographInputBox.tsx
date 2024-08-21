@@ -9,9 +9,9 @@ export function HodographInputbox(props: HodographInputBoxProps) {
     useEffect(() => {
         const board = JSXGraph.initBoard("hodograph-input-box", {
             showFullscreen: false, boundingbox: [-5, 5, 5, -5], axis: true, showNavigation: false, showCopyright: false
-        })
-        props.setRef(board)
-    })
+        });
+        props.setRef(board);
+    });
 
     return <div id="hodograph-input-box" style={{
         width: "100%",
@@ -20,5 +20,5 @@ export function HodographInputbox(props: HodographInputBoxProps) {
         marginTop: "2vh",
         marginBottom: "2vh",
         borderRadius: "10px"
-    }}/>
+    }}/>;
 }

@@ -5,9 +5,9 @@ import {CacheContext} from "../../../graphs/context/CacheContext";
 export class PointImpl implements Point {
     private x: number | (() => number);
     private y: number | (() => number);
-    private lastCacheContextX = CacheContext.context
-    private cachedX?: number = undefined
-    private cachedY?: number = undefined
+    private lastCacheContextX = CacheContext.context;
+    private cachedX?: number = undefined;
+    private cachedY?: number = undefined;
     private lastCacheContextY: number = CacheContext.context;
 
     constructor(x: number | (() => number), y: number | (() => number)) {
@@ -19,24 +19,24 @@ export class PointImpl implements Point {
         if (typeof this.x == 'number') {
             return this.x;
         }
-        const currentContext = CacheContext.context
+        const currentContext = CacheContext.context;
         if (!this.cachedX || currentContext !== this.lastCacheContextX) {
-            this.cachedX = this.x()
-            this.lastCacheContextX = currentContext
+            this.cachedX = this.x();
+            this.lastCacheContextX = currentContext;
         }
-        return this.cachedX!
+        return this.cachedX!;
     }
 
     Y(): number {
         if (typeof this.y == 'number') {
             return this.y;
         }
-        const currentContext = CacheContext.context
+        const currentContext = CacheContext.context;
         if (!this.cachedY || CacheContext.context !== this.lastCacheContextY) {
-            this.cachedY = this.y()
-            this.lastCacheContextY = currentContext
+            this.cachedY = this.y();
+            this.lastCacheContextY = currentContext;
         }
-        return this.cachedY!
+        return this.cachedY!;
     }
 
     setX(x: number | (() => number)) {
@@ -48,11 +48,11 @@ export class PointImpl implements Point {
     }
 
     isXFunction(): boolean {
-        return typeof this.x === "function"
+        return typeof this.x === "function";
     }
 
     isYFunction(): boolean {
-        return typeof this.y === "function"
+        return typeof this.y === "function";
     }
 
 }

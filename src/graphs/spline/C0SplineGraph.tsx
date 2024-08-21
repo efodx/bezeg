@@ -4,7 +4,7 @@ import {BaseGraphStates} from "../base/BaseCurveGraph";
 class Graph extends BaseSplineCurveGraph<BaseGraphStates> {
 
     override presets(): string {
-        return "c0-spline"
+        return "c0-spline";
     }
 
     defaultPreset(): any {

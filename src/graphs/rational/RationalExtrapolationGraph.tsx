@@ -8,17 +8,17 @@ import {BezierCurveAttributes} from "../object/AbstractJSXBezierCurve";
 
 class GraphExtrapolation extends BaseRationalCurveGraph<any, BaseGraphStates> {
     override initialize() {
-        super.initialize()
-        this.getFirstJsxCurve().createExtrapolationPoint()
-        this.getFirstJsxCurve().showExtrapolationPoint()
+        super.initialize();
+        this.getFirstJsxCurve().createExtrapolationPoint();
+        this.getFirstJsxCurve().showExtrapolationPoint();
         this.getFirstJsxCurve().setAttributes({
             allowShrink: false,
             allowExtrapolation: false,
             allowElevation: false,
             allowDecasteljau: false,
             allowSubdivision: false
-        } as BezierCurveAttributes)
-        this.boardUpdate()
+        } as BezierCurveAttributes);
+        this.boardUpdate();
     }
 
     override getGraphCommands(): JSX.Element[] {
@@ -28,7 +28,7 @@ class GraphExtrapolation extends BaseRationalCurveGraph<any, BaseGraphStates> {
                     onChange={(t) => this.getFirstJsxCurve().setExtrapolationT(t)}></Slider>
             <Button
                 onClick={() => this.extrapolate()}>Ekstrapoliraj</Button>
-        </div>]) : []
+        </div>]) : [];
     }
 
     defaultPreset(): any {
@@ -47,19 +47,19 @@ class GraphExtrapolation extends BaseRationalCurveGraph<any, BaseGraphStates> {
     }
 
     override presets(): string {
-        return "rational-bezier-extrapolation"
+        return "rational-bezier-extrapolation";
     }
 
     override deselectSelectedCurve() {
-        super.deselectSelectedCurve()
-        this.getFirstJsxCurve().createExtrapolationPoint()
-        this.getFirstJsxCurve().showExtrapolationPoint()
+        super.deselectSelectedCurve();
+        this.getFirstJsxCurve().createExtrapolationPoint();
+        this.getFirstJsxCurve().showExtrapolationPoint();
     }
 
     private extrapolate() {
-        this.board.suspendUpdate()
+        this.board.suspendUpdate();
         this.getFirstJsxCurve().extrapolate(this.getFirstJsxCurve().getExtrapolationT());
-        this.unsuspendBoardUpdate()
+        this.unsuspendBoardUpdate();
     }
 
 }

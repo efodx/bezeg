@@ -12,7 +12,7 @@ class C1SplineGraph extends BaseSplineCurveGraph<BaseGraphStates> {
     }
 
     override presets(): string {
-        return "c1-spline-graph"
+        return "c1-spline-graph";
     }
 }
 

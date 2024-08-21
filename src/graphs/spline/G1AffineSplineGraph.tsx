@@ -20,11 +20,11 @@ class Graph extends BaseSplineCurveGraph<BaseGraphStates> {
             <div><Button onClick={() => this.rotate(0.10 * Math.PI)}>Rotiraj levo</Button>
                 <Button onClick={() => this.rotate(-0.10 * Math.PI)}>Rotiraj desno</Button></div>,
             <div><Button onClick={() => this.flip(true, false)}>Zrcali Y</Button>
-                <Button onClick={() => this.flip(false, true)}>Zrcali X</Button></div>])
+                <Button onClick={() => this.flip(false, true)}>Zrcali X</Button></div>]);
     }
 
     override presets() {
-        return "g1-spline"
+        return "g1-spline";
     }
 
     defaultPreset(): any {
@@ -36,43 +36,43 @@ class Graph extends BaseSplineCurveGraph<BaseGraphStates> {
     }
 
     private povecajB1() {
-        this.getFirstCurve().setB(0, this.getFirstCurve().getB(0) * 1.1)
-        this.boardUpdate()
+        this.getFirstCurve().setB(0, this.getFirstCurve().getB(0) * 1.1);
+        this.boardUpdate();
     }
 
     private zmanjsajB1() {
-        this.getFirstCurve().setB(0, this.getFirstCurve().getB(0) * 0.9)
-        this.boardUpdate()
+        this.getFirstCurve().setB(0, this.getFirstCurve().getB(0) * 0.9);
+        this.boardUpdate();
     }
 
     private povecajB2() {
-        this.getFirstCurve().setB(1, this.getFirstCurve().getB(1) * 1.1)
-        this.boardUpdate()
+        this.getFirstCurve().setB(1, this.getFirstCurve().getB(1) * 1.1);
+        this.boardUpdate();
     }
 
     private zmanjsajB2() {
-        this.getFirstCurve().setB(1, this.getFirstCurve().getB(1) * 0.9)
-        this.boardUpdate()
+        this.getFirstCurve().setB(1, this.getFirstCurve().getB(1) * 0.9);
+        this.boardUpdate();
     }
 
     private moveFor(x: number, y: number) {
-        this.getFirstCurve().moveFor(x, y)
-        this.boardUpdate()
+        this.getFirstCurve().moveFor(x, y);
+        this.boardUpdate();
     }
 
     private scale(scale: number) {
-        this.getFirstCurve().scale(scale)
-        this.boardUpdate()
+        this.getFirstCurve().scale(scale);
+        this.boardUpdate();
     }
 
     private rotate(number: number) {
-        this.getFirstCurve().rotate(number)
-        this.boardUpdate()
+        this.getFirstCurve().rotate(number);
+        this.boardUpdate();
     }
 
     private flip(b: boolean, b2: boolean) {
-        this.getFirstCurve().flip(b, b2)
-        this.boardUpdate()
+        this.getFirstCurve().flip(b, b2);
+        this.boardUpdate();
     }
 
 }

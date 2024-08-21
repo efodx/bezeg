@@ -19,7 +19,7 @@ class QuinticPhBezierCurve extends BasePhBezierCurveGraph<any, BasePhBezierCurve
     }
 
     override presets(): string {
-        return "quintic-ph-graph"
+        return "quintic-ph-graph";
     }
 
 }

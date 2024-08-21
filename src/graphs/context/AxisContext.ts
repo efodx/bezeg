@@ -7,28 +7,28 @@ export enum AxisSelect {
 }
 
 class AxisContextSingleton {
-    axisSelect = AxisSelect.EVERYTHING
-    ticksNumbersVisibility = [AxisSelect.EVERYTHING]
-    ticksMinorVisibility = [AxisSelect.AXIS_AND_MINOR, AxisSelect.EVERYTHING]
-    ticksVisibility = [AxisSelect.AXIS_AND_MAJOR, AxisSelect.AXIS_AND_MINOR, AxisSelect.EVERYTHING]
-    axisVisibility = [AxisSelect.ONLY_AXIS, AxisSelect.AXIS_AND_MAJOR, AxisSelect.AXIS_AND_MINOR, AxisSelect.EVERYTHING]
+    axisSelect = AxisSelect.EVERYTHING;
+    ticksNumbersVisibility = [AxisSelect.EVERYTHING];
+    ticksMinorVisibility = [AxisSelect.AXIS_AND_MINOR, AxisSelect.EVERYTHING];
+    ticksVisibility = [AxisSelect.AXIS_AND_MAJOR, AxisSelect.AXIS_AND_MINOR, AxisSelect.EVERYTHING];
+    axisVisibility = [AxisSelect.ONLY_AXIS, AxisSelect.AXIS_AND_MAJOR, AxisSelect.AXIS_AND_MINOR, AxisSelect.EVERYTHING];
 
     ticksVisible() {
-        return this.ticksVisibility.includes(this.axisSelect)
+        return this.ticksVisibility.includes(this.axisSelect);
     }
 
 
     tickNumbersVisible() {
-        return this.ticksNumbersVisibility.includes(this.axisSelect)
+        return this.ticksNumbersVisibility.includes(this.axisSelect);
     }
 
     axisVisible() {
-        return this.axisVisibility.includes(this.axisSelect)
+        return this.axisVisibility.includes(this.axisSelect);
     }
 
 
     minorVisible() {
-        return this.ticksMinorVisibility.includes(this.axisSelect)
+        return this.ticksMinorVisibility.includes(this.axisSelect);
     }
 
     getSelected() {
@@ -36,8 +36,8 @@ class AxisContextSingleton {
     }
 
     setSelected(selected: AxisSelect) {
-        this.axisSelect = selected
+        this.axisSelect = selected;
     }
 }
 
-export const AxisContext = new AxisContextSingleton()
+export const AxisContext = new AxisContextSingleton();

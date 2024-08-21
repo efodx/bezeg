@@ -8,7 +8,7 @@ import {JSXBezierCurve} from "../object/JSXBezierCurve";
 import {Attributes} from "../attributes/Attributes";
 
 function ShowControlPolygons(props: { initialState: boolean, onChange: (checked: boolean) => void }) {
-    return <OnOffSwitch initialState={props.initialState} label="Kontrolni poligoni" onChange={props.onChange}/>
+    return <OnOffSwitch initialState={props.initialState} label="Kontrolni poligoni" onChange={props.onChange}/>;
 }
 
 class SubdivisionGraph extends BaseBezierCurveGraph<any, BaseGraphStates> {
@@ -16,7 +16,7 @@ class SubdivisionGraph extends BaseBezierCurveGraph<any, BaseGraphStates> {
 
     override initialize() {
         super.initialize();
-        this.getFirstJsxCurve().setAttributes(Attributes.bezierDisabled)
+        this.getFirstJsxCurve().setAttributes(Attributes.bezierDisabled);
     }
 
     defaultPreset(): any {
@@ -30,34 +30,34 @@ class SubdivisionGraph extends BaseBezierCurveGraph<any, BaseGraphStates> {
                 "decasteljauT": 0.5,
                 "extrapolationT": 1.2
             }
-        }]]
+        }]];
     }
 
     override presets() {
-        return "bezier-subdivision"
+        return "bezier-subdivision";
     }
 
     override getAllJxgPoints() {
-        return super.getAllJxgPoints().concat(this.jsxBezierCurves.flatMap(curve => (curve as JSXBezierCurve).getJsxDecasteljauPoints()))
+        return super.getAllJxgPoints().concat(this.jsxBezierCurves.flatMap(curve => (curve as JSXBezierCurve).getJsxDecasteljauPoints()));
     }
 
     subdivide() {
         if (this.stepsDone > 4) {
-            return
+            return;
         }
-        this.stepsDone = this.stepsDone + 1
+        this.stepsDone = this.stepsDone + 1;
         // @ts-ignore
-        this.board.suspendUpdate()
-        let oldJsxBezierCurves = this.jsxBezierCurves.map(c => c as JSXBezierCurve)
+        this.board.suspendUpdate();
+        let oldJsxBezierCurves = this.jsxBezierCurves.map(c => c as JSXBezierCurve);
         for (let bezierCurve of oldJsxBezierCurves) {
-            let newCurve = bezierCurve.subdivide(1 / 2)
-            bezierCurve.hideDecasteljauScheme()
-            bezierCurve.showControlPolygon()
-            newCurve.showControlPolygon()
+            let newCurve = bezierCurve.subdivide(1 / 2);
+            bezierCurve.hideDecasteljauScheme();
+            bezierCurve.showControlPolygon();
+            newCurve.showControlPolygon();
 
             this.jsxBezierCurves.push(newCurve);
         }
-        this.unsuspendBoardUpdate()
+        this.unsuspendBoardUpdate();
     };
 
     override getGraphCommands(): JSX.Element[] {
@@ -66,51 +66,51 @@ class SubdivisionGraph extends BaseBezierCurveGraph<any, BaseGraphStates> {
             <ShowControlPolygons initialState={this.getFirstJsxCurve().isShowingControlPolygon()}
                                  onChange={(checked) => {
                                      if (checked) {
-                                         this.showControlPolygons()
+                                         this.showControlPolygons();
                                      } else {
-                                         this.hideControlPolygons()
+                                         this.hideControlPolygons();
                                      }
-                                 }}/>]) : []
+                                 }}/>]) : [];
     }
 
     override getSelectedCurveCommands(): JSX.Element[] {
         return super.getSelectedCurveCommands().concat([<OnOffSwitch
             initialState={this.getSelectedCurve().isShowingDecasteljauScheme()} onChange={checked => {
             if (checked) {
-                this.showDecasteljauScheme()
+                this.showDecasteljauScheme();
             } else {
-                this.hideDecasteljauScheme()
+                this.hideDecasteljauScheme();
             }
-        }} label={"Decasteljaujeva shema"}/>])
+        }} label={"Decasteljaujeva shema"}/>]);
     }
 
     private hideControlPolygons() {
-        this.board.suspendUpdate()
-        this.jsxBezierCurves.forEach(curve => (curve as JSXBezierCurve).hideDecasteljauScheme())
-        this.jsxBezierCurves.forEach(curve => curve.hideControlPolygon())
-        this.unsuspendBoardUpdate()
+        this.board.suspendUpdate();
+        this.jsxBezierCurves.forEach(curve => (curve as JSXBezierCurve).hideDecasteljauScheme());
+        this.jsxBezierCurves.forEach(curve => curve.hideControlPolygon());
+        this.unsuspendBoardUpdate();
     }
 
     private showControlPolygons() {
-        this.board.suspendUpdate()
-        this.jsxBezierCurves.forEach(curve => curve.showControlPolygon())
-        this.unsuspendBoardUpdate()
+        this.board.suspendUpdate();
+        this.jsxBezierCurves.forEach(curve => curve.showControlPolygon());
+        this.unsuspendBoardUpdate();
     }
 
     private showDecasteljauScheme() {
-        this.board.suspendUpdate()
+        this.board.suspendUpdate();
         if (this.getSelectedCurve()) {
-            this.getSelectedCurve().setDecasteljauT(1 / 2)
+            this.getSelectedCurve().setDecasteljauT(1 / 2);
         }
-        this.unsuspendBoardUpdate()
+        this.unsuspendBoardUpdate();
     }
 
     private hideDecasteljauScheme() {
-        this.board.suspendUpdate()
+        this.board.suspendUpdate();
         if (this.getSelectedCurve()) {
-            this.getSelectedCurve().hideDecasteljauScheme()
+            this.getSelectedCurve().hideDecasteljauScheme();
         }
-        this.unsuspendBoardUpdate()
+        this.unsuspendBoardUpdate();
     }
 }
 

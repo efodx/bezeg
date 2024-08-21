@@ -10,9 +10,9 @@ class RationalBezierCurveGraph extends BaseRationalCurveGraph<any, BaseGraphStat
     override initialize() {
         super.initialize();
         if (this.getFirstJsxCurve().isShowingFarinPoints()) {
-            this.showFarinPoints(true)
+            this.showFarinPoints(true);
         }
-        CacheContext.update()
+        CacheContext.update();
     }
 
     override getGraphCommands(): JSX.Element[] {
@@ -23,7 +23,7 @@ class RationalBezierCurveGraph extends BaseRationalCurveGraph<any, BaseGraphStat
             onChange={(checked) => this.getFirstJsxCurve().showwWeights(checked)} label={"Uteži"}/>, <OnOffSwitch
             initialState={this.getFirstJsxCurve().inStandardForm()}
             onChange={(checked) => this.getFirstJsxCurve().setStandardForm(checked)}
-            label={"Standardna Forma"}/>) : []
+            label={"Standardna Forma"}/>) : [];
     }
 
     defaultPreset(): any {
@@ -42,13 +42,13 @@ class RationalBezierCurveGraph extends BaseRationalCurveGraph<any, BaseGraphStat
     }
 
     override presets(): string {
-        return "rational-bezier-farin"
+        return "rational-bezier-farin";
     }
 
     private showFarinPoints(checked: boolean) {
-        this.getFirstJsxCurve().showFarinPoints(checked)
-        this.getAllJxgPoints().forEach(point => point.setAttribute({fixed: checked}))
-        this.inputsDisabled = checked
+        this.getFirstJsxCurve().showFarinPoints(checked);
+        this.getAllJxgPoints().forEach(point => point.setAttribute({fixed: checked}));
+        this.inputsDisabled = checked;
     }
 }
 

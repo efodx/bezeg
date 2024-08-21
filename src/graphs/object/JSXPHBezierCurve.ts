@@ -39,7 +39,7 @@ export class JSXPHBezierCurve extends JSXBezierCurve {
 
     constructor(points: number[][], board: Board, attributes?: BezierCurveAttributes) {
         super(points, board, attributes);
-        this.setAttributes({...Attributes.bezierDisabled, allowShowConvexHull: false})
+        this.setAttributes({...Attributes.bezierDisabled, allowShowConvexHull: false});
     }
 
     static override toDto(curve: JSXBezierCurve): any {
@@ -47,25 +47,25 @@ export class JSXPHBezierCurve extends JSXBezierCurve {
             points: [curve.pointControlledCurve.getPoints().map(point => [point.X(), point.Y()])[0]],
             hodographs: (curve.getCurve() as PhBezierCurve).w.map(point => [point.X(), point.Y()]),
             state: curve.exportState()
-        } as JSXPHBezierCurveConstructorParams
+        } as JSXPHBezierCurveConstructorParams;
     }
 
     static override fromDto(params: JSXPHBezierCurveConstructorParams, board: Board): JSXBezierCurve {
-        const curve = new JSXPHBezierCurve(params.points.concat(params.hodographs), board)
+        const curve = new JSXPHBezierCurve(params.points.concat(params.hodographs), board);
         if (params.state) {
-            curve.importState(params.state)
+            curve.importState(params.state);
         }
-        return curve as JSXBezierCurve
+        return curve as JSXBezierCurve;
     }
 
     override importState(state: JSXPHBezierCurveState) {
         super.importState(state);
         if (state.d) {
-            this.getCurve().setOffsetCurveDistance(state.d)
+            this.getCurve().setOffsetCurveDistance(state.d);
         }
-        this.generateJsxOffsetCurves(!state.showOffsetCurve)
-        this.setShowOffsetCurve(state.showOffsetCurve)
-        this.setShowOffsetCurveControlPoints(state.showOffsetCurveControlPoints)
+        this.generateJsxOffsetCurves(!state.showOffsetCurve);
+        this.setShowOffsetCurve(state.showOffsetCurve);
+        this.setShowOffsetCurveControlPoints(state.showOffsetCurveControlPoints);
     }
 
     override exportState(): JSXPHBezierCurveState {
@@ -76,13 +76,13 @@ export class JSXPHBezierCurve extends JSXBezierCurve {
             showOffsetCurve: this.showOffsetCurve,
             d: this.getCurve().getOffsetCurveDistance()
 
-        } as JSXPHBezierCurveState
+        } as JSXPHBezierCurveState;
     }
 
     setOffsetCurveDistance(d: number) {
-        this.getCurve().setOffsetCurveDistance(d)
-        CacheContext.update()
-        this.board.update()
+        this.getCurve().setOffsetCurveDistance(d);
+        CacheContext.update();
+        this.board.update();
     }
 
     isShowingOffsetCurve(): boolean {
@@ -91,22 +91,22 @@ export class JSXPHBezierCurve extends JSXBezierCurve {
 
     setShowOffsetCurve(show: boolean) {
         if (this.jsxOffsetCurves === undefined && show) {
-            this.generateJsxOffsetCurves(false)
+            this.generateJsxOffsetCurves(false);
         }
-        CacheContext.update()
+        CacheContext.update();
         if (show) {
-            this.jsxOffsetCurves.forEach(curve => curve.show())
+            this.jsxOffsetCurves.forEach(curve => curve.show());
         } else {
-            this.jsxOffsetCurves.forEach(curve => curve.hideElement())
+            this.jsxOffsetCurves.forEach(curve => curve.hideElement());
         }
-        this.showOffsetCurve = show
+        this.showOffsetCurve = show;
     }
 
     override getStartingCurve(points: number[][]): BezierCurve {
-        const pointsImpl = points.map(p => new PointImpl(p[0], p[1]))
+        const pointsImpl = points.map(p => new PointImpl(p[0], p[1]));
         const curve = new PhBezierCurve(pointsImpl.slice(0, 1), pointsImpl.slice(1));
-        curve.getPoints().map((p, i) => this.createJSXGraphPoint(() => p.X(), () => p.Y(), PointStyles.pi(i)))
-        return curve
+        curve.getPoints().map((p, i) => this.createJSXGraphPoint(() => p.X(), () => p.Y(), PointStyles.pi(i)));
+        return curve;
     }
 
 
@@ -115,63 +115,63 @@ export class JSXPHBezierCurve extends JSXBezierCurve {
             let jxgOffsetControlPoints = curve.getPoints().map((point, r) => this.board.create('point', [() => point.X(), () => point.Y()], {
                 ...PointStyles.default,
                 color: Colors[r]
-            }))
+            }));
             // @ts-ignore
-            this.jxgOffsetControlPoints.push(...jxgOffsetControlPoints)
-        })
+            this.jxgOffsetControlPoints.push(...jxgOffsetControlPoints);
+        });
     }
 
     setShowOffsetCurveControlPointsLines(checked: boolean) {
-        this.board.removeObject(this.jxgOffsetControlPointsLines)
-        this.jxgOffsetControlPointsLines = []
+        this.board.removeObject(this.jxgOffsetControlPointsLines);
+        this.jxgOffsetControlPointsLines = [];
         if (checked) {
             this.generateLinesBetweenOffsetCurvePoints();
         }
-        this.showOffsetCurveControlPointsLines = checked
+        this.showOffsetCurveControlPointsLines = checked;
     }
 
     isShowingOffsetCurveControlPointsLines() {
-        return this.showOffsetCurveControlPointsLines
+        return this.showOffsetCurveControlPointsLines;
     }
 
     setShowOffsetCurveControlPoints(checked: boolean) {
-        this.board.removeObject(this.jxgOffsetControlPoints)
-        this.jxgOffsetControlPoints = []
+        this.board.removeObject(this.jxgOffsetControlPoints);
+        this.jxgOffsetControlPoints = [];
         if (checked) {
             this.generateJxgOffsetCurveControlPoints();
             if (this.showOffsetCurveControlPointsLines) {
-                this.generateLinesBetweenOffsetCurvePoints()
+                this.generateLinesBetweenOffsetCurvePoints();
             }
         }
 
-        this.showOffsetCurveControlPoints = checked
+        this.showOffsetCurveControlPoints = checked;
     }
 
     isShowingOffsetCurveControlPoints() {
-        return this.showOffsetCurveControlPoints
+        return this.showOffsetCurveControlPoints;
     }
 
 
     addOffsetCurve() {
-        this.board.suspendUpdate()
-        this.getCurve().addOffsetCurve()
-        this.generateJsxOffsetCurves()
-        this.setShowOffsetCurveControlPoints(this.showOffsetCurveControlPoints)
-        this.setShowOffsetCurveControlPointsLines(this.showOffsetCurveControlPointsLines)
-        this.board.unsuspendUpdate()
+        this.board.suspendUpdate();
+        this.getCurve().addOffsetCurve();
+        this.generateJsxOffsetCurves();
+        this.setShowOffsetCurveControlPoints(this.showOffsetCurveControlPoints);
+        this.setShowOffsetCurveControlPointsLines(this.showOffsetCurveControlPointsLines);
+        this.board.unsuspendUpdate();
     }
 
     removeOffsetCurve() {
-        this.board.suspendUpdate()
-        this.getCurve().removeOffsetCurve()
-        this.generateJsxOffsetCurves()
-        this.setShowOffsetCurveControlPoints(this.showOffsetCurveControlPoints)
-        this.setShowOffsetCurveControlPointsLines(this.showOffsetCurveControlPointsLines)
-        this.board.unsuspendUpdate()
+        this.board.suspendUpdate();
+        this.getCurve().removeOffsetCurve();
+        this.generateJsxOffsetCurves();
+        this.setShowOffsetCurveControlPoints(this.showOffsetCurveControlPoints);
+        this.setShowOffsetCurveControlPointsLines(this.showOffsetCurveControlPointsLines);
+        this.board.unsuspendUpdate();
     }
 
     generateLinesBetweenOffsetCurvePoints() {
-        const numOfLines = this.getCurve().getOffsetCurves()[0].getPoints().length
+        const numOfLines = this.getCurve().getOffsetCurves()[0].getPoints().length;
         for (let i = 0; i < numOfLines; i++) {
             const offsetLine = this.board.create('line', [this.jxgOffsetControlPoints[i], this.jxgOffsetControlPoints[this.jxgOffsetControlPoints.length - numOfLines + i]], {
                 straightFirst: false,
@@ -179,13 +179,13 @@ export class JSXPHBezierCurve extends JSXBezierCurve {
                 strokeWidth: () => SizeContext.strokeWidth,
                 color: Colors[i]
             });
-            this.jxgOffsetControlPointsLines.push(offsetLine)
+            this.jxgOffsetControlPointsLines.push(offsetLine);
         }
     }
 
     generateJsxOffsetCurves(hide?: boolean) {
-        this.board.removeObject(this.jsxOffsetCurves)
-        this.jsxOffsetCurves = []
+        this.board.removeObject(this.jsxOffsetCurves);
+        this.jsxOffsetCurves = [];
         this.jsxOffsetCurves = this.getCurve().getOffsetCurves().map(curve => this.board.create('curve',
             [(t: number) => {
                 return curve.calculatePointAtT(t).X();
@@ -198,7 +198,7 @@ export class JSXPHBezierCurve extends JSXBezierCurve {
             ], CurveStyles.default
         ));
         if (hide) {
-            this.jsxOffsetCurves.forEach(curve => curve.hide())
+            this.jsxOffsetCurves.forEach(curve => curve.hide());
         }
     }
 

@@ -9,18 +9,18 @@ class Graph extends BaseRationalCurveGraph<any, BaseGraphStates> {
 
     override initialize() {
         super.initialize();
-        this.getFirstJsxCurve().setAttributes(Attributes.bezierDisabled)
+        this.getFirstJsxCurve().setAttributes(Attributes.bezierDisabled);
     }
 
     elevate() {
-        this.board.suspendUpdate()
-        this.getFirstJsxCurve().elevate()
-        this.unsuspendBoardUpdate()
+        this.board.suspendUpdate();
+        this.getFirstJsxCurve().elevate();
+        this.unsuspendBoardUpdate();
     }
 
     override getGraphCommands(): JSX.Element[] {
         return super.getGraphCommands().concat([<Button onClick={() => this.elevate()}>Dvigni
-            stopnjo</Button>])
+            stopnjo</Button>]);
     }
 
     defaultPreset(): any {
@@ -39,7 +39,7 @@ class Graph extends BaseRationalCurveGraph<any, BaseGraphStates> {
     }
 
     override presets(): string {
-        return "rational-bezier-elevation"
+        return "rational-bezier-elevation";
     }
 }
 

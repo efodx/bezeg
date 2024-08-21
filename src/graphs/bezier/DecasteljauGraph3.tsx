@@ -23,9 +23,9 @@ class DecasteljauGraph extends BaseBezierCurveGraph<any, DecasteljauGraphStates>
     }
 
     override componentDidUpdate(prevProps: Readonly<any>, prevState: Readonly<DecasteljauGraphStates>, snapshot?: any) {
-        this.board.suspendUpdate()
-        this.getFirstJsxCurve().setDecasteljauT(this.state.t)
-        this.unsuspendBoardUpdate()
+        this.board.suspendUpdate();
+        this.getFirstJsxCurve().setDecasteljauT(this.state.t);
+        this.unsuspendBoardUpdate();
     }
 
     defaultPreset(): any {
@@ -39,21 +39,21 @@ class DecasteljauGraph extends BaseBezierCurveGraph<any, DecasteljauGraphStates>
                 "decasteljauT": 0.5,
                 "extrapolationT": 1.2
             }
-        }]]
+        }]];
     }
 
     override presets(): string {
-        return "decasteljau3"
+        return "decasteljau3";
     }
 
     override initialize() {
-        super.initialize()
-        this.graphJXGPoints = this.getFirstJsxCurve().getJxgPoints()
-        this.getFirstJsxCurve().setIntervalEnd(() => this.state.wholeCurve ? 1 : this.state.t)
-        this.getFirstJsxCurve().setAttributes(Attributes.bezierDisabled)
-        this.getFirstJsxCurve().showDecasteljauPoints()
+        super.initialize();
+        this.graphJXGPoints = this.getFirstJsxCurve().getJxgPoints();
+        this.getFirstJsxCurve().setIntervalEnd(() => this.state.wholeCurve ? 1 : this.state.t);
+        this.getFirstJsxCurve().setAttributes(Attributes.bezierDisabled);
+        this.getFirstJsxCurve().showDecasteljauPoints();
 
-        const curve = this.getFirstCurve()
+        const curve = this.getFirstCurve();
         this.board.create('curve',
             [(t: number) => {
                 return curve.calculatePointAtT(t).X();
@@ -65,7 +65,7 @@ class DecasteljauGraph extends BaseBezierCurveGraph<any, DecasteljauGraphStates>
                 1
             ], {...CurveStyles.default, strokeColor: Color.GREAT_ORANGE, visible: () => this.state.wholeCurve}
         );
-        this.boardUpdate()
+        this.boardUpdate();
     }
 
     override getGraphCommands(): JSX.Element[] {
@@ -81,33 +81,33 @@ class DecasteljauGraph extends BaseBezierCurveGraph<any, DecasteljauGraphStates>
                     onChange={(t) => this.setState({...this.state, t: t})}></Slider>,
             <Slider customText={'Hitrost animacije'} min={0} max={1} fixedValue={this.state.v}
                     onChange={(v) => this.setState({...this.state, v: v})}></Slider>,
-            <Button onClick={() => this.subdivide()}>Subdiviziraj</Button>]) : []
+            <Button onClick={() => this.subdivide()}>Subdiviziraj</Button>]) : [];
     }
 
     private animate(animate: boolean) {
         if (animate) {
-            this.animating = true
-            this.animateRecursive(this.state.t)
+            this.animating = true;
+            this.animateRecursive(this.state.t);
         } else {
-            this.animating = false
+            this.animating = false;
         }
     }
 
     private animateRecursive(t: number) {
-        let dt = 0.015 * this.state.v
+        let dt = 0.015 * this.state.v;
         if (t + dt > 1) {
-            t = 0
+            t = 0;
         }
-        this.setState({...this.state, t: t})
+        this.setState({...this.state, t: t});
         if (this.animating) {
-            window.requestAnimationFrame(() => this.animateRecursive(t + dt))
+            window.requestAnimationFrame(() => this.animateRecursive(t + dt));
         }
     }
 
     private subdivide() {
-        const newcurve = this.getFirstJsxCurve().subdivide()
-        this.getFirstJsxCurve().showCurrentDecasteljauScheme(false)
-        newcurve.getJxgCurve().setAttribute({strokeColor: Color.GREAT_ORANGE})
+        const newcurve = this.getFirstJsxCurve().subdivide();
+        this.getFirstJsxCurve().showCurrentDecasteljauScheme(false);
+        newcurve.getJxgCurve().setAttribute({strokeColor: Color.GREAT_ORANGE});
     }
 }
 

@@ -2,16 +2,16 @@ import React, {useContext, useState} from 'react';
 import './App.css';
 import {NavLink, Outlet, useLocation} from "react-router-dom";
 import routes from "./Routes";
-import Logo from "./images/elderflower.png"
+import Logo from "./images/elderflower.png";
 import {Container, Nav, Navbar, NavDropdown} from "react-bootstrap";
-import {LinkContainer} from 'react-router-bootstrap'
+import {LinkContainer} from 'react-router-bootstrap';
 import {SiteContext} from "./graphs/context/react/SiteContext";
 
 function NavBar() {
     const location = useLocation();
-    const fullScreenContext = useContext(SiteContext).fullScreen
-    let groupedChildren = {}
-    let groupByTitle = {}
+    const fullScreenContext = useContext(SiteContext).fullScreen;
+    let groupedChildren = {};
+    let groupByTitle = {};
     let children = routes.flatMap((mainEntry) => mainEntry.children)
         .filter(child => !child.index)
         .flatMap(child => {
@@ -19,20 +19,20 @@ function NavBar() {
                 // @ts-ignore
                 if (groupedChildren[child.group.title]) {
                     // @ts-ignore
-                    groupedChildren[child.group.title].push(child)
+                    groupedChildren[child.group.title].push(child);
                 } else {
                     // @ts-ignore
-                    groupedChildren[child.group.title] = [child]
+                    groupedChildren[child.group.title] = [child];
                     // @ts-ignore
-                    groupByTitle[child.group.title] = child.group
-                    return child.group.title
+                    groupByTitle[child.group.title] = child.group;
+                    return child.group.title;
                 }
-                return []
+                return [];
             } else {
-                return child!
+                return child!;
             }
         })
-        .filter(child => typeof child != "undefined")
+        .filter(child => typeof child != "undefined");
     return <Navbar expand="xl" className={`bg-body-tertiary  ${fullScreenContext.fullScreen ? "navbar-fs" : ""}`}>
         <Container className={"w-100"}>
             <Navbar.Toggle aria-controls="basic-navbar-nav"/>
@@ -55,24 +55,24 @@ function NavBar() {
                                                 <NavDropdown.Item>{child.title}</NavDropdown.Item>
                                             </LinkContainer>
                                         )}
-                                </NavDropdown>
+                                </NavDropdown>;
                             } else {
                                 return <li className="nav-item">
                                     <NavLink className="nav-link" to={child!.path}>{child!.title}</NavLink>
-                                </li>
+                                </li>;
                             }
                         })
                     }
                 </Nav>
             </Navbar.Collapse>
         </Container>
-    </Navbar>
+    </Navbar>;
 }
 
 function App() {
 
-    const [selectedPreset, setSelectedPreset] = useState('')
-    const [fullScreen, setFullScreen] = useState(false)
+    const [selectedPreset, setSelectedPreset] = useState('');
+    const [fullScreen, setFullScreen] = useState(false);
 
     return (<SiteContext.Provider
             value={{

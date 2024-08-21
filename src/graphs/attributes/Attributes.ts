@@ -14,4 +14,4 @@ export const Attributes = {
         allowShowControlPolygon: false,
         allowShowConvexHull: false
     } as PointControlledCurveAttributes
-}
+};

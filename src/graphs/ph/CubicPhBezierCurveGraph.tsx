@@ -14,11 +14,11 @@ class CubicPhBezierCurveGraph extends BasePhBezierCurveGraph<any, BasePhBezierCu
                 "showOffsetCurveControlPoints": false,
                 "showOffsetCurve": false
             }
-        }]]
+        }]];
     }
 
     override presets(): string | undefined {
-        return "cubic-ph"
+        return "cubic-ph";
     }
 
 }

@@ -19,7 +19,7 @@ class RationalDecasteljauGraph extends DecasteljauGraph {
     }
 
     override presets(): string {
-        return "rational-decasteljau"
+        return "rational-decasteljau";
     }
 
 }

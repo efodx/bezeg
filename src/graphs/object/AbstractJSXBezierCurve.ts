@@ -20,15 +20,15 @@ export abstract class AbstractJSXBezierCurve<T extends BezierCurve, Attr extends
     extrapolationT: number = 1.2;
     subdivisionPoint: JXG.Point | null = null;
     extrapolationPoint: JXG.Point | null = null;
-    decasteljauPoints: JXG.Point[] = []
+    decasteljauPoints: JXG.Point[] = [];
     cachedDecasteljauScheme: Point[][] = [];
     cacheContext: number = -1;
     lastDecasteljauN: number = -1;
     showingDecasteljauScheme: boolean = false;
-    showingDecasteljauPoints: boolean = false
-    protected subdivisionResultConsumer?: (curve: this) => void
+    showingDecasteljauPoints: boolean = false;
+    protected subdivisionResultConsumer?: (curve: this) => void;
     private decasteljauT: number = 0.5;
-    private decasteljauSegments: JXG.Segment[] = []
+    private decasteljauSegments: JXG.Segment[] = [];
     private elevationPoints: JXG.Point[] = [];
 
     /**
@@ -43,62 +43,62 @@ export abstract class AbstractJSXBezierCurve<T extends BezierCurve, Attr extends
     abstract elevate(t: number): void
 
     setSubdivisionResultConsumer(consumer: ((curve: this) => void)) {
-        this.subdivisionResultConsumer = consumer
+        this.subdivisionResultConsumer = consumer;
     }
 
     override addPoint(x: number, y: number) {
         super.addPoint(x, y);
         if (this.decasteljauSegments.length !== 0) {
-            this.generateLineSegments()
+            this.generateLineSegments();
         }
         if (this.isShowingControlPolygon()) {
-            this.showControlPolygon()
+            this.showControlPolygon();
         }
     }
 
     override removePoint(i: number) {
         super.removePoint(i);
         if (this.decasteljauSegments.length !== 0) {
-            this.generateLineSegments()
+            this.generateLineSegments();
         }
         if (!this.showingDecasteljauScheme) {
-            this.hideDecasteljauScheme()
+            this.hideDecasteljauScheme();
         }
         if (this.isShowingControlPolygon()) {
-            this.showControlPolygon()
+            this.showControlPolygon();
         }
     }
 
     showCurrentDecasteljauScheme(show?: boolean) {
         // TODO.... just look at it...
         if (show === undefined || show) {
-            this.showDecasteljauScheme()
+            this.showDecasteljauScheme();
         }
     }
 
 
     isShowingDecasteljauScheme() {
-        return this.showingDecasteljauScheme
+        return this.showingDecasteljauScheme;
     }
 
 
     hideDecasteljauScheme() {
         // @ts-ignore
-        this.decasteljauPoints.concat(this.decasteljauSegments).forEach(el => el.hide())
+        this.decasteljauPoints.concat(this.decasteljauSegments).forEach(el => el.hide());
         this.showingDecasteljauScheme = false;
         if (!this.isShowingControlPolygon()) {
-            this.hideControlPolygon()
+            this.hideControlPolygon();
         }
     }
 
     showDecasteljauScheme() {
         if ((this.getCurve().getPoints().length > 1) && this.lastDecasteljauN !== this.pointControlledCurve.getPoints().length) {
-            this.lastDecasteljauN = this.pointControlledCurve.getPoints().length
-            this.generateLineSegments()
+            this.lastDecasteljauN = this.pointControlledCurve.getPoints().length;
+            this.generateLineSegments();
         } else {
             // @ts-ignore
-            this.decasteljauPoints.concat(this.decasteljauSegments).forEach(el => el.show())
-            this.showControlPolygonInternal()
+            this.decasteljauPoints.concat(this.decasteljauSegments).forEach(el => el.show());
+            this.showControlPolygonInternal();
         }
         this.showingDecasteljauScheme = true;
     }
@@ -110,26 +110,26 @@ export abstract class AbstractJSXBezierCurve<T extends BezierCurve, Attr extends
             subdivisionT: this.subdivisionT,
             decasteljauT: this.decasteljauT,
             extrapolationT: this.extrapolationT
-        } as JSXBezierCurveState
+        } as JSXBezierCurveState;
     }
 
     showElevatePoints() {
-        const elevated = this.pointControlledCurve.elevate()
+        const elevated = this.pointControlledCurve.elevate();
         this.elevationPoints = elevated.getPoints().map(point => this.board.create('point', [() => point.X(),
-            () => point.Y()], {...PointStyles.default, color: Color.LIGHT_GREEN}) as JXG.Point)
+            () => point.Y()], {...PointStyles.default, color: Color.LIGHT_GREEN}) as JXG.Point);
     }
 
     hideElevatePoints() {
-        this.board.removeObject(this.elevationPoints)
+        this.board.removeObject(this.elevationPoints);
     }
 
     generateLineSegments() {
         // @ts-ignore
-        this.board.removeObject(this.decasteljauPoints.concat(this.decasteljauSegments))
-        this.decasteljauSegments = []
-        this.decasteljauPoints = []
-        const n = this.pointControlledCurve.getPoints().length
-        this.showControlPolygonInternal()
+        this.board.removeObject(this.decasteljauPoints.concat(this.decasteljauSegments));
+        this.decasteljauSegments = [];
+        this.decasteljauPoints = [];
+        const n = this.pointControlledCurve.getPoints().length;
+        this.showControlPolygonInternal();
         for (let r = 1; r < n; r++) {
             for (let i = 1; i < n - r; i++) {
                 let pp1 = null;
@@ -143,10 +143,10 @@ export abstract class AbstractJSXBezierCurve<T extends BezierCurve, Attr extends
                         name: () => this.showingDecasteljauPoints && this.showingDecasteljauScheme ? `$$p_${i}^${r}$$` : ""
                     });
                 } else {
-                    pp1 = this.decasteljauPoints[this.decasteljauPoints.length - 1]
+                    pp1 = this.decasteljauPoints[this.decasteljauPoints.length - 1];
                 }
                 // @ts-ignore
-                this.decasteljauPoints.push(pp1)
+                this.decasteljauPoints.push(pp1);
 
                 pp2 = this.board.create('point', [() => this.getDecasteljauScheme(this.decasteljauT)[r][i].X(),
                     () => this.getDecasteljauScheme(this.decasteljauT)[r][i].Y()], {
@@ -155,14 +155,14 @@ export abstract class AbstractJSXBezierCurve<T extends BezierCurve, Attr extends
                     name: () => this.showingDecasteljauPoints && this.showingDecasteljauScheme ? `$$p_${i}^${r}$$` : ""
                 });
                 const segment = this.board!.create('segment', [pp1, pp2], SegmentStyles.default);
-                this.decasteljauSegments.push(segment)
+                this.decasteljauSegments.push(segment);
                 // @ts-ignore
-                this.decasteljauPoints.push(pp1)
+                this.decasteljauPoints.push(pp1);
                 // @ts-ignore
-                this.decasteljauPoints.push(pp2)
+                this.decasteljauPoints.push(pp2);
             }
         }
-        console.log("DRAWING POINT BBY")
+        console.log("DRAWING POINT BBY");
         const drawingPoint = this.board?.create('point', [() => this.getDecasteljauScheme(this.decasteljauT)[n - 1][0].X(), () => this.getDecasteljauScheme(this.decasteljauT)[n - 1][0].Y()], {
             ...PointStyles.default,
             color: Colors[n - 1],
@@ -170,58 +170,58 @@ export abstract class AbstractJSXBezierCurve<T extends BezierCurve, Attr extends
         });
 
         if (drawingPoint instanceof JXG.Point) {
-            this.decasteljauPoints.push(drawingPoint)
+            this.decasteljauPoints.push(drawingPoint);
         }
-        this.jxgPoints.forEach((point, i) => point.setAttribute({name: () => this.showingDecasteljauPoints && this.showingDecasteljauScheme ? `$$p_${i}^0$$` : `$$p_${i}$$`}))
+        this.jxgPoints.forEach((point, i) => point.setAttribute({name: () => this.showingDecasteljauPoints && this.showingDecasteljauScheme ? `$$p_${i}^0$$` : `$$p_${i}$$`}));
 
     }
 
     getDecasteljauScheme(t: number) {
-        const cacheContext = CacheContext.context
+        const cacheContext = CacheContext.context;
         if (this.cacheContext === cacheContext) {
-            return this.cachedDecasteljauScheme
+            return this.cachedDecasteljauScheme;
         } else {
-            this.cachedDecasteljauScheme = this.pointControlledCurve.decasteljauScheme(t)
+            this.cachedDecasteljauScheme = this.pointControlledCurve.decasteljauScheme(t);
             this.cacheContext = cacheContext;
-            return this.cachedDecasteljauScheme
+            return this.cachedDecasteljauScheme;
         }
     }
 
     getJsxDecasteljauPoints() {
-        return this.decasteljauPoints
+        return this.decasteljauPoints;
     }
 
     override deselect() {
         if (this.subdivisionPoint) {
-            this.board.removeObject(this.subdivisionPoint)
+            this.board.removeObject(this.subdivisionPoint);
         }
         if (this.extrapolationPoint) {
-            this.board.removeObject(this.extrapolationPoint)
+            this.board.removeObject(this.extrapolationPoint);
         }
         super.deselect();
-        this.subdivisionPoint = null
-        this.extrapolationPoint = null
+        this.subdivisionPoint = null;
+        this.extrapolationPoint = null;
     }
 
     setSubdivisionT(t: number) {
-        this.subdivisionT = t
-        this.board.update()
+        this.subdivisionT = t;
+        this.board.update();
     }
 
     setExtrapolationT(t: number) {
-        this.extrapolationT = t
-        this.board.update()
+        this.extrapolationT = t;
+        this.board.update();
     }
 
     getExtrapolationT() {
-        return this.extrapolationT
+        return this.extrapolationT;
     }
 
     createSubdivisionPoint() {
         if (this.board && !this.subdivisionPoint && this) {
             this.subdivisionPoint = this.board.create('point', [() => this.getCurve().calculatePointAtT(this.subdivisionT).X(),
                 () => this.getCurve().calculatePointAtT(this.subdivisionT).Y()], PointStyles.default) as JXG.Point;
-            this.subdivisionPoint.hide()
+            this.subdivisionPoint.hide();
         }
     }
 
@@ -229,63 +229,63 @@ export abstract class AbstractJSXBezierCurve<T extends BezierCurve, Attr extends
         if (this.board && !this.extrapolationPoint && this) {
             this.extrapolationPoint = this.board.create('point', [() => this.getCurve().calculatePointAtT(this.extrapolationT).X(),
                 () => this.getCurve().calculatePointAtT(this.extrapolationT).Y()], PointStyles.default) as JXG.Point;
-            this.extrapolationPoint.hide()
+            this.extrapolationPoint.hide();
         }
     }
 
     showDecasteljauPoints() {
-        this.showingDecasteljauPoints = true
+        this.showingDecasteljauPoints = true;
     }
 
     hideDecasteljauPoints() {
-        this.showingDecasteljauPoints = false
+        this.showingDecasteljauPoints = false;
     }
 
     isShowingDecasteljauPoints() {
-        return this.showingDecasteljauPoints
+        return this.showingDecasteljauPoints;
     }
 
     showCutPoint() {
-        this.setIntervalEnd(() => this.subdivisionT)
-        this.subdivisionPoint?.show()
+        this.setIntervalEnd(() => this.subdivisionT);
+        this.subdivisionPoint?.show();
     }
 
     hideCutPoint() {
-        this.setIntervalEnd(1)
-        this.subdivisionPoint?.hide()
+        this.setIntervalEnd(1);
+        this.subdivisionPoint?.hide();
     }
 
     showSubdivisionPoint() {
-        this.subdivisionPoint?.show()
+        this.subdivisionPoint?.show();
     }
 
     hideSubdivisionPoint() {
-        this.subdivisionPoint?.hide()
+        this.subdivisionPoint?.hide();
     }
 
     showExtrapolationPoint() {
-        this.setIntervalEnd(() => this.extrapolationT)
-        this.extrapolationPoint?.show()
+        this.setIntervalEnd(() => this.extrapolationT);
+        this.extrapolationPoint?.show();
     }
 
     hideExtrapolationPoint() {
-        this.setIntervalEnd(1)
-        this.extrapolationPoint?.hide()
+        this.setIntervalEnd(1);
+        this.extrapolationPoint?.hide();
     }
 
     setDecasteljauT(t: number) {
         this.decasteljauT = t;
         if (this.showingDecasteljauScheme) {
-            this.showCurrentDecasteljauScheme()
+            this.showCurrentDecasteljauScheme();
         }
     }
 
     getDecasteljauT() {
-        return this.decasteljauT
+        return this.decasteljauT;
     }
 
     getSubdivisionT() {
-        return this.subdivisionT
+        return this.subdivisionT;
     }
 
 }

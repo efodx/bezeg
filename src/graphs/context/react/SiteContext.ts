@@ -9,4 +9,4 @@ export const SiteContext = createContext({
         fullScreen: false,
         setFullScreen: (fullScreen: boolean) => console.debug(fullScreen)
     }
-})
+});

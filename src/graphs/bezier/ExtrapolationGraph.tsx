@@ -18,24 +18,24 @@ class GraphExtrapolation extends BaseBezierCurveGraph<any, BaseGraphStates> {
                 "decasteljauT": 0.5,
                 "extrapolationT": 1.2
             }
-        }]]
+        }]];
     }
 
     override presets() {
-        return "bezier-extrapolation"
+        return "bezier-extrapolation";
     }
 
     override initialize() {
-        super.initialize()
-        this.getFirstJsxCurve().createExtrapolationPoint()
-        this.getFirstJsxCurve().showExtrapolationPoint()
+        super.initialize();
+        this.getFirstJsxCurve().createExtrapolationPoint();
+        this.getFirstJsxCurve().showExtrapolationPoint();
         this.getFirstJsxCurve().setAttributes({
             allowShrink: false,
             allowExtrapolation: false,
             allowElevation: false,
             allowDecasteljau: false,
             allowSubdivision: false
-        } as BezierCurveAttributes)
+        } as BezierCurveAttributes);
     }
 
     override getGraphCommands(): JSX.Element[] {
@@ -45,20 +45,19 @@ class GraphExtrapolation extends BaseBezierCurveGraph<any, BaseGraphStates> {
                     onChange={(t) => this.getFirstJsxCurve().setExtrapolationT(t)}></Slider>
             <Button
                 onClick={() => this.extrapolate()}>Ekstrapoliraj</Button>
-        </div>]) : []
+        </div>]) : [];
     }
 
     override deselectSelectedCurve() {
-        super.deselectSelectedCurve()
-        this.getFirstJsxCurve().createExtrapolationPoint()
-        this.getFirstJsxCurve().showExtrapolationPoint()
+        super.deselectSelectedCurve();
+        this.getFirstJsxCurve().createExtrapolationPoint();
+        this.getFirstJsxCurve().showExtrapolationPoint();
     }
 
     private extrapolate() {
-        this.board.suspendUpdate()
+        this.board.suspendUpdate();
         this.getFirstJsxCurve().extrapolate(this.getFirstJsxCurve().getExtrapolationT());
-        this.board.update()
-        this.unsuspendBoardUpdate()
+        this.unsuspendBoardUpdate();
     }
 }
 

@@ -1,3 +1,3 @@
 import {createContext} from "react";
 
-export const RefreshContext = createContext(() => undefined)
+export const RefreshContext = createContext(() => undefined);

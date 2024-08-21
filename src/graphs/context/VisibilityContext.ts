@@ -1,28 +1,28 @@
-const dPointVisibility = true
-const dTickNumbersVisibility = true
-const dTicksVisibility = true
-const dAxisVisibility = true
-const dMinorVisibility = true
+const dPointVisibility = true;
+const dTickNumbersVisibility = true;
+const dTicksVisibility = true;
+const dAxisVisibility = true;
+const dMinorVisibility = true;
 
 class VisibilityContextSingleton {
-    pointVisibility = dPointVisibility
+    pointVisibility = dPointVisibility;
 
     setPointVisibility(visible: boolean) {
-        this.pointVisibility = visible
+        this.pointVisibility = visible;
     }
 
     pointsVisible() {
-        return this.pointVisibility
+        return this.pointVisibility;
     }
 
     reset() {
-        this.pointVisibility = dPointVisibility
+        this.pointVisibility = dPointVisibility;
     }
 
     axisVisible() {
-        console.log("AXIS VISIBLE")
+        console.log("AXIS VISIBLE");
         return true;
     }
 }
 
-export const VisibilityContext = new VisibilityContextSingleton()
+export const VisibilityContext = new VisibilityContextSingleton();

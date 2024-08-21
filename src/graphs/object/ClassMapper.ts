@@ -12,20 +12,20 @@ const nameToClassMap = new Map([
 ]);
 
 const classToNameMap = new Map<any, string>(
-    Array.from(nameToClassMap.entries()).map((e => [e[1], e[0] as any])))
+    Array.from(nameToClassMap.entries()).map((e => [e[1], e[0] as any])));
 
 
 export class ClassMapper {
     static getFromDto(name: string): (s: any, board: Board) => any {
-        return nameToClassMap.get(name).fromDto
+        return nameToClassMap.get(name).fromDto;
     }
 
     static getClassName(clazz: any): string {
-        return classToNameMap.get(clazz)!
+        return classToNameMap.get(clazz)!;
     }
 
     static getToDto(clazz: any): (curve: any) => any {
-        return clazz.toDto
+        return clazz.toDto;
     }
 
 }

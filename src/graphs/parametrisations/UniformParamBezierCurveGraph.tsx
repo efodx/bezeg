@@ -27,7 +27,7 @@ class UniformParamBezierCurveGraph extends BasePhBezierCurveGraph<any, UniformPa
                 "showOffsetCurveControlPoints": false,
                 "showOffsetCurve": false
             }
-        }]]
+        }]];
     }
 
     override getInitialState(): UniformParamBezierCurveGraphStates {
@@ -39,44 +39,44 @@ class UniformParamBezierCurveGraph extends BasePhBezierCurveGraph<any, UniformPa
     alphaParam: (t: number) => number = (t: number) => (1 - this.state.alpha) * t / (this.state.alpha * (1 - t) + (1 - this.state.alpha) * t);
 
     override getFirstCurve(): PhBezierCurve {
-        return super.getFirstCurve() as PhBezierCurve
+        return super.getFirstCurve() as PhBezierCurve;
     }
 
     override getGraphCommands(): JSX.Element[] {
         if (this.state.initialized && this.graphJXGPoints.length === 0) {
-            this.generateParamPoints()
+            this.generateParamPoints();
         }
         return super.getGraphCommands().concat(this.paramField());
     }
 
     setAlpha(alpha: number) {
-        this.board.suspendUpdate()
-        this.setState({...this.state, alpha: alpha})
+        this.board.suspendUpdate();
+        this.setState({...this.state, alpha: alpha});
         //this.clearPoints()
         //this.generateParamPoints()
-        this.refreshTs()
-        this.unsuspendBoardUpdate()
+        this.refreshTs();
+        this.unsuspendBoardUpdate();
     }
 
     getUniformParamTs() {
-        const curve = this.getFirstCurve()
-        const curveLength = curve.s(1)
-        const ds = curveLength / (this.state.numberOfPoints + 1)
-        let t = 0
-        const ts = []
+        const curve = this.getFirstCurve();
+        const curveLength = curve.s(1);
+        const ds = curveLength / (this.state.numberOfPoints + 1);
+        let t = 0;
+        const ts = [];
         for (let i = 0; i <= this.state.numberOfPoints; i++) {
-            t = curve.tk(t, ds, i + 1)
-            ts.push(t)
+            t = curve.tk(t, ds, i + 1);
+            ts.push(t);
         }
-        return ts
+        return ts;
     }
 
     setNumberOfPoints(numberOfPoints: number) {
-        this.board.suspendUpdate()
-        this.setState({...this.state, numberOfPoints: numberOfPoints})
-        this.clearPoints()
-        this.generateParamPoints()
-        this.unsuspendBoardUpdate()
+        this.board.suspendUpdate();
+        this.setState({...this.state, numberOfPoints: numberOfPoints});
+        this.clearPoints();
+        this.generateParamPoints();
+        this.unsuspendBoardUpdate();
     }
 
     paramField() {
@@ -100,56 +100,56 @@ class UniformParamBezierCurveGraph extends BasePhBezierCurveGraph<any, UniformPa
                         onChange={(alpha) => this.setAlpha(alpha)}/>
             </div> : null}
 
-        </div>
+        </div>;
     }
 
     clearPoints() {
-        this.board.removeObject(this.graphJXGPoints)
-        this.graphJXGPoints = []
+        this.board.removeObject(this.graphJXGPoints);
+        this.graphJXGPoints = [];
     }
 
     refreshTs() {
-        const dt = 1 / (this.state.numberOfPoints + 1)
+        const dt = 1 / (this.state.numberOfPoints + 1);
         if (this.state.isAlphaParam) {
-            this.ts = range(1, this.state.numberOfPoints + 1, 1).map(i => this.alphaParam(i * dt))
+            this.ts = range(1, this.state.numberOfPoints + 1, 1).map(i => this.alphaParam(i * dt));
         } else {
-            this.ts = this.getUniformParamTs()
+            this.ts = this.getUniformParamTs();
         }
     }
 
     generateParamPoints(isAlphaParam?: boolean) {
         if (isAlphaParam === undefined) {
-            isAlphaParam = this.state.isAlphaParam
+            isAlphaParam = this.state.isAlphaParam;
         }
-        const dt = 1 / (this.state.numberOfPoints + 1)
+        const dt = 1 / (this.state.numberOfPoints + 1);
 
         if (isAlphaParam) {
-            this.ts = range(1, this.state.numberOfPoints + 1, 1).map(i => this.alphaParam(i * dt))
+            this.ts = range(1, this.state.numberOfPoints + 1, 1).map(i => this.alphaParam(i * dt));
         } else {
-            this.ts = this.getUniformParamTs()
+            this.ts = this.getUniformParamTs();
         }
         for (let i = 1; i <= this.state.numberOfPoints; i++) {
-            this.createJSXGraphPoint(() => this.getFirstCurve()!.calculatePointAtT(this.ts[i - 1]).X(), () => this.getFirstCurve()!.calculatePointAtT(this.ts[i - 1]).Y())
+            this.createJSXGraphPoint(() => this.getFirstCurve()!.calculatePointAtT(this.ts[i - 1]).X(), () => this.getFirstCurve()!.calculatePointAtT(this.ts[i - 1]).Y());
         }
     }
 
     override presets(): string | undefined {
-        return "uniform-graph"
+        return "uniform-graph";
     }
 
     private selectParam(select: React.SyntheticEvent<HTMLSelectElement>) {
         // @ts-ignore
-        const param = select.target.value
+        const param = select.target.value;
         let isAlphaParam = false;
         if (param === "alpha") {
-            isAlphaParam = true
+            isAlphaParam = true;
         }
-        this.setState({...this.state, isAlphaParam: isAlphaParam})
-        this.board.suspendUpdate()
-        this.clearPoints()
+        this.setState({...this.state, isAlphaParam: isAlphaParam});
+        this.board.suspendUpdate();
+        this.clearPoints();
         // we need to pass isAlphaParam as a parameter, otherwise this would get ran with the previous state - this is probably anti-react
-        this.generateParamPoints(isAlphaParam)
-        this.unsuspendBoardUpdate()
+        this.generateParamPoints(isAlphaParam);
+        this.unsuspendBoardUpdate();
     }
 }
 

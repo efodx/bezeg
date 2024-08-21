@@ -12,9 +12,9 @@ interface SliderProps {
 }
 
 export default function Slider(props: SliderProps) {
-    const [value, setValue] = useState(props.initialValue)
-    const {step = (props.max - props.min) / 100} = props
-    const renderValue = props.fixedValue !== undefined ? props.fixedValue : value!
+    const [value, setValue] = useState(props.initialValue);
+    const {step = (props.max - props.min) / 100} = props;
+    const renderValue = props.fixedValue !== undefined ? props.fixedValue : value!;
     return <Form>
         {props.customText ? <Form.Label>{props.customText}</Form.Label> :
             <Form.Text>{renderValue.toFixed(2)}</Form.Text>}
@@ -23,9 +23,9 @@ export default function Slider(props: SliderProps) {
                     step={step}
                     onChange={e => {
                         if (props.fixedValue === undefined) {
-                            setValue(Number(e.target.value))
+                            setValue(Number(e.target.value));
                         }
-                        props.onChange(Number(e.target.value))
+                        props.onChange(Number(e.target.value));
                     }}></Form.Range>
-    </Form>
+    </Form>;
 }

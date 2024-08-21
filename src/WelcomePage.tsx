@@ -1,5 +1,5 @@
 import React from "react";
-import Logo from "./images/elderflower.png"
+import Logo from "./images/elderflower.png";
 
 export function WelcomePage() {
     return <div>
@@ -9,5 +9,5 @@ export function WelcomePage() {
         <p style={{color: "white"}} className="lead">Bezeg je javascript knjižnica za delo z bezierjevimi krivuljami.
             Spletna stran Bezga pa služi predstavitvi raznih konceptov vezanih na Bezierjeve krivulje.</p>
         <hr className="my-4"></hr>
-    </div>
+    </div>;
 }

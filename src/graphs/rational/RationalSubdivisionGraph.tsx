@@ -10,21 +10,21 @@ class Graph extends BaseRationalCurveGraph<any, BaseGraphStates> {
 
     subdivide() {
         if (this.stepsDone > 4) {
-            return
+            return;
         }
-        this.stepsDone = this.stepsDone + 1
-        this.board.suspendUpdate()
-        let oldJsxBezierCurves = this.jsxBezierCurves.map(c => c as JSXRationalBezierCurve)
+        this.stepsDone = this.stepsDone + 1;
+        this.board.suspendUpdate();
+        let oldJsxBezierCurves = this.jsxBezierCurves.map(c => c as JSXRationalBezierCurve);
         for (let bezierCurve of oldJsxBezierCurves) {
-            const newCurve = bezierCurve.subdivide(1 / 2)
-            this.jsxBezierCurves.push(newCurve)
+            const newCurve = bezierCurve.subdivide(1 / 2);
+            this.jsxBezierCurves.push(newCurve);
         }
-        this.unsuspendBoardUpdate()
+        this.unsuspendBoardUpdate();
     };
 
     override getGraphCommands(): JSX.Element[] {
         return super.getGraphCommands().concat([<Button
-            onClick={() => this.subdivide()}>Subdiviziraj</Button>])
+            onClick={() => this.subdivide()}>Subdiviziraj</Button>]);
     }
 
     defaultPreset(): any {
@@ -43,7 +43,7 @@ class Graph extends BaseRationalCurveGraph<any, BaseGraphStates> {
     }
 
     override presets(): string {
-        return "rational-bezier-subdivision"
+        return "rational-bezier-subdivision";
     }
 
 

@@ -4,7 +4,7 @@ import {JSXRationalBezierCurve} from "../object/JSXRationalBezierCurve";
 export abstract class BaseRationalCurveGraph<P, S extends BaseGraphStates> extends BaseCurveGraph<P, S> {
     override initialize() {
         super.initialize();
-        this.boardUpdate()
+        this.boardUpdate();
     }
 
     override getFirstJsxCurve(): JSXRationalBezierCurve {

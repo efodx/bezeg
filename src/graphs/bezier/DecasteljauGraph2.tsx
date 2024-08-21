@@ -25,9 +25,9 @@ class DecasteljauGraph extends BaseBezierCurveGraph<any, DecasteljauGraphStates>
     }
 
     override componentDidUpdate(prevProps: Readonly<any>, prevState: Readonly<DecasteljauGraphStates>, snapshot?: any) {
-        this.board.suspendUpdate()
-        this.getFirstJsxCurve().setDecasteljauT(this.state.t)
-        this.unsuspendBoardUpdate()
+        this.board.suspendUpdate();
+        this.getFirstJsxCurve().setDecasteljauT(this.state.t);
+        this.unsuspendBoardUpdate();
     }
 
     defaultPreset(): any {
@@ -41,25 +41,25 @@ class DecasteljauGraph extends BaseBezierCurveGraph<any, DecasteljauGraphStates>
                 "decasteljauT": 0.5,
                 "extrapolationT": 1.2
             }
-        }]]
+        }]];
     }
 
 
     override presets(): string {
-        return "decasteljau2"
+        return "decasteljau2";
     }
 
     override initialize() {
-        super.initialize()
-        this.getFirstJsxCurve().setAttributes({...this.getFirstJsxCurve().getAttributes(), selectable: false})
-        this.graphJXGPoints = this.getFirstJsxCurve().getJxgPoints()
+        super.initialize();
+        this.getFirstJsxCurve().setAttributes({...this.getFirstJsxCurve().getAttributes(), selectable: false});
+        this.graphJXGPoints = this.getFirstJsxCurve().getJxgPoints();
         this.generateInterpolatingBezierCurves();
 
-        this.getFirstJsxCurve().setIntervalEnd(() => this.state.t)
-        this.getFirstJsxCurve().setAttributes(Attributes.bezierDisabled)
-        this.getFirstJsxCurve().setDecasteljauT(this.state.t)
+        this.getFirstJsxCurve().setIntervalEnd(() => this.state.t);
+        this.getFirstJsxCurve().setAttributes(Attributes.bezierDisabled);
+        this.getFirstJsxCurve().setDecasteljauT(this.state.t);
         // this.getFirstJsxCurve().showDecasteljauPoints()
-        this.boardUpdate()
+        this.boardUpdate();
     }
 
     override getGraphCommands(): JSX.Element[] {
@@ -70,21 +70,21 @@ class DecasteljauGraph extends BaseBezierCurveGraph<any, DecasteljauGraphStates>
                     fixedValue={this.state.t}
                     onChange={(t) => this.setState({...this.state, t: t})}></Slider>,
             <Slider customText={'Hitrost animacije'} min={0} max={1} fixedValue={this.state.v}
-                    onChange={(v) => this.setState({...this.state, v: v})}></Slider>]) : []
+                    onChange={(v) => this.setState({...this.state, v: v})}></Slider>]) : [];
     }
 
     private generateInterpolatingBezierCurves() {
-        const points = this.getFirstJsxCurve().getCurve().getPoints()
-        const curve1points = points.slice(0, this.graphJXGPoints.length - 1)
-        const curve2points = points.slice(1, this.graphJXGPoints.length)
-        const curvee = new BezierCurveImpl(curve1points)
-        const curvee2 = new BezierCurveImpl(curve2points)
+        const points = this.getFirstJsxCurve().getCurve().getPoints();
+        const curve1points = points.slice(0, this.graphJXGPoints.length - 1);
+        const curve2points = points.slice(1, this.graphJXGPoints.length);
+        const curvee = new BezierCurveImpl(curve1points);
+        const curvee2 = new BezierCurveImpl(curve2points);
 
 
-        const p1 = this.createJSXGraphPoint(() => curvee.calculatePointAtT(this.state.t).X(), () => curvee.calculatePointAtT(this.state.t).Y(), PointStyles.fixed)
-        const pp1 = this.graphJXGPoints[this.graphJXGPoints.length - 1]
-        const p2 = this.createJSXGraphPoint(() => curvee2.calculatePointAtT(this.state.t).X(), () => curvee2.calculatePointAtT(this.state.t).Y(), PointStyles.fixed)
-        const pp2 = this.graphJXGPoints[this.graphJXGPoints.length - 1]
+        const p1 = this.createJSXGraphPoint(() => curvee.calculatePointAtT(this.state.t).X(), () => curvee.calculatePointAtT(this.state.t).Y(), PointStyles.fixed);
+        const pp1 = this.graphJXGPoints[this.graphJXGPoints.length - 1];
+        const p2 = this.createJSXGraphPoint(() => curvee2.calculatePointAtT(this.state.t).X(), () => curvee2.calculatePointAtT(this.state.t).Y(), PointStyles.fixed);
+        const pp2 = this.graphJXGPoints[this.graphJXGPoints.length - 1];
 
         const segment = this.board.create('segment', [pp1, pp2], SegmentStyles.default);
 
@@ -119,21 +119,21 @@ class DecasteljauGraph extends BaseBezierCurveGraph<any, DecasteljauGraphStates>
 
     private animate(animate: boolean) {
         if (animate) {
-            this.animating = true
-            this.animateRecursive(this.state.t)
+            this.animating = true;
+            this.animateRecursive(this.state.t);
         } else {
-            this.animating = false
+            this.animating = false;
         }
     }
 
     private animateRecursive(t: number) {
-        let dt = 0.015 * this.state.v
+        let dt = 0.015 * this.state.v;
         if (t + dt > 1) {
-            t = 0
+            t = 0;
         }
-        this.setState({...this.state, t: t})
+        this.setState({...this.state, t: t});
         if (this.animating) {
-            window.requestAnimationFrame(() => this.animateRecursive(t + dt))
+            window.requestAnimationFrame(() => this.animateRecursive(t + dt));
         }
     }
 

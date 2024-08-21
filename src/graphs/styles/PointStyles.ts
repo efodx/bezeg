@@ -19,26 +19,26 @@ const pointStyle: PointAttributes = {
         visible: () => VisibilityContext.pointsVisible()
     },
     name: "",
-}
+};
 
 const fixedPointStyle: PointAttributes = {
     ...pointStyle,
     fixed: true,
     color: Colors[2]
-}
+};
 
 
 function pi(i: number): PointAttributes {
     return {
         ...pointStyle,
         name: "$$p_{" + i + "}$$"
-    }
+    };
 }
 
 export const PointStyles = {
     pi: pi,
     default: pointStyle,
     fixed: fixedPointStyle
-}
+};
 
 

@@ -16,17 +16,17 @@ class Graph extends BaseSplineCurveGraph<SplineAlphaParamGraphStates> {
             ...super.getInitialState(),
             numberOfPoints: 10,
             alpha: 0.5,
-        }
+        };
     }
 
     override initialize() {
         super.initialize();
-        this.generateParamPoints(15)
-        this.setState({...this.state, alpha: this.getFirstCurve().getAlpha()})
+        this.generateParamPoints(15);
+        this.setState({...this.state, alpha: this.getFirstCurve().getAlpha()});
     }
 
     override presets(): string {
-        return "alfaparametrizacije"
+        return "alfaparametrizacije";
     }
 
 
@@ -35,35 +35,35 @@ class Graph extends BaseSplineCurveGraph<SplineAlphaParamGraphStates> {
     }
 
     setAlpha(alpha: number) {
-        this.board.suspendUpdate()
-        this.setState({...this.state, alpha: alpha})
-        this.getFirstCurve().setAlpha(alpha)
-        this.unsuspendBoardUpdate()
+        this.board.suspendUpdate();
+        this.setState({...this.state, alpha: alpha});
+        this.getFirstCurve().setAlpha(alpha);
+        this.unsuspendBoardUpdate();
     }
 
     clearPoints() {
-        this.board.removeObject(this.graphJXGPoints)
-        this.graphJXGPoints = []
+        this.board.removeObject(this.graphJXGPoints);
+        this.graphJXGPoints = [];
     }
 
     setNumberOfPoints(numberOfPoints: number) {
-        this.board.suspendUpdate()
-        this.setState({...this.state, numberOfPoints: numberOfPoints})
-        this.clearPoints()
-        this.generateParamPoints(numberOfPoints)
-        this.unsuspendBoardUpdate()
+        this.board.suspendUpdate();
+        this.setState({...this.state, numberOfPoints: numberOfPoints});
+        this.clearPoints();
+        this.generateParamPoints(numberOfPoints);
+        this.unsuspendBoardUpdate();
     }
 
     alphaParamSlider() {
         return <div>α<Slider min={0} max={1} step={0.01} initialValue={this.state.alpha}
-                             onChange={(alpha) => this.setAlpha(alpha)}/></div>
+                             onChange={(alpha) => this.setAlpha(alpha)}/></div>;
     }
 
     numberOfPointsSlider() {
         return <div>Število točk <Slider min={0} max={40} step={1}
                                          initialValue={this.state.numberOfPoints}
                                          onChange={(num) => this.setNumberOfPoints(num)}/>
-        </div>
+        </div>;
     }
 
     defaultPreset(): any {
@@ -78,12 +78,12 @@ class Graph extends BaseSplineCurveGraph<SplineAlphaParamGraphStates> {
     }
 
     generateParamPoints(numberOfPoints: number) {
-        const dt = 1 / (numberOfPoints + 1)
+        const dt = 1 / (numberOfPoints + 1);
         for (let i = 1; i <= numberOfPoints; i++) {
             this.createJSXGraphPoint(() => this.getFirstCurve()!.calculatePointAtT(i * dt).X(), () => this.getFirstCurve()!.calculatePointAtT(i * dt).Y(), {
                 ...PointStyles.default,
                 color: Colors[3]
-            })
+            });
         }
     }
 

@@ -40,4 +40,7 @@ Dodatni popravki:
 
 
 - odvod bezierjeve krivulje... a se rece odvod krivulje? ker a ni krivulja v resnici slika te parametrzicije?
-- DECASTELJAU ZA N=1
+
+- SICK farouki ima v resnici izpeljave za subdivizijo n shit, lahko se kr vse na uno referenciram, bmk
+
+- https://svetovalnica.zrc-sazu.si/topic/2803/postavljanje-vejice

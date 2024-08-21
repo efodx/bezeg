@@ -61,9 +61,9 @@ function Help() {
 function SizeRange(props: { board: () => JXG.Board }) {
     return <div><Slider customText={"Povečava"} min={0} max={25} initialValue={SizeContext.getSize()} step={1}
                         onChange={(i) => {
-                            SizeContext.setSize(i)
-                            CacheContext.update()
-                            props.board().fullUpdate()
+                            SizeContext.setSize(i);
+                            CacheContext.update();
+                            props.board().fullUpdate();
                         }}/></div>;
 }
 
@@ -79,11 +79,11 @@ export interface BoardState {
  * Abstract class for creating graphs.
  */
 abstract class BaseGraph<P, S extends BaseGraphState> extends Component<P, S> {
-    static override contextType = SiteContext
+    static override contextType = SiteContext;
     // TODO fix this, it doesn't work for some reason :/
     //  declare context: React.ContextType<typeof PresetContext>
 
-    presetService: PresetService | undefined
+    presetService: PresetService | undefined;
     protected board!: Board;
 
     abstract initialize(): void;
@@ -113,21 +113,21 @@ abstract class BaseGraph<P, S extends BaseGraphState> extends Component<P, S> {
             // });
 
 
-            let siteContext = this.context
-            this.setState({initialized: true})
+            let siteContext = this.context;
+            this.setState({initialized: true});
             // @ts-ignore
-            const preset = this.presetService?.getPreset(siteContext.preset.selected)
+            const preset = this.presetService?.getPreset(siteContext.preset.selected);
             if (preset) {
-                console.debug("Loading preset:")
-                console.debug(preset)
-                this.importPreset(preset)
+                console.debug("Loading preset:");
+                console.debug(preset);
+                this.importPreset(preset);
             } else {
-                console.debug("Loading default preset:")
-                console.debug(this.defaultPreset())
-                this.importPresetData(this.defaultPreset())
+                console.debug("Loading default preset:");
+                console.debug(this.defaultPreset());
+                this.importPresetData(this.defaultPreset());
             }
 
-            this.initialize()
+            this.initialize();
         }
     }
 
@@ -145,13 +145,13 @@ abstract class BaseGraph<P, S extends BaseGraphState> extends Component<P, S> {
 
 
     override render() {
-        const presetsId = this.presets()
+        const presetsId = this.presets();
         if (presetsId) {
-            this.presetService = new PresetService(presetsId)
+            this.presetService = new PresetService(presetsId);
         }
         // @ts-ignore
-        const fullScreenContext = this.context.fullScreen
-        console.log(fullScreenContext.fullScreen)
+        const fullScreenContext = this.context.fullScreen;
+        console.log(fullScreenContext.fullScreen);
         return <Container fluid>
             <Row className={"align-items-center"} style={{height: "92vh"}}>
                 <Col className={fullScreenContext.fullScreen ? 'tools-fs' : 'tools'}
@@ -174,39 +174,39 @@ abstract class BaseGraph<P, S extends BaseGraphState> extends Component<P, S> {
     }
 
     unsuspendBoardUpdate() {
-        this.boardUpdate()
-        this.board.unsuspendUpdate()
+        this.boardUpdate();
+        this.board.unsuspendUpdate();
     }
 
     getGraphCommands(): JSX.Element[] {
-        return []
+        return [];
     }
 
     getTools(): JSX.Element[] {
         const tools = [<AxisSelector board={() => this.board}></AxisSelector>,
             <SizeRange board={() => this.board}/>,
             <SaveImage saveAsSVG={name => this.saveAsSVG(name)} saveAsPNG={name => this.saveAsPNG(name)}/>,
-        ]
+        ];
         if (this.presetService) {
             tools.push(<PresetSelector presetService={this.presetService}
                                        exporter={(fileName: string) => this.saveAsPNG(fileName)}
-                                       presetProvider={() => this.exportPreset()}/>)
+                                       presetProvider={() => this.exportPreset()}/>);
         }
-        return tools
+        return tools;
     }
 
     boardUpdate() {
-        CacheContext.update()
-        this.board.update()
+        CacheContext.update();
+        this.board.update();
     }
 
     getGraphCommandsArea() {
         return this.getGraphCommands().length > 0 ?
-            <Commands commands={this.getGraphCommands()} title={"Ukazi na grafu"}/> : null
+            <Commands commands={this.getGraphCommands()} title={"Ukazi na grafu"}/> : null;
     }
 
     presets(): undefined | string {
-        return undefined
+        return undefined;
     }
 
     exportPreset(): Preset {
@@ -220,18 +220,18 @@ abstract class BaseGraph<P, S extends BaseGraphState> extends Component<P, S> {
 
     importPreset(preset: Preset) {
         if (preset.boardState) {
-            this.importBoardState(preset.boardState)
+            this.importBoardState(preset.boardState);
         }
         if (preset.graphState) {
-            this.setState(preset.graphState)
+            this.setState(preset.graphState);
         }
         if (preset.data) {
-            this.importPresetData(preset.data)
+            this.importPresetData(preset.data);
         }
     }
 
     boardState(): BoardState {
-        return {boundingBox: this.board.getBoundingBox()}
+        return {boundingBox: this.board.getBoundingBox()};
     }
 
     exportPresetData(): undefined | any {
@@ -255,14 +255,14 @@ abstract class BaseGraph<P, S extends BaseGraphState> extends Component<P, S> {
             document.body.appendChild(link);
             link.click();
             document.body.removeChild(link);
-        })
+        });
         mmls.forEach(el =>
             el.style.removeProperty("display"));
     }
 
     private importBoardState(boardState: BoardState) {
-        this.board.setBoundingBox(boardState.boundingBox, true)
-        this.board.fullUpdate()
+        this.board.setBoundingBox(boardState.boundingBox, true);
+        this.board.fullUpdate();
     }
 
 }

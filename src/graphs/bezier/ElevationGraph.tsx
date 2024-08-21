@@ -8,7 +8,7 @@ import {Attributes} from "../attributes/Attributes";
 class ElevationGraph extends BaseBezierCurveGraph<any, BaseGraphStates> {
     override initialize() {
         super.initialize();
-        this.getFirstJsxCurve().setAttributes(Attributes.bezierDisabled)
+        this.getFirstJsxCurve().setAttributes(Attributes.bezierDisabled);
     }
 
     defaultPreset(): any {
@@ -22,22 +22,22 @@ class ElevationGraph extends BaseBezierCurveGraph<any, BaseGraphStates> {
                 "decasteljauT": 0.5,
                 "extrapolationT": 1.2
             }
-        }]]
+        }]];
     }
 
     elevate() {
-        this.board.suspendUpdate()
-        this.getFirstJsxCurve().elevate()
-        this.unsuspendBoardUpdate()
+        this.board.suspendUpdate();
+        this.getFirstJsxCurve().elevate();
+        this.unsuspendBoardUpdate();
     }
 
     override presets(): string {
-        return "elevation-graph"
+        return "elevation-graph";
     }
 
     override getGraphCommands(): JSX.Element[] {
         return super.getGraphCommands().concat([<Button onClick={() => this.elevate()}>Dvigni
-            stopnjo</Button>])
+            stopnjo</Button>]);
     }
 }
 

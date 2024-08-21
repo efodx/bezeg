@@ -13,13 +13,13 @@ export function SaveImage(props: { saveAsSVG: (name: string) => void, saveAsPNG:
 }
 
 function SaveAsPng(props: { onClick: (fileName: string) => void }) {
-    const siteContext = useContext(SiteContext)
-    const fileName = siteContext.preset.selected === "" ? "izvoz" : siteContext.preset.selected
+    const siteContext = useContext(SiteContext);
+    const fileName = siteContext.preset.selected === "" ? "izvoz" : siteContext.preset.selected;
     return <Button className="ms-1" onClick={() => props.onClick(fileName + ".png")}>PNG</Button>;
 }
 
 function SaveAsSvg(props: { onClick: (fileName: string) => void }) {
-    const siteContext = useContext(SiteContext)
-    const fileName = siteContext.preset.selected === "" ? "izvoz" : siteContext.preset.selected
+    const siteContext = useContext(SiteContext);
+    const fileName = siteContext.preset.selected === "" ? "izvoz" : siteContext.preset.selected;
     return <Button onClick={() => props.onClick(fileName + ".svg")}>SVG</Button>;
 }

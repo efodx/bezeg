@@ -7,8 +7,8 @@ export function OnOffSwitch(props: {
     label: string,
     disabled?: boolean
 }) {
-    const initialState = props.initialState === undefined ? true : props.initialState
-    const [checked, setChecked] = useState(initialState)
+    const initialState = props.initialState === undefined ? true : props.initialState;
+    const [checked, setChecked] = useState(initialState);
     return <Form> <Form.Check
         disabled={props.disabled}// prettier-ignore
         type="switch"
@@ -16,8 +16,8 @@ export function OnOffSwitch(props: {
         label={props.label}
         checked={checked}
         onChange={() => {
-            props.onChange(!checked)
-            setChecked(!checked)
+            props.onChange(!checked);
+            setChecked(!checked);
         }}/>
     </Form>;
 }

@@ -7,29 +7,29 @@ import {JSXSplineCurve} from "../object/JSXSplineCurve";
 import {JSXRationalBezierCurve} from "../object/JSXRationalBezierCurve";
 
 function WeightController(props: { curve: JSXRationalBezierCurve }): JSX.Element {
-    const [stateRefresher, setStateRefresher] = useState(1)
+    const [stateRefresher, setStateRefresher] = useState(1);
     return <ButtonGroup key={stateRefresher} vertical={true}>
         <Button className="btn-block" onClick={() => {
-            props.curve.changeWeight(0.25)
-            setStateRefresher(stateRefresher + 1)
+            props.curve.changeWeight(0.25);
+            setStateRefresher(stateRefresher + 1);
         }}>+</Button>
         <ButtonGroup>
             <Button className="btn-block" onClick={() => {
-                props.curve.prevWeight()
-                setStateRefresher(stateRefresher + 1)
+                props.curve.prevWeight();
+                setStateRefresher(stateRefresher + 1);
             }}>{"<"}</Button>
             <Button variant="light" onClick={() => {
-                props.curve.resetWeight()
-                setStateRefresher(stateRefresher + 1)
+                props.curve.resetWeight();
+                setStateRefresher(stateRefresher + 1);
             }}
                     className="btn-block">{props.curve.getCurrentWeight().toFixed(2)}</Button>
             <Button onClick={() => {
-                props.curve.nextWeight()
-                setStateRefresher(stateRefresher + 1)
+                props.curve.nextWeight();
+                setStateRefresher(stateRefresher + 1);
             }} className="btn-block">{">"}</Button>
         </ButtonGroup> <Button onClick={() => {
-        props.curve.changeWeight(-0.25)
-        setStateRefresher(stateRefresher + 1)
+        props.curve.changeWeight(-0.25);
+        setStateRefresher(stateRefresher + 1);
     }}
                                className="btn-block">-</Button>
     </ButtonGroup>;
@@ -39,7 +39,7 @@ class Graph extends BaseSplineCurveGraph<BaseGraphStates> {
 
     override getGraphCommands(): JSX.Element[] {
         return this.state.initialized ? super.getGraphCommands().concat(this.getBiSetters()
-        ) : []
+        ) : [];
     }
 
     defaultPreset(): any {
@@ -51,7 +51,7 @@ class Graph extends BaseSplineCurveGraph<BaseGraphStates> {
     }
 
     override presets(): string {
-        return "g1-spline-graph"
+        return "g1-spline-graph";
     }
 
     private getBiSetters() {
@@ -62,13 +62,13 @@ class Graph extends BaseSplineCurveGraph<BaseGraphStates> {
     }
 
     private povecajBi(i: number) {
-        this.getFirstCurve().setB(i, this.getFirstCurve().getB(i) * 1.1)
-        this.board.update()
+        this.getFirstCurve().setB(i, this.getFirstCurve().getB(i) * 1.1);
+        this.boardUpdate();
     }
 
     private zmanjsajBi(i: number) {
-        this.getFirstCurve().setB(i, this.getFirstCurve().getB(i) * 0.9)
-        this.board.update()
+        this.getFirstCurve().setB(i, this.getFirstCurve().getB(i) * 0.9);
+        this.boardUpdate();
     }
 
 

@@ -38,4 +38,4 @@ export enum Color {
     // Forestgreen = "forstgreen"
 }
 
-export const Colors = Object.values(Color)
+export const Colors = Object.values(Color);

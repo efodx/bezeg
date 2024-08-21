@@ -24,9 +24,9 @@ const tick: TicksOptions = {
         // @ts-ignore
         display: 'html'
     },
-}
+};
 
-const tickX: TicksOptions = tick
+const tickX: TicksOptions = tick;
 
 const tickY: TicksOptions = {
     ...tick,
@@ -35,7 +35,7 @@ const tickY: TicksOptions = {
         // @ts-ignore
         offset: [-10, -5]
     }
-}
+};
 
 function axisStyle(tick: TicksOptions): AxisAttributes {
     return {
@@ -43,10 +43,10 @@ function axisStyle(tick: TicksOptions): AxisAttributes {
         visible: () => AxisContext.axisVisible(),
         ticks: tick,
         lastArrow: false
-    }
+    };
 }
 
 export const AxisStyles = {
     defaultX: axisStyle(tickX),
     defaultY: axisStyle(tickY)
-}
+};

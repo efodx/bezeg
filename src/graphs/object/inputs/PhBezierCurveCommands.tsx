@@ -10,16 +10,16 @@ interface OffsetCurveSettingsProps {
 }
 
 function OffsetCurveSettings({curve}: OffsetCurveSettingsProps) {
-    const [showOffsetCurve, setShowOffsetCurve] = useState(curve.isShowingOffsetCurve())
-    const [showOffSetCurveControlPoints, setShowOffSetCurveControlPoints] = useState(curve.isShowingOffsetCurveControlPoints())
-    const [showOffSetCurveControlPointsLines, setShowOffSetCurveControlPointsLines] = useState(curve.isShowingOffsetCurveControlPointsLines())
+    const [showOffsetCurve, setShowOffsetCurve] = useState(curve.isShowingOffsetCurve());
+    const [showOffSetCurveControlPoints, setShowOffSetCurveControlPoints] = useState(curve.isShowingOffsetCurveControlPoints());
+    const [showOffSetCurveControlPointsLines, setShowOffSetCurveControlPointsLines] = useState(curve.isShowingOffsetCurveControlPointsLines());
 
     return <div>
         <OnOffSwitch
             initialState={curve.isShowingOffsetCurve()}
             onChange={checked => {
-                curve.setShowOffsetCurve(checked)
-                setShowOffsetCurve(checked)
+                curve.setShowOffsetCurve(checked);
+                setShowOffsetCurve(checked);
             }}
             label={"Offset krivulje"}/>
         {showOffsetCurve && <div>
@@ -30,16 +30,16 @@ function OffsetCurveSettings({curve}: OffsetCurveSettingsProps) {
                   onChange={e => curve.setOffsetCurveDistance(e)}/>
           <OnOffSwitch
             onChange={checked => {
-                curve.setShowOffsetCurveControlPoints(checked)
-                setShowOffSetCurveControlPoints(checked)
+                curve.setShowOffsetCurveControlPoints(checked);
+                setShowOffSetCurveControlPoints(checked);
             }}
             label={"Kontrolne točke offset krivulje"}
             initialState={showOffSetCurveControlPoints}/>
           <OnOffSwitch
             disabled={!showOffSetCurveControlPoints}
             onChange={checked => {
-                curve.setShowOffsetCurveControlPointsLines(checked)
-                setShowOffSetCurveControlPointsLines(checked)
+                curve.setShowOffsetCurveControlPointsLines(checked);
+                setShowOffSetCurveControlPointsLines(checked);
             }}
             label={"Premice kontrolnih točke offset krivulje"}
             initialState={showOffSetCurveControlPointsLines}/>
@@ -51,7 +51,7 @@ function OffsetCurveSettings({curve}: OffsetCurveSettingsProps) {
 }
 
 export function PhBezierCurveCommands(curve: JSXPHBezierCurve): JSX.Element[] {
-    const commands = []
-    commands.push(<OffsetCurveSettings curve={curve}></OffsetCurveSettings>)
+    const commands = [];
+    commands.push(<OffsetCurveSettings curve={curve}></OffsetCurveSettings>);
     return commands;
 }

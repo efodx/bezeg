@@ -33,7 +33,7 @@ interface BaseGraphStates extends BaseGraphState {
     curveSelected: boolean;
 }
 
-JXG.extend(JXG.Point.prototype, {})
+JXG.extend(JXG.Point.prototype, {});
 
 /**
  * Abstract class for creating graphs.
@@ -48,7 +48,7 @@ abstract class BaseCurveGraph<P, S extends BaseGraphStates> extends BaseGraph<P,
         // TODO fix this in another way, this is ugly..
         // @ts-ignore
         preset.graphState = {...preset.graphState, curveSelected: false};
-        super.importPreset(preset)
+        super.importPreset(preset);
     }
 
     initialize() {
@@ -57,53 +57,53 @@ abstract class BaseCurveGraph<P, S extends BaseGraphStates> extends BaseGraph<P,
     getInitialState(): S {
         return {
             selectedCurveOption: SelectedCurveOption.MOVE_CURVE, curveSelected: false
-        } as S
+        } as S;
     }
 
     getFirstCurve() {
-        return this.getFirstJsxCurve()?.getCurve()
+        return this.getFirstJsxCurve()?.getCurve();
     }
 
     getFirstJsxCurve() {
-        return this.jsxBezierCurves[0]
+        return this.jsxBezierCurves[0];
     }
 
     getAllJxgPoints() {
-        return this.jsxBezierCurves.flatMap(c => c.getJxgPoints()).concat(this.graphJXGPoints)
+        return this.jsxBezierCurves.flatMap(c => c.getJxgPoints()).concat(this.graphJXGPoints);
     }
 
     override componentDidMount() {
-        super.componentDidMount()
+        super.componentDidMount();
         this.board.on('down', (e) => this.handleDown(e));
         this.board.on('up', (e) => this.handleUp(e));
         this.board.on('move', (e) => this.handleMove(e));
     }
 
     createJSXBezierCurve(points: number[][]) {
-        let newBezierCurve = new JSXBezierCurve(points, this.board)
-        newBezierCurve.setSubdivisionResultConsumer((jsxCrv) => this.jsxBezierCurves.push(jsxCrv))
-        this.jsxBezierCurves.push(newBezierCurve)
-        return newBezierCurve
+        let newBezierCurve = new JSXBezierCurve(points, this.board);
+        newBezierCurve.setSubdivisionResultConsumer((jsxCrv) => this.jsxBezierCurves.push(jsxCrv));
+        this.jsxBezierCurves.push(newBezierCurve);
+        return newBezierCurve;
     }
 
     createJSXPHBezierCurve(points: number[][]) {
         let newBezierCurve = new JSXPHBezierCurve(points, this.board) as JSXBezierCurve;
-        newBezierCurve.setSubdivisionResultConsumer((jsxCrv) => this.jsxBezierCurves.push(jsxCrv))
-        this.jsxBezierCurves.push(newBezierCurve)
-        return newBezierCurve
+        newBezierCurve.setSubdivisionResultConsumer((jsxCrv) => this.jsxBezierCurves.push(jsxCrv));
+        this.jsxBezierCurves.push(newBezierCurve);
+        return newBezierCurve;
     }
 
     createJSXSplineCurve(points: number[][], degree: number, continuity: Continuity): JSXSplineCurve {
         let newBezierCurve = new JSXSplineCurve(points, continuity, degree, this.board);
-        this.jsxBezierCurves.push(newBezierCurve)
-        return newBezierCurve
+        this.jsxBezierCurves.push(newBezierCurve);
+        return newBezierCurve;
     }
 
     createRationalJSXBezierCurve(points: number[][], weights: number[]): JSXRationalBezierCurve {
         const curve = new JSXRationalBezierCurve(points, weights, this.board);
-        this.jsxBezierCurves.push(curve)
-        curve.setSubdivisionResultConsumer((jsxCrv) => this.jsxBezierCurves.push(jsxCrv))
-        return curve
+        this.jsxBezierCurves.push(curve);
+        curve.setSubdivisionResultConsumer((jsxCrv) => this.jsxBezierCurves.push(jsxCrv));
+        return curve;
     }
 
     /**
@@ -120,9 +120,9 @@ abstract class BaseCurveGraph<P, S extends BaseGraphStates> extends BaseGraph<P,
             point = this.board.create('point', [x, y], PointStyles.default);
         }
         point.on('drag', (e) => {
-            CacheContext.update()
-        })
-        this.graphJXGPoints.push(point)
+            CacheContext.update();
+        });
+        this.graphJXGPoints.push(point);
         return new Point(point);
     }
 
@@ -140,7 +140,7 @@ abstract class BaseCurveGraph<P, S extends BaseGraphStates> extends BaseGraph<P,
                            "value": "1", "text": "Dodajaj točke"
                        }, {
                            "value": "2", "text": "Briši točke"
-                       }]}/>
+                       }]}/>;
     }
 
     override getGraphCommandsArea(): React.JSX.Element | null {
@@ -149,40 +149,40 @@ abstract class BaseCurveGraph<P, S extends BaseGraphStates> extends BaseGraph<P,
 
     getSelectedCurveCommands(): JSX.Element[] {
         if (this.getSelectedCurve()) {
-            return this.getSelectedCurve().getCurveCommands()
+            return this.getSelectedCurve().getCurveCommands();
         }
-        return []
+        return [];
     }
 
     handleDown(e: PointerEvent) {
         if (this.inputsDisabled) {
-            return
+            return;
         }
-        this.board.suspendUpdate()
+        this.board.suspendUpdate();
         let coords = this.getMouseCoords(e);
         let selectedCurve, selectableCurve;
         if (this.state.selectedCurveOption === SelectedCurveOption.MOVE_CURVE) {
-            selectedCurve = this.getSelectedCurve()
+            selectedCurve = this.getSelectedCurve();
             if (selectedCurve) {
-                selectedCurve.coords = coords
+                selectedCurve.coords = coords;
                 if (selectedCurve.isMouseInsidePaddedBoundingBox()) {
-                    selectedCurve.processMouseDown(e)
+                    selectedCurve.processMouseDown(e);
                 } else {
                     this.deselectSelectedCurve();
                 }
             }
-            selectedCurve = this.getSelectedCurve()
+            selectedCurve = this.getSelectedCurve();
             if (!selectedCurve) {
                 // @ts-ignore
                 if (!this.getAllJxgPoints().some(p => p.hasPoint(coords.scrCoords[1], coords.scrCoords[2]))) {
-                    selectableCurve = this.jsxBezierCurves.filter(curve => curve.isSelectable(e))[0]
+                    selectableCurve = this.jsxBezierCurves.filter(curve => curve.isSelectable(e))[0];
                     if (selectableCurve) {
                         this.selectCurve(selectableCurve);
                     }
                 }
             }
-            this.unsuspendBoardUpdate()
-            return
+            this.unsuspendBoardUpdate();
+            return;
         }
         let canCreate = true;
 
@@ -194,20 +194,20 @@ abstract class BaseCurveGraph<P, S extends BaseGraphStates> extends BaseGraph<P,
             }
         }
         if (canCreate && this.state.selectedCurveOption === SelectedCurveOption.ADD_POINTS && this.getSelectedCurve()) {
-            this.getSelectedCurve().addPoint(coords.usrCoords[1], coords.usrCoords[2])
+            this.getSelectedCurve().addPoint(coords.usrCoords[1], coords.usrCoords[2]);
         }
         if (!canCreate && this.state.selectedCurveOption === SelectedCurveOption.DELETE_POINTS && this.getSelectedCurve()) {
             this.getSelectedCurve().getJxgPoints().every((point, i) => {
                 // @ts-ignore
                 if (point.hasPoint(coords.scrCoords[1], coords.scrCoords[2])) {
-                    this.getFirstJsxCurve().removePoint(i)
-                    return false
+                    this.getFirstJsxCurve().removePoint(i);
+                    return false;
                 }
-                return true
-            })
+                return true;
+            });
         }
 
-        this.unsuspendBoardUpdate()
+        this.unsuspendBoardUpdate();
     };
 
     getSelectedCurve() {
@@ -218,13 +218,13 @@ abstract class BaseCurveGraph<P, S extends BaseGraphStates> extends BaseGraph<P,
     override getTools(): JSX.Element[] {
         return super.getTools().concat(<OnOffSwitch label="Oznake točk"
                                                     initialState={VisibilityContext.pointsVisible()}
-                                                    onChange={checked => this.showPointLabels(checked)}/>)
+                                                    onChange={checked => this.showPointLabels(checked)}/>);
     }
 
     deselectSelectedCurve() {
-        this.getSelectedCurve().deselect()
+        this.getSelectedCurve().deselect();
 
-        this.setState({...this.state, curveSelected: false, showingControlPolygon: false})
+        this.setState({...this.state, curveSelected: false, showingControlPolygon: false});
     }
 
     getAllJxgCurves() {
@@ -232,78 +232,78 @@ abstract class BaseCurveGraph<P, S extends BaseGraphStates> extends BaseGraph<P,
     }
 
     getSelectableCurveArea() {
-        let commands = [this.getSelect()]
+        let commands = [this.getSelect()];
         if (this.state.selectedCurveOption === SelectedCurveOption.MOVE_CURVE) {
-            commands = commands.concat(this.getSelectedCurveCommands())
+            commands = commands.concat(this.getSelectedCurveCommands());
         }
-        return <Commands commands={commands} title={"Izbrana krivulja"}></Commands>
+        return <Commands commands={commands} title={"Izbrana krivulja"}></Commands>;
     }
 
     override exportPresetData() {
         return this.jsxBezierCurves.map(curve => {
             // @ts-ignore
-            return [ClassMapper.getClassName(curve.constructor), ClassMapper.getToDto(curve.constructor)(curve)]
-        })
+            return [ClassMapper.getClassName(curve.constructor), ClassMapper.getToDto(curve.constructor)(curve)];
+        });
     }
 
     override importPresetData(str: string) {
         // @ts-ignore
-        this.board.removeObject(this.getAllJxgCurves().concat(this.getAllJxgPoints()))
-        this.jsxBezierCurves = []
-        this.graphJXGPoints = []
+        this.board.removeObject(this.getAllJxgCurves().concat(this.getAllJxgPoints()));
+        this.jsxBezierCurves = [];
+        this.graphJXGPoints = [];
 
         // @ts-ignore
         str.forEach(p => {
-            const [id, object] = [p[0], p[1]]
-            let curve = ClassMapper.getFromDto(id)(object, this.board)
+            const [id, object] = [p[0], p[1]];
+            let curve = ClassMapper.getFromDto(id)(object, this.board);
             if (curve instanceof AbstractJSXBezierCurve) {
-                curve.setSubdivisionResultConsumer((jsxCrv) => this.jsxBezierCurves.push(jsxCrv))
+                curve.setSubdivisionResultConsumer((jsxCrv) => this.jsxBezierCurves.push(jsxCrv));
             }
-            return this.jsxBezierCurves.push(curve)
-        })
+            return this.jsxBezierCurves.push(curve);
+        });
 
     }
 
     protected selectCurve(selectableCurve: AbstractJSXPointControlledCurve<PointControlledCurve, PointControlledCurveAttributes>, additionalState = {}) {
-        selectableCurve.select()
-        this.setState({...this.state, curveSelected: true, ...additionalState})
+        selectableCurve.select();
+        this.setState({...this.state, curveSelected: true, ...additionalState});
     }
 
     private handleUp(e: PointerEvent) {
         if (this.state.selectedCurveOption !== SelectedCurveOption.MOVE_CURVE) {
             // only handle when we're just moving curve
-            return
+            return;
         }
-        let selectedCurve = this.getSelectedCurve()
+        let selectedCurve = this.getSelectedCurve();
         if (selectedCurve && selectedCurve.needToProcessMoveEvent()) {
-            this.board.suspendUpdate()
-            selectedCurve?.processMouseUp(e)
-            this.unsuspendBoardUpdate()
+            this.board.suspendUpdate();
+            selectedCurve?.processMouseUp(e);
+            this.unsuspendBoardUpdate();
         }
     }
 
     private handleMove(e: PointerEvent) {
         if (this.state.selectedCurveOption !== SelectedCurveOption.MOVE_CURVE) {
-            return
+            return;
         }
-        let selectedCurve = this.getSelectedCurve()
+        let selectedCurve = this.getSelectedCurve();
         if (selectedCurve && selectedCurve.needToProcessMoveEvent()) {
-            this.board.suspendUpdate()
-            selectedCurve?.processMouseMove(e)
-            this.unsuspendBoardUpdate()
+            this.board.suspendUpdate();
+            selectedCurve?.processMouseMove(e);
+            this.unsuspendBoardUpdate();
         }
     }
 
     private onSelectChange(e: React.ChangeEvent<HTMLSelectElement>) {
-        let selectTool = e.target.value
-        let selectedCurveOption = Number(selectTool)
-        this.setState({...this.state, selectedCurveOption: selectedCurveOption})
+        let selectTool = e.target.value;
+        let selectedCurveOption = Number(selectTool);
+        this.setState({...this.state, selectedCurveOption: selectedCurveOption});
     }
 
     private showPointLabels(show: boolean) {
-        this.board.suspendUpdate()
-        VisibilityContext.setPointVisibility(show)
-        this.unsuspendBoardUpdate()
+        this.board.suspendUpdate();
+        VisibilityContext.setPointVisibility(show);
+        this.unsuspendBoardUpdate();
     }
 
 

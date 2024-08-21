@@ -8,12 +8,12 @@ import {Attributes} from "../attributes/Attributes";
 export default class AffineTransformBezierCurveGraph extends BaseBezierCurveGraph<any, BaseGraphStates> {
     override initialize() {
         super.initialize();
-        this.getFirstJsxCurve().setAttributes(Attributes.bezierDisabled)
+        this.getFirstJsxCurve().setAttributes(Attributes.bezierDisabled);
     }
 
 
     override presets(): string {
-        return "affine-transform"
+        return "affine-transform";
     }
 
     defaultPreset(): any {
@@ -27,7 +27,7 @@ export default class AffineTransformBezierCurveGraph extends BaseBezierCurveGrap
                 "decasteljauT": 0.5,
                 "extrapolationT": 1.2
             }
-        }]]
+        }]];
     }
 
     override getGraphCommands(): JSX.Element[] {
@@ -38,30 +38,30 @@ export default class AffineTransformBezierCurveGraph extends BaseBezierCurveGrap
                 <Button onClick={() => this.moveFor(0.5, 0)}>⇒</Button></div>,
             <div><Button onClick={() => this.moveFor(0, 0.5)}>⇑</Button>
                 <Button onClick={() => this.moveFor(0, -0.5)}>⇓</Button></div>,
-            <div><Button onClick={() => this.rotate(Math.PI / 2)}>↻</Button>
+            <div><Button onClick={() => this.rotate(-0.10 * Math.PI)}>↻</Button>
                 <Button onClick={() => this.rotate(0.10 * Math.PI)}>↺</Button></div>,
             <div><Button onClick={() => this.flip(true, false)}>Zrcali Y</Button>
-                <Button onClick={() => this.flip(false, true)}>Zrcali X</Button></div>])
+                <Button onClick={() => this.flip(false, true)}>Zrcali X</Button></div>]);
     }
 
     private moveFor(x: number, y: number) {
-        this.getFirstCurve().moveFor(x, y)
-        this.board.update()
+        this.getFirstCurve().moveFor(x, y);
+        this.boardUpdate();
     }
 
     private scale(scale: number) {
-        this.getFirstCurve().scale(scale)
-        this.board.update()
+        this.getFirstCurve().scale(scale);
+        this.boardUpdate();
     }
 
     private rotate(number: number) {
-        this.getFirstCurve().rotate(number)
-        this.board.update()
+        this.getFirstCurve().rotate(number);
+        this.boardUpdate();
     }
 
     private flip(b: boolean, b2: boolean) {
-        this.getFirstCurve().flip(b, b2)
-        this.board.update()
+        this.getFirstCurve().flip(b, b2);
+        this.boardUpdate();
     }
 
 
