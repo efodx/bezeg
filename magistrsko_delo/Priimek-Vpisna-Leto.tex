@@ -2,7 +2,6 @@
 % \documentclass[fin2, tisk]{fmfdelo}
 \documentclass[isrm2, tisk]{fmfdelo}
 
-
 \usepackage[caption = false]{subfig}
 
 
@@ -108,6 +107,8 @@ the content and not the structure of your work.}
 \usepackage{mathtools}
 \usepackage{hyperref}
 \usepackage{graphics}
+\usepackage{titlesec}
+\newcommand{\sectionbreak}{\clearpage}
 \floatname{algorithm}{Algoritem}
 \renewcommand{\listalgorithmname}{Kazalo algoritmov}
 
@@ -165,8 +166,6 @@ the content and not the structure of your work.}
 
 
     \mycomment{Ker je v okviru magistrskega dela nastalo orodje za grafični prikaz konceptov, bo delo polno s slikovnimi primeri.}
-
-    \newpage
 
 
     \section{Bézierjeve krivulje}\label{sec:bezierjeve-krivulje}
@@ -263,7 +262,7 @@ the content and not the structure of your work.}
 %        \end{align*}
 %        kjer smo pri enakosti (1) uporabili lastnost binomskega simbola $\binom{n-1}{i} + \binom{n-1}{i-1} = \binom{n}{i}.$
 %    \end{dokaz}
-    V kasnejših razdelkih bomo potrebovali tudi odvode Bernsteinovih baznih polinomov.
+    V kasnejših razdelkih bomo potrebovali tudi odvode in integrale Bernsteinovih baznih polinomov.
     Ker Bernsteinovi bazni polinomi stopnje $n$ tvorijo bazo prostora $\mathbb{P}_n$, lahko njihove odvode izrazimo v Bernsteinovi bazi dimenzije $n-1$.
     Z nekaj računanja pridemo do sledečega rezultata.
     \begin{izrek}
@@ -271,6 +270,14 @@ the content and not the structure of your work.}
         Za odvode Bernsteinovih baznih polinomov velja zveza
         \[B_{i}^{n\prime}=n(B_{i-1}^{n-1} - B_{i}^{n-1}).\]
     \end{izrek}
+    \noindent S pomočjo prejšnjega izreka in indukcije pa pridemo do izreka za integrale.
+    \begin{izrek}
+        \label{izrek:bernstein-integral}
+        Za nedoločene integrale Bernsteinovih baznih polinomov velja izraz
+        \[\int B_{i}^{n}(t)dt= \frac{1}{n+1} \sum_{k=1}^{n-i+1}  B_{i+k}^{n+1}(t) + C,\quad C\in\R. \]
+    \end{izrek}
+    \mycomment{preveri natančneje}
+
 %    \begin{dokaz}
 %        Bernsteinov bazni polinom najprej odvajamo da dobimo
 %        \begin{align*}
@@ -662,7 +669,7 @@ the content and not the structure of your work.}
         \[ \mathbf{B}^{(k)}(t) = \frac{n!}{(n-k)!} \sum_{i=0}^{n-k}\Delta^{k}\p_{i}B_i^{n-k}(t),\quad k=0,1,\ldots,n.\]
     \end{izrek}
     \noindent Izrek je enostavno dokazati s pomočjo indukcije, zato bomo dokaz izpustili.
-    \newpage
+
 
     \section{Racionalne Bézierjeve krivulje}
     Vseh krivulj ne moremo opisati s polinomskimi Bézierjevimi krivuljami.
@@ -781,7 +788,7 @@ the content and not the structure of your work.}
     Slednje lahko zapišemo kot \[\frac{|\mathbf{f}_i-\p_i|}{|\mathbf{f}_i-\p_{i+1}|} = \frac{w_{i+1}}{w_{i}}.\]
     S kontrolnimi točkami in utežmi lahko Farinove točke izrazimo takole
     \[\mathbf{f}_i \coloneqq \frac{w_{i}}{w_{i}+w_{i+1}}\p_i +  \frac{w_{i+1}}{w_{i}+w_{i+1}}\p_{i+1}.\]
-    Da bi uporabnik lahko s Farinovimi točkami kontroliral uteži, pa želimo obratno — s Farinovimi točkami želimo izraziti uteži.
+    Da bi uporabnik lahko s Farinovimi točkami kontroliral uteži, pa želimo obratno – s Farinovimi točkami želimo izraziti uteži.
     Brez izgube splošnosti lahko za prvo utež izberemo $w_0=1$.
     Ostale točke lahko nato rekurzivno izračunamo s pomočjo naslednjega izraza
     \[w_{i+1} = w_i\frac{|\mathbf{f}_i-\p_i|}{|\mathbf{f}_i-\p_{i+1}|}.\]
@@ -829,7 +836,6 @@ the content and not the structure of your work.}
         \caption{Krivulja z enakimi premiki vseh Farinovih točk, pred in po standardizaciji.}
         \label{fig:farinove-tocke-2}
     \end{figure}
-    \newpage
 
 %    \subsubsection{Izsek krožnice}
 %    V uvodu podrazdelka smo povedali, da se nekaterih krivulj ne da opisati z navadnimi Bézierjevimi krivuljami.
@@ -903,7 +909,8 @@ the content and not the structure of your work.}
 %%    Izračunajmo sedaj za $r=1$ in $\alpha = \frac{\pi}{2}$. $R=\frac{1}{\cos\left(\frac{\pi}{4}\right)} = \sqrt{2}.$
 %%    \[ w_1 = \frac{\frac{\sqrt{2}-1}{2}}{(\sqrt{2}-1)\frac{\sqrt{2}}{2}} = \frac{\sqrt{2}-1}{(\sqrt{2}-1)\sqrt{2}} = \frac{\sqrt{2}}{2} \]
 %
-    \newpage
+    \clearpage
+
 
     \section{Zlepki Bézierjevih krivulj}
     Če si ponovno ogledamo de Casteljaujev algoritem~\ref{alg:decasteljau}, lahko hitro opazimo, da je časovna kompleksnost algoritma $O(n^2)$.
@@ -964,10 +971,6 @@ the content and not the structure of your work.}
         \caption{$C^3$ zlepek dveh Bézierjevih krivulj, kjer je $\Delta u_0=\Delta u_1$.}
         \label{fig:zlepek-c3}
     \end{figure}
-    \newpage
-
-
-
 
     \subsection{Geometrijska zveznost}
     Da bi zlepki bili gladki ne potrebujemo zvezne odvedljivosti v analitičnem smislu, dovolj je zvezna odvedljivost v geometrijskem smislu.
@@ -984,32 +987,32 @@ the content and not the structure of your work.}
         $k$-krat zvezno odvedljiv.
     \end{definicija}
     \noindent Izpeljimo sedaj pogoje gladkosti za $G^k$, $k=0,1,2$.
-    Za $G^0$ mora veljati $$\mathbf{s_1}(u_1) =  \mathbf{s_2}(\varphi(u_1))$$ kar je enak pogoj, kakor za $C^0$.
-    Za $G^1$ mora veljati prejšnje in $$ \mathbf{s_1'}(u_1) = \mathbf{s_2'}(\varphi(u_1))\varphi'(u_1) = \mathbf{s_2'}(u_1)\varphi'(u_1).$$
-    Za $G^2$ pa mora veljati prejšnje ter $$\mathbf{s_1''}(u_1) = \mathbf{s_2''}(\varphi(u_1))(\varphi'(u_1))^2 +  \mathbf{s_2'}(\varphi(u_1))\varphi''(u_1) =\mathbf{s_2''}(u_1)(\varphi'(u_1))^2 +  \mathbf{s_2'}(u_1))\varphi''(u_1).$$
+    Za $G^0$ mora veljati \[\mathbf{s_1}(u_1) =  \mathbf{s_2}(\varphi(u_1))\] kar je enak pogoj, kakor za $C^0$.
+    Za $G^1$ mora veljati prejšnje in \[ \mathbf{s_1'}(u_1) = \mathbf{s_2'}(\varphi(u_1))\varphi'(u_1) = \mathbf{s_2'}(u_1)\varphi'(u_1).\]
+    Za $G^2$ pa mora veljati prejšnje ter \[\mathbf{s_1''}(u_1) = \mathbf{s_2''}(\varphi(u_1))(\varphi'(u_1))^2 +  \mathbf{s_2'}(\varphi(u_1))\varphi''(u_1) =\mathbf{s_2''}(u_1)(\varphi'(u_1))^2 +  \mathbf{s_2'}(u_1))\varphi''(u_1).\]
     Če sedaj označimo odvode reparametrizacijske funkcije v točki $u_1$ z $\beta_i = \varphi^{(i)}(u_1)$, lahko pogoje za $G^2$ zveznost izrazimo s povezovalno matriko
-    $$
-    \begin{bmatrix}
-        \mathbf{s_1'}(u_1) \\
-        \mathbf{s_1''}(u_1)
-    \end{bmatrix}
-    =
-    \begin{bmatrix}
-        \beta_1 & 0         \\
-        \beta_2 & \beta_1^2
-    \end{bmatrix}  \begin{bmatrix}
-                       \mathbf{s_2'}(u_1) \\
-                       \mathbf{s_2''}(u_1)
-    \end{bmatrix}.$$
+    \[
+        \begin{bmatrix}
+            \mathbf{s_1'}(u_1) \\
+            \mathbf{s_1''}(u_1)
+        \end{bmatrix}
+        =
+        \begin{bmatrix}
+            \beta_1 & 0         \\
+            \beta_2 & \beta_1^2
+        \end{bmatrix}  \begin{bmatrix}
+                           \mathbf{s_2'}(u_1) \\
+                           \mathbf{s_2''}(u_1)
+        \end{bmatrix}.\]
     Lahko pa naredimo tudi obratno - pri izbranih $\beta_i$ lahko konstruiramo reparametrizacijsko funkcijo, ki ustreza pogojem $\varphi'>0$,  $\varphi'(u_1)=\beta_1$ in $\varphi'(u_1)=\beta_2$. Vzamemo lahko namreč kar Taylorjev polinom
-    $$\varphi(u) = u_1 + \beta_1(u-u_1) + \frac{1}{2}\beta_2(u-u_1)^2.$$
+    \[\varphi(u) = u_1 + \beta_1(u-u_1) + \frac{1}{2}\beta_2(u-u_1)^2.\]
 
     Oglejmo si sedaj, kako pogoji za geometrijsko zveznost vplivajo na zlepke Bézierjevih krivulj.
     Naj bosta $s_1$ in $s_2$ Bézierjevi krivulji. \mycomment{iz prejšnjega zlepka?}
     Za $G^1$ mora veljati  $\mathbf{s_1'}(u_1) = \beta_1\mathbf{s_2'}(u_1)$, iz česar sledi
-    $$\frac{\p_{n}^{(1)} - \p_{n-1}^{(1)}}{\Delta u_0} = \beta_1\frac{\p_{1}^{(2)} - \p_{0}^{(2)}}{\Delta u_1}.$$
+    \[\frac{\p_{n}^{(1)} - \p_{n-1}^{(1)}}{\Delta u_0} = \beta_1\frac{\p_{1}^{(2)} - \p_{0}^{(2)}}{\Delta u_1}.\]
     Če označimo sedaj $\alpha_1=  \frac{\beta_1\Delta u_0}{\Delta u_1}$ pa lahko pogoj zapišemo kot
-    $$\p_{n}^{(1)} - \p_{n-1}^{(1)}= \alpha_1(\p_{1}^{(2)} - \p_{0}^{(2)}).$$
+    \[\p_{n}^{(1)} - \p_{n-1}^{(1)}= \alpha_1(\p_{1}^{(2)} - \p_{0}^{(2)}).\]
     Glede na $C^1$ smo torej pridobili prosti parameter, ki ga lahko v CAGD sistemih uporabimo za dodatno kontrolo nad krivuljo.
     $G^1$ zlepek in vpliv izbora $\beta_1$ si lahko ogledamo na sliki~\ref{fig:zlepek-g1}.
     \begin{figure}[h]
@@ -1036,119 +1039,122 @@ the content and not the structure of your work.}
 %    Ker to bi prislo prav, ce naredim tudi zlepke PH krivulj (kar naceloma ne bi smelo bit tako problematicno...).
 %    }
 
-    \newpage
-
 
     \section{PH Krivulje}
-    Motivacija: fajn so nam takšne parametrizacije, da se isto hitro premikamo po njih. (ce karkoli rises recimo)
-    V poglavju se bomo osredotočili (mogoce celo samo govorili?) o krivuljah v $\R^2$.
-
-    \subsection{Dolžina krivulje kot racionalna funkcija}
-    Dolžina krivulje podane s parametrizacijo  $\mathbf{r}(t) = \left(x(t),y(t)\right)$ je definirana z enačbo $\int_0^t \sqrt {x^{'2}(t)+y^{'2}(t)}$.
-    Integrandu v enačbi pravimo \textit{parametrična hitrost} krivulje, označimo ga z $\sigma(t)$.
-    Idealno bi bilo, da je hitrost $\sigma(t) = 1$ za vsak $t\in [0,t_0]$, saj bi v tem primeru veljalo $s(t)=t$.
-    Takšna parametrizacija je zlahka dosegljiva za črte, tudi za odseke krožnice (z rabo trigonometričnih funkcij), v splošnem pa ne.
-    Dokaz da nobena krivulja ne more biti parametrizirana z racionalnimi funkcijami svoje dolzine.???
-
-    \subsection{Polinomska parametrična hitrost}
-    Kot smo zgoraj dokazali, ne moremo doseči racionalne parametrizacije krivulje, ki bi imela hitrost enako $1$.
-    Če krivulje nekoliko omejimo, lahko dosežemo, da bo funkcija hitrosti vsaj polinom.
-    To dosežemo tako, da zahtevamo, da je polinom $x^{'2}(t)+y^{'2}(t)$ popoln kvadrat.
-    V takšnem primeru se namreč koren v integrandu izraza REFNAENACBO pokrajša, pod integralom pa ostane polinom.
-    Krivuljam za katere to drži pravimo \textit{krivulje s pitagorejskimi hodografi} oziroma \textit{PH krivulje}.
-    Integral polinoma je tudi polinom, iz česar sledi, da lahko dolžino PH krivulje izračunamo tako, da evalviramo polinom.
-    V naslednjih razdelkih bomo videli, da nam tale lastnost omogoča več, kot samo
-
+%    Motivacija: fajn so nam takšne parametrizacije, da se isto hitro premikamo po njih. (ce karkoli rises recimo)
+%    V poglavju se bomo osredotočili (mogoce celo samo govorili?) o krivuljah v prostoru $\R^2$.
+    Za začetek razdelka definirajmo dva pojma, ki jih bomo tekom razdelka potrebovali.
     \begin{definicija}
-        Hodograf krivulje podane s parametrizacijo $\mathbf{r}(t)\in \R^n$ je krivulja katere parametrizacija je odvod parametrizacije prvotne krivulje.
-        \mycomment{V primeru, da komponente parametrizacije hodografa krivulje tvorijo
-        Krivulja podana s parametrizacijo $\mathbf{r}(t)\in \R^n$ je krivulja s pitagorejskim hodografom, če komponente hodografa tvorijo pitagorejsko $(n+1)$-terko. (???????????????? se tako rece?)}
+        \label{def:pitagorejska}
+        Polinomi $a,b,c$ tvorijo pitagorejsko trojico, če zadoščajo enačbi
+        \begin{align*}
+            a^2+b^2=c^2.
+        \end{align*}
+    \end{definicija}
+    \begin{opomba}
+        Iz definicije~\ref{def:pitagorejska} je očitno, da je vrstni red polinomov pomemben.
+        Če polinomi $a,b,c$ tvorijo pitagorejsko trojico, potem jo tvorijo tudi polinomi $b,a,c$, polinomi $c,b,a$ pa je ne.
+    \end{opomba}
+    \begin{definicija}
+        Hodograf krivulje podane s parametrizacijo $\mathbf{r}$ je krivulja podana s parametrizacijo $\mathbf{r'}$.
     \end{definicija}
 
-    Pri konstrukciji Bézierjevih PH krivulj bomo potrebovali polinome, ki tvorijo pitagorejske trojice.
-    Pomagali si bomo z naslednjim izrekom.
+    \subsection{Enakomerna parametrična hitrost}
+    \textit{Parametrična hitrost} krivulje $\mathbf{r}$, s parametrizacijo $\mathbf{r}= \left(x,y\right)$, je definirana s funkcijskim predpisom
+    \begin{align}
+        \sigma(t)= |\mathbf{r'}(t)| = \sqrt {x^{'2}(t)+y^{'2}(t)}. \label{eq:param-hitrost}
+    \end{align}
+    Idealno bi bilo, da je za vsak parameter $t$ parametrična hitrost $\sigma(t) = 1$.
+    Da dobimo željeno, lahko za poljubno premico s parametrizacijo
+    \[\mathbf{r}(t) = \p_0 + t\mathbf{s},\quad  \mathbf{s} = (s_x,s_y),\]
+    uporabimo reparametrizacijsko funkcijo s predpisom $\varphi(t) = \frac{t}{\sqrt{s_x^2+s_y^2}}$.
+    Za polinomske krivulje stopnje višjih stopenj pa to ni mogoče.
+    Naj bo vsaj ena izmed komponent parametrizacije $\mathbf{r}=(x,y)$ polinom stopnje $>1$.
+    Ker sta vodilna koeficienta polinomov $x'^2$ in $y'^2$ pozitivna iz~\eqref{eq:param-hitrost} hitro sledi, da polinom $\sigma^2\in\mathbb{P}_{2n-2}$ ni konstanten.
+    Enačba $\sigma(t) = 1$ ima zato kvečjemu $2n-2$ rešitev.
 
-    \begin{izrek}              % (tvorijo pitagorejsko trojico??)
-        Polinomi $a,b$ in $c$ tvorijo pitagorejsko trojico, tj.\ zadoščajo enačbi
-        \vspace{-0.3cm}
-        \begin{align}
-            a^2(t)+b^2(t)=c^2(t), \label{eq:abc}
-        \end{align}
-        natanko tedaj, ko obstajata tuja si polinoma $u$ in $v$ ter nek polinom  $w$ za katere velja
-        \vspace{-0.3cm}
-        \begin{align}
-            &a(t)=[u^2(t)-v^2(t)]w(t), \nonumber \\
-            &b(t)=2u(t)v(t)w(t),        \nonumber \\
-            &c(t)=[u^2(t)+v^2(t)]w(t). \label{eq:uvw}
-        \end{align}
+    \subsection{Polinomska parametrična hitrost}
+    V prejšnjem razdelku smo pokazali, da polinomske krivulje stopnje $>1$ ne premorejo parametrizacije z enakomerno hitrostjo.
+    Če krivulje nekoliko omejimo, lahko dosežemo vsaj to, da bo funkcija hitrosti polinom.
+    Iz enačbe~\eqref{eq:param-hitrost} sledi, da je to res v primerih, ko je polinom $x^{'2}+y^{'2}$ popoln kvadrat – takrat se namreč koren v enačbi okrajša.
+    \begin{definicija}
+        Naj bo $\mathbf{r}:\R\to\R^2$ parametrično podana krivulja s parametrizacijo $\mathbf{r}=(x,y)$.
+        Krivulja $\mathbf{r}$ je PH krivulja oziroma krivulja s pitagorejskim hodografom, če obstaja tak polinom $z$, da polinomi x',y',z tvorijo pitagorejsko trojico.
+    \end{definicija}
+    \noindent Pri konstrukciji Bézierjevih PH krivulj si bomo pomagali z naslednjim izrekom.
+    \begin{izrek}
+        \label{izrek:pitagorejske}         % (tvorijo pitagorejsko trojico??)
+        Polinomi $a,b,c$ tvorijo pitagorejsko trojico natanko tedaj, ko obstajata tuja si polinoma $u$ in $v$ ter nek polinom  $w$ da velja
+        \begin{align*}
+            a=(u^2-v^2)w,\quad b=2uvw,\quad c=(u^2+v^2)w.
+        \end{align*}
     \end{izrek}
     \noindent Izrek tudi dokažimo.
     \begin{dokaz}
         \mbox{}\\
-        ($\Leftarrow$) Dokaz je enostaven, saj lahko vrednosti polinomov $a$,$b$ in $c$ iz enačbe ~\eqref{eq:uvw} vstavimo v enačbo ~\eqref{eq:abc} in preverimo. \\
-        ($\Rightarrow$) Najprej definiramo polinom $w(t)=\gcd(a(t),b(t),c(t))$.
-        Pri tako definiranem polinomu $w$, so si polinomi $\tilde{a}(t)=\frac{a(t)}{w(t)}, \tilde{b}(t)=\frac{b(t)}{w(t)}, \tilde{c}(t)=\frac{c(t)}{w(t)}$ tuji in zadoščajo enačbi $\tilde{a}^2(t)+\tilde{b}^2(t)=\tilde{c}^2(t)$.
-        Enačbo zapišemo nekoliko drugače \[\tilde{b}^2(t)= \tilde{c}^2(t)-\tilde{a}^2(t) = [\tilde{c}(t)+\tilde{a}(t)][\tilde{c}(t)-\tilde{a}(t)].\]
-        Polinoma $\tilde{c}(t)+\tilde{a}(t)$ in $\tilde{c}(t)-\tilde{a}(t)$ ne moreta imeti skupnih ničel, saj bi to impliciralo skupne ničle polinomov $\tilde{a},\tilde{b},\tilde{c}$, kar bi bilo v nasprotju z njihovo definicijo.
-        Ker skupnih ničel nimata, mora biti vsaka ničla polinoma $\tilde{b}$ tudi ničla sode stopnje enega izmed polinomov $\tilde{c}(t)+\tilde{a}(t)$ ali $\tilde{c}(t)-\tilde{a}(t)$.
-        Tako lahko definiramo tuja si polinoma $u$ in $v$, da velja $\tilde{c}(t)+\tilde{a}(t)=2u^2(t)$ in $\tilde{c}(t)-\tilde{a}(t)=2v^2(t)$.
-        Iz enačb potem hitro sledi \[\tilde{a}=u^2(t)-v^2(t),\quad\tilde{b}(t)=2u(t)v(t), \quad\tilde{c}(t)=u^2(t)+v^2(t).\]
-        Če enačbe pomnožimo s polinomom $w$ dobimo željeno obliko~\eqref{eq:uvw}. \qedhere
+        ($\Leftarrow$) Dokaz je enostaven, saj lahko definicije polinomov $a$,$b$ in $c$ iz izreka vstavimo v enačbo iz definicije~\ref{def:pitagorejska} in preverimo. \\
+        ($\Rightarrow$) Najprej definirajmo polinom $w=\gcd(a,b,c)$.
+        Pri tako definiranem polinomu $w$, so si polinomi \[\tilde{a}=\frac{a}{w},\quad \tilde{b}=\frac{b}{w},\quad \tilde{c}=\frac{c}{w},\] tuji in zadoščajo enačbi $\tilde{a}^2+\tilde{b}^2=\tilde{c}^2$.
+        Enačbo zapišimo nekoliko drugače \[\tilde{b}^2= \tilde{c}^2-\tilde{a}^2 = (\tilde{c}+\tilde{a})(\tilde{c}-\tilde{a}).\]
+        Polinoma $\tilde{c}+\tilde{a}$ in $\tilde{c}-\tilde{a}$ ne moreta imeti skupnih ničel, saj bi to impliciralo skupne ničle polinomov $\tilde{a},\tilde{b},\tilde{c}$, kar bi bilo v nasprotju z njihovo definicijo.
+        Ker skupnih ničel nimata, mora biti vsaka ničla polinoma $\tilde{b}$ tudi ničla sode stopnje enega izmed polinomov $\tilde{c}+\tilde{a}$ ali $\tilde{c}-\tilde{a}$.
+        Potemtakem lahko definiramo tuja si polinoma $u$ in $v$, da velja $\tilde{c}+\tilde{a}=2u^2$ in $\tilde{c}-\tilde{a}=2v^2$.
+        Iz enačb potem hitro sledi \[\tilde{a}=u^2-v^2,\quad\tilde{b}=2uv, \quad\tilde{c}=u^2+v^2.\]
+        Enačbe pomnožimo s polinomom $w$ in dobimo željeno obliko. \qedhere
     \end{dokaz}
-    Iz konstrukcije dokaza lahko hitro vidimo, da je za pitagorejske trojice pri katerih je največji skupni delitelj konstanta, konstanten tudi polinom $w$ ter $\gcd(u(t),v(t))$.
+    \noindent Iz konstrukcije dokaza lahko hitro vidimo, da sta za pitagorejske trojice katerih največji skupni delitelj je konstanta, konstantna tudi polinoma $w$ in $\gcd(u,v)$.
     Takšnim trojicam pravimo \textit{primitivne pitagorejske trojice}.
-    Parametrizacijo ravninske PH krivulje $\mathbf{r}(t)=(x(t),y(t))$ lahko dobimo tako, da vstavimo tuja si polinoma $u,v$ in polinom $w$ v izraza
+    Parametrizacijo ravninske PH krivulje $\mathbf{r}=(x,y)$ lahko konstruiramo tako, da vstavimo tuja si polinoma $u,v$ in polinom $w$ v izraza
     \begin{align}
-        x'(t)=[u^2(t)-v^2(t)]w(t),\quad y'(t)=2u(t)v(t)w(t)  \label{eq:hodograf-splosni}
+        x'=(u^2-v^2)w,\quad y'=2uvw  \label{eq:hodograf-splosni}
     \end{align} in integriramo.
-    Brez izgube splošnosti lahko $x'$ oziroma $y'$ asociramo z $a$ ali $b$****** (pac kateri izraz kateremo pripopamo, ma je treba to dokazat).
-    Nekateri izbori polinomov $u,v,w$ porodijo izrojene(????) krivulje, takšne izbore bi radi izločili.
-    Izbori, ki porodijo izrojene krivulje so sledeči:
-    \vspace{-0.3cm}
+    %Brez izgube splošnosti lahko $x'$ oziroma $y'$ asociramo z $a$ ali $b$****** (pac kateri izraz kateremo pripopamo, ma je treba to dokazat).
+    % to je u izi dokazat...
+    Pri tem nekateri izbori polinomov $u,v,w$ porodijo izrojene krivulje, takšne izbore bi radi izločili.
+%    \vspace{-0.2cm}
     \begin{enumerate}
         \itemsep0em
-        \item $w(t)=0$ ali $u(t)=v(t)=0$, hodograf je v takšnem primeru enak $x'(t)=y'(t)=0$.
-        Takšen hodograf ne definira krivulje ampak točko.
-        \item  Če so polinomi $w(t),u(t),v(t)$ konstantni in ne ustrezajo točki (a), potem je konstanten tudi hodograf.
-        Takšen hodograf definira enakomerno parametrizirano premo črto.
+        \item V primeru $w\equiv 0$ ali $u=v \equiv 0$ so komponente hodografa enake $x'=y'\equiv 0$ in zato definira točko, ne pa krivulje.
+        \item  Če so polinomi $u,v,w$ konstantni in neničelni, potem je konstanten tudi hodograf.
+        V tem primeru hodograf definira parametrizacijo premice z enakomerno hitrostjo.
         \item  Če sta polinoma $u$ in $v$ konstantna ter vsaj en neničelen, polinom $w$ pa ni konstanten.
-        Potem hodograf spet definira premo črto, a tokrat parametrizacija ni enakomerna. (hitrost ni konstanta)
+        Tudi tokrat hodograf definira premico, a hitrost ni enakomerna.
         \item Enako kot v točki (c) dobimo tudi v primeru, ko je polinom $w$ neničelen in en izmed polinomov $u$ in $v$ je ničelen.
     \end{enumerate}
     \vspace{-0.3cm}
     \noindent Neizrojene PH krivulje dobimo torej pri izborih neničelnih polinomov $u,v$ in $w$, kjer vsaj en izmed polinomov $u$ in $v$ ni konstanten.
 
-    S številom $\lambda$ označimo stopnjo polinoma $w$, s številom $\mu$ pa $\max(\deg(u(t)),\deg(v(t)))$.
-    PH krivulja, pridobljena z integracijo zgornjega hodografa, je stopnje $n=\lambda + 2\mu + 1$.
-    Prostih parametrov pa je manj.
-    Vsak izmed polinomov $u$ in $v$ je namreč definiran z največ $\mu + 1$ parametri.
-    Brez izgube splošnosti lahko vodilni koeficient polinoma $w$ fiksiramo na $1$.
-    Polinom $w$ je zato definiran z $\lambda$ parametri.
-    Integracijska konstanta pri integriranju hodografa nam poda še $2$ prosta parametra.
-    Skupno je prostih parametrov zato $\lambda + 2(\mu+1)+2=\lambda + 2\mu+4 = n+3$.
-    Kjer zadnja enakost sledi iz zgornje enačbe za stopnjo PH krivulje.
-    Vseh parametrov ne moremo porabiti za obliko krivulje.
-    Dva parametra nam določi izbor začetne točke, en parameter nam določi usmerjenost/rotacija/(???) krivulje, še dva nam določi izbor parametrizacije, saj substitucija $t\to at+b$ ne spremeni oblike ali stopnje krivulje.
-    Ostane nam $n-2$ prostih parametrov za obliko krivulje.
+    \noindent S številom $\lambda$ označimo stopnjo polinoma $w$, s številom $\mu$ pa $\max(\deg(u),\deg(v))$.
+    \mycomment{
+        PH krivulja, pridobljena z integracijo zgornjega hodografa, je stopnje $n=\lambda + 2\mu + 1$.
+        Prostih parametrov pa je manj.
+        Vsak izmed polinomov $u$ in $v$ je namreč definiran z največ $\mu + 1$ parametri.
+        Brez izgube splošnosti lahko vodilni koeficient polinoma $w$ fiksiramo na $1$.
+        Polinom $w$ je zato definiran z $\lambda$ parametri.
+        Integracijska konstanta pri integriranju hodografa nam poda še $2$ prosta parametra.
+        Skupno je prostih parametrov zato $\lambda + 2(\mu+1)+2=\lambda + 2\mu+4 = n+3$.
+        Kjer zadnja enakost sledi iz zgornje enačbe za stopnjo PH krivulje.
+        Vseh parametrov ne moremo porabiti za obliko krivulje.
+        Dva parametra nam določi izbor začetne točke, en parameter nam določi usmerjenost/rotacija/(???) krivulje, še dva nam določi izbor parametrizacije, saj substitucija $t\to at+b$ ne spremeni oblike ali stopnje krivulje.
+        Ostane nam $n-2$ prostih parametrov za obliko krivulje.}
 
     \subsection{Kontrolne točke Bézierjevih PH krivulj}
     V tem podrazdelku bomo s kontrolnimi točkami Bézierjevih krivulj karakterizirali \textit{Bézierjeve PH krivulje}, to so Bézierjeve krivulje katerih hodograf je pitagorejska trojica.
-    Osredotočili se bomo na hodografe primitivnih pitagorejskih trojic.
-    Takšni hodografi definirajo regularne PH krivulje, saj za njih velja $\mathbf{r}(t) \neq 0$ pri vsakem realnem številu $t$.
-    Tako dobljene PH krivulje so lihe stopnje $n=2\mu+1$.
-
+    Osredotočili se bomo na hodografe kjer sta $u$ in $v$ tuja si polinoma ter $w\equiv 1$.
+    Za takšne hodografe velja
+%    Takšni hodografi definirajo regularne PH krivulje, saj za njih velja
+    \[|\mathbf{r'}|^2 = x'^2 + y'^2 = (u^2+v^2)^2.\]
+    Od koder sledi $|\mathbf{r'}(t)|\neq 0$, $t\in R$, saj polinoma $u$ in $v$ nimata skupnih ničel.
+    Krivulje so torej regularne in lihe stopnje $n=2\mu+1$.
     Najbolj osnovne netrivialne PH krivulje dobimo tako, da za polinoma $u$ in $v$ izberemo Bernsteinova polinoma
-    \[u(t)=u_0B_{0}^{1}(t)+u_1B_{1}^{1}(t),\quad v(t)=v_0B_{0}{1}(t)+v_1B_{1}^{1}(t)\]
-    pri katerih mora veljati $u_0v_1-u_1v_0\neq 0$ in $(u_1-u_0)^2+(v_1-v_0)^2\neq 0$, da sta si polinoma $u$ in $v$ tuja, ter da vsaj en od njiju ni konstanten.
-    Za polinom $w$ izberemo konstanten polinom $w(t)=1$.
-    Ko polinome vstavimo v enačbo REFERENCANAENACBO, dobimo hodograf
-% Realno to ni tako ocitno, bi blo fajn dejansko izpeljat!
+    \[u=u_0B_{0}^{1}+u_1B_{1}^{1},\quad v=v_0B^1_{0}{1}+v_1B_{1}^{1},\]
+    za katera mora veljati $u_0v_1-u_1v_0\neq 0$, da sta si polinoma $u$ in $v$ tuja, in $(u_1-u_0)^2+(v_1-v_0)^2\neq 0$, da vsaj en od njiju ni konstanten.
+    Ko polinoma vstavimo v enačbo~\eqref{eq:hodograf-splosni} in upoštevamo $w\equiv 1$ dobimo
     \begin{align*}
-        x'(t) &=(u_0^2-v_0^2)B_{0}^{2}(t)+(u_0u_1-v_0v_1)B_{1}^{2}(t) + (u_1^2-v_1^2)B_{2}^{2}(t)\\
-        y'(t) &= 2u_0 v_0 B_{0}^{2}(t)+(u_0v_1+u_1v_0)B_{1}^{2}(t)+2u_1 v_1 B_{2}^{2}(t).
+        x' &=(u_0^2-v_0^2)B_{0}^{2}+(u_0u_1-v_0v_1)B_{1}^{2} + (u_1^2-v_1^2)B_{2}^{2},\\
+        y' &= 2u_0 v_0 B_{0}^{2}+(u_0v_1+u_1v_0)B_{1}^{2}+2u_1 v_1 B_{2}^{2}.
     \end{align*}
-
-    Hodograf sedaj integriramo tako, da uporabimo lastnost~\ref{izrek:bernsteinovi_lastnosti:integral} iz izreka~\ref{izrek:bernsteinovi_lastnosti}.
+    Polinoma $x',y'$ integriramo s pomočjo izreka~\ref{izrek:bernstein-integral}.
     Če upoštevamo še, da so Bernsteinovi polinomi razčlenitev enote dobimo
     \begin{align*}
         x(t) = &\ \ \ x_0(B_{0}^{3}(t) + B_{1}^{3}(t) + B_{2}^{3}(t)+ B_{3}^{3}(t)) \\
@@ -1320,8 +1326,6 @@ the content and not the structure of your work.}
     \end{figure}
     Na sliki~\ref{fig:kontrolne-točke-offset} lahko vidimo, da se kontrolne točke odmične krivulje v odvisnosti od razdalje premikajo po premicah.
 
-    \newpage
-
 
     \section{Orodje za grafični prikaz konceptov}
     Vsi koncepti predstavljeni v magistrskem delu so tudi implementirani na spletni strani.
@@ -1404,28 +1408,6 @@ the content and not the structure of your work.}
     Klik na oglišče pravokotnika zažene spreminjanje velikosti krivulje \missingref{slika}.
     Klik ob stranici pravokotnika pa zažene rotiranje krivulje \missingref{slika}.
     Klik znotraj pravokotnika zažene premikanje krivulje \missingref{slika}.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    \newpage
 
 
     \section{Integrali po \texorpdfstring{$\omega$}{ω}-kompleksih}
