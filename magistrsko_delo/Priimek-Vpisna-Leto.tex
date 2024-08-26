@@ -288,6 +288,7 @@ the content and not the structure of your work.}
 %    \end{dokaz}
     Za konec podrazdelka izpeljimo še formulo za zmnožek dveh Bernsteinovih polinomov.
     \begin{izrek}
+        \label{izrek:bernstein-multiplication}
         Naj bosta $f$ in $g$ Bernsteinova polinoma definirana kot $f=\sum_{i=0}^{m}\alpha_iB_i^m$ in $g=\sum_{i=0}^{n}\beta_iB_i^n$.
         Potem za njun zmnožek velja
         \[ fg = \sum_{i=0}^{m+n}\left(\sum_{j=\max(0,i-n)}^{\min(m,i)} \frac{\binom{m}{j}\binom{n}{i-j}}{\binom{m+n}{i}} \alpha_i\beta_{i-j} \right)B_{i}^{m+n}.\]
@@ -1123,12 +1124,11 @@ the content and not the structure of your work.}
     \end{enumerate}
     \vspace{-0.3cm}
     \noindent Neizrojene PH krivulje dobimo torej pri izborih neničelnih polinomov $u,v$ in $w$, kjer vsaj en izmed polinomov $u$ in $v$ ni konstanten.
-
-    \noindent S številom $\lambda$ označimo stopnjo polinoma $w$, s številom $\mu$ pa $\max(\deg(u),\deg(v))$.
+    S številom $\lambda$ označimo stopnjo polinoma $w$, s številom $\mu$ pa $\max(\deg(u),\deg(v))$.
+    PH krivulja, pridobljena z integracijo zgornjega hodografa, je stopnje $n=\lambda + 2\mu + 1$.
+    Prostih parametrov pa je manj.
+    Vsak izmed polinomov $u$ in $v$ je namreč definiran z največ $\mu + 1$ parametri.
     \mycomment{
-        PH krivulja, pridobljena z integracijo zgornjega hodografa, je stopnje $n=\lambda + 2\mu + 1$.
-        Prostih parametrov pa je manj.
-        Vsak izmed polinomov $u$ in $v$ je namreč definiran z največ $\mu + 1$ parametri.
         Brez izgube splošnosti lahko vodilni koeficient polinoma $w$ fiksiramo na $1$.
         Polinom $w$ je zato definiran z $\lambda$ parametri.
         Integracijska konstanta pri integriranju hodografa nam poda še $2$ prosta parametra.
@@ -1140,7 +1140,7 @@ the content and not the structure of your work.}
 
     \subsection{Kontrolne točke Bézierjevih PH krivulj}
     V tem podrazdelku bomo s kontrolnimi točkami Bézierjevih krivulj predstavili \textit{Bézierjeve PH krivulje}, to so Bézierjeve krivulje katerih hodograf je pitagorejska trojica.
-    Osredotočili se bomo na hodografe kjer sta $u$ in $v$ tuja si polinoma ter $w\equiv 1$.
+    Osredotočili se bomo na hodografe kjer sta $u$ in $v$ tuja si polinoma ter polinom $w\equiv 1$.
     Za takšne hodografe velja
 %    Takšni hodografi definirajo regularne PH krivulje, saj za njih velja
     \[|\mathbf{r'}|^2 = x'^2 + y'^2 = (u^2+v^2)^2.\]
@@ -1169,18 +1169,23 @@ the content and not the structure of your work.}
         \p_3 &= \p_2 + \frac{1}{3}(u_1^2-v_1^2, 2u_1v_1). \label{eq:ph-kontrolne}
     \end{align}
     Kontrolno točko $\p_0=(x_0,y_0)$ definiramo poljubno, saj sta $x_0$ in $y_0$ integracijski konstanti.
-
-    Kontrolni poligoni, karakterizirani z enačbo~\eqref{eq:ph-kontrolne} imajo tudi geometrijsko interpretacijo....
+    Kontrolni poligoni, karakterizirani z izrazi~\eqref{eq:ph-kontrolne} imajo tudi geometrijsko interpretacijo.
+    \begin{izrek}
+        Naj bo $\mathbf{B}$ kubična Bezierjeva krivulja s kontrolnimi točkami $\p_0,\p_1,\p_2,\p_3$.
+        Z $L_i=|\Delta p_i|$ označimo dolžine stranic kontrolnega poligona, z $\theta_1$ in $\theta_2$ pa kota kontrolnega poligona pri točkah $\p_1$ in  $\p_2$.
+        Krivulja $\mathbf{B}$ je PH krivulja natanko tedaj, ko veljata izraza
+        \[L_1=\sqrt{L_2L_0}\quad \text{in} \quad \theta_1=\theta_2 .\]
+    \end{izrek}
 
     \mycomment{ Kam zdej zapeljat? Se bomo sli kompleksnih stevil ali ne? Mater tezka odlocitev.... pogledat je treba racionalne odmike in shit, ce je slucjano treba dejansko nujno zapeljat v kompleksne vode.... sej so lepe samo nocem prevec balasta.}
 
-    Kot smo v prejšnjem razdelku povedali, ima PH krivulja $n$-te stopnje $n-2$ parametrov, ki jih definirajo obliko.
+    \mycomment{Kot smo v prejšnjem razdelku povedali, ima PH krivulja $n$-te stopnje $n-2$ parametrov, ki jih definirajo obliko.
     Pri pravkar definiranih krivuljah to pomeni, da ima krivulja le en prosti parameter, ki jih definira obliko.
-    Takšne krivulje so v CAD sistemih neuporabne, saj uporabniku ne nudijo dovolj kontrole.
+    Takšne krivulje so v CAD sistemih neuporabne, saj uporabniku ne nudijo dovolj kontrole.}
     Če želimo podoben nivo kontrole, kakor pri kubičnih Bézierjevih krivuljah, moramo poseči po \textit{kvintičnih} Bézierjevih PH krivuljah.
     Podobno kakor prej, za polinom $w$ izberemo $w\equiv 1$, za polinoma $u$ in $v$ pa izberemo Bernsteinova polinoma polinoma stopnje $2$, dobimo
     \[u=u_0B_{0}^{2}+u_1B_{1}^{2}+u_2B_{2}^{2},\quad v=v_0B_{0}^{2}+v_1B_{1}^{2}+v_2B_{2}^{2}.\]
-    Da sta si polinoma $u$ in $v$ tuja, mora tukaj veljati $(u_2 v_0 -u_0 v_2)^2 \neq 4(u_0 v_1 - u_1 v_0)(u_1 v_2-u_2v_1)$.
+    Da sta si polinoma $u$ in $v$ tuja, mora tokrat veljati izraz \[(u_2 v_0 -u_0 v_2)^2 \neq 4(u_0 v_1 - u_1 v_0)(u_1 v_2-u_2v_1).\]
     Polinoma vstavimo v enačbo~\eqref{eq:hodograf-splosni} in integriramo, z nekaj računanja dobimo Bézierjevo krivuljo z naslednjimi kontrolnimi točkami
     \begin{align*}
         \p_1 &=\p_0+\frac{1}{5}(u_0^2-v_0^2,2u_0v_0), \\
@@ -1198,12 +1203,12 @@ the content and not the structure of your work.}
         \mycomment{DRUGAČE, referenciraj se na hodograf kvintične krivulje.... Odvajaj tisto.... bedno bo, tak je lajf.}
 
 
-        Ker smo za polinom $w$ izbrali konstanten polinom $w(t)=1$, velja $x'(t)=u^2(t)-v^2(t),\quad y'(t)=2u(t)v(t)$.
-        Če polinoma $x'$ in $y'$ odvajamo, dobimo $x''(t) = 2(u(t)-v(t))$ in $y''(t) = 2(u'(t)v(t)+u(t)v'(t))$.
+        Ker smo za polinom $w$ izbrali konstanten polinom $w\equiv1$, velja $x'=u^2-v^2,\quad y'=2uv$.
+        Če polinoma $x'$ in $y'$ odvajamo, dobimo $x'' = 2(u-v)$ in $y'' = 2(u'v+uv')$.
         Polinome $x',y',x''$ in $y''$ vstavimo v enačbo za ukrivljenost $k=\frac{x'y''-y'x''}{(x'^2+y'^2)^{\frac{3}{2}}}$.
         Ker je imenovalec zmeraj pozitiven, nas zanima le števec.
         \begin{align*}
-            x'(t)y''(t)-y'(t)x''(t) &= 2(u^2(t)-v^2(t))(u'(t)v(t)+u(t)v'(t)) - 4u(t)v(t)(u(t)-v(t))
+            x'y''-y'x'' &= 2(u^2-v^2)(u'v+uv') - 4uv(u-v)
         \end{align*}
 
     \end{dokaz}
@@ -1212,8 +1217,8 @@ the content and not the structure of your work.}
     Parametrična hitrost Bezierjeve PH krivulje podane s parametrizacijo $\mathbf{r}=(x,y)$ je dana s polinomom
     \[\sigma = |\mathbf{r}'| = \sqrt{x'^2+y'^2} = u^2+v^2.\]
     Če je krivulja stopnje $n$, potem sta polinoma $u$ in $v$ stopnje $m=\frac{1}{2}(n-1)$.
-    Zapišimo polinome $u,v$ in $\sigma$ v Bernsteinovi obliki \[u=\sum_{j=0}^{m}u_j B_{j}^{m}, \quad v=\sum_{j=0}^{m}v_j B_{j}^{m}, \quad \sigma=\sum_{j=0}^{n-1}\sigma_j B_j^{n-1}\]
-    S pomočjo pravila za množenje Bernsteinovih polinomov iz izreka~\ref{izrek:bernsteinovi_lastnosti}, lahko koeficiente $\sigma_j$ izrazimo s koeficienti polinomov $u$ in $v$
+    Zapišimo polinome $u,v$ in $\sigma$ v Bernsteinovi obliki \[u=\sum_{j=0}^{m}u_j B_{j}^{m}, \quad v=\sum_{j=0}^{m}v_j B_{j}^{m}, \quad \sigma=\sum_{j=0}^{n-1}\sigma_j B_j^{n-1}.\]
+    S pomočjo pravila za množenje Bernsteinovih polinomov iz izreka~\ref{izrek:bernstein-multiplication}, lahko koeficiente $\sigma_j$ izrazimo s koeficienti polinomov $u$ in $v$
     \[\sigma_j = \sum_{k=\max(0,j-m)}^{\min(m,j)} \frac{\binom{m}{k}\binom{m}{j-k}}{\binom{n-1}{j}}(u_k u_{j-k}+v_k v_{j-k}).\]
     Tako smo parametrično hitrost Bezierjeve PH krivulje izrazili v Bernsteinovi bazi.
 %    To je zelo super(enadrugabeseda dej), saj znamo vrednosti takšnih polinomov računati hitro*** in stabilno******, poleg tega pa takšen zapis dopušča enostavno integracijo v zaprte sisteme.
@@ -1221,11 +1226,11 @@ the content and not the structure of your work.}
     Parametrično hitrost lahko uporabimo za izračun dolžine krivulje.
     Dolžina izseka krivulje pri parametru $t \in [0,t_0]$, $t_0\in[0,1]$ je podana z integralom
     \[s(t_0)=\int_0^{t_0}\sigma(t)dt = \int_0^{t_0}\sum_{j=0}^{n-1}\sigma_j B_j^{n-1}(t)dt.\]
-    Integral izračunamo s pomočjo integracijskega pravila iz izreka~\ref{izrek:bernsteinovi_lastnosti:mnozenje}.
+    Integral izračunamo s pomočjo integracijskega pravila iz izreka~\ref{izrek:bernstein-integral}.
     Dobimo dolžino izseka Bezierjeve PH krivulje pri parametru $t \in [0,t_0]$ izraženo v Bernsteinovi bazi
     \[s(t_0)=\sum_{k=0}^n s_k B_k^{n}(t_0),\qquad s_0=0,\quad s_k = \frac{1}{n}\sum^{k-1}_{j=0}\sigma_j.\]
     Iz zapisa hitro sledi, da je celotna dolžina Bézierjeve PH krivulje enaka \[s(1)=\frac{\sigma_0+\sigma_1+\cdots+\sigma_{n-1}}{n}.\]
-    Dolžino poljubnega izseka krivulje na intervalu $[a,b]$ $0\leq a < b\leq1$ pa lahko izračunamo s pomočjo izraza
+    Dolžino poljubnega izseka krivulje na intervalu $[a,b]$, $0\leq a < b\leq1$, pa lahko izračunamo s pomočjo izraza
     \[\int_a^b \sigma(t)dt = \int_0^b\sigma(t)dt - \int_0^a\sigma(t)dt = s(b)-s(a).\]
 
     \subsection{Enakomerna parametrizacija}
@@ -1246,7 +1251,7 @@ the content and not the structure of your work.}
     Za iskanje parametrov $t_i$ lahko uporabimo Newton-Raphsonovo iteracijo.
     Za začetni približek vzamemo $t_k^{(0)} = t_{k-1} + \frac{\Delta s}{\sigma(t_{k-1})}$ popravljamo pa ga z iteriranjem
     \[ t_k^{(r)} = t_k^{r-1} - \frac{s(t_k^{(r-1)})}{\sigma(t_k^{(r-1)})}, \quad r=1,2,\ldots .\]
-    Takšna iteracija pri začetnih približkih, ki so dovolj blizu parametra $t_k$, konvergira s kvadratično hitrostjo. (referenca na bor plestenjak? :D)
+    Takšna iteracija pri začetnih približkih, ki so dovolj blizu parametra $t_k$, konvergira s kvadratično hitrostjo. \mycomment{(referenca na bor plestenjak? :D)}
     Za večino primerov zato izračun približka $t_k$, do natančnosti reda $10^{-12}$, potrebuje le dva do tri korake iteracije.
     V praksi so takšni približki ponavadi zadovoljivi.
     Točke na PH krivulji pridobljene s takšnimi približki si lahko ogledamo na sliki~\ref{fig:enakomerni-s}.
@@ -1258,9 +1263,8 @@ the content and not the structure of your work.}
     \end{figure}
 
     \subsection{Tangenta, normala in ukrivljenost}
-    V prejšnjem razdelku smo pokazali, da je parametrična hitrost PH krivulje (pridobljene tocno s tistim integralom...) $\sigma$ polinom.
-    V tem razdelku bomo pa pokazali, da so tangenta, normala in ukrivljenost PH krivulje racionalne funkcije.
-
+    V prejšnjem razdelku smo pokazali, da je parametrična hitrost Bezierjeve PH krivulje $\sigma$ polinom.
+    Od tod sledi, da so tangenta, normala in ukrivljenost PH krivulje racionalne funkcije.
     \begin{izrek}
         Tangenta, normala in ukrivljenost PH krivulje, glede na parameter $t$ so izražene kot racionalne funkcije
         \[\mathbf{t}=\frac{(u^2-v^2,2uv)}{\sigma}, \quad \mathbf{n}=\frac{(2uv,v^2-u^2)}{\sigma},\quad \mathbf{\kappa}=2\frac{uv'-u'v}{\sigma^2}.\]
@@ -1279,46 +1283,45 @@ the content and not the structure of your work.}
         \end{align*}
     \end{dokaz}
 
-    \subsection{Racionalne odmične krivulje}
-    Odmična krivulja z razdaljo $d$ od krivulje $\mathbf{r}(t)$, je krivulja podana s parametrizacijo \[\mathbf{r}_d(t)=\mathbf{r}(t) + d\mathbf{n}(t).\]
-    Takšne krivulje v splošnem niso racionalne, saj v imenovalcu enačbe za smer normale $\mathbf{n}(t)$ nastopa koren.
-    V prejšnjem razdelku smo pokazali, da je smer normale $\mathbf{n}(t)$ za PH krivulje racionalna funkcija, iz česar sledi, da je tudi odmična krivulja PH krivulje racionalna funkcija.
+    \subsection{Racionalne odmik krivulje}
+    Odmik krivulja z razdaljo $d$ od krivulje $\mathbf{r}$, je krivulja podana s parametrizacijo \[\mathbf{r}_d=\mathbf{r} + d\mathbf{n}.\]
+    Takšne krivulje v splošnem niso racionalne, saj v imenovalcu funkcije za smer normale $\mathbf{n}$ nastopa koren.
+    V prejšnjem razdelku smo pokazali, da je smer normale $\mathbf{n}$ za PH krivulje racionalna funkcija, iz česar sledi, da je tudi odmik krivulja PH krivulje racionalna funkcija.
     Še več, takšno odmično krivuljo lahko izrazimo kot racionalno Bézierjevo krivuljo s kontrolnimi točkami, ki jih lahko izrazimo s kontrolnimi točkami PH krivulje.
-    Zapišimo kontrolne točke $PH$ krivulje $\mathbf{r}(t)$ v homogenih koordinatah
+    Zapišimo kontrolne točke $PH$ krivulje $\mathbf{r}$ v homogenih koordinatah
     \[\mathbf{P}_k = (W_k,X_k,Y_k) = (1,x_k,y_k), \quad k=0,1\ldots,n. \]
     Preme diference takšnih točk izgledajo takole
     \[\Delta\mathbf{P}_k = \mathbf{P}_{k+1}-\mathbf{P}_k = (0,\Delta x_k,\Delta y_k), \quad k=0,1,\ldots,n-1.\]
     Označimo še pravokotno smer $\Delta\mathbf{P}_k^{\perp} =  (0,\Delta y_k, -\Delta x_k)$.
-    Parametrizacijo odmične krivulje lahko izrazimo kot
-    \[\mathbf{r}_d(t)=\left(\frac{X(t)}{W(t)}, \frac{Y(t)}{W(t)}\right),\]
-    kjer so polinomi $W,X$ in $Y$ stopnje $2n-1$, njihovi koeficienti (v Bernsteinovi bazi??)
-    \[\mathbf{O}_k=(W_k,X_k,Y_k),\quad k=0,\ldots,2n-1  \]
-    pa definirajo kontrolne točke odmične racionalne Bézierjeve krivulje v homogenih koordinatah.
-    Homogene koordinate odmične krivulje $\mathbf{O}_k$ lahko v zaključeni obliki izrazimo s kontrolnimi točkami prvotne krivulje
-
+    Parametrizacijo odmik krivulje lahko izrazimo kot
+    \[\mathbf{r}_d=\left(\frac{X}{W}, \frac{Y}{W}\right),\]
+    kjer so polinomi $W,X$ in $Y$ stopnje $2n-1$.
+    Njihovi koeficienti v Bernsteinovi bazi pa definirajo kontrolne točke racionalne Bézierjeve odmik krivulje v homogenih koordinatah
+    \[\mathbf{O}_k=(W_k,X_k,Y_k),\quad k=0,\ldots,2n-1.\]
+    Homogene koordinate odmik krivulje $\mathbf{O}_k$ lahko v zaključeni obliki izrazimo s kontrolnimi točkami prvotne krivulje
     \[\mathbf{O}_k= \sum_{j=\max(0,k-n)}^{\min(n-1,k)} \frac{\binom{n-1}{j}\binom{n}{k-j} }{\binom{2n-1}{k}}(\sigma_j\mathbf{P}_{k-j} + dn\Delta \mathbf{P}_j^{\perp}),\quad k=0,\ldots,2n-1.        \]
-    Za pokušino si sedaj oglejmo kako izgledajo kontrolne točke odmične krivulje kubične PH krivulje.
-    \mycomment{Ostalih stopenj ne bomo razpisali, saj bomo v nadaljevanju predstavili zapis, ki bo vse to olajšal.}
+    Za primer si oglejmo kontrolne točke odmik krivulje kubične PH krivulje
+    %\mycomment{Ostalih stopenj ne bomo razpisali, saj bomo v nadaljevanju predstavili zapis, ki bo vse to olajšal.}
     \begin{align*}
         \mathbf{O}_0 &= \sigma_0\mathbf{P}_0+3d\Delta\mathbf{P}_0^{\perp},  \\
         \mathbf{O}_1 &= \frac{1}{5} \left[ 2\sigma_1\mathbf{P}_0+ 3\sigma_0\mathbf{P}_1 + 3d(3\Delta\mathbf{P}_0^{\perp} + 2\Delta\mathbf{P}_1^{\perp})\right], \\
         \mathbf{O}_2 &= \frac{1}{10} \left[\sigma_2\mathbf{P}_0+ 6\sigma_1\mathbf{P}_1 + 3\sigma_0\mathbf{P}_2 + 3d(3\Delta\mathbf{P}_0^{\perp} + 6\Delta\mathbf{P}_1^{\perp}+\Delta\mathbf{P}_2^{\perp})\right], \\
         \mathbf{O}_3 &= \frac{1}{10} \left[3\sigma_2\mathbf{P}_1+ 6\sigma_1\mathbf{P}_2 + 3\sigma_0\mathbf{P}_3 + 3d(\Delta\mathbf{P}_0^{\perp} + 6\Delta\mathbf{P}_1^{\perp}+3\Delta\mathbf{P}_2^{\perp})\right], \\
         \mathbf{O}_4 &= \frac{1}{5} \left[3\sigma_2\mathbf{P}_2+ 2\sigma_1\mathbf{P}_3 + 3d(2\Delta\mathbf{P}_1^{\perp} + 3\Delta\mathbf{P}_2^{\perp})\right], \\
-        \mathbf{O}_5 &= \sigma_2\mathbf{P}_3+3d\Delta\mathbf{P}_2^{\perp}
+        \mathbf{O}_5 &= \sigma_2\mathbf{P}_3+3d\Delta\mathbf{P}_2^{\perp}.
     \end{align*}
-    \mycomment{Tukaj lahko razpišem $\mathbf{O}_k$ za kvintične in kubične PH.
-    Dodam slike različnih offsetov in kontrolne poligone.
-    Lahko dodam v program, da se narisejo te crtkane crte po katerih se premikajo kontrolne točke te odmične krivulje...}
+%    \mycomment{Tukaj lahko razpišem $\mathbf{O}_k$ za kvintične in kubične PH.
+%    Dodam slike različnih offsetov in kontrolne poligone.
+%    Lahko dodam v program, da se narisejo te crtkane crte po katerih se premikajo kontrolne točke te odmik krivulje...}
+    Na sliki~\ref{fig:kontrolne-točke-offset} lahko vidimo, da se kontrolne točke odmik krivulje v odvisnosti od razdalje premikajo po premicah.
     \begin{figure}[h]
         \centering
         \subfloat{\includegraphics[width = \groupimagewidth]{images/ph-cubic-offsets}}
         \qquad
         \subfloat{\includegraphics[width = \groupimagewidth]{images/ph-cubic-offsets-w-controlpoints}}
-        \caption{Odmične krivulje (levo) skupaj z njihovimi kontrolnimi točkami (desno)}
+        \caption{Odmik krivulje, levo, skupaj z njihovimi kontrolnimi točkami, desno.}
         \label{fig:kontrolne-točke-offset}
     \end{figure}
-    Na sliki~\ref{fig:kontrolne-točke-offset} lahko vidimo, da se kontrolne točke odmične krivulje v odvisnosti od razdalje premikajo po premicah.
 
 
     \section{Orodje za grafični prikaz konceptov}

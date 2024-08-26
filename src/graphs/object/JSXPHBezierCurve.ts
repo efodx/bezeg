@@ -9,7 +9,7 @@ import {Board} from "jsxgraph";
 import {BezierCurveAttributes} from "./AbstractJSXBezierCurve";
 import {BezierCurve} from "../../bezeg/api/curve/bezier-curve";
 import {Attributes} from "../attributes/Attributes";
-import {Colors} from "../bezier/utilities/Colors";
+import {Color, Colors} from "../bezier/utilities/Colors";
 import {CurveStyles} from "../styles/CurveStyles";
 import {CacheContext} from "../context/CacheContext";
 import {PhBezierCurveCommands} from "./inputs/PhBezierCurveCommands";
@@ -195,7 +195,7 @@ export class JSXPHBezierCurve extends JSXBezierCurve {
                 },
                 0,
                 1
-            ], CurveStyles.default
+            ], {...CurveStyles.default, strokeColor: Color.R}
         ));
         if (hide) {
             this.jsxOffsetCurves.forEach(curve => curve.hide());
