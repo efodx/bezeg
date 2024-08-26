@@ -1070,7 +1070,7 @@ the content and not the structure of your work.}
     uporabimo reparametrizacijsko funkcijo s predpisom $\varphi(t) = \frac{t}{\sqrt{s_x^2+s_y^2}}$.
     Za polinomske krivulje stopnje višjih stopenj pa to ni mogoče.
     Naj bo vsaj ena izmed komponent parametrizacije $\mathbf{r}=(x,y)$ polinom stopnje $>1$.
-    Ker sta vodilna koeficienta polinomov $x'^2$ in $y'^2$ pozitivna iz~\eqref{eq:param-hitrost} hitro sledi, da polinom $\sigma^2\in\mathbb{P}_{2n-2}$ ni konstanten.
+    Ker sta vodilna koeficienta polinomov $x'^2$ in $y'^2$ pozitivna, iz~\eqref{eq:param-hitrost} hitro sledi, da polinom $\sigma^2\in\mathbb{P}_{2n-2}$ ni konstanten.
     Enačba $\sigma(t) = 1$ ima zato kvečjemu $2n-2$ rešitev.
 
     \subsection{Polinomska parametrična hitrost}
@@ -1139,7 +1139,7 @@ the content and not the structure of your work.}
         Ostane nam $n-2$ prostih parametrov za obliko krivulje.}
 
     \subsection{Kontrolne točke Bézierjevih PH krivulj}
-    V tem podrazdelku bomo s kontrolnimi točkami Bézierjevih krivulj karakterizirali \textit{Bézierjeve PH krivulje}, to so Bézierjeve krivulje katerih hodograf je pitagorejska trojica.
+    V tem podrazdelku bomo s kontrolnimi točkami Bézierjevih krivulj predstavili \textit{Bézierjeve PH krivulje}, to so Bézierjeve krivulje katerih hodograf je pitagorejska trojica.
     Osredotočili se bomo na hodografe kjer sta $u$ in $v$ tuja si polinoma ter $w\equiv 1$.
     Za takšne hodografe velja
 %    Takšni hodografi definirajo regularne PH krivulje, saj za njih velja
@@ -1155,24 +1155,20 @@ the content and not the structure of your work.}
         y' &= 2u_0 v_0 B_{0}^{2}+(u_0v_1+u_1v_0)B_{1}^{2}+2u_1 v_1 B_{2}^{2}.
     \end{align*}
     Polinoma $x',y'$ integriramo s pomočjo izreka~\ref{izrek:bernstein-integral}.
-    Če upoštevamo še, da so Bernsteinovi polinomi razčlenitev enote dobimo
+    Upoštevamo še, da Bernsteinovi polinomi tvorijo razčlenitev enote in dobimo
     \begin{align*}
-        x(t) = &\ \ \ x_0(B_{0}^{3}(t) + B_{1}^{3}(t) + B_{2}^{3}(t)+ B_{3}^{3}(t)) \\
-        &+ \frac{1}{3}(u_0^2-v_0^2)(B_{1}^{3}(t) + B_{2}^{3}(t)+ B_{3}^{3}(t)) \\
-        &+ \frac{1}{3}(u_0u_1-v_0v_1)(B_{2}^{3}(t)+ B_{3}^{3}(t)) \\
-        &+ \frac{1}{3} (u_1^2-v_1^2)B_{3}^{3}(t)\\
-        y(t) = &\ \ \  y_0(B_{0}^{3}(t) + B_{1}^{3}(t) + B_{2}^{3}(t)+ B_{3}^{3}(t)) \\
-        &+ \frac{1}{3}2u_0 v_0(B_{1}^{3}(t) + B_{2}^{3}(t)+ B_{3}^{3}(t)) \\
-        &+ \frac{1}{3}(u_0v_1+u_1v_0)(B_{2}^{3}(t)+ B_{3}^{3}(t)) \\
-        &+ \frac{1}{3} 2u_1 v_1 B_{3}^{3}(t),
+        x_1 &= x_0(B_{0}^{3} + B_{1}^{3} + B_{2}^{3}+ B_{3}^{3}) & x_2 &= y_0(B_{0}^{3} + B_{1}^{3} + B_{2}^{3}+ B_{3}^{3}) \\
+        &+ \frac{1}{3}(u_0^2-v_0^2)(B_{1}^{3} + B_{2}^{3}+ B_{3}^{3})    &     &+ \frac{1}{3}2u_0 v_0(B_{1}^{3} + B_{2}^{3}+ B_{3}^{3}) \\
+        &+ \frac{1}{3}(u_0u_1-v_0v_1)(B_{2}^{3}+ B_{3}^{3})          &     &+ \frac{1}{3}(u_0v_1+u_1v_0)(B_{2}^{3}+ B_{3}^{3})\\
+        &+ \frac{1}{3} (u_1^2-v_1^2)B_{3}^{3},                        &     &+ \frac{1}{3} 2u_1 v_1 B_{3}^{3},
     \end{align*}
     kar ustreza Bézierjevi krivulji s kontrolnimi točkami
     \begin{align}
         \p_1 &=\p_0+\frac{1}{3}(u_0^2-v_0^2,2u_0v_0), \nonumber\\
         \p_2 &= \p_1+\frac{1}{3}(u_0u_1-v_0v_1, u_0v_1+u_1v_0),\nonumber\\
-        \p_3 &= \p_2 + \frac{1}{3}(u_1^2-v_1^2, 2u_1v_1) \label{eq:ph-kontrolne}
+        \p_3 &= \p_2 + \frac{1}{3}(u_1^2-v_1^2, 2u_1v_1). \label{eq:ph-kontrolne}
     \end{align}
-    kjer je točka $\p_0=(x_0,y_0)$, $x_0$ in $y_0$ pa sta integracijski konstanti.
+    Kontrolno točko $\p_0=(x_0,y_0)$ definiramo poljubno, saj sta $x_0$ in $y_0$ integracijski konstanti.
 
     Kontrolni poligoni, karakterizirani z enačbo~\eqref{eq:ph-kontrolne} imajo tudi geometrijsko interpretacijo....
 
@@ -1182,20 +1178,20 @@ the content and not the structure of your work.}
     Pri pravkar definiranih krivuljah to pomeni, da ima krivulja le en prosti parameter, ki jih definira obliko.
     Takšne krivulje so v CAD sistemih neuporabne, saj uporabniku ne nudijo dovolj kontrole.
     Če želimo podoben nivo kontrole, kakor pri kubičnih Bézierjevih krivuljah, moramo poseči po \textit{kvintičnih} Bézierjevih PH krivuljah.
-    Podobno kakor prej, za polinom $w$ izberemo $w(t)=1$, za polinoma $u$ in $v$ pa izberemo Bernsteinova polinoma, le da tokrat izberemo polinoma stopnje $2$
-    \[u(t)=u_0B_{0}^{2}(t)+u_1B_{1}^{2}(t)+u_2B_{2}^{2}(t),\quad v(t)=v_0B_{0}^{2}(t)+v_1B_{1}^{2}(t)+v_2B_{2}^{2}(t).\]
+    Podobno kakor prej, za polinom $w$ izberemo $w\equiv 1$, za polinoma $u$ in $v$ pa izberemo Bernsteinova polinoma polinoma stopnje $2$, dobimo
+    \[u=u_0B_{0}^{2}+u_1B_{1}^{2}+u_2B_{2}^{2},\quad v=v_0B_{0}^{2}+v_1B_{1}^{2}+v_2B_{2}^{2}.\]
     Da sta si polinoma $u$ in $v$ tuja, mora tukaj veljati $(u_2 v_0 -u_0 v_2)^2 \neq 4(u_0 v_1 - u_1 v_0)(u_1 v_2-u_2v_1)$.
-    Vstavimo ju v hodograf in integriramo, da dobimo Bézierjevo krivuljo z naslednjimi kontrolnimi točkami
-    \begin{align}
-        \p_1 &=\p_0+\frac{1}{5}(u_0^2-v_0^2,2u_0v_0), \nonumber\\
-        \p_2 &= \p_1+\frac{1}{5}(u_0u_1-v_0v_1, u_0v_1+u_1v_0),\nonumber\\
-        \p_3 &= \p_2 + \frac{2}{5}(u_1^2-v_1^2, 2u_1v_1) + \frac{1}{5}(u_0u_2-v_0v_2, u_0v_2+u_2v_0) \nonumber \\
-        \p_4 &= \p_3+\frac{1}{5}(u_1u_2-v_1v_2, u_1v_2+u_2v_1),\nonumber\\
+    Polinoma vstavimo v enačbo~\eqref{eq:hodograf-splosni} in integriramo, z nekaj računanja dobimo Bézierjevo krivuljo z naslednjimi kontrolnimi točkami
+    \begin{align*}
+        \p_1 &=\p_0+\frac{1}{5}(u_0^2-v_0^2,2u_0v_0), \\
+        \p_2 &= \p_1+\frac{1}{5}(u_0u_1-v_0v_1, u_0v_1+u_1v_0),\\
+        \p_3 &= \p_2 + \frac{2}{5}(u_1^2-v_1^2, 2u_1v_1) + \frac{1}{5}(u_0u_2-v_0v_2, u_0v_2+u_2v_0)  \\
+        \p_4 &= \p_3+\frac{1}{5}(u_1u_2-v_1v_2, u_1v_2+u_2v_1),\\
         \p_5 &=\p_4+\frac{1}{5}(u_2^2-v_2^2,2u_2v_2).  \label{eq:ph-kontrolne-5}
-    \end{align}
+    \end{align*}
 
     \begin{lema}
-        Kvintična Bézierjeva PH krivulja, definirana s kontrolnimi točkami podanimi z izrazi~\eqref{eq:ph-kontrolne-5} ima ali dva prevoja, ali pa prevoja nima, odvisno od pozitivnosti števila \[\Delta = (u_2v_0-u_0v_2)^2 - 4(u_0v_1-u_1v_0)(u_1v_1-u_2v_1).\]
+        Kvintična Bézierjeva PH krivulja, definirana s kontrolnimi točkami podanimi z izrazi~\eqref{eq:ph-kontrolne-5} ima bodisi dva prevoja, bodisi pa prevoja nima, odvisno od pozitivnosti števila \[\Delta = (u_2v_0-u_0v_2)^2 - 4(u_0v_1-u_1v_0)(u_1v_1-u_2v_1).\]
     \end{lema}
 
     \begin{dokaz}
@@ -1212,44 +1208,42 @@ the content and not the structure of your work.}
 
     \end{dokaz}
 
-    \subsection{Parametrična hitrost in dolžina krivulje}
-
-    Parametrična hitrost PH krivulje podane s parametrizacijo $\mathbf{r}(t)=(x(t),y(t))$ je dana s polinomom
-    \[\sigma(t) = |\mathbf{r}'(t)| = \sqrt{x'^2(t)+y'^2(t)} = u^2(t)+v^2(t).\]
-    Če je krivulja stopnje $n$, potem morata biti polinoma $u$ in $v$ stopnje $m=\frac{1}{2}(n-1)$.
-    Zapišimo polinome $u,v$ in $\sigma$ v Bernsteinovi obliki \[u(t)=\sum_{j=0}^{m}u_j B_{j}^{m}, \quad v(t)=\sum_{j=0}^{m}v_j B_{j}^{m}, \quad \sigma(t)=\sum_{j=0}^{n-1}\sigma_j B_{j,m}\]
-    S pomočjo pravila za množenje Bernsteinovih polinomov iz izreka~\ref{izrek:bernsteinovi_lastnosti}, lahko koeficiente $\sigma_j$ izrazimo s koeficienti polinomov $u$ in $v$:
-    \[\sigma_j = \sum_{k=\max(0,j-m)}^{\min(m,j)} = \frac{\binom{m}{k}\binom{m}{j-k}}{\binom{n-1}{j}}(u_k u_{j-k}+v_k v_{j-k}).\]
-    Pridobili smo funkcijo parametrične hitrosti PH krivulje, ki je zapisana v Bernsteinovi bazi.
-    To je zelo super(enadrugabeseda dej), saj znamo vrednosti takšnih polinomov računati hitro*** in stabilno******, poleg tega pa takšen zapis dopušča enostavno integracijo v zaprte sisteme.
-    Izpeljimo še funkcijo dolžine PH krivulje.
-    Da pridobimo dolžino PH krivulje moramo izračunati določeni itegral polinoma hitrosti $\int_0^t\sigma(\tau)d\tau=s(t)$.
+    \subsection{Parametrična hitrost Bezierjeve PH krivulje}
+    Parametrična hitrost Bezierjeve PH krivulje podane s parametrizacijo $\mathbf{r}=(x,y)$ je dana s polinomom
+    \[\sigma = |\mathbf{r}'| = \sqrt{x'^2+y'^2} = u^2+v^2.\]
+    Če je krivulja stopnje $n$, potem sta polinoma $u$ in $v$ stopnje $m=\frac{1}{2}(n-1)$.
+    Zapišimo polinome $u,v$ in $\sigma$ v Bernsteinovi obliki \[u=\sum_{j=0}^{m}u_j B_{j}^{m}, \quad v=\sum_{j=0}^{m}v_j B_{j}^{m}, \quad \sigma=\sum_{j=0}^{n-1}\sigma_j B_j^{n-1}\]
+    S pomočjo pravila za množenje Bernsteinovih polinomov iz izreka~\ref{izrek:bernsteinovi_lastnosti}, lahko koeficiente $\sigma_j$ izrazimo s koeficienti polinomov $u$ in $v$
+    \[\sigma_j = \sum_{k=\max(0,j-m)}^{\min(m,j)} \frac{\binom{m}{k}\binom{m}{j-k}}{\binom{n-1}{j}}(u_k u_{j-k}+v_k v_{j-k}).\]
+    Tako smo parametrično hitrost Bezierjeve PH krivulje izrazili v Bernsteinovi bazi.
+%    To je zelo super(enadrugabeseda dej), saj znamo vrednosti takšnih polinomov računati hitro*** in stabilno******, poleg tega pa takšen zapis dopušča enostavno integracijo v zaprte sisteme.
+%    Izpeljimo še funkcijo dolžine PH krivulje.
+    Parametrično hitrost lahko uporabimo za izračun dolžine krivulje.
+    Dolžina izseka krivulje pri parametru $t \in [0,t_0]$, $t_0\in[0,1]$ je podana z integralom
+    \[s(t_0)=\int_0^{t_0}\sigma(t)dt = \int_0^{t_0}\sum_{j=0}^{n-1}\sigma_j B_j^{n-1}(t)dt.\]
     Integral izračunamo s pomočjo integracijskega pravila iz izreka~\ref{izrek:bernsteinovi_lastnosti:mnozenje}.
-    Tako dobimo dolžino PH krivulje izraženo kot polinom v Bernsteinovi bazi
-    \[s(t)=\sum_{k=0}^n s_k \binom{n}{k}(1-t)^{n-k}t^k,\]
-    kjer je koeficient $s_0=0$ in koeficienti $s_k = \frac{1}{n}\sum^{k-1}_{j=0}\sigma_j$.
-    Iz zapisa je hitro mogoče videti, da je dolžina Bézierjeve PH krivulje enaka $s(1)=\frac{\sigma_0+\sigma_1+\cdots+\sigma_{n-1}}{n}$.
-    Ker velja $\int_a^b \sigma(t)dt = \int_0^b\sigma(t)dt - \int_0^a\sigma(t)dt = s(b)-s(a)$, lahko dolžino odseka izračunamo tako, da Bernsteinov polinom $s$ evalviramo v točkah $b$ in $a$ ter vzamemo razliko.
-    To je seveda spet super, ker je takšno računanje hitro in natančno (pri navadnih polinomih ponavadi uporabljamo aproksimacije).
-    Lastnosti funkcije $s$ bomo v naslednjem podrazdelku uporabili tudi pri enakomerni parametrizaciji.
+    Dobimo dolžino izseka Bezierjeve PH krivulje pri parametru $t \in [0,t_0]$ izraženo v Bernsteinovi bazi
+    \[s(t_0)=\sum_{k=0}^n s_k B_k^{n}(t_0),\qquad s_0=0,\quad s_k = \frac{1}{n}\sum^{k-1}_{j=0}\sigma_j.\]
+    Iz zapisa hitro sledi, da je celotna dolžina Bézierjeve PH krivulje enaka \[s(1)=\frac{\sigma_0+\sigma_1+\cdots+\sigma_{n-1}}{n}.\]
+    Dolžino poljubnega izseka krivulje na intervalu $[a,b]$ $0\leq a < b\leq1$ pa lahko izračunamo s pomočjo izraza
+    \[\int_a^b \sigma(t)dt = \int_0^b\sigma(t)dt - \int_0^a\sigma(t)dt = s(b)-s(a).\]
 
     \subsection{Enakomerna parametrizacija}
     MOTIVACIJA: Želimo definirati enakomerno oddaljene točke na krivulji. Takšni problemi se naravno pojavijo pri ...... \newline
 
-    Krivuljo želimo s parametri $\{t_i\}_{i=0}^{N}$ razdeliti na $N$ kosov.
-    Če to naredimo tako, da parametre $t_i$ postavimo ekvidistantno, tj. $\Delta t=t_i-t_{i-1}$ je enak za vse $i$, točke na krivulji ne bodo enako oddaljene druga od druge (glede na dolžino odseka med njima), ker parametrična hitrost krivulje $\sigma(t)$ ni konstantna.
+    Bezierjevo PH Krivuljo želimo s parametri $\{t_i\}_{i=0}^{N}$ razdeliti na $N$ delov.
+    Če to naredimo tako, da parametre $t_i$ postavimo ekvidistantno, tj. $\Delta t=t_i-t_{i-1}$ je enak za vse $i$, točke na krivulji ne bodo krivulje delile na enako dolge dele, saj parametrična hitrost krivulje ni konstantna.
     Slednje lahko vidimo na sliki~\ref{fig:enakomerni-t}.
     \begin{figure}[h]
         \centering
-        \includegraphics[width = 0.80\textwidth]{images/enakomerni-t}
-        \caption{20 točk na krivulji pri ekvidistantnih $t_i$}
+        \includegraphics[width = 0.40\textwidth]{images/enakomerni-t}
+        \caption{10 točk na krivulji pri ekvidistantnih $t_i$.}
         \label{fig:enakomerni-t}
     \end{figure}
-    Čeprav parametrična hitrost PH krivulje niti ni konstantna, lahko njen enostaven izračun izkoristimo, da najdemo parametre $\{t_i\}^{N}_{i=0}$  za katere velja $s(t_k)=k\Delta s$, kjer je $\Delta s = \frac{s(1)}{N}$.
-    Ker je parametrična hitrost $\sigma(t)=s'(t)$ pozitivna za vsa realna števila $t\in[0,1]$(ko sta u,v tuja\ldots ampak a ni da to smo mi ze privzeli prej(?) :/),
-    je funkcija dolžine krivulje pri parametru $t$, $s(t)$, strogo naraščajoča.
+    Čeprav parametrična hitrost PH krivulje ni konstantna, lahko njen enostaven izračun izkoristimo, da najdemo parametre $\{t_i\}^{N}_{i=0}$ za katere velja $s(t_k)=k\Delta s$, kjer je $\Delta s = \frac{s(1)}{N}$.
+    Ker je parametrična hitrost $\sigma$ pozitivna za vsa realna števila $t\in[0,1]$, $s$, strogo naraščajoča.
     Parametri $t_i$ so zato enolično določeni in ležijo med $t_{i-1}$ in $1$.
-    Uporabimo lahko Newton-Raphsonovo iteracijo.
+    Za iskanje parametrov $t_i$ lahko uporabimo Newton-Raphsonovo iteracijo.
     Za začetni približek vzamemo $t_k^{(0)} = t_{k-1} + \frac{\Delta s}{\sigma(t_{k-1})}$ popravljamo pa ga z iteriranjem
     \[ t_k^{(r)} = t_k^{r-1} - \frac{s(t_k^{(r-1)})}{\sigma(t_k^{(r-1)})}, \quad r=1,2,\ldots .\]
     Takšna iteracija pri začetnih približkih, ki so dovolj blizu parametra $t_k$, konvergira s kvadratično hitrostjo. (referenca na bor plestenjak? :D)
@@ -1258,8 +1252,8 @@ the content and not the structure of your work.}
     Točke na PH krivulji pridobljene s takšnimi približki si lahko ogledamo na sliki~\ref{fig:enakomerni-s}.
     \begin{figure}[h]
         \centering
-        \includegraphics[width = 0.80\textwidth]{images/enakomerni-s}
-        \caption{20 točk na krivulji pri ekvidistantnih $t_i$}
+        \includegraphics[width = 0.40\textwidth]{images/enakomerni-s}
+        \caption{10 točk na krivulji pri ekvidistantnih $t_i$.}
         \label{fig:enakomerni-s}
     \end{figure}
 

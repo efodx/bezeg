@@ -4,6 +4,7 @@ import Form from 'react-bootstrap/Form';
 import BasePhBezierCurveGraph, {BasePhBezierCurveGraphStates} from "../ph/BasePhBezierCurveGraph";
 import React from "react";
 import {range} from "../../utils/Range";
+import {PointStyles} from "../styles/PointStyles";
 
 interface UniformParamBezierCurveGraphStates extends BasePhBezierCurveGraphStates {
     isAlphaParam: boolean
@@ -129,7 +130,7 @@ class UniformParamBezierCurveGraph extends BasePhBezierCurveGraph<any, UniformPa
             this.ts = this.getUniformParamTs();
         }
         for (let i = 1; i <= this.state.numberOfPoints; i++) {
-            this.createJSXGraphPoint(() => this.getFirstCurve()!.calculatePointAtT(this.ts[i - 1]).X(), () => this.getFirstCurve()!.calculatePointAtT(this.ts[i - 1]).Y());
+            this.createJSXGraphPoint(() => this.getFirstCurve()!.calculatePointAtT(this.ts[i - 1]).X(), () => this.getFirstCurve()!.calculatePointAtT(this.ts[i - 1]).Y(), {...PointStyles.fixed});
         }
     }
 
