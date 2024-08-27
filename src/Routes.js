@@ -127,21 +127,21 @@ const routes = [
         group: RATIONAL_CURVES_GROUP,
         path: PATH_RATIONAL_CURVES + '/rational-decasteljau',
         element: <RationalDecasteljauGraph/>,
-        title: 'Racionalni Decasteljau',
+        title: 'Racionalni De Casteljau',
       }, {
         group: RATIONAL_CURVES_GROUP,
         path: PATH_RATIONAL_CURVES + '/rational-elevation',
         element: <RationalElevationGraph/>,
-        title: 'Višanje stopnje Racionalne',
+        title: 'Višanje stopnje',
       }, {
         path: PATH_RATIONAL_CURVES + '/rational-extrapolation',
         element: <RationalExtrapolationGraph/>,
-        title: 'Ekstrapolacija Racionalne',
+        title: 'Ekstrapolacija',
         group: RATIONAL_CURVES_GROUP,
       }, {
         path: PATH_RATIONAL_CURVES + '/rational-subdivision',
         element: <RationalSubdivisionGraph/>,
-        title: 'Subdivizija Racionalne',
+        title: 'Subdivizija',
         group: RATIONAL_CURVES_GROUP,
       }, {
         path: PATH_RATIONAL_CURVES + '/farin-points',

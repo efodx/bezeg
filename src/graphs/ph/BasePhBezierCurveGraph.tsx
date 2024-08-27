@@ -31,6 +31,7 @@ abstract class BasePhBezierCurveGraph<P, S extends BasePhBezierCurveGraphStates>
         if (!this.state.initialized) {
             return [];
         }
+        console.log(this.getFirstJsxCurveAsPHCurve().isShowingOffsetCurve());
         const commands = [];
         commands.push(<OnOffSwitch
             initialState={this.getFirstJsxCurveAsPHCurve().isShowingOffsetCurve()}

@@ -23,7 +23,7 @@
 \naslov{Orodje za grafični prikaz lastnosti Bézierjevih in PH krivulj}
 
 % - naslov dela v angleščini
-\title{Tool for graphically displaying the properties of Bézier and PH curves}
+\title{Tool for graphical representation of properties of Bézier and PH curves}
 
 % - ime mentorja/mentorice s polnim nazivom:
 %   - doc.~dr.~Ime Priimek
@@ -1113,51 +1113,53 @@ the content and not the structure of your work.}
     % to je u izi dokazat...
     Pri tem nekateri izbori polinomov $u,v,w$ porodijo izrojene krivulje, takšne izbore bi radi izločili.
 %    \vspace{-0.2cm}
-    \begin{enumerate}
+    \begin{enumerate}[wide, labelwidth=!, labelindent=10pt]
         \itemsep0em
         \item V primeru $w\equiv 0$ ali $u=v \equiv 0$ so komponente hodografa enake $x'=y'\equiv 0$ in zato definira točko, ne pa krivulje.
         \item  Če so polinomi $u,v,w$ konstantni in neničelni, potem je konstanten tudi hodograf.
         V tem primeru hodograf definira parametrizacijo premice z enakomerno hitrostjo.
         \item  Če sta polinoma $u$ in $v$ konstantna ter vsaj en neničelen, polinom $w$ pa ni konstanten.
         Tudi tokrat hodograf definira premico, a hitrost ni enakomerna.
-        \item Enako kot v točki (c) dobimo tudi v primeru, ko je polinom $w$ neničelen in en izmed polinomov $u$ in $v$ je ničelen.
+        \item Enako kot v točki 3. dobimo tudi v primeru, ko je polinom $w$ neničelen in en izmed polinomov $u$ in $v$ je ničelen.
     \end{enumerate}
-    \vspace{-0.3cm}
     \noindent Neizrojene PH krivulje dobimo torej pri izborih neničelnih polinomov $u,v$ in $w$, kjer vsaj en izmed polinomov $u$ in $v$ ni konstanten.
     S številom $\lambda$ označimo stopnjo polinoma $w$, s številom $\mu$ pa $\max(\deg(u),\deg(v))$.
     PH krivulja, pridobljena z integracijo zgornjega hodografa, je stopnje $n=\lambda + 2\mu + 1$.
     Prostih parametrov pa je manj.
     Vsak izmed polinomov $u$ in $v$ je namreč definiran z največ $\mu + 1$ parametri.
-    \mycomment{
-        Brez izgube splošnosti lahko vodilni koeficient polinoma $w$ fiksiramo na $1$.
-        Polinom $w$ je zato definiran z $\lambda$ parametri.
-        Integracijska konstanta pri integriranju hodografa nam poda še $2$ prosta parametra.
-        Skupno je prostih parametrov zato $\lambda + 2(\mu+1)+2=\lambda + 2\mu+4 = n+3$.
-        Kjer zadnja enakost sledi iz zgornje enačbe za stopnjo PH krivulje.
-        Vseh parametrov ne moremo porabiti za obliko krivulje.
-        Dva parametra nam določi izbor začetne točke, en parameter nam določi usmerjenost/rotacija/(???) krivulje, še dva nam določi izbor parametrizacije, saj substitucija $t\to at+b$ ne spremeni oblike ali stopnje krivulje.
-        Ostane nam $n-2$ prostih parametrov za obliko krivulje.}
+    Brez izgube splošnosti lahko vodilni koeficient polinoma $w$ fiksiramo na $1$.
+    Polinom $w$ je zato definiran z $\lambda$ parametri.
+    Integracijska konstanta pri integriranju hodografa nam poda še $2$ prosta parametra.
+    Skupno je prostih parametrov torej $\lambda + 2(\mu+1)+2=\lambda + 2\mu+4 = n+3$.
+%    \mycomment{    Kjer zadnja enakost sledi iz zgornje enačbe za stopnjo PH krivulje.
+%        Vseh parametrov ne moremo porabiti za obliko krivulje.
+%        Dva parametra nam določi izbor začetne točke, en parameter nam določi usmerjenost/rotacija/(???) krivulje, še dva nam določi izbor parametrizacije, saj substitucija $t\to at+b$ ne spremeni oblike ali stopnje krivulje.
+%        Ostane nam $n-2$ prostih parametrov za obliko krivulje.}
 
     \subsection{Kontrolne točke Bézierjevih PH krivulj}
-    V tem podrazdelku bomo s kontrolnimi točkami Bézierjevih krivulj predstavili \textit{Bézierjeve PH krivulje}, to so Bézierjeve krivulje katerih hodograf je pitagorejska trojica.
-    Osredotočili se bomo na hodografe kjer sta $u$ in $v$ tuja si polinoma ter polinom $w\equiv 1$.
-    Za takšne hodografe velja
+    V tem podrazdelku bomo konstruirali \textit{Bézierjeve PH krivulje}, to so Bézierjeve krivulje, ki so tudi PH krivulje.
+    Krivulje bomo konstruirali s pomočjo izreka~\ref{eq:hodograf-splosni}, kjer za polinomom $w$ vzamemo $w\equiv 1$.
+    Polinoma $x',y'$ sta torej definirana kot
+    \begin{align}
+        x'=u^2-v^2,\quad y'=2uv.  \label{eq:hodograf-1}
+    \end{align}
+    Za parametrično hitrost krivulje s parametrizacijo $\mathbf{r}=(x,y)$ potem velja
 %    Takšni hodografi definirajo regularne PH krivulje, saj za njih velja
-    \[|\mathbf{r'}|^2 = x'^2 + y'^2 = (u^2+v^2)^2.\]
-    Od koder sledi $|\mathbf{r'}(t)|\neq 0$, $t\in R$, saj polinoma $u$ in $v$ nimata skupnih ničel.
+    \[|\mathbf{r'}| =\sqrt{ x'^2 + y'^2} = u^2+v^2.\]
+    Od tod pa sledi $|\mathbf{r'}(t)|\neq 0$, $t\in R$, saj polinoma $u$ in $v$ nimata skupnih ničel.
     Krivulje so torej regularne in lihe stopnje $n=2\mu+1$.
     Najbolj osnovne netrivialne PH krivulje dobimo tako, da za polinoma $u$ in $v$ izberemo Bernsteinova polinoma
-    \[u=u_0B_{0}^{1}+u_1B_{1}^{1},\quad v=v_0B^1_{0}{1}+v_1B_{1}^{1},\]
-    za katera mora veljati $u_0v_1-u_1v_0\neq 0$, da sta si polinoma $u$ in $v$ tuja, in $(u_1-u_0)^2+(v_1-v_0)^2\neq 0$, da vsaj en od njiju ni konstanten.
-    Ko polinoma vstavimo v enačbo~\eqref{eq:hodograf-splosni} in upoštevamo $w\equiv 1$ dobimo
+    \[u=u_0B_{0}^{1}+u_1B_{1}^{1}, \quad v=v_0B^1_{0}{1}+v_1B_{1}^{1}.\]
+    Zanju mora veljati $u_0v_1-u_1v_0\neq 0$, da sta si polinoma $u$ in $v$ tuja, in $(u_1-u_0)^2+(v_1-v_0)^2\neq 0$, da vsaj en od njiju ni konstanten.
+    Ko polinoma vstavimo v izraza~\eqref{eq:hodograf-1} dobimo
     \begin{align*}
         x' &=(u_0^2-v_0^2)B_{0}^{2}+(u_0u_1-v_0v_1)B_{1}^{2} + (u_1^2-v_1^2)B_{2}^{2},\\
         y' &= 2u_0 v_0 B_{0}^{2}+(u_0v_1+u_1v_0)B_{1}^{2}+2u_1 v_1 B_{2}^{2}.
     \end{align*}
-    Polinoma $x',y'$ integriramo s pomočjo izreka~\ref{izrek:bernstein-integral}.
-    Upoštevamo še, da Bernsteinovi polinomi tvorijo razčlenitev enote in dobimo
+    Polinoma $x',y'$ integriramo s pomočjo izreka~\ref{izrek:bernstein-integral} in upoštevamo, da Bernsteinovi polinomi tvorijo razčlenitev enote.
+    Dobimo
     \begin{align*}
-        x_1 &= x_0(B_{0}^{3} + B_{1}^{3} + B_{2}^{3}+ B_{3}^{3}) & x_2 &= y_0(B_{0}^{3} + B_{1}^{3} + B_{2}^{3}+ B_{3}^{3}) \\
+        x &= x_0(B_{0}^{3} + B_{1}^{3} + B_{2}^{3}+ B_{3}^{3}) & y &= y_0(B_{0}^{3} + B_{1}^{3} + B_{2}^{3}+ B_{3}^{3}) \\
         &+ \frac{1}{3}(u_0^2-v_0^2)(B_{1}^{3} + B_{2}^{3}+ B_{3}^{3})    &     &+ \frac{1}{3}2u_0 v_0(B_{1}^{3} + B_{2}^{3}+ B_{3}^{3}) \\
         &+ \frac{1}{3}(u_0u_1-v_0v_1)(B_{2}^{3}+ B_{3}^{3})          &     &+ \frac{1}{3}(u_0v_1+u_1v_0)(B_{2}^{3}+ B_{3}^{3})\\
         &+ \frac{1}{3} (u_1^2-v_1^2)B_{3}^{3},                        &     &+ \frac{1}{3} 2u_1 v_1 B_{3}^{3},
@@ -1168,25 +1170,33 @@ the content and not the structure of your work.}
         \p_2 &= \p_1+\frac{1}{3}(u_0u_1-v_0v_1, u_0v_1+u_1v_0),\nonumber\\
         \p_3 &= \p_2 + \frac{1}{3}(u_1^2-v_1^2, 2u_1v_1). \label{eq:ph-kontrolne}
     \end{align}
-    Kontrolno točko $\p_0=(x_0,y_0)$ definiramo poljubno, saj sta $x_0$ in $y_0$ integracijski konstanti.
-    Kontrolni poligoni, karakterizirani z izrazi~\eqref{eq:ph-kontrolne} imajo tudi geometrijsko interpretacijo.
+    Kontrolno točko $\p_0=(x_0,y_0)$ smo izbrali poljubno, saj sta $x_0$ in $y_0$ integracijski konstanti.
+    Kontrolni poligoni dobljeni z izrazi~\eqref{eq:ph-kontrolne} imajo tudi geometrijsko interpretacijo.
     \begin{izrek}
+        \label{izrek:geometrija-ph-poligona}
         Naj bo $\mathbf{B}$ kubična Bezierjeva krivulja s kontrolnimi točkami $\p_0,\p_1,\p_2,\p_3$.
         Z $L_i=|\Delta p_i|$ označimo dolžine stranic kontrolnega poligona, z $\theta_1$ in $\theta_2$ pa kota kontrolnega poligona pri točkah $\p_1$ in  $\p_2$.
         Krivulja $\mathbf{B}$ je PH krivulja natanko tedaj, ko veljata izraza
         \[L_1=\sqrt{L_2L_0}\quad \text{in} \quad \theta_1=\theta_2 .\]
     \end{izrek}
+    \noindent Pogoji iz izreka so ekvivalentni temu, da morata trikotnika $\triangle \p_0,\p_1,\p_2$ in $\triangle \p_1,\p_2,\p_3$ biti podobna, kar lahko vidimo na sliki~\ref{fig:geometrija-ph-poligona}.
+    \begin{figure}[h]
+        \centering
+        \subfloat{\includegraphics[width = \groupimagewidth]{images/geometrija-ph-poligona-2}}
+        \qquad
+        \subfloat{\includegraphics[width = \groupimagewidth]{images/geometrija-ph-poligona-1}}
+        \caption{Geometrija kontrolnega poligona kubične Bezierjeve PH krivulje.}
+        \label{fig:geometrija-ph-poligona}
+    \end{figure}
+    % \mycomment{ Kam zdej zapeljat? Se bomo sli kompleksnih stevil ali ne? Mater tezka odlocitev.... pogledat je treba racionalne odmike in shit, ce je slucjano treba dejansko nujno zapeljat v kompleksne vode.... sej so lepe samo nocem prevec balasta.}
 
-    \mycomment{ Kam zdej zapeljat? Se bomo sli kompleksnih stevil ali ne? Mater tezka odlocitev.... pogledat je treba racionalne odmike in shit, ce je slucjano treba dejansko nujno zapeljat v kompleksne vode.... sej so lepe samo nocem prevec balasta.}
-
-    \mycomment{Kot smo v prejšnjem razdelku povedali, ima PH krivulja $n$-te stopnje $n-2$ parametrov, ki jih definirajo obliko.
-    Pri pravkar definiranih krivuljah to pomeni, da ima krivulja le en prosti parameter, ki jih definira obliko.
-    Takšne krivulje so v CAD sistemih neuporabne, saj uporabniku ne nudijo dovolj kontrole.}
+    V prejšnjem razdelku smo povedali, da ima PH krivulja $n$-te stopnje $n+3$ prostih parametrov.
+    Za pravkar definirane kubične PH krivulje to pomeni, da imajo le $6$ prostih parametrov.
     Če želimo podoben nivo kontrole, kakor pri kubičnih Bézierjevih krivuljah, moramo poseči po \textit{kvintičnih} Bézierjevih PH krivuljah.
-    Podobno kakor prej, za polinom $w$ izberemo $w\equiv 1$, za polinoma $u$ in $v$ pa izberemo Bernsteinova polinoma polinoma stopnje $2$, dobimo
-    \[u=u_0B_{0}^{2}+u_1B_{1}^{2}+u_2B_{2}^{2},\quad v=v_0B_{0}^{2}+v_1B_{1}^{2}+v_2B_{2}^{2}.\]
+    Za polinoma $u$ in $v$ tokrat izberemo Bernsteinova polinoma polinoma stopnje $2$,
+    \[u=u_0B_{0}^{2}+u_1B_{1}^{2}+u_2B_{2}^{2}, \quad v=v_0B_{0}^{2}+v_1B_{1}^{2}+v_2B_{2}^{2}.\]
     Da sta si polinoma $u$ in $v$ tuja, mora tokrat veljati izraz \[(u_2 v_0 -u_0 v_2)^2 \neq 4(u_0 v_1 - u_1 v_0)(u_1 v_2-u_2v_1).\]
-    Polinoma vstavimo v enačbo~\eqref{eq:hodograf-splosni} in integriramo, z nekaj računanja dobimo Bézierjevo krivuljo z naslednjimi kontrolnimi točkami
+    Polinoma vstavimo v izraza~\eqref{eq:hodograf-1} in integriramo, z nekaj računanja dobimo Bézierjevo krivuljo s kontrolnimi točkami
     \begin{align*}
         \p_1 &=\p_0+\frac{1}{5}(u_0^2-v_0^2,2u_0v_0), \\
         \p_2 &= \p_1+\frac{1}{5}(u_0u_1-v_0v_1, u_0v_1+u_1v_0),\\
@@ -1194,24 +1204,30 @@ the content and not the structure of your work.}
         \p_4 &= \p_3+\frac{1}{5}(u_1u_2-v_1v_2, u_1v_2+u_2v_1),\\
         \p_5 &=\p_4+\frac{1}{5}(u_2^2-v_2^2,2u_2v_2).  \label{eq:ph-kontrolne-5}
     \end{align*}
-
-    \begin{lema}
-        Kvintična Bézierjeva PH krivulja, definirana s kontrolnimi točkami podanimi z izrazi~\eqref{eq:ph-kontrolne-5} ima bodisi dva prevoja, bodisi pa prevoja nima, odvisno od pozitivnosti števila \[\Delta = (u_2v_0-u_0v_2)^2 - 4(u_0v_1-u_1v_0)(u_1v_1-u_2v_1).\]
-    \end{lema}
-
-    \begin{dokaz}
-        \mycomment{DRUGAČE, referenciraj se na hodograf kvintične krivulje.... Odvajaj tisto.... bedno bo, tak je lajf.}
-
-
-        Ker smo za polinom $w$ izbrali konstanten polinom $w\equiv1$, velja $x'=u^2-v^2,\quad y'=2uv$.
-        Če polinoma $x'$ in $y'$ odvajamo, dobimo $x'' = 2(u-v)$ in $y'' = 2(u'v+uv')$.
-        Polinome $x',y',x''$ in $y''$ vstavimo v enačbo za ukrivljenost $k=\frac{x'y''-y'x''}{(x'^2+y'^2)^{\frac{3}{2}}}$.
-        Ker je imenovalec zmeraj pozitiven, nas zanima le števec.
-        \begin{align*}
-            x'y''-y'x'' &= 2(u^2-v^2)(u'v+uv') - 4uv(u-v)
-        \end{align*}
-
-    \end{dokaz}
+    Primer takšne krivulje si lahko ogledamo na sliki~\ref{fig:kvinticna-ph}.
+    \begin{figure}[h]
+        \centering
+        \subfloat{\includegraphics[width = 0.40\textwidth]{images/kvinticna-ph-krivulja}}
+        \caption{Kvintična Bezierjeva PH krivulja.}\label{fig:kvinticna-ph}
+    \end{figure}
+% O PREVOJIH KVINTIČNE BEZIERJEVE KRIVULJE
+%    \begin{lema}
+%        Kvintična Bézierjeva PH krivulja, definirana s kontrolnimi točkami podanimi z izrazi~\eqref{eq:ph-kontrolne-5} ima bodisi dva prevoja, bodisi pa prevoja nima, odvisno od pozitivnosti števila \[\Delta = (u_2v_0-u_0v_2)^2 - 4(u_0v_1-u_1v_0)(u_1v_1-u_2v_1).\]
+%    \end{lema}
+%
+%    \begin{dokaz}
+%        \mycomment{DRUGAČE, referenciraj se na hodograf kvintične krivulje.... Odvajaj tisto.... bedno bo, tak je lajf.}
+%
+%
+%        Ker smo za polinom $w$ izbrali konstanten polinom $w\equiv1$, velja $x'=u^2-v^2,\quad y'=2uv$.
+%        Če polinoma $x'$ in $y'$ odvajamo, dobimo $x'' = 2(u-v)$ in $y'' = 2(u'v+uv')$.
+%        Polinome $x',y',x''$ in $y''$ vstavimo v enačbo za ukrivljenost $k=\frac{x'y''-y'x''}{(x'^2+y'^2)^{\frac{3}{2}}}$.
+%        Ker je imenovalec zmeraj pozitiven, nas zanima le števec.
+%        \begin{align*}
+%            x'y''-y'x'' &= 2(u^2-v^2)(u'v+uv') - 4uv(u-v)
+%        \end{align*}
+%
+%    \end{dokaz}
 
     \subsection{Parametrična hitrost Bezierjeve PH krivulje}
     Parametrična hitrost Bezierjeve PH krivulje podane s parametrizacijo $\mathbf{r}=(x,y)$ je dana s polinomom
@@ -1266,20 +1282,20 @@ the content and not the structure of your work.}
     V prejšnjem razdelku smo pokazali, da je parametrična hitrost Bezierjeve PH krivulje $\sigma$ polinom.
     Od tod sledi, da so tangenta, normala in ukrivljenost PH krivulje racionalne funkcije.
     \begin{izrek}
-        Tangenta, normala in ukrivljenost PH krivulje, glede na parameter $t$ so izražene kot racionalne funkcije
+        Tangenta, normala in ukrivljenost PH krivulje dobljene z integriranjem izraza~\eqref{eq:hodograf-1} so enake
         \[\mathbf{t}=\frac{(u^2-v^2,2uv)}{\sigma}, \quad \mathbf{n}=\frac{(2uv,v^2-u^2)}{\sigma},\quad \mathbf{\kappa}=2\frac{uv'-u'v}{\sigma^2}.\]
     \end{izrek}
-    Izrek tudi dokažimo.
+    \noindent Izrek tudi dokažimo.
     \begin{dokaz}
-        Dokaza za tangento in normalo sta enostavna, saj hodograf REFNAHODOGRAF le vstavimo v enačbi in upoštevamo, da je polinom $\sigma = u^2+v^2$ da dobimo željeno.
-        Dokažimo za ukrivljenost $\kappa$.
-        V enačbo za ukrivljenost  $\kappa = \frac{x'y''-y'x''}{(x'^2+y'^2)^{3/2}}$ vstavimo hodograf REFNAHODOGRAF, ter druga odvoda $x'' = 2(uu'-vv')$ in $y'' = 2(u'v+uv')$.
+        Dokaza za tangento in normalo sta enostavna, saj izraza~\eqref{eq:hodograf-1} le vstavimo v izraza iz izreka in upoštevamo, da je polinom $\sigma = u^2+v^2$.
+        Dokažimo še izraz za ukrivljenost $\kappa$.
+        V enačbo za ukrivljenost  $\kappa = \frac{x'y''-y'x''}{(x'^2+y'^2)^{3/2}}$ vstavimo polinoma~\eqref{eq:hodograf-1}, ter njuna druga odvoda $x'' = 2(uu'-vv')$ in $y'' = 2(u'v+uv')$, dobimo
         \begin{align*}
             \kappa &= 2\frac{(u^2-v^2)(u'v+uv') - 2uv(uu'-vv')}{(\sigma^2)^{3/2}}\\
             &= 2\frac{u^2vu' + u^3v' - v^3u' - v^2uv' - 2u^2vu'+2uv^2v'}{\sigma^{3}} \\
             &= 2\frac{(u^2-v^2+2v^2)uv' - (-u^2+v^2+2u^2)u'v}{\sigma^{3}} \\
             &= 2\frac{(u^2+v^2)uv' - (u^2+v^2)u'v}{\sigma^{3}} \\
-            &= 2\frac{(u^2+v^2)(uv' - u'v)}{\sigma^{3}} = 2\frac{uv' - u'v}{\sigma^{2}}
+            &= 2\frac{(u^2+v^2)(uv' - u'v)}{\sigma^{3}} = 2\frac{uv' - u'v}{\sigma^{2}}.
         \end{align*}
     \end{dokaz}
 
@@ -1287,18 +1303,18 @@ the content and not the structure of your work.}
     Odmik krivulja z razdaljo $d$ od krivulje $\mathbf{r}$, je krivulja podana s parametrizacijo \[\mathbf{r}_d=\mathbf{r} + d\mathbf{n}.\]
     Takšne krivulje v splošnem niso racionalne, saj v imenovalcu funkcije za smer normale $\mathbf{n}$ nastopa koren.
     V prejšnjem razdelku smo pokazali, da je smer normale $\mathbf{n}$ za PH krivulje racionalna funkcija, iz česar sledi, da je tudi odmik krivulja PH krivulje racionalna funkcija.
-    Še več, takšno odmično krivuljo lahko izrazimo kot racionalno Bézierjevo krivuljo s kontrolnimi točkami, ki jih lahko izrazimo s kontrolnimi točkami PH krivulje.
-    Zapišimo kontrolne točke $PH$ krivulje $\mathbf{r}$ v homogenih koordinatah
+    Še več, odmik krivuljo Bezierjeve PH krivulje $\mathbf{r}$ lahko izrazimo kot racionalno Bézierjevo krivuljo s kontrolnimi točkami izraženimi s kontrolnimi točkami krivulje $\mathbf{r}$.
+    Zapišimo kontrolne točke Bezierjeve $PH$ krivulje $\mathbf{r}$ s homogenimi koordinatah
     \[\mathbf{P}_k = (W_k,X_k,Y_k) = (1,x_k,y_k), \quad k=0,1\ldots,n. \]
     Preme diference takšnih točk izgledajo takole
     \[\Delta\mathbf{P}_k = \mathbf{P}_{k+1}-\mathbf{P}_k = (0,\Delta x_k,\Delta y_k), \quad k=0,1,\ldots,n-1.\]
     Označimo še pravokotno smer $\Delta\mathbf{P}_k^{\perp} =  (0,\Delta y_k, -\Delta x_k)$.
     Parametrizacijo odmik krivulje lahko izrazimo kot
-    \[\mathbf{r}_d=\left(\frac{X}{W}, \frac{Y}{W}\right),\]
-    kjer so polinomi $W,X$ in $Y$ stopnje $2n-1$.
-    Njihovi koeficienti v Bernsteinovi bazi pa definirajo kontrolne točke racionalne Bézierjeve odmik krivulje v homogenih koordinatah
-    \[\mathbf{O}_k=(W_k,X_k,Y_k),\quad k=0,\ldots,2n-1.\]
-    Homogene koordinate odmik krivulje $\mathbf{O}_k$ lahko v zaključeni obliki izrazimo s kontrolnimi točkami prvotne krivulje
+    \[\mathbf{r}_d=\left(\frac{\tilde{X}}{\tilde{W}}, \frac{\tilde{Y}}{\tilde{W}}\right),\]
+    kjer so polinomi $\tilde{W},\tilde{X}$ in $\tilde{Y}$ stopnje $2n-1$,
+    njihovi koeficienti v Bernsteinovi bazi pa definirajo kontrolne točke racionalne Bézierjeve krivulje s homogenimi koordinatami
+    \[\mathbf{O}_k=(\tilde{W_k},\tilde{X_k},\tilde{Y_k}),\quad k=0,\ldots,2n-1.\]
+    Homogene koordinate odmik krivulje lahko v zaključeni obliki izrazimo s kontrolnimi točkami Bezierjeve PH krivulje
     \[\mathbf{O}_k= \sum_{j=\max(0,k-n)}^{\min(n-1,k)} \frac{\binom{n-1}{j}\binom{n}{k-j} }{\binom{2n-1}{k}}(\sigma_j\mathbf{P}_{k-j} + dn\Delta \mathbf{P}_j^{\perp}),\quad k=0,\ldots,2n-1.        \]
     Za primer si oglejmo kontrolne točke odmik krivulje kubične PH krivulje
     %\mycomment{Ostalih stopenj ne bomo razpisali, saj bomo v nadaljevanju predstavili zapis, ki bo vse to olajšal.}

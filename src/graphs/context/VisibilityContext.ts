@@ -20,7 +20,6 @@ class VisibilityContextSingleton {
     }
 
     axisVisible() {
-        console.log("AXIS VISIBLE");
         return true;
     }
 }

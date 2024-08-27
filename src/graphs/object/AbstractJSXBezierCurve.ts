@@ -162,7 +162,6 @@ export abstract class AbstractJSXBezierCurve<T extends BezierCurve, Attr extends
                 this.decasteljauPoints.push(pp2);
             }
         }
-        console.log("DRAWING POINT BBY");
         const drawingPoint = this.board?.create('point', [() => this.getDecasteljauScheme(this.decasteljauT)[n - 1][0].X(), () => this.getDecasteljauScheme(this.decasteljauT)[n - 1][0].Y()], {
             ...PointStyles.default,
             color: Colors[n - 1],
