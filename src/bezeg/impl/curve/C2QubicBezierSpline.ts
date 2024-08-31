@@ -27,8 +27,20 @@ export class C2QubicBezierSpline extends BezierSpline {
         bezpoints[0][0] = points[0];
         bezpoints[0][1] = points[1];
         const newPoint = new PointImpl(
-            () => 1 / 2 * points[1].X() + 1 / 2 * points[2].X(),
-            () => 1 / 2 * points[1].Y() + 1 / 2 * points[2].Y());
+            () => {
+                const u = this.getU();
+                let du1 = u[1] - u[0];
+                let du2 = u[2] - u[1];
+                let duSum = du1 + du2;
+                return du2 / duSum * points[1].X() + du1 / duSum * points[2].X();
+            },
+            () => {
+                const u = this.getU();
+                let du1 = u[1] - u[0];
+                let du2 = u[2] - u[1];
+                let duSum = du1 + du2;
+                return du2 / duSum * points[1].Y() + du1 / duSum * points[2].Y();
+            });
         bezpoints[0][2] = newPoint;
         nonFreePoints.push(newPoint);
         for (let l = 2; l < points.length - 3; l++) {
@@ -39,9 +51,6 @@ export class C2QubicBezierSpline extends BezierSpline {
                     let du2 = u[l] - u[l - 1];
                     let du3 = u[l + 1] - u[l];
                     let duSum = du1 + du2 + du3;
-                    console.log("points len:", points.length);
-                    console.log("points len-3:", points.length - 2);
-                    console.log("u len:", u.length);
                     return (du2 + du3) / duSum * points[l].X() + du1 / duSum * points[l + 1].X();
                 },
                 () => {
