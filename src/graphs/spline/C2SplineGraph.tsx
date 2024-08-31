@@ -8,9 +8,9 @@ class Graph extends BaseSplineCurveGraph<BaseGraphStates> {
     }
 
     defaultPreset(): any {
-        return [["JSXSplineCurve", {
+        return [["JSXQubicC2SplineCurve", {
             "points": [[-3, 2], [-4, -1], [-3, -2], [-1, 1], [1, 2], [4, 2], [3, -1]],
-            "degree": 4,
+            "degree": 3,
             "continuity": 3,
             "state": {
                 "showingJxgPoints": true, "showingControlPolygon": false, "showingConvexHull": false

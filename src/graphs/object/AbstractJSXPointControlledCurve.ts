@@ -344,6 +344,7 @@ export abstract class AbstractJSXPointControlledCurve<T extends PointControlledC
 
     showJxgPoints(show?: boolean) {
         if (show === undefined || show) {
+            return;
             this.getJxgPoints().forEach(point => point.show());
             this.showingJxgPoints = true;
         } else {

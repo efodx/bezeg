@@ -591,11 +591,12 @@ the content and not the structure of your work.}
 %
 %    \end{dokaz}
 
-    \subsection{Ekstrapolacija}
+    \subsection{Ekstrapolacija}\label{subsec:ekstrapolacija}
     Ker so Bernsteinovi bazni polinomi definirani za vsa realna števila $t$, lahko Bézierjeve krivulje rišemo tudi izven domene $[0,1]$.
     Recimo, da želimo neko Bézierjevo krivuljo risati na domeni $[0,t_0]$, kjer je $t_0>1$.
     Bézierjevo krivuljo na domeni $[0,t_0]$ lahko predstavimo kot Bézierjevo krivuljo na domeni $[0,1]$.
-    Pri tem kontrolne točke krivulje preberemo iz de Casteljaujeve sheme, kakor smo to storili za točke krivulje  $B_{t_0-}$ v prejšnjem razdelku. Na sliki~\ref{fig:ekstrapolacija} lahko na prvem grafu vidimo risanje krivulje izven intervala $[0,1]$, na drugem pa ekstrapolirano krivuljo.
+    Pri tem kontrolne točke krivulje preberemo iz de Casteljaujeve sheme, kakor smo to storili za točke krivulje  $B_{t_0-}$ v prejšnjem razdelku, krivulja $B_{t_0+}$ pa predstavlja ekstrapoliran del krivulje.
+    Na sliki~\ref{fig:ekstrapolacija} lahko na prvem grafu vidimo risanje krivulje izven intervala $[0,1]$, na drugem pa ekstrapolirano krivuljo.
     \begin{figure}[h]
         \captionsetup[subfigure]{labelformat=empty}
         \centering
@@ -1026,20 +1027,116 @@ the content and not the structure of your work.}
         \caption{Vpliv izbora $\beta_1$ pri $G^1$ zlepku.}
         \label{fig:zlepek-g1}
     \end{figure}
+
+    \subsection{Konstrukcija zlepkov Bezierjevih krivulj}
+    Enačbe iz prejšnjega razdelka lahko dobimo tudi drugače.
+    Da bi zlepek bil $C^{\infty}$, bi morali deli zlepka biti deli iste Bezierjeve krivulje.
+    Da bo zlepek $C^r$ pa se morata dela krivulje ujemati v $r+1$ točkah.
+    To dosežemo tako, da uporabimo de Casteljaujev algoritem pri parametru $t_0$ tako, ki je izbran, da velja $\frac{t_0-1}{1}=\frac{\Delta u_{i+1}}{\Delta u_{i}}$ in preberemo krivuljo $B_{t_0+}$ iz podrazdelka~\ref{subsec:ekstrapolacija}.
+    Prvih $r+1$ točk je fiksiramo, ostale pa lahko izberemo poljubno.
+    Tako dobimo algoritem za enostransko konstrukcijo $C^r$ zlepka.
+    \begin{algorithm}[H]
+        \caption{Enostranska konstrukcija $C^r$ zlepka stopnje $n$}
+        \label{alg:C-n}
+        \begin{algorithmic}
+            \State $\p \gets \p_0,\p_1,\dots,\p_{m}$
+            \State $u \gets u_0,u_1,\dots,u_n$
+            \State st\_krivulj = $\frac{m-n}{n-r}$
+            \For{$i = 0,1,\dots n$}
+                \State $\p_i^{(1)}=\p_i$
+            \EndFor
+            \For{$j = 2,3\dots$st\_krivulj}
+                \State $t_0$ = $\frac{\Delta u_j + \Delta u_{j+1}}{\Delta u_j}$
+                \State $\mathbf{l}$ = decasteljau\_shema($\p^{(j-1)}$, $t_0$)
+                % return decasteljau[lenn - 1][lenn - j - 1].X();
+                \State $\{\p_i^{(j)}\}_{i=0}^{r}$ = $\{\mathbf{l^{(n)}_{j}}\}_{j=n}^{n-r}$
+                \For{$k = 0,1,\dots (n-r)$}
+                    \State $\p_{n-r+k}^{(j)}=\p_{j(n-r)+k}$
+                \EndFor
+            \EndFor
+        \end{algorithmic}
+    \end{algorithm}
+    \noindent Takšen algoritem nam ne daje lokalnosti, saj premik prvih nekaj kontrolnih točk vpliva na celotno krivuljo.
+    V praksi zato ni uporaben, uporaben je le za prikazovanje lastnosti zlepka.
+    V praksi potrebujemo lokalnost, zato zlepke konstruiramo simetrično.
+    Podajmo algoritma za simetrični konstrukciji kvadratnega $C^1$ in kubičnega $C^2$ zlepka.
+    \begin{algorithm}[H]
+        \caption{Simetrična konstrukcija kvadratičnega $C^1$ zlepka}
+        \label{alg:C-1}
+        \begin{algorithmic}
+            \State $\p \gets \p_0,\p_1,\dots,\p_{m}$
+            \State $u \gets u_0,u_1,\dots,u_n$
+            \State $\p_0^{(1)} = \p_0$
+            \State $\p_1^{(1)} = \p_1$
+            \For{$l = 1,2,\dots m-1$}
+                \State $\p_2^{(l)} = \p_0^{(l+1)} = \frac{\Delta u_l}{\Delta u_{l-1} + \Delta u_{l}}\p_l+\frac{\Delta u_{l-1}}{\Delta u_{l-1} + \Delta u_{l}}\p_{l+1}$
+                \State $\p_1^{(l)}=\p_{l}$
+            \EndFor
+            \State $\p_0^{(m)} = \p_m$
+            \State $\p_1^{(m)} = \p_{m+1}$
+        \end{algorithmic}
+    \end{algorithm}
+    \begin{algorithm}[H]
+        \caption{Simetrična konstrukcija kubičnega $C^2$ zlepka}
+        \label{alg:C-2}
+        \begin{algorithmic}
+            \State $\p \gets \p_0,\p_1,\dots,\p_{m}$
+            \State $u \gets u_0,u_1,\dots,u_n$
+            \State $\p_0^{(1)} = \p_0$
+            \State $\p_1^{(1)} = \p_1$
+            \For{$l = 1,2,\dots m-1$}
+                \State $\p_2^{(l)} = \p_0^{(l+1)} = \frac{\Delta u_l}{\Delta u_{l-1} + \Delta u_{l}}\p_l+\frac{\Delta u_{l-1}}{\Delta u_{l-1} + \Delta u_{l}}\p_{l+1}$
+                \State $\p_1^{(l)}=\p_{l}$
+            \EndFor
+            \State $\p_0^{(m)} = \p_m$
+            \State $\p_1^{(m)} = \p_{m+1}$
+        \end{algorithmic}
+    \end{algorithm}
+    Primer kvadratičnega $C^1$ zlepka, konstruiranega po zgornjem algoritmu si lahko ogledamo na sliki ~\ref{};
+    \begin{figure}[h]
+        \centering
+        \includegraphics[width = 0.40\textwidth]{images/kvadraticni-c1}
+        \caption{Simetrično konstruirani kvadratični $C^1$ zlepek.}
+        \label{fig:kvadraticni-c1}
+    \end{figure}
+    \begin{figure}[h]
+        \centering
+        \includegraphics[width = 0.40\textwidth]{images/kubicni-c2}
+        \caption{Simetrično konstruirani kubični $C^2$ zlepek.}
+        \label{fig:kubicni-c2}
+    \end{figure}
+
+
+    \subsubsection{Alfa parametrizacije}
+    Točke $u_i$ v praksi dostikrat ne dobimo podane, ampak jih izračunamo sami.
+    En izmed načinov za izbiro $u_i$ so t.i.~ \textit{alfa parametrizacije}, kjer točke $u_i$ izberemo tako, da velja
+    \[\Delta u_i=|\Delta p_i|^{\alpha},\quad \alpha\in[0,1].\]
+    Vpliv izbire alfe si lahko ogledamo na sliki.
+    \begin{figure}[h]
+        \centering
+        \subfloat[$\beta_1=1$]{\includegraphics[width = \groupimagewidth]{images/zlepek-g1}}
+        \qquad
+        \subfloat[$\beta_1<1$]{\includegraphics[width = \groupimagewidth]{images/zlepek-g1-2}}
+        \caption{Vpliv izbora $\beta_1$ pri $G^1$ zlepku.}
+        \label{fig:zlepek-g1}
+    \end{figure}
+    \begin{figure}[h]
+        \captionsetup[subfigure]{labelformat=empty}
+        \centering
+        \subfloat[enakomerna ($\alpha=0$)]{\includegraphics[width = \groupimagewidth]{images/alfa-0}}
+        \qquad
+        \subfloat[centripentalna ($\alpha=0.5$)]{\includegraphics[width = \groupimagewidth]{images/alfa-05}}
+        \qquad
+        \subfloat[tetivna  ($\alpha=1$)]{\includegraphics[width = \groupimagewidth]{images/alfa-1}}
+        \caption{Vpliv izbore $\alpha$ pri izračunu točk $u_i$.}
+        \label{fig:zlepek-g1}
+    \end{figure}
 %
 %    \subsection{Alfa parametrizacije}
 %    Pri zlepkih se nam lahko zgodi, da imamo nekatere odseke krajše kakor druge.
 %    Pri izbiri ekvidistantnih $t$ dobimo potem razmike na zlepku $s(t_i)-s(t_{i+1})$, ki lahko zelo varirajo.
 %    Želeli bi, da so razmiki čimbolj podobni.
 %    Pomagamo si lahko tako, da intervale definiramo glede na razdaljo med stičnimi točkami.
-%    \[d_i=|T_i-T_{i-1}|^{\alpha}\]
-%    \mycomment{NE
-%    NE
-%    NE
-%    Tisto je bilo nekaj drugega. Te alfa parametrizacije so za zlepke!! Ma mentor je najbrz mislil, da bi ne o tem a?
-%    Ker to bi prislo prav, ce naredim tudi zlepke PH krivulj (kar naceloma ne bi smelo bit tako problematicno...).
-%    }
-
 
     \section{PH Krivulje}
 %    Motivacija: fajn so nam takšne parametrizacije, da se isto hitro premikamo po njih. (ce karkoli rises recimo)
@@ -1060,24 +1157,25 @@ the content and not the structure of your work.}
         Hodograf krivulje podane s parametrizacijo $\mathbf{r}$ je krivulja podana s parametrizacijo $\mathbf{r'}$.
     \end{definicija}
 
-    \subsection{Enakomerna parametrična hitrost}
-    \textit{Parametrična hitrost} krivulje $\mathbf{r}$, s parametrizacijo $\mathbf{r}= \left(x,y\right)$, je definirana s funkcijskim predpisom
+    \subsection{Konstantna parametrična hitrost}
+    \textit{Parametrična hitrost} krivulje $\mathbf{r}$ s parametrizacijo $\mathbf{r}= \left(x,y\right)$ je definirana s funkcijskim predpisom
     \begin{align}
         \sigma(t)= |\mathbf{r'}(t)| = \sqrt {x^{'2}(t)+y^{'2}(t)}. \label{eq:param-hitrost}
-    \end{align}
-    Idealno bi bilo, da je za vsak parameter $t$ parametrična hitrost $\sigma(t) = 1$.
-    Da dobimo željeno, lahko za poljubno premico s parametrizacijo
+    \end{align} % ZA KATERE SISTEME JE TO IDEALNO?!
+    Idealno bi bilo, da je parametrična hitrost $\sigma \equiv 1$.
+    Krivulje s konstantno parametrično hitrostjo $\sigma\equiv C$ lahko reparametriziramo s reparametrizacijsko funkcijo $\varphi(t)=\frac{t}{C}$, da dobimo željeno.
+    Za poljubno premico s parametrizacijo
     \[\mathbf{r}(t) = \p_0 + t\mathbf{s},\quad  \mathbf{s} = (s_x,s_y),\]
-    uporabimo reparametrizacijsko funkcijo s predpisom $\varphi(t) = \frac{t}{\sqrt{s_x^2+s_y^2}}$.
-    Za polinomske krivulje stopnje višjih stopenj pa to ni mogoče.
-    Naj bo vsaj ena izmed komponent parametrizacije $\mathbf{r}=(x,y)$ polinom stopnje $>1$.
-    Ker sta vodilna koeficienta polinomov $x'^2$ in $y'^2$ pozitivna, iz~\eqref{eq:param-hitrost} hitro sledi, da polinom $\sigma^2\in\mathbb{P}_{2n-2}$ ni konstanten.
-    Enačba $\sigma(t) = 1$ ima zato kvečjemu $2n-2$ rešitev.
+    lahko torej uporabimo reparametrizacijsko funkcijo s predpisom $\varphi(t) = \frac{t}{\sqrt{s_x^2+s_y^2}}$.
+    Polinomske krivulje višjih stopenj pa konstantne hitrosti ne morejo imeti.
+    Naj bo vsaj ena izmed komponent parametrizacije $\mathbf{r}=(x,y)$ polinom stopnje $n>1$.
+    Ker sta vodilna koeficienta polinomov $x'^2$ in $y'^2$ pozitivna, iz izraza~\eqref{eq:param-hitrost} hitro sledi, da polinom $\sigma^2\in\mathbb{P}_{2n-2}$ ni konstanten.
+    %Enačba $\sigma(t) = C$ ima zato kvečjemu $2n-2$ rešitev.
 
     \subsection{Polinomska parametrična hitrost}
-    V prejšnjem razdelku smo pokazali, da polinomske krivulje stopnje $>1$ ne premorejo parametrizacije z enakomerno hitrostjo.
+    V prejšnjem podrazdelku smo pokazali, da polinomske krivulje stopnje $>1$ ne morejo imeti konstantne parametrične hitrosti.
     Če krivulje nekoliko omejimo, lahko dosežemo vsaj to, da bo funkcija hitrosti polinom.
-    Iz enačbe~\eqref{eq:param-hitrost} sledi, da je to res v primerih, ko je polinom $x^{'2}+y^{'2}$ popoln kvadrat – takrat se namreč koren v enačbi okrajša.
+    Iz enačbe~\eqref{eq:param-hitrost} sledi, da bo to res v primerih, ko je polinom $x^{'2}+y^{'2}=z^2$ – takrat se namreč koren v enačbi okrajša.
     \begin{definicija}
         Naj bo $\mathbf{r}:\R\to\R^2$ parametrično podana krivulja s parametrizacijo $\mathbf{r}=(x,y)$.
         Krivulja $\mathbf{r}$ je PH krivulja oziroma krivulja s pitagorejskim hodografom, če obstaja tak polinom $z$, da polinomi x',y',z tvorijo pitagorejsko trojico.
@@ -1085,7 +1183,7 @@ the content and not the structure of your work.}
     \noindent Pri konstrukciji Bézierjevih PH krivulj si bomo pomagali z naslednjim izrekom.
     \begin{izrek}
         \label{izrek:pitagorejske}         % (tvorijo pitagorejsko trojico??)
-        Polinomi $a,b,c$ tvorijo pitagorejsko trojico natanko tedaj, ko obstajata tuja si polinoma $u$ in $v$ ter nek polinom  $w$ da velja
+        Polinomi $a,b,c$ tvorijo pitagorejsko trojico natanko tedaj, ko obstajata tuja si polinoma $u$ in $v$ ter nek polinom  $w$, da veljajo izrazi
         \begin{align*}
             a=(u^2-v^2)w,\quad b=2uvw,\quad c=(u^2+v^2)w.
         \end{align*}
@@ -1094,7 +1192,7 @@ the content and not the structure of your work.}
     \begin{dokaz}
         \mbox{}\\
         ($\Leftarrow$) Dokaz je enostaven, saj lahko definicije polinomov $a$,$b$ in $c$ iz izreka vstavimo v enačbo iz definicije~\ref{def:pitagorejska} in preverimo. \\
-        ($\Rightarrow$) Najprej definirajmo polinom $w=\gcd(a,b,c)$.
+        ($\Rightarrow$) Najprej definirajmo polinom $w\equiv \gcd(a,b,c)$.
         Pri tako definiranem polinomu $w$, so si polinomi \[\tilde{a}=\frac{a}{w},\quad \tilde{b}=\frac{b}{w},\quad \tilde{c}=\frac{c}{w},\] tuji in zadoščajo enačbi $\tilde{a}^2+\tilde{b}^2=\tilde{c}^2$.
         Enačbo zapišimo nekoliko drugače \[\tilde{b}^2= \tilde{c}^2-\tilde{a}^2 = (\tilde{c}+\tilde{a})(\tilde{c}-\tilde{a}).\]
         Polinoma $\tilde{c}+\tilde{a}$ in $\tilde{c}-\tilde{a}$ ne moreta imeti skupnih ničel, saj bi to impliciralo skupne ničle polinomov $\tilde{a},\tilde{b},\tilde{c}$, kar bi bilo v nasprotju z njihovo definicijo.
@@ -1111,20 +1209,22 @@ the content and not the structure of your work.}
     \end{align} in integriramo.
     %Brez izgube splošnosti lahko $x'$ oziroma $y'$ asociramo z $a$ ali $b$****** (pac kateri izraz kateremo pripopamo, ma je treba to dokazat).
     % to je u izi dokazat...
-    Pri tem nekateri izbori polinomov $u,v,w$ porodijo izrojene krivulje, takšne izbore bi radi izločili.
+    Pri tem nekateri izbori polinomov $u,v,w$ porodijo izrojene krivulje, takšne bi radi izločili.
+    Izrojene krivulje dobimo v naslednjih izborih.
 %    \vspace{-0.2cm}
     \begin{enumerate}[wide, labelwidth=!, labelindent=10pt]
         \itemsep0em
-        \item V primeru $w\equiv 0$ ali $u=v \equiv 0$ so komponente hodografa enake $x'=y'\equiv 0$ in zato definira točko, ne pa krivulje.
-        \item  Če so polinomi $u,v,w$ konstantni in neničelni, potem je konstanten tudi hodograf.
-        V tem primeru hodograf definira parametrizacijo premice z enakomerno hitrostjo.
-        \item  Če sta polinoma $u$ in $v$ konstantna ter vsaj en neničelen, polinom $w$ pa ni konstanten.
-        Tudi tokrat hodograf definira premico, a hitrost ni enakomerna.
-        \item Enako kot v točki 3. dobimo tudi v primeru, ko je polinom $w$ neničelen in en izmed polinomov $u$ in $v$ je ničelen.
+        \item  Če je polinom $w\equiv 0$ ali polinoma $u=v \equiv 0$, sta polinoma $x'=y'\equiv 0$.
+        Polinoma $x$ in $y$ sta zato konstantna in definirata točko, ne pa krivulje.
+        \item  Če so polinomi $u,v,w$ konstantni in neničelni, potem sta konstantna tudi polinoma $x'$ in $y'$.
+        V tem primeru definirata parametrizacijo premice z konstantno hitrostjo.
+        \item  Če sta polinoma $u$ in $v$ konstantna ter vsaj en neničelen, polinom $w$ pa ni konstanten, potem za polinoma $x',y'$ velja $x'=Cy'$, $C\in \R$.
+        Tudi tokrat polinoma definirata premico, a hitrost ni enakomerna.
+        \item Podobno kot v točki 3. dobimo tudi v primeru, ko je polinom $w$ neničelen in en izmed polinomov $u$ in $v$ je ničelen.
     \end{enumerate}
     \noindent Neizrojene PH krivulje dobimo torej pri izborih neničelnih polinomov $u,v$ in $w$, kjer vsaj en izmed polinomov $u$ in $v$ ni konstanten.
     S številom $\lambda$ označimo stopnjo polinoma $w$, s številom $\mu$ pa $\max(\deg(u),\deg(v))$.
-    PH krivulja, pridobljena z integracijo zgornjega hodografa, je stopnje $n=\lambda + 2\mu + 1$.
+    PH krivulja, pridobljena z integriranjem polinomov $x'$ in $y'$ iz~\ref{eq:hodograf-splosni}, je stopnje $n=\lambda + 2\mu + 1$.
     Prostih parametrov pa je manj.
     Vsak izmed polinomov $u$ in $v$ je namreč definiran z največ $\mu + 1$ parametri.
     Brez izgube splošnosti lahko vodilni koeficient polinoma $w$ fiksiramo na $1$.
@@ -1170,7 +1270,7 @@ the content and not the structure of your work.}
         \p_2 &= \p_1+\frac{1}{3}(u_0u_1-v_0v_1, u_0v_1+u_1v_0),\nonumber\\
         \p_3 &= \p_2 + \frac{1}{3}(u_1^2-v_1^2, 2u_1v_1). \label{eq:ph-kontrolne}
     \end{align}
-    Kontrolno točko $\p_0=(x_0,y_0)$ smo izbrali poljubno, saj sta $x_0$ in $y_0$ integracijski konstanti.
+    Kjer smo kontrolno točko $\p_0=(x_0,y_0)$ izbrali poljubno, saj sta $x_0$ in $y_0$ integracijski konstanti.
     Kontrolni poligoni dobljeni z izrazi~\eqref{eq:ph-kontrolne} imajo tudi geometrijsko interpretacijo.
     \begin{izrek}
         \label{izrek:geometrija-ph-poligona}
@@ -1191,16 +1291,16 @@ the content and not the structure of your work.}
     % \mycomment{ Kam zdej zapeljat? Se bomo sli kompleksnih stevil ali ne? Mater tezka odlocitev.... pogledat je treba racionalne odmike in shit, ce je slucjano treba dejansko nujno zapeljat v kompleksne vode.... sej so lepe samo nocem prevec balasta.}
 
     V prejšnjem razdelku smo povedali, da ima PH krivulja $n$-te stopnje $n+3$ prostih parametrov.
-    Za pravkar definirane kubične PH krivulje to pomeni, da imajo le $6$ prostih parametrov.
-    Če želimo podoben nivo kontrole, kakor pri kubičnih Bézierjevih krivuljah, moramo poseči po \textit{kvintičnih} Bézierjevih PH krivuljah.
-    Za polinoma $u$ in $v$ tokrat izberemo Bernsteinova polinoma polinoma stopnje $2$,
+    Za pravkar definirane kubične Bezierjeve PH krivulje to pomeni, da imajo le $6$ prostih parametrov.
+    Če želimo podoben nivo kontrole, kakor pri navadnih kubičnih Bézierjevih krivuljah, moramo poseči po \textit{kvintičnih} Bézierjevih PH krivuljah.
+    Izpeljemo jih podobno, le da tokrat za polinoma $u$ in $v$  izberemo Bernsteinova polinoma polinoma stopnje $2$,
     \[u=u_0B_{0}^{2}+u_1B_{1}^{2}+u_2B_{2}^{2}, \quad v=v_0B_{0}^{2}+v_1B_{1}^{2}+v_2B_{2}^{2}.\]
-    Da sta si polinoma $u$ in $v$ tuja, mora tokrat veljati izraz \[(u_2 v_0 -u_0 v_2)^2 \neq 4(u_0 v_1 - u_1 v_0)(u_1 v_2-u_2v_1).\]
+    Da sta si polinoma $u$ in $v$ tuja, mora veljati izraz \[(u_2 v_0 -u_0 v_2)^2 \neq 4(u_0 v_1 - u_1 v_0)(u_1 v_2-u_2v_1).\]
     Polinoma vstavimo v izraza~\eqref{eq:hodograf-1} in integriramo, z nekaj računanja dobimo Bézierjevo krivuljo s kontrolnimi točkami
     \begin{align*}
         \p_1 &=\p_0+\frac{1}{5}(u_0^2-v_0^2,2u_0v_0), \\
         \p_2 &= \p_1+\frac{1}{5}(u_0u_1-v_0v_1, u_0v_1+u_1v_0),\\
-        \p_3 &= \p_2 + \frac{2}{5}(u_1^2-v_1^2, 2u_1v_1) + \frac{1}{5}(u_0u_2-v_0v_2, u_0v_2+u_2v_0)  \\
+        \p_3 &= \p_2 + \frac{2}{5}(u_1^2-v_1^2, 2u_1v_1) + \frac{1}{5}(u_0u_2-v_0v_2, u_0v_2+u_2v_0),  \\
         \p_4 &= \p_3+\frac{1}{5}(u_1u_2-v_1v_2, u_1v_2+u_2v_1),\\
         \p_5 &=\p_4+\frac{1}{5}(u_2^2-v_2^2,2u_2v_2).  \label{eq:ph-kontrolne-5}
     \end{align*}
@@ -1233,7 +1333,7 @@ the content and not the structure of your work.}
     Parametrična hitrost Bezierjeve PH krivulje podane s parametrizacijo $\mathbf{r}=(x,y)$ je dana s polinomom
     \[\sigma = |\mathbf{r}'| = \sqrt{x'^2+y'^2} = u^2+v^2.\]
     Če je krivulja stopnje $n$, potem sta polinoma $u$ in $v$ stopnje $m=\frac{1}{2}(n-1)$.
-    Zapišimo polinome $u,v$ in $\sigma$ v Bernsteinovi obliki \[u=\sum_{j=0}^{m}u_j B_{j}^{m}, \quad v=\sum_{j=0}^{m}v_j B_{j}^{m}, \quad \sigma=\sum_{j=0}^{n-1}\sigma_j B_j^{n-1}.\]
+    Zapišimo polinome $u,v$ in $\sigma$ v Bernsteinovi bazi \[u=\sum_{j=0}^{m}u_j B_{j}^{m}, \quad v=\sum_{j=0}^{m}v_j B_{j}^{m}, \quad \sigma=\sum_{j=0}^{n-1}\sigma_j B_j^{n-1}.\]
     S pomočjo pravila za množenje Bernsteinovih polinomov iz izreka~\ref{izrek:bernstein-multiplication}, lahko koeficiente $\sigma_j$ izrazimo s koeficienti polinomov $u$ in $v$
     \[\sigma_j = \sum_{k=\max(0,j-m)}^{\min(m,j)} \frac{\binom{m}{k}\binom{m}{j-k}}{\binom{n-1}{j}}(u_k u_{j-k}+v_k v_{j-k}).\]
     Tako smo parametrično hitrost Bezierjeve PH krivulje izrazili v Bernsteinovi bazi.
@@ -1261,13 +1361,13 @@ the content and not the structure of your work.}
         \caption{10 točk na krivulji pri ekvidistantnih $t_i$.}
         \label{fig:enakomerni-t}
     \end{figure}
-    Čeprav parametrična hitrost PH krivulje ni konstantna, lahko njen enostaven izračun izkoristimo, da najdemo parametre $\{t_i\}^{N}_{i=0}$ za katere velja $s(t_k)=k\Delta s$, kjer je $\Delta s = \frac{s(1)}{N}$.
-    Ker je parametrična hitrost $\sigma$ pozitivna za vsa realna števila $t\in[0,1]$, $s$, strogo naraščajoča.
+    Čeprav parametrična hitrost Bezierjeve PH krivulje ni konstantna, lahko njen enostaven izračun izkoristimo, da najdemo parametre $\{t_i\}^{N}_{i=0}$ za katere velja $s(t_k)=k\Delta s$, kjer je $\Delta s = \frac{s(1)}{N}$.
+    Ker je parametrična hitrost $\sigma$ pozitivna za vsa realna števila $t\in[0,1]$, je funkcija dolžine $s$ strogo naraščajoča.
     Parametri $t_i$ so zato enolično določeni in ležijo med $t_{i-1}$ in $1$.
     Za iskanje parametrov $t_i$ lahko uporabimo Newton-Raphsonovo iteracijo.
     Za začetni približek vzamemo $t_k^{(0)} = t_{k-1} + \frac{\Delta s}{\sigma(t_{k-1})}$ popravljamo pa ga z iteriranjem
     \[ t_k^{(r)} = t_k^{r-1} - \frac{s(t_k^{(r-1)})}{\sigma(t_k^{(r-1)})}, \quad r=1,2,\ldots .\]
-    Takšna iteracija pri začetnih približkih, ki so dovolj blizu parametra $t_k$, konvergira s kvadratično hitrostjo. \mycomment{(referenca na bor plestenjak? :D)}
+    Znano je, da takšna iteracija pri začetnih približkih, ki so dovolj blizu parametra $t_k$, konvergira s kvadratično hitrostjo.
     Za večino primerov zato izračun približka $t_k$, do natančnosti reda $10^{-12}$, potrebuje le dva do tri korake iteracije.
     V praksi so takšni približki ponavadi zadovoljivi.
     Točke na PH krivulji pridobljene s takšnimi približki si lahko ogledamo na sliki~\ref{fig:enakomerni-s}.
@@ -1304,7 +1404,7 @@ the content and not the structure of your work.}
     Takšne krivulje v splošnem niso racionalne, saj v imenovalcu funkcije za smer normale $\mathbf{n}$ nastopa koren.
     V prejšnjem razdelku smo pokazali, da je smer normale $\mathbf{n}$ za PH krivulje racionalna funkcija, iz česar sledi, da je tudi odmik krivulja PH krivulje racionalna funkcija.
     Še več, odmik krivuljo Bezierjeve PH krivulje $\mathbf{r}$ lahko izrazimo kot racionalno Bézierjevo krivuljo s kontrolnimi točkami izraženimi s kontrolnimi točkami krivulje $\mathbf{r}$.
-    Zapišimo kontrolne točke Bezierjeve $PH$ krivulje $\mathbf{r}$ s homogenimi koordinatah
+    Zapišimo kontrolne točke Bezierjeve $PH$ krivulje $\mathbf{r}$ v homogenih koordinatah
     \[\mathbf{P}_k = (W_k,X_k,Y_k) = (1,x_k,y_k), \quad k=0,1\ldots,n. \]
     Preme diference takšnih točk izgledajo takole
     \[\Delta\mathbf{P}_k = \mathbf{P}_{k+1}-\mathbf{P}_k = (0,\Delta x_k,\Delta y_k), \quad k=0,1,\ldots,n-1.\]

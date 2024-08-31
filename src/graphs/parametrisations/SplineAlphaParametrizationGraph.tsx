@@ -67,10 +67,10 @@ class Graph extends BaseSplineCurveGraph<SplineAlphaParamGraphStates> {
     }
 
     defaultPreset(): any {
-        return [["JSXSplineCurve", {
+        return [["JSXGenericSplineCurve", {
             "points": [[-3, 2], [-4, -1], [-3, -2], [-1, 1], [1, 2], [4, 2], [3, -1]],
-            "degree": 4,
-            "continuity": 3,
+            "degree": 2,
+            "continuity": 1,
             "state": {
                 "showingJxgPoints": true, "showingControlPolygon": false, "showingConvexHull": false
             }

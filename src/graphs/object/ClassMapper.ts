@@ -1,12 +1,18 @@
-import {JSXSplineCurve} from "./JSXSplineCurve";
 import {JSXRationalBezierCurve} from "./JSXRationalBezierCurve";
 import {JSXPHBezierCurve} from "./JSXPHBezierCurve";
 import {JSXBezierCurve} from "./JSXBezierCurve";
 import {Board} from "jsxgraph";
+import {JSXGenericSplineCurve} from "./JSXGenericSplineCurve";
+import {JSXQuadraticC1SplineCurve} from "./JSXQuadraticC1SplineCurve";
+import {JSXQubicC2SplineCurve} from "./JSXQubicC2SplineCurve";
+import {JSXQuadraticG1SplineCurve} from "./JSXQuadraticG1SplineCurve";
 
 const nameToClassMap = new Map([
     ["JSXRationalBezierCurve", JSXRationalBezierCurve as any],
-    ["JSXSplineCurve", JSXSplineCurve],
+    ["JSXGenericSplineCurve", JSXGenericSplineCurve],
+    ["JSXQuadraticC1SplineCurve", JSXQuadraticC1SplineCurve],
+    ["JSXQubicC2SplineCurve", JSXQubicC2SplineCurve],
+    ["JSXQuadraticG1SplineCurve", JSXQuadraticG1SplineCurve],
     ["JSXBezierCurve", JSXBezierCurve],
     ["JSXPHBezierCurve", JSXPHBezierCurve]
 ]);

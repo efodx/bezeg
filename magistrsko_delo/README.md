@@ -20,8 +20,6 @@ TODO:
 - Jasno mora biti, kdaj je govora o hodografih primitivnih pitag trojic in kdaj ne...
   tako lahko kdaj izpustim w=1... pa imam referenco na obliko kjer je w=1
 
-- Preme diference bi blo prav da definiram...
-
 - Pokaži, da se jih da povečat ce povecas vse hodografe w!
 
 - $\mathbf{s_1'}(u) =\beta\mathbf{s_2}(u)$ <- Takih zadev ne vem ce lahko delam tam pri zlepkih... ker ni nujno, da

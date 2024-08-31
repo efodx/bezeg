@@ -13,11 +13,7 @@ import {OnOffSwitch} from "../../inputs/OnOffSwitch";
 import {Commands} from "./Commands";
 import BaseGraph, {BaseGraphState} from "./BaseGraph";
 import {VisibilityContext} from "../context/VisibilityContext";
-import {Continuity} from "../../bezeg/impl/curve/bezier-spline";
-import {JSXSplineCurve} from "../object/JSXSplineCurve";
-import {JSXBezierCurve} from "../object/JSXBezierCurve";
 import {JSXRationalBezierCurve} from "../object/JSXRationalBezierCurve";
-import {JSXPHBezierCurve} from "../object/JSXPHBezierCurve";
 import {ClassMapper} from "../object/ClassMapper";
 import {PointStyles} from "../styles/PointStyles";
 import {Preset} from "./presets/Presets";
@@ -77,26 +73,6 @@ abstract class BaseCurveGraph<P, S extends BaseGraphStates> extends BaseGraph<P,
         this.board.on('down', (e) => this.handleDown(e));
         this.board.on('up', (e) => this.handleUp(e));
         this.board.on('move', (e) => this.handleMove(e));
-    }
-
-    createJSXBezierCurve(points: number[][]) {
-        let newBezierCurve = new JSXBezierCurve(points, this.board);
-        newBezierCurve.setSubdivisionResultConsumer((jsxCrv) => this.jsxBezierCurves.push(jsxCrv));
-        this.jsxBezierCurves.push(newBezierCurve);
-        return newBezierCurve;
-    }
-
-    createJSXPHBezierCurve(points: number[][]) {
-        let newBezierCurve = new JSXPHBezierCurve(points, this.board) as JSXBezierCurve;
-        newBezierCurve.setSubdivisionResultConsumer((jsxCrv) => this.jsxBezierCurves.push(jsxCrv));
-        this.jsxBezierCurves.push(newBezierCurve);
-        return newBezierCurve;
-    }
-
-    createJSXSplineCurve(points: number[][], degree: number, continuity: Continuity): JSXSplineCurve {
-        let newBezierCurve = new JSXSplineCurve(points, continuity, degree, this.board);
-        this.jsxBezierCurves.push(newBezierCurve);
-        return newBezierCurve;
     }
 
     createRationalJSXBezierCurve(points: number[][], weights: number[]): JSXRationalBezierCurve {

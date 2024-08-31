@@ -14,7 +14,7 @@ import RationalExtrapolationGraph
 import RationalSubdivisionGraph
   from './graphs/rational/RationalSubdivisionGraph';
 import AffineBezierGraph from './graphs/bezier/AffineTransformsBezierCurveGraph';
-import SplineGraph from './graphs/spline/C0SplineGraph';
+import SplineGraph from './graphs/spline/CnSplineGraph';
 import C1SplineGraph from './graphs/spline/C1SplineGraph';
 import G1SplineGraph from './graphs/spline/G1SplineGraph';
 import G1AffineSplineGraph from './graphs/spline/G1AffineSplineGraph';
@@ -31,7 +31,6 @@ import RationalBezierCurveCircleGraphN
 import { BernsteinGraph } from './graphs/bernstein/BernsteinGraph';
 import FarinPointsCurveGraph from './graphs/rational/FarinPointsCurveGraph';
 import { RefreshContext } from './graphs/context/react/RefreshContext';
-import C3SplineGraph from './graphs/spline/C3SplineGraph';
 import C2SplineGraphParametrization
   from './graphs/parametrisations/SplineAlphaParametrizationGraph';
 import RationalDecasteljauGraph
@@ -171,27 +170,22 @@ const routes = [
       {
         path: PATH_SPLINE_CURVES + '/spline',
         element: <SplineGraph/>,
-        title: 'C0 Zlepek',
+        title: 'Enostranski Cn Zlepek',
         group: SPLINES_GROUP,
       }, {
         path: PATH_SPLINE_CURVES + '/c1spline',
         element: <C1SplineGraph/>,
-        title: 'C1 Zlepek',
-        group: SPLINES_GROUP,
-      }, {
-        path: PATH_SPLINE_CURVES + '/g1spline',
-        element: <G1SplineGraph/>,
-        title: 'G1 Zlepek',
+        title: 'Simetrični C1 Zlepek',
         group: SPLINES_GROUP,
       }, {
         path: PATH_SPLINE_CURVES + '/c2spline',
         element: <C2SplineGraph/>,
-        title: 'C2 Zlepek',
+        title: 'Simetrični C2 Zlepek',
         group: SPLINES_GROUP,
       }, {
-        path: PATH_SPLINE_CURVES + '/c3spline',
-        element: <C3SplineGraph/>,
-        title: 'C3 Zlepek',
+        path: PATH_SPLINE_CURVES + '/g1spline',
+        element: <G1SplineGraph/>,
+        title: 'Enostranski G1 Zlepek',
         group: SPLINES_GROUP,
       }, {
         path: PATH_SPLINE_CURVES + '/g1affinespline',
