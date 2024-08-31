@@ -7,7 +7,7 @@ export class C2QubicBezierSpline extends BezierSpline {
 
     override getU() {
         const u = [0];
-        for (let i = 0; i < this.points.length - 1; i++) {
+        for (let i = 1; i < this.points.length - 2; i++) {
             let pointStart = this.points[i];
             let pointEnd = this.points[i + 1];
             let d = Math.sqrt((pointStart.X() - pointEnd.X()) ** 2 + (pointStart.Y() - pointEnd.Y()) ** 2) ** this.alpha;
@@ -37,13 +37,40 @@ export class C2QubicBezierSpline extends BezierSpline {
                     const u = this.getU();
                     let du1 = u[l - 1] - u[l - 2];
                     let du2 = u[l] - u[l - 1];
-                    let duSum = du1 + du2;
-                    return 2 / 3 * points[l].X() + 1 / 3 * points[l + 1].X();
+                    let du3 = u[l + 1] - u[l];
+                    let duSum = du1 + du2 + du3;
+                    console.log("points len:", points.length);
+                    console.log("points len-3:", points.length - 2);
+                    console.log("u len:", u.length);
+                    return (du2 + du3) / duSum * points[l].X() + du1 / duSum * points[l + 1].X();
                 },
-                () => 2 / 3 * points[l].Y() + 1 / 3 * points[l + 1].Y());
+                () => {
+                    const u = this.getU();
+                    let du1 = u[l - 1] - u[l - 2];
+                    let du2 = u[l] - u[l - 1];
+                    let du3 = u[l + 1] - u[l];
+                    let duSum = du1 + du2 + du3;
+                    return (du2 + du3) / duSum * points[l].Y() + du1 / duSum * points[l + 1].Y();
+                });
             const p2 = new PointImpl(
-                () => 1 / 3 * points[l].X() + 2 / 3 * points[l + 1].X(),
-                () => 1 / 3 * points[l].Y() + 2 / 3 * points[l + 1].Y());
+                () => {
+                    const u = this.getU();
+                    let du1 = u[l - 1] - u[l - 2];
+                    let du2 = u[l] - u[l - 1];
+                    let du3 = u[l + 1] - u[l];
+                    let duSum = du1 + du2 + du3;
+
+                    return du3 / duSum * points[l].X() + (du1 + du2) / duSum * points[l + 1].X();
+                },
+                () => {
+                    const u = this.getU();
+                    let du1 = u[l - 1] - u[l - 2];
+                    let du2 = u[l] - u[l - 1];
+                    let du3 = u[l + 1] - u[l];
+                    let duSum = du1 + du2 + du3;
+
+                    return du3 / duSum * points[l].Y() + (du1 + du2) / duSum * points[l + 1].Y();
+                });
             nonFreePoints.push(p);
             nonFreePoints.push(p2);
             const curveNum = l - 1;
@@ -51,16 +78,40 @@ export class C2QubicBezierSpline extends BezierSpline {
             bezpoints[curveNum][2] = p2;
         }
         const newPoint2 = new PointImpl(
-            () => 1 / 2 * points[points.length - 3].X() + 1 / 2 * points[points.length - 2].X(),
-            () => 1 / 2 * points[points.length - 3].Y() + 1 / 2 * points[points.length - 2].Y());
+            () => {
+                const u = this.getU();
+                let du1 = u[u.length - 3] - u[u.length - 2];
+                let du2 = u[u.length - 2] - u[u.length - 1];
+                let duSum = du1 + du2;
+                return du2 / duSum * points[points.length - 3].X() + du1 / duSum * points[points.length - 2].X();
+            },
+            () => {
+                const u = this.getU();
+                let du1 = u[u.length - 3] - u[u.length - 2];
+                let du2 = u[u.length - 2] - u[u.length - 1];
+                let duSum = du1 + du2;
+                return du2 / duSum * points[points.length - 3].Y() + du1 / duSum * points[points.length - 2].Y();
+            });
 
         nonFreePoints.push(newPoint2);
         bezpoints[bezpoints.length - 1][1] = newPoint2;
 
         for (let l = 1; l < points.length - 3; l++) {
             const p = new PointImpl(
-                () => 1 / 2 * bezpoints[l - 1][2].X() + 1 / 2 * bezpoints[l][1].X(),
-                () => 1 / 2 * bezpoints[l - 1][2].Y() + 1 / 2 * bezpoints[l][1].Y());
+                () => {
+                    const u = this.getU();
+                    let du1 = u[l] - u[l - 1];
+                    let du2 = u[l + 1] - u[l];
+                    let duSum = du1 + du2;
+                    return du2 / duSum * bezpoints[l - 1][2].X() + du1 / duSum * bezpoints[l][1].X();
+                },
+                () => {
+                    const u = this.getU();
+                    let du1 = u[l] - u[l - 1];
+                    let du2 = u[l + 1] - u[l];
+                    let duSum = du1 + du2;
+                    return du2 / duSum * bezpoints[l - 1][2].Y() + du1 / duSum * bezpoints[l][1].Y();
+                });
             const curveNum = l - 1;
             nonFreePoints.push(p);
             bezpoints[curveNum][3] = p;
