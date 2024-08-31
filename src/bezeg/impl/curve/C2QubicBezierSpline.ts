@@ -5,6 +5,17 @@ import {Point} from "../../api/point/point";
 
 export class C2QubicBezierSpline extends BezierSpline {
 
+    override getU() {
+        const u = [0];
+        for (let i = 0; i < this.points.length - 1; i++) {
+            let pointStart = this.points[i];
+            let pointEnd = this.points[i + 1];
+            let d = Math.sqrt((pointStart.X() - pointEnd.X()) ** 2 + (pointStart.Y() - pointEnd.Y()) ** 2) ** this.alpha;
+            u.push(u[u.length - 1] + d);
+        }
+        return u.map(t => t / u[u.length - 1]);
+    }
+
     generateBezierCurves() {
         const points = this.points;
         const numOfcurves = this.points.length - 3;
@@ -22,7 +33,13 @@ export class C2QubicBezierSpline extends BezierSpline {
         nonFreePoints.push(newPoint);
         for (let l = 2; l < points.length - 3; l++) {
             const p = new PointImpl(
-                () => 2 / 3 * points[l].X() + 1 / 3 * points[l + 1].X(),
+                () => {
+                    const u = this.getU();
+                    let du1 = u[l - 1] - u[l - 2];
+                    let du2 = u[l] - u[l - 1];
+                    let duSum = du1 + du2;
+                    return 2 / 3 * points[l].X() + 1 / 3 * points[l + 1].X();
+                },
                 () => 2 / 3 * points[l].Y() + 1 / 3 * points[l + 1].Y());
             const p2 = new PointImpl(
                 () => 1 / 3 * points[l].X() + 2 / 3 * points[l + 1].X(),

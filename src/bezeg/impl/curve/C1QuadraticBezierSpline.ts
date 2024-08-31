@@ -6,9 +6,8 @@ import {Point} from "../../api/point/point";
 export class C1QuadraticBezierSpline extends BezierSpline {
 
     override getU() {
-        const n = this.bezierCurves.length;
         const u = [0];
-        for (let i = 0; i < this.points.length - 1; i++) {
+        for (let i = 1; i < this.points.length - 1; i++) {
             let pointStart = this.points[i];
             let pointEnd = this.points[i + 1];
             let d = Math.sqrt((pointStart.X() - pointEnd.X()) ** 2 + (pointStart.Y() - pointEnd.Y()) ** 2) ** this.alpha;
