@@ -8,11 +8,16 @@ import {PointStyles} from "../styles/PointStyles";
 
 export interface JSXSplineConstructorParams {
     points: number[][],
-    state: PointControlledCurveState
+    state: SplineCurveState
+}
+
+export interface SplineCurveState extends PointControlledCurveState {
+    labelAll: boolean;
 }
 
 export abstract class JSXSplineCurve<C extends BezierSpline> extends AbstractJSXPointControlledCurve<C, any> {
     nonFreeJsxPoints!: JXG.Point[];
+    labelAll: boolean = true;
 
     constructor(points: number[][], board: Board) {
         super(points, board);
@@ -53,6 +58,39 @@ export abstract class JSXSplineCurve<C extends BezierSpline> extends AbstractJSX
 
     getAllNonFreeJxgPoints() {
         return super.getJxgPoints().filter(point => this.nonFreeJsxPoints.includes(point));
+    }
+
+    override labelJxgPoints() {
+        if (this.labelAll) {
+            this.getJxgPoints().forEach((point, i) => point.setName(PointStyles.pi(i).name as string));
+        } else {
+            this.getJxgPoints().forEach((point, i) => point.setName(""));
+            this.getAllFreeJxgPoints().forEach((point, i) => point.setName(PointStyles.pi(i).name as string));
+        }
+
+    }
+
+    setLabelAll(all: boolean) {
+        this.labelAll = all;
+        this.labelJxgPoints();
+    }
+
+    getLabelAll() {
+        return this.labelAll;
+    }
+
+    override importState(state: SplineCurveState) {
+        super.importState(state);
+        if (state.labelAll !== undefined) {
+            this.setLabelAll(state.labelAll);
+        }
+    }
+
+    override exportState() {
+        return {
+            ...super.exportState(),
+            labelAll: this.labelAll
+        } as SplineCurveState;
     }
 
     protected refreshNonFreeJsxGraphPoints() {

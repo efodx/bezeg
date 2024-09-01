@@ -382,7 +382,6 @@ the content and not the structure of your work.}
         \caption{Konveksni ovojnici kontrolnih točk Bézierjevih krivulj.}
         \label{fig:bezier-convex-hull}
     \end{figure}
-
 %    Izrek~\ref{izrek:lastnosti-bezierjevih-krivulj} sedaj tudi dokažimo.
 %    \begin{dokaz}
 %        \noindent Lastnost (1) dokažemo s pomočjo izreka~\ref{izrek:bernsteinovi_lastnosti}.
@@ -924,10 +923,12 @@ the content and not the structure of your work.}
     \noindent Želimo si, da bi zlepki tvorili gladko neprekinjeno krivuljo, saj so takšne krivulje v CAGD sistemih najbolj uporabne.
     Krivulja je po definiciji na posameznih odsekih polinomska in zato tudi gladka, problem je le v stičnih točkah.
     Naj bo
-    \[\mathbf{S}(u) = \begin{dcases}
-                          \mathbf{S_1}(u) = \sum_{i=0}^n \p_i^{(1)}B_i^n\left(\frac{u-u_0}{\Delta u_0}\right), & u \in [u_0,u_1),  \\
-                          \mathbf{S_2}(u) = \sum_{i=0}^n \p_i^{(2)}B_i^n\left(\frac{u-u_1}{\Delta u_1}\right), & u \in [u_1,u_2],
-    \end{dcases}\]
+    \begin{align}
+        \mathbf{S}(u) = \begin{dcases}
+                            \mathbf{S_1}(u) = \sum_{i=0}^n \p_i^{(1)}B_i^n\left(\frac{u-u_0}{\Delta u_0}\right), & u \in [u_0,u_1),  \\
+                            \mathbf{S_2}(u) = \sum_{i=0}^n \p_i^{(2)}B_i^n\left(\frac{u-u_1}{\Delta u_1}\right), & u \in [u_1,u_2],
+        \end{dcases} \label{eq:zlepek-def}
+    \end{align}
     zlepek dveh Bézierjevih krivulj.
     Da bo zlepek zvezen, mora v stični točki $u_1$ veljati $\mathbf{S}_1(u_1) = \mathbf{S}_2(u_1)$ oziroma
     \begin{align}
@@ -1014,7 +1015,9 @@ the content and not the structure of your work.}
     Za $G^1$ mora veljati  $\mathbf{s_1'}(u_1) = \beta_1\mathbf{s_2'}(u_1)$, iz česar sledi
     \[\frac{\p_{n}^{(1)} - \p_{n-1}^{(1)}}{\Delta u_0} = \beta_1\frac{\p_{1}^{(2)} - \p_{0}^{(2)}}{\Delta u_1}.\]
     Če označimo sedaj $\alpha_1=  \frac{\beta_1\Delta u_0}{\Delta u_1}$ pa lahko pogoj zapišemo kot
-    \[\p_{n}^{(1)} - \p_{n-1}^{(1)}= \alpha_1(\p_{1}^{(2)} - \p_{0}^{(2)}).\]
+    \begin{align}
+        \p_{n}^{(1)} - \p_{n-1}^{(1)}= \alpha_1(\p_{1}^{(2)} - \p_{0}^{(2)}).\label{eq:g1-pogoj}
+    \end{align}
     Glede na $C^1$ smo torej pridobili prosti parameter, ki ga lahko v CAGD sistemih uporabimo za dodatno kontrolo nad krivuljo.
     $G^1$ zlepek in vpliv izbora $\beta_1$ si lahko ogledamo na sliki~\ref{fig:zlepek-g1}.
     \begin{figure}[h]
@@ -1029,39 +1032,57 @@ the content and not the structure of your work.}
     \end{figure}
 
     \subsection{Konstrukcija zlepkov Bezierjevih krivulj}
-    Enačbe iz prejšnjega razdelka lahko dobimo tudi drugače.
-    Da bi zlepek bil $C^{\infty}$, bi morali deli zlepka biti deli iste Bezierjeve krivulje.
-    Da bo zlepek $C^r$ pa se morata dela krivulje ujemati v $r+1$ točkah.
-    To dosežemo tako, da uporabimo de Casteljaujev algoritem pri parametru $t_0$ tako, ki je izbran, da velja $\frac{t_0-1}{1}=\frac{\Delta u_{i+1}}{\Delta u_{i}}$ in preberemo krivuljo $B_{t_0+}$ iz podrazdelka~\ref{subsec:ekstrapolacija}.
-    Prvih $r+1$ točk je fiksiramo, ostale pa lahko izberemo poljubno.
-    Tako dobimo algoritem za enostransko konstrukcijo $C^r$ zlepka.
+    V tem podrazdelku bomo podali nekaj algoritmov za konstrukcijo zlepkov Bezierjevih krivulj.
+
+    \subsubsection{Enostranska konstrukcija}
+    Enačbe iz prejšnjega razdelka bi lahko izpeljali tudi drugače.
+    Da bi zlepek~\eqref{eq:zlepek-def} bil $C^{\infty}$, bi morali krivulji $\mathbf{S}_1$ in $\mathbf{S}_2$ biti del iste Bezierjeve krivulje.
+    Krivuljo $\mathbf{S}_2$ je tako moč dobiti z ekstrapolacijo krivulje $\mathbf{S}_1$.
+    Da je zlepek $C^r$ zvezen je dovolj, da krivulja $\mathbf{S}_2$ ustreza ekstrapolirani krivulji v prvih $r+1$ kontrolnih točkah.
+    $C^r$ zlepek lahko konstruiramo tako, da začnemo z Bezierjevo krivuljo, ki jo ekstrapoliramo.
+    Ekstrapoliranemu delu nato fiksiramo prvih $r+1$ točk, ostale pa izberemo poljubno.
+    Postopek je podrobneje zapisan v algoritmu~\ref{alg:C-n}, kjer funkcija decasteljau\_shema predstavlja funkcijo, ki vrača De Casteljaujevo shemo~\ref{fig:decasteljau-scheme}.
     \begin{algorithm}[H]
         \caption{Enostranska konstrukcija $C^r$ zlepka stopnje $n$}
         \label{alg:C-n}
         \begin{algorithmic}
             \State $\p \gets \p_0,\p_1,\dots,\p_{m}$
-            \State $u \gets u_0,u_1,\dots,u_n$
+            \State $u \gets u_0,u_1,\dots,u_n$\\
             \State st\_krivulj = $\frac{m-n}{n-r}$
             \For{$i = 0,1,\dots n$}
                 \State $\p_i^{(1)}=\p_i$
             \EndFor
             \For{$j = 2,3\dots$st\_krivulj}
                 \State $t_0$ = $\frac{\Delta u_j + \Delta u_{j+1}}{\Delta u_j}$
-                \State $\mathbf{l}$ = decasteljau\_shema($\p^{(j-1)}$, $t_0$)
+                \State $\mathbf{e}$ = decasteljau\_shema($\p^{(j-1)}$, $t_0$)
                 % return decasteljau[lenn - 1][lenn - j - 1].X();
-                \State $\{\p_i^{(j)}\}_{i=0}^{r}$ = $\{\mathbf{l^{(n)}_{j}}\}_{j=n}^{n-r}$
+                \State $\{\p_i^{(j)}\}_{i=0}^{r}$ = $\{\mathbf{e^{(n)}_{j}}\}_{j=n}^{n-r}$
                 \For{$k = 0,1,\dots (n-r)$}
                     \State $\p_{n-r+k}^{(j)}=\p_{j(n-r)+k}$
                 \EndFor
             \EndFor
         \end{algorithmic}
     \end{algorithm}
-    \noindent Takšen algoritem nam ne daje lokalnosti, saj premik prvih nekaj kontrolnih točk vpliva na celotno krivuljo.
-    V praksi zato ni uporaben, uporaben je le za prikazovanje lastnosti zlepka.
-    V praksi potrebujemo lokalnost, zato zlepke konstruiramo simetrično.
-    Podajmo algoritma za simetrični konstrukciji kvadratnega $C^1$ in kubičnega $C^2$ zlepka.
+    \noindent Zlepki generirani s takšnim algoritmom niso uporabniku prijazni, saj kontrolne točke različno močno vplivajo na obliko krivulje.
+    Za primer si na sliki~\ref{fig:enostranski-c1} oglejmo obnašanje tako generiranega kvadratnega $C^1$ zlepka.
+    \begin{figure}[h]
+        \captionsetup[subfigure]{labelformat=empty}
+        \centering
+        \subfloat[začetni zlepek]{\includegraphics[width = \groupimagewidth]{images/enostranski-spline-1}}
+        \qquad
+        \subfloat[premik $\p1$]{\includegraphics[width = \groupimagewidth]{images/enostranski-spline-3}}
+        \qquad
+        \subfloat[premik $\p8$]{\includegraphics[width = \groupimagewidth]{images/enostranski-spline-2}}
+        \caption{Obnašanje enostranskega kvadratnega $C^1$ zlepka.}
+        \label{fig:enostranski-c1}
+    \end{figure}
+
+    \subsubsection{Simetrična konstrukcija}
+    Uporabniku mnogo bolj prijazni so algoritmi simetričnih konstrukcij.
+    Brez izpeljave podajmo algoritma~\ref{alg:C-1},~\ref{alg:C-2} za simetrični konstrukciji kvadratnega $C^1$ in kubičnega $C^2$ zlepka.
+    Obnašanje tako generiranih zlepkov si lahko ogledamo na slikama~\ref{fig:simetricni-c1} in~\ref{fig:simetricni-c2}.
     \begin{algorithm}[H]
-        \caption{Simetrična konstrukcija kvadratičnega $C^1$ zlepka}
+        \caption{Simetrična konstrukcija kvadratnega $C^1$ zlepka}
         \label{alg:C-1}
         \begin{algorithmic}
             \State $\p \gets \p_0,\p_1,\dots,\p_{m}$
@@ -1084,7 +1105,7 @@ the content and not the structure of your work.}
             \State $u \gets u_0,u_1,\dots,u_n$
             \State $\p_0^{(1)} = \p_0$
             \State $\p_1^{(1)} = \p_1$
-            \For{$l = 1,2,\dots m-1$}
+            \For{$l = 1,2,\dots m-3$}
                 \State $\p_2^{(l)} = \p_0^{(l+1)} = \frac{\Delta u_l}{\Delta u_{l-1} + \Delta u_{l}}\p_l+\frac{\Delta u_{l-1}}{\Delta u_{l-1} + \Delta u_{l}}\p_{l+1}$
                 \State $\p_1^{(l)}=\p_{l}$
             \EndFor
@@ -1092,33 +1113,91 @@ the content and not the structure of your work.}
             \State $\p_1^{(m)} = \p_{m+1}$
         \end{algorithmic}
     \end{algorithm}
-    Primer kvadratičnega $C^1$ zlepka, konstruiranega po zgornjem algoritmu si lahko ogledamo na sliki ~\ref{};
     \begin{figure}[h]
+        \captionsetup[subfigure]{labelformat=empty}
         \centering
-        \includegraphics[width = 0.40\textwidth]{images/kvadraticni-c1}
-        \caption{Simetrično konstruirani kvadratični $C^1$ zlepek.}
-        \label{fig:kvadraticni-c1}
+        \subfloat[začetni zlepek]{\includegraphics[width = \groupimagewidth]{images/simetricni-c1-spline-1}}
+        \qquad
+        \subfloat[premik $\p1$]{\includegraphics[width = \groupimagewidth]{images/simetricni-c1-spline-2}}
+        \qquad
+        \subfloat[premik $\p8$]{\includegraphics[width = \groupimagewidth]{images/simetricni-c1-spline-3}}
+        \caption{Obnašanje simetričnega kvadratnega $C^1$ zlepka.}
+        \label{fig:simetricni-c1}
     \end{figure}
     \begin{figure}[h]
+        \captionsetup[subfigure]{labelformat=empty}
         \centering
-        \includegraphics[width = 0.40\textwidth]{images/kubicni-c2}
-        \caption{Simetrično konstruirani kubični $C^2$ zlepek.}
-        \label{fig:kubicni-c2}
+        \subfloat[začetni zlepek]{\includegraphics[width = \groupimagewidth]{images/simetricni-c1-spline-1}}
+        \qquad
+        \subfloat[premik $\p1$]{\includegraphics[width = \groupimagewidth]{images/simetricni-c2-spline-2}}
+        \qquad
+        \subfloat[premik $\p8$]{\includegraphics[width = \groupimagewidth]{images/simetricni-c2-spline-3}}
+        \caption{Obnašanje simetričnega kubičnega $C^2$ zlepka.}
+        \label{fig:simetricni-c2}
+    \end{figure}
+    \noindent Tako konstruirani zlepki ustrezajo lastnostim Bezierjevih krivulj iz izreka~\ref{izrek:lastnosti-bezierjevih-krivulj}.
+    Primere afinih transformacij simetričnega $C^2$ zlepka si lahko ogledamo na sliki~\ref{fig:afini-zlepek}.
+    Na sliki~\ref{fig:ovojnica-zlepek} pa si lahko ogledamo konveksni ovojnici dveh takšnih zlepkov.
+    \begin{figure}[h]
+        \captionsetup[subfigure]{labelformat=empty}
+        \centering
+        \subfloat[začetni zlepek]{\includegraphics[width = \groupimagewidth]{images/afini-zlepek-1}}
+        \qquad
+        \subfloat[rotacija]{\includegraphics[width = \groupimagewidth]{images/afini-zlepek-rotacija}}
+        \qquad
+        \subfloat[pomanjšanje]{\includegraphics[width = \groupimagewidth]{images/afini-zlepek-pomanjsanje}}
+        \caption{Afini transformaciji simetričnih kubičnih $C^2$ zlepkov.}
+        \label{fig:afini-zlepek}
+    \end{figure}
+    \begin{figure}[h]
+        \captionsetup[subfigure]{labelformat=empty}
+        \centering
+        \subfloat[]{\includegraphics[width = \groupimagewidth]{images/zlepek-konveksna-1}}
+        \qquad
+        \subfloat[]{\includegraphics[width = \groupimagewidth]{images/zlepek-konveksna-2}}
+        \caption{Konveksni ovojnici simetričnih kubičnih $C^2$ zlepkov.}
+        \label{fig:ovojnica-zlepek}
+    \end{figure}
+    Algoritem za simetrični kvadratni $C^1$ zlepek lahko adaptiramo tako, da upoštevamo pogoj~\ref{eq:g1-pogoj} za $G^1$ zveznost.
+    Dobimo algoritem za simetrično konstrukcijo kvadratnega $G^1$ zlepka~\ref{alg:G-1}, kjer števila $\beta_l$ omejimo na interval $(0,1)$.
+    Obnašanje zlepka ob spreminjanju $\beta_1$ si lahko ogledamo na sliki~\ref{fig:zlepek-g1-beta}.
+    \begin{algorithm}[H]
+        \caption{Simetrična konstrukcija kvadratnega $G^1$ zlepka}
+        \label{alg:G-1}
+        \begin{algorithmic}
+            \State $\p \gets \p_0,\p_1,\dots,\p_{m}$
+            \State $\beta \gets \beta_1,\beta_2,\dots,\beta{m-2}$
+            \State $\p_0^{(1)} = \p_0$
+            \State $\p_1^{(1)} = \p_1$
+            \For{$l = 1,2,\dots m-2$}
+                \State $\p_1^{(l)}=\p_{l}$
+                \State $\p_2^{(l)} = \p_0^{(l+1)} = (1-\beta_l)\p_l+\beta_l\p_{l+1}$
+            \EndFor
+            \State $\p_0^{(m)} = \p_m$
+            \State $\p_1^{(m)} = \p_{m+1}$
+        \end{algorithmic}
+    \end{algorithm}
+    \begin{figure}[h]
+        \captionsetup[subfigure]{labelformat=empty}
+        \centering
+        \subfloat[$\beta_1=0.5$]{\includegraphics[width = \groupimagewidth]{images/zlepek-g1-b1-05}}
+        \qquad
+        \subfloat[$\beta_1=0.25$]{\includegraphics[width = \groupimagewidth]{images/zlepek-g1-b1-025}}
+        \qquad
+        \subfloat[$\beta_1=0.75$]{\includegraphics[width = \groupimagewidth]{images/zlepek-g1-b1-075}}
+        \caption{Vpliv izbire $\beta_1$ pri simetričnem kvadratnem $G^1$ zlepku.}
+        \label{fig:zlepek-g1-beta}
     \end{figure}
 
     \subsubsection{Alfa parametrizacije}
-    Točke $u_i$ v praksi dostikrat ne dobimo podane, ampak jih izračunamo sami.
-    En izmed načinov za izbiro $u_i$ so t.i.~ \textit{alfa parametrizacije}, kjer točke $u_i$ izberemo tako, da velja
+    V praksi delilnih točk $u_i$ dostikrat ne dobimo podanih ampak jih izračunamo sami.
+    Smiselno jih je postaviti tako, da s parametrom $t$ po krivulji potujemo čim bolj enakomerno.
+    Točke $u_i$ bi radi izbrali tako, da velja \[\Delta u_i = dolzina\_krivulje(\mathbf{s}^{(i)}).\]
+    Pri simetrično konstruiranih zlepkih iz prejšnjega razdelka lahko dolžine krivulj $\mathbf{s}^{(i)}$ aproksimiramo z dolžino premih diferenc $\Delta p_i$.
+    Takšnem generiranju točk pravimo \textit{alfa parametrizacije}.
+    Točke $u_i$ izberemo tako, da velja
     \[\Delta u_i=|\Delta p_i|^{\alpha},\quad \alpha\in[0,1].\]
-    Vpliv izbire alfe si lahko ogledamo na sliki.
-    \begin{figure}[h]
-        \centering
-        \subfloat[$\beta_1=1$]{\includegraphics[width = \groupimagewidth]{images/zlepek-g1}}
-        \qquad
-        \subfloat[$\beta_1<1$]{\includegraphics[width = \groupimagewidth]{images/zlepek-g1-2}}
-        \caption{Vpliv izbora $\beta_1$ pri $G^1$ zlepku.}
-        \label{fig:zlepek-g1}
-    \end{figure}
+    Vpliv izbire alfe si lahko ogledamo na sliki~\ref{fig:zlepek-alfa}.
     \begin{figure}[h]
         \captionsetup[subfigure]{labelformat=empty}
         \centering
@@ -1127,15 +1206,9 @@ the content and not the structure of your work.}
         \subfloat[centripentalna ($\alpha=0.5$)]{\includegraphics[width = \groupimagewidth]{images/alfa-05}}
         \qquad
         \subfloat[tetivna  ($\alpha=1$)]{\includegraphics[width = \groupimagewidth]{images/alfa-1}}
-        \caption{Vpliv izbore $\alpha$ pri izračunu točk $u_i$.}
-        \label{fig:zlepek-g1}
+        \caption{Vpliv izbire $\alpha$ pri izračunu točk $u_i$ za simetrični kvadratni $C^1$ zlepek.}
+        \label{fig:zlepek-alfa}
     \end{figure}
-%
-%    \subsection{Alfa parametrizacije}
-%    Pri zlepkih se nam lahko zgodi, da imamo nekatere odseke krajše kakor druge.
-%    Pri izbiri ekvidistantnih $t$ dobimo potem razmike na zlepku $s(t_i)-s(t_{i+1})$, ki lahko zelo varirajo.
-%    Želeli bi, da so razmiki čimbolj podobni.
-%    Pomagamo si lahko tako, da intervale definiramo glede na razdaljo med stičnimi točkami.
 
 
     \section{PH Krivulje}

@@ -24,10 +24,6 @@ export class JSXQubicC2SplineCurve extends JSXSplineCurve<C2QubicBezierSpline> {
         return super.getAllFreeJxgPoints();
     }
 
-    override labelJxgPoints() {
-        //this.getJxgPoints().forEach((point, i) => point.setName(PointStyles.pi(i).name as string));
-    }
-
 
     protected getStartingCurve(points: number[][]): C2QubicBezierSpline {
         const jsxPoints = points.map((point, i) => this.createJSXGraphPoint(point[0], point[1], PointStyles.pi(i)));

@@ -17,7 +17,6 @@ import AffineBezierGraph from './graphs/bezier/AffineTransformsBezierCurveGraph'
 import SplineGraph from './graphs/spline/CnSplineGraph'
 import C1SplineGraph from './graphs/spline/C1SplineGraph'
 import G1SplineGraph from './graphs/spline/G1SplineGraph'
-import G1AffineSplineGraph from './graphs/spline/G1AffineSplineGraph'
 import C2SplineGraph from './graphs/spline/C2SplineGraph'
 import CubicPhBezierCurveGraph from './graphs/ph/CubicPhBezierCurveGraph'
 import QuinticPhBezierCurve from './graphs/ph/QuinticPhBezierCurveGraph'
@@ -190,12 +189,13 @@ const routes = [
         element: <G1SymmetricSplineGraph/>,
         title: 'Simetrični G1 Zlepek',
         group: SPLINES_GROUP,
-      }, {
-        path: PATH_SPLINE_CURVES + '/g1affinespline',
-        element: <G1AffineSplineGraph/>,
-        title: 'G1 Afini Zlepek',
-        group: SPLINES_GROUP,
-      }, {
+      }, // {
+      //   path: PATH_SPLINE_CURVES + '/g1affinespline',
+      //   element: <G1AffineSplineGraph/>,
+      //   title: 'G1 Afini Zlepek',
+      //   group: SPLINES_GROUP,
+      // },
+      {
         path: PATH_PH_CURVES + '/cubic',
         element: <CubicPhBezierCurveGraph/>,
         title: 'Stopnje 3',

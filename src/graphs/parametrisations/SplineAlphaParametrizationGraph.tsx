@@ -3,7 +3,6 @@ import {PointStyles} from "../styles/PointStyles";
 import {Colors} from "../bezier/utilities/Colors";
 import Slider from "../../inputs/Slider";
 import {BaseGraphStates} from "../base/BaseCurveGraph";
-import {JSXQubicC2SplineCurve} from "../object/JSXQubicC2SplineCurve";
 
 interface SplineAlphaParamGraphStates extends BaseGraphStates {
     numberOfPoints: number;
@@ -68,7 +67,7 @@ class Graph extends BaseSplineCurveGraph<SplineAlphaParamGraphStates> {
     }
 
     defaultPreset(): any {
-        return [["JSXQubicC2SplineCurve", {
+        return [["JSXQuadraticC1SplineCurve", {
             "points": [[-3, 2], [-4, -1], [-3, -2], [-1, 1], [1, 2], [4, 2], [3, -1]],
             "state": {
                 "showingJxgPoints": true, "showingControlPolygon": false, "showingConvexHull": false
