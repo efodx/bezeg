@@ -44,10 +44,10 @@ export class G1SymmetricQuadraticBezierSpline extends BezierSpline {
             //     });
 
             const p = new PointImpl(() => {
-                    return this.b[j] * points[l - 1].X() + (1 - this.b[j]) * points[l].X();
+                    return (1 - this.b[j]) * points[l - 1].X() + this.b[j] * points[l].X();
                 },
                 () => {
-                    return this.b[j] * points[l - 1].Y() + (1 - this.b[j]) * points[l].Y();
+                    return (1 - this.b[j]) * points[l - 1].Y() + this.b[j] * points[l].Y();
                 });
             const curveNum = l - 1;
             nonFreePoints.push(p);
