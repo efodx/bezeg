@@ -1069,8 +1069,8 @@ the content and not the structure of your work.}
             \State $\p_0^{(1)} = \p_0$
             \State $\p_1^{(1)} = \p_1$
             \For{$l = 1,2,\dots m-1$}
-                \State $\p_2^{(l)} = \p_0^{(l+1)} = \frac{\Delta u_l}{\Delta u_{l-1} + \Delta u_{l}}\p_l+\frac{\Delta u_{l-1}}{\Delta u_{l-1} + \Delta u_{l}}\p_{l+1}$
                 \State $\p_1^{(l)}=\p_{l}$
+                \State $\p_2^{(l)} = \p_0^{(l+1)} = \frac{\Delta u_l}{\Delta u_{l-1} + \Delta u_{l}}\p_l+\frac{\Delta u_{l-1}}{\Delta u_{l-1} + \Delta u_{l}}\p_{l+1}$
             \EndFor
             \State $\p_0^{(m)} = \p_m$
             \State $\p_1^{(m)} = \p_{m+1}$
@@ -1106,7 +1106,6 @@ the content and not the structure of your work.}
         \label{fig:kubicni-c2}
     \end{figure}
 
-
     \subsubsection{Alfa parametrizacije}
     Točke $u_i$ v praksi dostikrat ne dobimo podane, ampak jih izračunamo sami.
     En izmed načinov za izbiro $u_i$ so t.i.~ \textit{alfa parametrizacije}, kjer točke $u_i$ izberemo tako, da velja
@@ -1137,6 +1136,7 @@ the content and not the structure of your work.}
 %    Pri izbiri ekvidistantnih $t$ dobimo potem razmike na zlepku $s(t_i)-s(t_{i+1})$, ki lahko zelo varirajo.
 %    Želeli bi, da so razmiki čimbolj podobni.
 %    Pomagamo si lahko tako, da intervale definiramo glede na razdaljo med stičnimi točkami.
+
 
     \section{PH Krivulje}
 %    Motivacija: fajn so nam takšne parametrizacije, da se isto hitro premikamo po njih. (ce karkoli rises recimo)

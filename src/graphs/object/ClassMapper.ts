@@ -6,6 +6,7 @@ import {JSXGenericSplineCurve} from "./JSXGenericSplineCurve";
 import {JSXQuadraticC1SplineCurve} from "./JSXQuadraticC1SplineCurve";
 import {JSXQubicC2SplineCurve} from "./JSXQubicC2SplineCurve";
 import {JSXQuadraticG1SplineCurve} from "./JSXQuadraticG1SplineCurve";
+import {JSXSymmetricQuadraticG1SplineCurve} from "./JSXSymmetricQuadraticG1SplineCurve";
 
 const nameToClassMap = new Map([
     ["JSXRationalBezierCurve", JSXRationalBezierCurve as any],
@@ -14,7 +15,8 @@ const nameToClassMap = new Map([
     ["JSXQubicC2SplineCurve", JSXQubicC2SplineCurve],
     ["JSXQuadraticG1SplineCurve", JSXQuadraticG1SplineCurve],
     ["JSXBezierCurve", JSXBezierCurve],
-    ["JSXPHBezierCurve", JSXPHBezierCurve]
+    ["JSXPHBezierCurve", JSXPHBezierCurve],
+    ["JSXSymmetricQuadraticG1SplineCurve", JSXSymmetricQuadraticG1SplineCurve]
 ]);
 
 const classToNameMap = new Map<any, string>(
