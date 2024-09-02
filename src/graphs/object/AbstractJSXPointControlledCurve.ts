@@ -30,8 +30,8 @@ export abstract class AbstractJSXPointControlledCurve<T extends PointControlledC
     jxgPoints: JXG.Point[] = [];
     readonly pointControlledCurve: T;
     readonly board: Board;
+    protected boundBoxPoints: JXG.Point[] = [];
     private jxgCurve: JXG.Curve;
-    private boundBoxPoints: JXG.Point[] = [];
     private boundBoxSegments: JXG.Segment[] = [];
     private convexHullSegments: JXG.Segment[] = [];
     private selected: boolean = false;

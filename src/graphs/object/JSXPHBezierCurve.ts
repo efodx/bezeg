@@ -58,6 +58,13 @@ export class JSXPHBezierCurve extends JSXBezierCurve {
         return curve as JSXBezierCurve;
     }
 
+    override showBoundingBox() {
+        super.showBoundingBox();
+        this.boundBoxPoints[0].setAttribute({visible: false});
+        this.boundBoxPoints[1].setAttribute({visible: false});
+        this.boundBoxPoints[2].setAttribute({visible: false});
+    }
+
     override importState(state: JSXPHBezierCurveState) {
         super.importState(state);
         if (state.d) {
@@ -107,6 +114,19 @@ export class JSXPHBezierCurve extends JSXBezierCurve {
         const curve = new PhBezierCurve(pointsImpl.slice(0, 1), pointsImpl.slice(1));
         curve.getPoints().map((p, i) => this.createJSXGraphPoint(() => p.X(), () => p.Y(), PointStyles.pi(i, () => this.isShowingJxgPoints())));
         return curve;
+    }
+
+    override resize(newCoords: JXG.Coords) {
+        let [minX, maxX, minY, maxY] = this.pointControlledCurve.getBoundingBox();
+        let [dx, dy] = [newCoords.usrCoords[1] - this.coords!.usrCoords[1], newCoords.usrCoords[2] - this.coords!.usrCoords[2]];
+        let [xDir, yDir] = this.getResizingDir();
+        dx = dx * xDir;
+        dy = dy * yDir;
+        let xScale = (2 * dx + maxX - minX) / (maxX - minX);
+        let yScale = (2 * dy + maxY - minY) / (maxY - minY);
+        let scale = Math.max(xScale, yScale);
+        this.pointControlledCurve.scale(scale);
+        this.move(newCoords);
     }
 
 

@@ -3,6 +3,7 @@ import {PointImpl} from "../point/point-impl";
 import {BezierCurve} from "../../api/curve/bezier-curve";
 import {BezierCurveImpl} from "./bezier-curve-impl";
 import {RationalBezierCurve} from "./rational-bezier-curve";
+import {CacheContext} from "../../../graphs/context/CacheContext";
 
 const deltaPravokoten = (p0: Point, p1: Point) => new PointImpl(() => p1.Y() - p0.Y(), () => p0.X() - p1.X());
 const bin = (n: number, k: number): number => k === 0 ? 1 : (n * bin(n - 1, k - 1)) / k;
@@ -197,7 +198,6 @@ export class PhBezierCurve implements BezierCurve {
         const rotationMatrix = [[Math.cos(theta), -Math.sin(theta)], [Math.sin(theta), Math.cos(theta)]];
         this.affineTransform(rotationMatrix);
         this._w.forEach(point => this.transformPoint(point, 0, 0, rotationMatrix, undefined));
-        // this.points.rotate!
         this.underlyingBezierCurve.rotate(theta);
     }
 
@@ -210,15 +210,19 @@ export class PhBezierCurve implements BezierCurve {
     }
 
     scale(xScale: number) {
-        let copyPoints = this.underlyingBezierCurve.getPoints()
-            .map(point => new PointImpl(point.X(), point.Y()));
-        copyPoints.forEach(point => this.transformPoint(point, 0, 0, [[xScale, 0], [0, xScale!]], undefined));
-
+        let [minX, maxX, minY, maxY] = this.getBoundingBox();
         this._w.forEach(point => this.transformPoint(point, 0, 0, [[xScale, 0], [0, xScale!]], undefined));
+        // TODO MOVE THIS ONE LEVEL ABOVE
+        CacheContext.update();
+        const [minX2, maxX2, minY2, maxY2] = this.getBoundingBox();
+        const dx = minX2 - minX;
+        const dy = minY2 - minY;
+        this.moveFor(dx, -dy);
     }
 
 
     moveFor(x: number, y: number) {
+        console.log("moving curve");
         this.underlyingBezierCurve.moveFor(x, y);
     }
 
