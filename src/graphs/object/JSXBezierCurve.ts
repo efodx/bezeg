@@ -100,7 +100,7 @@ export class JSXBezierCurve extends AbstractJSXBezierCurve<BezierCurve, BezierCu
     elevate() {
         const elevated = this.pointControlledCurve.elevate();
         this.clearJxgPoints();
-        const wrappedPoints = elevated.getPoints().map((point, i) => this.createJSXGraphPoint(point.X(), point.Y(), PointStyles.pi(i)));
+        const wrappedPoints = elevated.getPoints().map((point, i) => this.createJSXGraphPoint(point.X(), point.Y(), PointStyles.pi(i, () => this.isShowingJxgPoints())));
         this.pointControlledCurve.setPoints(wrappedPoints);
         // TODO how to do this efficiently
         //this.importState(this.exportState())
@@ -112,7 +112,7 @@ export class JSXBezierCurve extends AbstractJSXBezierCurve<BezierCurve, BezierCu
     }
 
     getStartingCurve(points: number[][]): BezierCurve {
-        let jsxPoints = points.map((point, i) => this.createJSXGraphPoint(point[0], point[1], PointStyles.pi(i)));
+        let jsxPoints = points.map((point, i) => this.createJSXGraphPoint(point[0], point[1], PointStyles.pi(i, () => this.isShowingJxgPoints())));
         return new BezierCurveImpl(jsxPoints);
     }
 }

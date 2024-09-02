@@ -28,10 +28,12 @@ const fixedPointStyle: PointAttributes = {
 };
 
 
-function pi(i: number): PointAttributes {
+function pi(i: number, visible: () => boolean): PointAttributes {
     return {
         ...pointStyle,
-        name: "$$p_{" + i + "}$$"
+        name: "$$p_{" + i + "}$$",
+        // @ts-ignore
+        visible: visible
     };
 }
 

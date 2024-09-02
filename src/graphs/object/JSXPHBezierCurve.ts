@@ -105,7 +105,7 @@ export class JSXPHBezierCurve extends JSXBezierCurve {
     override getStartingCurve(points: number[][]): BezierCurve {
         const pointsImpl = points.map(p => new PointImpl(p[0], p[1]));
         const curve = new PhBezierCurve(pointsImpl.slice(0, 1), pointsImpl.slice(1));
-        curve.getPoints().map((p, i) => this.createJSXGraphPoint(() => p.X(), () => p.Y(), PointStyles.pi(i)));
+        curve.getPoints().map((p, i) => this.createJSXGraphPoint(() => p.X(), () => p.Y(), PointStyles.pi(i, () => this.isShowingJxgPoints())));
         return curve;
     }
 

@@ -29,8 +29,6 @@ export class PhBezierCurve implements BezierCurve {
         this.sigmas = this.generateSigmas(this.degree);
         this.addOffsetCurve();
         this.addOffsetCurve();
-        this.addOffsetCurve();
-        this.addOffsetCurve();
     }
 
     private _w: Point[];

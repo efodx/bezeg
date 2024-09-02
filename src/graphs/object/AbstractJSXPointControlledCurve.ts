@@ -102,7 +102,7 @@ export abstract class AbstractJSXPointControlledCurve<T extends PointControlledC
 
     addPoint(x: number, y: number) {
         CacheContext.update();
-        let p = this.createJSXGraphPoint(x, y, PointStyles.pi(this.pointControlledCurve.getPoints().length));
+        let p = this.createJSXGraphPoint(x, y, PointStyles.pi(this.pointControlledCurve.getPoints().length, () => this.isShowingJxgPoints()));
         this.pointControlledCurve.addPoint(p);
         this.labelJxgPoints();
     }
@@ -115,7 +115,7 @@ export abstract class AbstractJSXPointControlledCurve<T extends PointControlledC
     }
 
     labelJxgPoints() {
-        this.getJxgPoints().forEach((point, i) => point.setName(PointStyles.pi(i).name as string));
+        this.getJxgPoints().forEach((point, i) => point.setName(PointStyles.pi(i, () => this.isShowingJxgPoints()).name as string));
     }
 
     move(newCoords: JXG.Coords) {
@@ -338,14 +338,11 @@ export abstract class AbstractJSXPointControlledCurve<T extends PointControlledC
     }
 
     hideJxgPoints() {
-        this.getJxgPoints().forEach(point => point.hide());
         this.showingJxgPoints = false;
     }
 
     showJxgPoints(show?: boolean) {
         if (show === undefined || show) {
-            return;
-            this.getJxgPoints().forEach(point => point.show());
             this.showingJxgPoints = true;
         } else {
             this.hideJxgPoints();

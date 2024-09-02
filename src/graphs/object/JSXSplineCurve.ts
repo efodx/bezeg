@@ -13,11 +13,13 @@ export interface JSXSplineConstructorParams {
 
 export interface SplineCurveState extends PointControlledCurveState {
     labelAll: boolean;
+    hideFixed: boolean;
 }
 
 export abstract class JSXSplineCurve<C extends BezierSpline> extends AbstractJSXPointControlledCurve<C, any> {
     nonFreeJsxPoints!: JXG.Point[];
     labelAll: boolean = true;
+    hideFixed: boolean = false;
 
     constructor(points: number[][], board: Board) {
         super(points, board);
@@ -27,12 +29,12 @@ export abstract class JSXSplineCurve<C extends BezierSpline> extends AbstractJSX
     }
 
     override addPoint(x: number, y: number) {
-        let p = this.createJSXGraphPoint(x, y, PointStyles.pi(this.pointControlledCurve.getPoints().length));
+        let p = this.createJSXGraphPoint(x, y, PointStyles.pi(this.pointControlledCurve.getPoints().length, () => this.isShowingJxgPoints()));
         this.pointControlledCurve.addPoint(p);
         this.pointControlledCurve.generateBezierCurves();
         while (this.pointControlledCurve.getNonFreePoints().length !== this.nonFreeJsxPoints.length) {
             const len = this.nonFreeJsxPoints.length;
-            const jsxpoint = this.createJSXGraphPoint(() => this.getCurve().getNonFreePoints()[len].X(), () => this.getCurve().getNonFreePoints()[len].Y(), PointStyles.fixed);
+            const jsxpoint = this.createFixedJsxPoint(this.getCurve(), len);
             this.nonFreeJsxPoints.push(jsxpoint.point);
         }
         this.labelJxgPoints();
@@ -62,10 +64,10 @@ export abstract class JSXSplineCurve<C extends BezierSpline> extends AbstractJSX
 
     override labelJxgPoints() {
         if (this.labelAll) {
-            this.getJxgPoints().forEach((point, i) => point.setName(PointStyles.pi(i).name as string));
+            this.getJxgPoints().forEach((point, i) => point.setName(PointStyles.pi(i, () => this.isShowingJxgPoints()).name as string));
         } else {
             this.getJxgPoints().forEach((point, i) => point.setName(""));
-            this.getAllFreeJxgPoints().forEach((point, i) => point.setName(PointStyles.pi(i).name as string));
+            this.getAllFreeJxgPoints().forEach((point, i) => point.setName(PointStyles.pi(i, () => this.isShowingJxgPoints()).name as string));
         }
 
     }
@@ -84,13 +86,26 @@ export abstract class JSXSplineCurve<C extends BezierSpline> extends AbstractJSX
         if (state.labelAll !== undefined) {
             this.setLabelAll(state.labelAll);
         }
+        if (state.hideFixed !== undefined) {
+            this.setHideFixed(state.hideFixed);
+        }
     }
 
     override exportState() {
         return {
             ...super.exportState(),
-            labelAll: this.labelAll
+            labelAll: this.labelAll,
+            hideFixed: this.hideFixed
         } as SplineCurveState;
+    }
+
+    getHideFixed() {
+        return this.hideFixed;
+    }
+
+    setHideFixed(hideFixed: boolean) {
+        this.hideFixed = hideFixed;
+        this.board.update();
     }
 
     protected refreshNonFreeJsxGraphPoints() {
@@ -98,9 +113,15 @@ export abstract class JSXSplineCurve<C extends BezierSpline> extends AbstractJSX
         const spline = this.getCurve();
         // This may look dumb, but in reality this makes us able to change underlying non-free points
         this.nonFreeJsxPoints = spline.getNonFreePoints()
-            .map((p, i) => this.createJSXGraphPoint(() => spline.getNonFreePoints()[i].X(), () => spline.getNonFreePoints()[i].Y(), PointStyles.fixed))
+            .map((p, i) => this.createFixedJsxPoint(spline, i))
             //  .map((p, i) => this.createJSXGraphPoint(() => p.X(), () => p.Y(), PointStyles.fixed))
             .map(point => point.point);
     }
 
+    private createFixedJsxPoint(spline: C, i: number) {
+        return this.createJSXGraphPoint(() => spline.getNonFreePoints()[i].X(), () => spline.getNonFreePoints()[i].Y(), {
+            ...PointStyles.fixed,
+            visible: () => !this.hideFixed
+        });
+    }
 }
