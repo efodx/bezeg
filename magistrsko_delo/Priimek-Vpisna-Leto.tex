@@ -622,7 +622,7 @@ the content and not the structure of your work.}
         %t\binom{n}{i}t^i(1-t)^{n-i} \\
         %&= \frac{n!}{(n-i)!i!}t^{i+1}(1-t)^{n+1-i-1} \\
     \end{align*}
-    vstavimo v izraz~\ref{eq:visanje-param}, dobimo
+    vstavimo v izraz~\eqref{eq:visanje-param}, dobimo
     \begin{align*}
         \B(t) &= \sum_{i=0}^{n}\mathbf{p}_{i}\frac{n+1-i}{n+1}B_{i}^{n+1}(t) +\sum_{i=0}^{n}\mathbf{p}_{i}\frac{i+1}{n+1}B_{i+1}^{n+1}(t)\\
         &= \sum_{i=0}^{n}\mathbf{p}_{i}\frac{n+1-i}{n+1}B_{i}^{n+1}(t) +\sum_{i=1}^{n+1}\mathbf{p}_{i-1}\frac{i}{n+1}B_{i}^{n+1}(t).
@@ -918,7 +918,7 @@ the content and not the structure of your work.}
     Računanje točk kompleksnejše Bézierjeve krivulje, z veliko kontrolnimi točkami,  je zato zamudno.
     Da bi ohranili uporabniku naravno kontrolo krivulj ter hiter izračun točk, posežemo po zlepkih Bézierjevih krivulj.
     \begin{definicija}
-        Zlepek krivulj $\mathbf{S}:[a,b]\to \R^d$ nad zaporedjem stičnih točk \[a=u_0 < u\_1 < \cdots < u_{m-1} < u_m = b\] je parametrično podana krivulja stopnje $n\in\N$, katere komponente so odsekoma polinomske funkcije $\mathbf{S}|_{[u_{l-1},u_l]} \in \Pn^d$.
+        Zlepek krivulj $\mathbf{S}:[a,b]\to \R^d$ nad zaporedjem stičnih točk \[a=u_0 < u\_1 < \cdots < u_{m-1} < u_m = b\] je parametrično podana polinomska krivulja stopnje $n\in\N$, katere komponente so odsekoma polinomske funkcije $\mathbf{S}|_{[u_{l-1},u_l]} \in \Pn^d$.
     \end{definicija}
     \noindent Želimo si, da bi zlepki tvorili gladko neprekinjeno krivuljo, saj so takšne krivulje v CAGD sistemih najbolj uporabne.
     Krivulja je po definiciji na posameznih odsekih polinomska in zato tudi gladka, problem je le v stičnih točkah.
@@ -979,42 +979,41 @@ the content and not the structure of your work.}
     Da bi zlepki bili gladki ne potrebujemo zvezne odvedljivosti v analitičnem smislu, dovolj je zvezna odvedljivost v geometrijskem smislu.
     \begin{definicija}
         \label{def:geometrijska-zveznost}
-        Zlepek krivulj \[\mathbf{s}(u) = \begin{cases}
-                                             \mathbf{s_1}(u), & u \in [u_0,u_1),  \\
-                                             \mathbf{s_2}(u), & u \in [u_1,u_2],
+        Zlepek krivulj \[\mathbf{S}(u) = \begin{cases}
+                                             \mathbf{S_1}(u), & u \in [u_0,u_1),  \\
+                                             \mathbf{S_2}(u), & u \in [u_1,u_2],
         \end{cases}\] je $k$-krat geometrijsko zvezno odvedljiv, $G^k$, če v okolici stične točke $u_1$ obstaja takšna regularna reparametrizacijska funkcija $\varphi$, da je $\varphi(u_1)=u_1$ in zlepek krivulj
-        \[\mathbf{s}(u) = \begin{cases}
-                              \mathbf{s_1}(u), & u \in [u_0,u_1),  \\
-                              \mathbf{s_2}(\varphi(u)), & u \in [u_1,u_2],
+        \[\mathbf{S}(u) = \begin{cases}
+                              \mathbf{S_1}(u), & u \in [u_0,u_1),  \\
+                              \mathbf{S_2}(\varphi(u)), & u \in [u_1,u_2],
         \end{cases}\]
         $k$-krat zvezno odvedljiv.
     \end{definicija}
     \noindent Izpeljimo sedaj pogoje gladkosti za $G^k$, $k=0,1,2$.
-    Za $G^0$ mora veljati \[\mathbf{s_1}(u_1) =  \mathbf{s_2}(\varphi(u_1))\] kar je enak pogoj, kakor za $C^0$.
-    Za $G^1$ mora veljati prejšnje in \[ \mathbf{s_1'}(u_1) = \mathbf{s_2'}(\varphi(u_1))\varphi'(u_1) = \mathbf{s_2'}(u_1)\varphi'(u_1).\]
-    Za $G^2$ pa mora veljati prejšnje ter \[\mathbf{s_1''}(u_1) = \mathbf{s_2''}(\varphi(u_1))(\varphi'(u_1))^2 +  \mathbf{s_2'}(\varphi(u_1))\varphi''(u_1) =\mathbf{s_2''}(u_1)(\varphi'(u_1))^2 +  \mathbf{s_2'}(u_1))\varphi''(u_1).\]
+    Za $G^0$ mora veljati \[\mathbf{S_1}(u_1) =  \mathbf{S_2}(\varphi(u_1))\] kar je enak pogoj, kakor za $C^0$.
+    Za $G^1$ mora veljati prejšnje in \[ \mathbf{S_1'}(u_1) = \mathbf{S_2'}(\varphi(u_1))\varphi'(u_1) = \mathbf{S_2'}(u_1)\varphi'(u_1).\]
+    Za $G^2$ pa mora veljati prejšnje ter \[\mathbf{S_1''}(u_1) = \mathbf{S_2''}(\varphi(u_1))(\varphi'(u_1))^2 +  \mathbf{S_2'}(\varphi(u_1))\varphi''(u_1) =\mathbf{S_2''}(u_1)(\varphi'(u_1))^2 +  \mathbf{S_2'}(u_1))\varphi''(u_1).\]
     Če sedaj označimo odvode reparametrizacijske funkcije v točki $u_1$ z $\beta_i = \varphi^{(i)}(u_1)$, lahko pogoje za $G^2$ zveznost izrazimo s povezovalno matriko
     \[
         \begin{bmatrix}
-            \mathbf{s_1'}(u_1) \\
-            \mathbf{s_1''}(u_1)
+            \mathbf{S_1'}(u_1) \\
+            \mathbf{S_1''}(u_1)
         \end{bmatrix}
         =
         \begin{bmatrix}
             \beta_1 & 0         \\
             \beta_2 & \beta_1^2
         \end{bmatrix}  \begin{bmatrix}
-                           \mathbf{s_2'}(u_1) \\
-                           \mathbf{s_2''}(u_1)
+                           \mathbf{S_2'}(u_1) \\
+                           \mathbf{S_2''}(u_1)
         \end{bmatrix}.\]
     Lahko pa naredimo tudi obratno - pri izbranih $\beta_i$ lahko konstruiramo reparametrizacijsko funkcijo, ki ustreza pogojem $\varphi'>0$,  $\varphi'(u_1)=\beta_1$ in $\varphi'(u_1)=\beta_2$. Vzamemo lahko namreč kar Taylorjev polinom
     \[\varphi(u) = u_1 + \beta_1(u-u_1) + \frac{1}{2}\beta_2(u-u_1)^2.\]
 
     Oglejmo si sedaj, kako pogoji za geometrijsko zveznost vplivajo na zlepke Bézierjevih krivulj.
-    Naj bosta $s_1$ in $s_2$ Bézierjevi krivulji. \mycomment{iz prejšnjega zlepka?}
-    Za $G^1$ mora veljati  $\mathbf{s_1'}(u_1) = \beta_1\mathbf{s_2'}(u_1)$, iz česar sledi
+    Da je zlepek~\eqref{eq:zlepek-def} $G^1$ mora veljati  $\mathbf{S_1'}(u_1) = \beta_1\mathbf{S_2'}(u_1)$, iz česar sledi
     \[\frac{\p_{n}^{(1)} - \p_{n-1}^{(1)}}{\Delta u_0} = \beta_1\frac{\p_{1}^{(2)} - \p_{0}^{(2)}}{\Delta u_1}.\]
-    Če označimo sedaj $\alpha_1=  \frac{\beta_1\Delta u_0}{\Delta u_1}$ pa lahko pogoj zapišemo kot
+    Če označimo sedaj $\alpha_1=  \frac{\beta_1\Delta u_0}{\Delta u_1}$ lahko pogoj zapišemo kot
     \begin{align}
         \p_{n}^{(1)} - \p_{n-1}^{(1)}= \alpha_1(\p_{1}^{(2)} - \p_{0}^{(2)}).\label{eq:g1-pogoj}
     \end{align}
@@ -1047,7 +1046,7 @@ the content and not the structure of your work.}
         \label{alg:C-n}
         \begin{algorithmic}
             \State $\p \gets \p_0,\p_1,\dots,\p_{m}$
-            \State $u \gets u_0,u_1,\dots,u_n$\\
+            \State $u \gets u_0,u_1,\dots,u_n$
             \State st\_krivulj = $\frac{m-n}{n-r}$
             \For{$i = 0,1,\dots n$}
                 \State $\p_i^{(1)}=\p_i$
@@ -1061,6 +1060,7 @@ the content and not the structure of your work.}
                     \State $\p_{n-r+k}^{(j)}=\p_{j(n-r)+k}$
                 \EndFor
             \EndFor
+            \State \Return $\{\mathbf{p^{(i)}}\}^{st\_krivulj}_{i=1}$
         \end{algorithmic}
     \end{algorithm}
     \noindent Zlepki generirani s takšnim algoritmom niso uporabniku prijazni, saj kontrolne točke različno močno vplivajo na obliko krivulje.
@@ -1070,9 +1070,9 @@ the content and not the structure of your work.}
         \centering
         \subfloat[začetni zlepek]{\includegraphics[width = \groupimagewidth]{images/enostranski-spline-1}}
         \qquad
-        \subfloat[premik $\p1$]{\includegraphics[width = \groupimagewidth]{images/enostranski-spline-3}}
+        \subfloat[premik $\p_1$]{\includegraphics[width = \groupimagewidth]{images/enostranski-spline-3}}
         \qquad
-        \subfloat[premik $\p8$]{\includegraphics[width = \groupimagewidth]{images/enostranski-spline-2}}
+        \subfloat[premik $\p_5$]{\includegraphics[width = \groupimagewidth]{images/enostranski-spline-2}}
         \caption{Obnašanje enostranskega kvadratnega $C^1$ zlepka.}
         \label{fig:enostranski-c1}
     \end{figure}
@@ -1095,6 +1095,7 @@ the content and not the structure of your work.}
             \EndFor
             \State $\p_0^{(m)} = \p_m$
             \State $\p_1^{(m)} = \p_{m+1}$
+            \State \Return $\{\mathbf{p^{(i)}}\}^{m-1}_{i=1}$
         \end{algorithmic}
     \end{algorithm}
     \begin{algorithm}[H]
@@ -1111,6 +1112,7 @@ the content and not the structure of your work.}
             \EndFor
             \State $\p_0^{(m)} = \p_m$
             \State $\p_1^{(m)} = \p_{m+1}$
+            \State \Return $\{\mathbf{p^{(i)}}\}^{m-3}_{i=1}$
         \end{algorithmic}
     \end{algorithm}
     \begin{figure}[h]
@@ -1118,25 +1120,25 @@ the content and not the structure of your work.}
         \centering
         \subfloat[začetni zlepek]{\includegraphics[width = \groupimagewidth]{images/simetricni-c1-spline-1}}
         \qquad
-        \subfloat[premik $\p1$]{\includegraphics[width = \groupimagewidth]{images/simetricni-c1-spline-2}}
+        \subfloat[premik $\p_1$]{\includegraphics[width = \groupimagewidth]{images/simetricni-c1-spline-2}}
         \qquad
-        \subfloat[premik $\p8$]{\includegraphics[width = \groupimagewidth]{images/simetricni-c1-spline-3}}
-        \caption{Obnašanje simetričnega kvadratnega $C^1$ zlepka.}
+        \subfloat[premik $\p_4$]{\includegraphics[width = \groupimagewidth]{images/simetricni-c1-spline-3}}
+        \caption{Obnašanje simetrično konstruiranega kvadratnega $C^1$ zlepka.}
         \label{fig:simetricni-c1}
     \end{figure}
     \begin{figure}[h]
         \captionsetup[subfigure]{labelformat=empty}
         \centering
-        \subfloat[začetni zlepek]{\includegraphics[width = \groupimagewidth]{images/simetricni-c1-spline-1}}
+        \subfloat[začetni zlepek]{\includegraphics[width = \groupimagewidth]{images/simetricni-c2-spline-1}}
         \qquad
-        \subfloat[premik $\p1$]{\includegraphics[width = \groupimagewidth]{images/simetricni-c2-spline-2}}
+        \subfloat[premik $\p_1$]{\includegraphics[width = \groupimagewidth]{images/simetricni-c2-spline-2}}
         \qquad
-        \subfloat[premik $\p8$]{\includegraphics[width = \groupimagewidth]{images/simetricni-c2-spline-3}}
-        \caption{Obnašanje simetričnega kubičnega $C^2$ zlepka.}
+        \subfloat[premik $\p_5$]{\includegraphics[width = \groupimagewidth]{images/simetricni-c2-spline-3}}
+        \caption{Obnašanje simetrično konstruiranega kubičnega $C^2$ zlepka.}
         \label{fig:simetricni-c2}
     \end{figure}
     \noindent Tako konstruirani zlepki ustrezajo lastnostim Bezierjevih krivulj iz izreka~\ref{izrek:lastnosti-bezierjevih-krivulj}.
-    Primere afinih transformacij simetričnega $C^2$ zlepka si lahko ogledamo na sliki~\ref{fig:afini-zlepek}.
+    Primere afinih transformacij simetrično konstruiranega $C^2$ zlepka si lahko ogledamo na sliki~\ref{fig:afini-zlepek}.
     Na sliki~\ref{fig:ovojnica-zlepek} pa si lahko ogledamo konveksni ovojnici dveh takšnih zlepkov.
     \begin{figure}[h]
         \captionsetup[subfigure]{labelformat=empty}
@@ -1146,7 +1148,7 @@ the content and not the structure of your work.}
         \subfloat[rotacija]{\includegraphics[width = \groupimagewidth]{images/afini-zlepek-rotacija}}
         \qquad
         \subfloat[pomanjšanje]{\includegraphics[width = \groupimagewidth]{images/afini-zlepek-pomanjsanje}}
-        \caption{Afini transformaciji simetričnih kubičnih $C^2$ zlepkov.}
+        \caption{Afini transformaciji simetrično konstruiranih kubičnih $C^2$ zlepkov.}
         \label{fig:afini-zlepek}
     \end{figure}
     \begin{figure}[h]
@@ -1155,10 +1157,10 @@ the content and not the structure of your work.}
         \subfloat[]{\includegraphics[width = \groupimagewidth]{images/zlepek-konveksna-1}}
         \qquad
         \subfloat[]{\includegraphics[width = \groupimagewidth]{images/zlepek-konveksna-2}}
-        \caption{Konveksni ovojnici simetričnih kubičnih $C^2$ zlepkov.}
+        \caption{Konveksni ovojnici simetrično konstruiranih kubičnih $C^2$ zlepkov.}
         \label{fig:ovojnica-zlepek}
     \end{figure}
-    Algoritem za simetrični kvadratni $C^1$ zlepek lahko adaptiramo tako, da upoštevamo pogoj~\ref{eq:g1-pogoj} za $G^1$ zveznost.
+    Algoritem za simetrično konstrukcijo kvadratnega $C^1$ zlepek lahko adaptiramo tako, da upoštevamo pogoj~\eqref{eq:g1-pogoj} za $G^1$ zveznost.
     Dobimo algoritem za simetrično konstrukcijo kvadratnega $G^1$ zlepka~\ref{alg:G-1}, kjer števila $\beta_l$ omejimo na interval $(0,1)$.
     Obnašanje zlepka ob spreminjanju $\beta_1$ si lahko ogledamo na sliki~\ref{fig:zlepek-g1-beta}.
     \begin{algorithm}[H]
@@ -1166,7 +1168,7 @@ the content and not the structure of your work.}
         \label{alg:G-1}
         \begin{algorithmic}
             \State $\p \gets \p_0,\p_1,\dots,\p_{m}$
-            \State $\beta \gets \beta_1,\beta_2,\dots,\beta{m-2}$
+            \State $\beta \gets \beta_1,\beta_2,\dots,\beta_{m-2}$
             \State $\p_0^{(1)} = \p_0$
             \State $\p_1^{(1)} = \p_1$
             \For{$l = 1,2,\dots m-2$}
@@ -1175,6 +1177,7 @@ the content and not the structure of your work.}
             \EndFor
             \State $\p_0^{(m)} = \p_m$
             \State $\p_1^{(m)} = \p_{m+1}$
+            \State \Return $\{\mathbf{p^{(i)}}\}^{m-2}_{i=1}$
         \end{algorithmic}
     \end{algorithm}
     \begin{figure}[h]
@@ -1190,9 +1193,9 @@ the content and not the structure of your work.}
     \end{figure}
 
     \subsubsection{Alfa parametrizacije}
-    V praksi delilnih točk $u_i$ dostikrat ne dobimo podanih ampak jih izračunamo sami.
+    V praksi stičnih točk $u_i$ dostikrat ne dobimo podanih ampak jih izračunamo sami.
     Smiselno jih je postaviti tako, da s parametrom $t$ po krivulji potujemo čim bolj enakomerno.
-    Točke $u_i$ bi radi izbrali tako, da velja \[\Delta u_i = dolzina\_krivulje(\mathbf{s}^{(i)}).\]
+    Za točke $u_i$ bi torej želeli, da velja \[\Delta u_i = dolzina\_krivulje(\mathbf{s}^{(i)}).\]
     Pri simetrično konstruiranih zlepkih iz prejšnjega razdelka lahko dolžine krivulj $\mathbf{s}^{(i)}$ aproksimiramo z dolžino premih diferenc $\Delta p_i$.
     Takšnem generiranju točk pravimo \textit{alfa parametrizacije}.
     Točke $u_i$ izberemo tako, da velja
@@ -1214,28 +1217,25 @@ the content and not the structure of your work.}
     \section{PH Krivulje}
 %    Motivacija: fajn so nam takšne parametrizacije, da se isto hitro premikamo po njih. (ce karkoli rises recimo)
 %    V poglavju se bomo osredotočili (mogoce celo samo govorili?) o krivuljah v prostoru $\R^2$.
-    Za začetek razdelka definirajmo dva pojma, ki jih bomo tekom razdelka potrebovali.
-    \begin{definicija}
-        \label{def:pitagorejska}
-        Polinomi $a,b,c$ tvorijo pitagorejsko trojico, če zadoščajo enačbi
-        \begin{align*}
-            a^2+b^2=c^2.
-        \end{align*}
-    \end{definicija}
-    \begin{opomba}
-        Iz definicije~\ref{def:pitagorejska} je očitno, da je vrstni red polinomov pomemben.
-        Če polinomi $a,b,c$ tvorijo pitagorejsko trojico, potem jo tvorijo tudi polinomi $b,a,c$, polinomi $c,b,a$ pa je ne.
-    \end{opomba}
-    \begin{definicija}
-        Hodograf krivulje podane s parametrizacijo $\mathbf{r}$ je krivulja podana s parametrizacijo $\mathbf{r'}$.
-    \end{definicija}
+%    \begin{opomba}
+%        Iz definicije~\ref{def:pitagorejska} je očitno, da je vrstni red polinomov pomemben.
+%        Če polinomi $a,b,c$ tvorijo pitagorejsko trojico, potem jo tvorijo tudi polinomi $b,a,c$, polinomi $c,b,a$ pa je ne.
+%    \end{opomba}
 
     \subsection{Konstantna parametrična hitrost}
-    \textit{Parametrična hitrost} krivulje $\mathbf{r}$ s parametrizacijo $\mathbf{r}= \left(x,y\right)$ je definirana s funkcijskim predpisom
-    \begin{align}
-        \sigma(t)= |\mathbf{r'}(t)| = \sqrt {x^{'2}(t)+y^{'2}(t)}. \label{eq:param-hitrost}
-    \end{align} % ZA KATERE SISTEME JE TO IDEALNO?!
-    Idealno bi bilo, da je parametrična hitrost $\sigma \equiv 1$.
+    \mycomment{Motivacija za to.}
+    Definirajmo z začetek hodograf, ter parametrično hitrost krivulje.
+    \begin{definicija}
+        Hodograf krivulje podane s parametrizacijo $\mathbf{r}=(x,y)$ je krivulja podana s parametrizacijo $\mathbf{r'}=(x',y')$.
+    \end{definicija}
+    \begin{definicija}
+        Parametrična hitrost krivulje $\mathbf{r}$ s parametrizacijo $\mathbf{r}= \left(x,y\right)$ je definirana s funkcijskim predpisom
+        \begin{align}
+            \sigma(t)= |\mathbf{r'}(t)| = \sqrt {x^{'2}(t)+y^{'2}(t)}. \label{eq:param-hitrost}
+        \end{align}
+    \end{definicija}
+% ZA KATERE SISTEME JE TO IDEALNO?!
+    \noindent Idealno bi bilo, da je parametrična hitrost krivulje $\sigma \equiv 1$.
     Krivulje s konstantno parametrično hitrostjo $\sigma\equiv C$ lahko reparametriziramo s reparametrizacijsko funkcijo $\varphi(t)=\frac{t}{C}$, da dobimo željeno.
     Za poljubno premico s parametrizacijo
     \[\mathbf{r}(t) = \p_0 + t\mathbf{s},\quad  \mathbf{s} = (s_x,s_y),\]
@@ -1249,6 +1249,13 @@ the content and not the structure of your work.}
     V prejšnjem podrazdelku smo pokazali, da polinomske krivulje stopnje $>1$ ne morejo imeti konstantne parametrične hitrosti.
     Če krivulje nekoliko omejimo, lahko dosežemo vsaj to, da bo funkcija hitrosti polinom.
     Iz enačbe~\eqref{eq:param-hitrost} sledi, da bo to res v primerih, ko je polinom $x^{'2}+y^{'2}=z^2$ – takrat se namreč koren v enačbi okrajša.
+    \begin{definicija}
+        \label{def:pitagorejska}
+        Polinomi $a,b,c$ tvorijo pitagorejsko trojico, če zadoščajo enačbi
+        \begin{align*}
+            a^2+b^2=c^2.
+        \end{align*}
+    \end{definicija}
     \begin{definicija}
         Naj bo $\mathbf{r}:\R\to\R^2$ parametrično podana krivulja s parametrizacijo $\mathbf{r}=(x,y)$.
         Krivulja $\mathbf{r}$ je PH krivulja oziroma krivulja s pitagorejskim hodografom, če obstaja tak polinom $z$, da polinomi x',y',z tvorijo pitagorejsko trojico.
@@ -1297,7 +1304,7 @@ the content and not the structure of your work.}
     \end{enumerate}
     \noindent Neizrojene PH krivulje dobimo torej pri izborih neničelnih polinomov $u,v$ in $w$, kjer vsaj en izmed polinomov $u$ in $v$ ni konstanten.
     S številom $\lambda$ označimo stopnjo polinoma $w$, s številom $\mu$ pa $\max(\deg(u),\deg(v))$.
-    PH krivulja, pridobljena z integriranjem polinomov $x'$ in $y'$ iz~\ref{eq:hodograf-splosni}, je stopnje $n=\lambda + 2\mu + 1$.
+    PH krivulja, pridobljena z integriranjem polinomov $x'$ in $y'$ iz~\eqref{eq:hodograf-splosni}, je stopnje $n=\lambda + 2\mu + 1$.
     Prostih parametrov pa je manj.
     Vsak izmed polinomov $u$ in $v$ je namreč definiran z največ $\mu + 1$ parametri.
     Brez izgube splošnosti lahko vodilni koeficient polinoma $w$ fiksiramo na $1$.
@@ -1311,7 +1318,7 @@ the content and not the structure of your work.}
 
     \subsection{Kontrolne točke Bézierjevih PH krivulj}
     V tem podrazdelku bomo konstruirali \textit{Bézierjeve PH krivulje}, to so Bézierjeve krivulje, ki so tudi PH krivulje.
-    Krivulje bomo konstruirali s pomočjo izreka~\ref{eq:hodograf-splosni}, kjer za polinomom $w$ vzamemo $w\equiv 1$.
+    Krivulje bomo konstruirali s pomočjo izreka~\eqref{eq:hodograf-splosni}, kjer za polinomom $w$ vzamemo $w\equiv 1$.
     Polinoma $x',y'$ sta torej definirana kot
     \begin{align}
         x'=u^2-v^2,\quad y'=2uv.  \label{eq:hodograf-1}

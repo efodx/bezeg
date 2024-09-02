@@ -222,7 +222,6 @@ export class PhBezierCurve implements BezierCurve {
 
 
     moveFor(x: number, y: number) {
-        console.log("moving curve");
         this.underlyingBezierCurve.moveFor(x, y);
     }
 
