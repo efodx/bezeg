@@ -43,7 +43,7 @@ export abstract class JSXSplineCurve<C extends BezierSpline> extends AbstractJSX
     override removePoint(i: number) {
         const pointToRemove = this.getJxgPoints()[i];
         this.board.removeObject(pointToRemove);
-        this.pointControlledCurve.removePoint(this.pointControlledCurve.getAllCurvePoints()[i]);
+        this.pointControlledCurve.removePoint(this.pointControlledCurve.getPoints().filter(p => pointToRemove.X() == p.X() && pointToRemove.Y() == p.Y())[0]);
         this.jxgPoints = this.jxgPoints.filter(point => point !== pointToRemove);
         this.pointControlledCurve.generateBezierCurves();
         while (this.pointControlledCurve.getNonFreePoints().length !== this.nonFreeJsxPoints.length) {
