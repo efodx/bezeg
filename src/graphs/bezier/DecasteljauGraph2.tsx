@@ -8,7 +8,7 @@ import {Attributes} from "../attributes/Attributes";
 import {JSXBezierCurve} from "../object/JSXBezierCurve";
 import {PointStyles} from "../styles/PointStyles";
 import {SegmentStyles} from "../styles/SegmentStyles";
-import {BezierCurveImpl} from "../../bezeg/impl/curve/bezier-curve-impl";
+import {PolynomialBezierCurve} from "../../bezeg/impl/curve/polynomial-bezier-curve";
 import {CurveStyles} from "../styles/CurveStyles";
 import {Color, Colors} from "./utilities/Colors";
 
@@ -77,8 +77,8 @@ class DecasteljauGraph extends BaseBezierCurveGraph<any, DecasteljauGraphStates>
         const points = this.getFirstJsxCurve().getCurve().getPoints();
         const curve1points = points.slice(0, this.graphJXGPoints.length - 1);
         const curve2points = points.slice(1, this.graphJXGPoints.length);
-        const curvee = new BezierCurveImpl(curve1points);
-        const curvee2 = new BezierCurveImpl(curve2points);
+        const curvee = new PolynomialBezierCurve(curve1points);
+        const curvee2 = new PolynomialBezierCurve(curve2points);
 
 
         const p1 = this.createJSXGraphPoint(() => curvee.calculatePointAtT(this.state.t).X(), () => curvee.calculatePointAtT(this.state.t).Y(), PointStyles.fixed);

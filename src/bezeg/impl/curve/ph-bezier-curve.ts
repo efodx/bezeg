@@ -1,7 +1,7 @@
 import {Point} from "../../api/point/point";
 import {PointImpl} from "../point/point-impl";
 import {BezierCurve} from "../../api/curve/bezier-curve";
-import {BezierCurveImpl} from "./bezier-curve-impl";
+import {PolynomialBezierCurve} from "./polynomial-bezier-curve";
 import {RationalBezierCurve} from "./rational-bezier-curve";
 import {CacheContext} from "../../../graphs/context/CacheContext";
 
@@ -26,7 +26,7 @@ export class PhBezierCurve implements BezierCurve {
         this.points = points;
         this._w = w;
         this.underlyingCurveControlPoints = this.generatePointsForDegree(this.degree);
-        this.underlyingBezierCurve = new BezierCurveImpl(this.underlyingCurveControlPoints);
+        this.underlyingBezierCurve = new PolynomialBezierCurve(this.underlyingCurveControlPoints);
         this.sigmas = this.generateSigmas(this.degree);
         this.addOffsetCurve();
         this.addOffsetCurve();
@@ -75,7 +75,7 @@ export class PhBezierCurve implements BezierCurve {
                 },
                 () => 0);
             s.push(lastS);
-            this.bezierCurveS = new BezierCurveImpl(s.map(p => new PointImpl(p, 1)));
+            this.bezierCurveS = new PolynomialBezierCurve(s.map(p => new PointImpl(p, 1)));
         }
         return this.bezierCurveS.calculatePointAtT(t).X();
 
@@ -83,7 +83,7 @@ export class PhBezierCurve implements BezierCurve {
 
     sigma(t: number) {
         if (!this.bezierCurveSigma) {
-            this.bezierCurveSigma = new BezierCurveImpl(this.sigmas.map(sigma => new PointImpl(sigma, 1)));
+            this.bezierCurveSigma = new PolynomialBezierCurve(this.sigmas.map(sigma => new PointImpl(sigma, 1)));
         }
         return this.bezierCurveSigma.calculatePointAtT(t).X();
     }

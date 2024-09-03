@@ -1,5 +1,5 @@
 import {BezierSpline} from "./bezier-spline";
-import {BezierCurveImpl} from "./bezier-curve-impl";
+import {PolynomialBezierCurve} from "./polynomial-bezier-curve";
 import {PointImpl} from "../point/point-impl";
 import {Point} from "../../api/point/point";
 
@@ -47,7 +47,7 @@ export class GenericBezierSpline extends BezierSpline {
     private generateForContinuity(c: number) {
         let step = this.degree - c;
         let bezierCurvePoints = this.points.slice(0, this.degree + 1);
-        this.bezierCurves.push(new BezierCurveImpl(bezierCurvePoints));
+        this.bezierCurves.push(new PolynomialBezierCurve(bezierCurvePoints));
 
         for (let i = this.degree; i < this.points.length - 1; i = i + step) {
             let bezierCurvePoints = [this.points[i]];
@@ -84,7 +84,7 @@ export class GenericBezierSpline extends BezierSpline {
 
             bezierCurvePoints.push(...this.points.slice(i + 1, i + step + 1));
             this.nonFreePoints.push(...nonFreePoints);
-            this.bezierCurves.push(new BezierCurveImpl(bezierCurvePoints));
+            this.bezierCurves.push(new PolynomialBezierCurve(bezierCurvePoints));
         }
     }
 

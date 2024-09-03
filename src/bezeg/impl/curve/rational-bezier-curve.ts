@@ -1,9 +1,9 @@
 import {PointImpl} from "../point/point-impl";
 import {Point} from "../../api/point/point";
-import {BezierCurveImpl} from "./bezier-curve-impl";
+import {PolynomialBezierCurve} from "./polynomial-bezier-curve";
 
 
-export class RationalBezierCurve extends BezierCurveImpl {
+export class RationalBezierCurve extends PolynomialBezierCurve {
     private weights: Array<number>;
     // This is a work around since I didn't plan on this curve being reactive to it's weights
     // So in case we provide weights that are functions, we use those in decasteljau scheme for calculating

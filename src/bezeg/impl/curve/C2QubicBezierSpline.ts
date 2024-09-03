@@ -1,5 +1,5 @@
 import {BezierSpline} from "./bezier-spline";
-import {BezierCurveImpl} from "./bezier-curve-impl";
+import {PolynomialBezierCurve} from "./polynomial-bezier-curve";
 import {PointImpl} from "../point/point-impl";
 import {Point} from "../../api/point/point";
 
@@ -132,7 +132,7 @@ export class C2QubicBezierSpline extends BezierSpline {
 
         const bezcurves = [];
         for (const points of bezpoints) {
-            bezcurves.push(new BezierCurveImpl(points));
+            bezcurves.push(new PolynomialBezierCurve(points));
         }
 
         this.nonFreePoints = nonFreePoints;

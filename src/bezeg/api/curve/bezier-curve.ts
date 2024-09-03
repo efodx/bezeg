@@ -5,13 +5,6 @@ export interface BezierCurve extends PointControlledCurve {
     elevate(): BezierCurve;
 
     /**
-     * Calculates a point on this curve at parameter t.
-     * @param {number} t
-     * @returns {Point} point
-     */
-    calculatePointAtT(t: number): Point;
-
-    /**
      * Returns the full decasteljau scheme for desired t.
      * @param t
      */

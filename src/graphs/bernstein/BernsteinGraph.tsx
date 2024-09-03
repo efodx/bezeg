@@ -1,6 +1,6 @@
 import {Button, ButtonGroup} from "react-bootstrap";
 import React from "react";
-import {BezierCurveImpl} from "../../bezeg/impl/curve/bezier-curve-impl";
+import {PolynomialBezierCurve} from "../../bezeg/impl/curve/polynomial-bezier-curve";
 import {PointImpl} from "../../bezeg/impl/point/point-impl";
 import {Colors} from "../bezier/utilities/Colors";
 import BaseGraph from "../base/BaseGraph";
@@ -68,7 +68,7 @@ export class BernsteinGraph extends BaseGraph<any, any> {
             const points = Array(numOfPolynoms - 1).fill([0, 0]);
             points.splice(i, 0, [1, 0]);
             const anchor = [(0.6 - numOfPolynoms * 0.10) + 0.20 * i, 1.05];
-            const bezierCurve = new BezierCurveImpl(points.map(point => new PointImpl(point[0], point[1])));
+            const bezierCurve = new PolynomialBezierCurve(points.map(point => new PointImpl(point[0], point[1])));
             if (isSumGraph && i > 0) {
                 polynoms.push((t: number) => polynoms[i - 1](t) + bezierCurve.calculatePointAtT(t).X());
                 board.update();

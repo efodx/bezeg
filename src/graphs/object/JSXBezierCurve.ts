@@ -1,4 +1,4 @@
-import {BezierCurveImpl} from "../../bezeg/impl/curve/bezier-curve-impl";
+import {PolynomialBezierCurve} from "../../bezeg/impl/curve/polynomial-bezier-curve";
 import {AbstractJSXBezierCurve, BezierCurveAttributes} from "./AbstractJSXBezierCurve";
 import {BezierCurve} from "../../bezeg/api/curve/bezier-curve";
 import {PointStyles} from "../styles/PointStyles";
@@ -113,6 +113,6 @@ export class JSXBezierCurve extends AbstractJSXBezierCurve<BezierCurve, BezierCu
 
     getStartingCurve(points: number[][]): BezierCurve {
         let jsxPoints = points.map((point, i) => this.createJSXGraphPoint(point[0], point[1], PointStyles.pi(i, () => this.isShowingJxgPoints())));
-        return new BezierCurveImpl(jsxPoints);
+        return new PolynomialBezierCurve(jsxPoints);
     }
 }

@@ -1,7 +1,7 @@
 import {Point} from "../../api/point/point";
 import {PointControlledCurve} from "../../api/curve/point-controlled-curve";
 
-export abstract class PointControlledCurveImpl implements PointControlledCurve {
+export abstract class AbstractPointControlledCurve implements PointControlledCurve {
     points: Array<Point>;
 
     constructor(points: Array<Point>) {

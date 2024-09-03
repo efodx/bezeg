@@ -1,12 +1,12 @@
 import {PointImpl} from "../point/point-impl";
 import {Point} from "../../api/point/point";
 import {BezierCurve} from "../../api/curve/bezier-curve";
-import {PointControlledCurveImpl} from "./point-controlled-curve-impl";
+import {AbstractPointControlledCurve} from "./abstract-point-controlled-curve";
 
 import {CacheContext} from "../../../graphs/context/CacheContext";
 
 
-export class BezierCurveImpl extends PointControlledCurveImpl implements BezierCurve {
+export class PolynomialBezierCurve extends AbstractPointControlledCurve implements BezierCurve {
     private lastCacheContext?: number;
     private cachedPointAtT?: PointImpl;
     private cachedPoints: Map<number, PointImpl> = new Map();
@@ -21,7 +21,7 @@ export class BezierCurveImpl extends PointControlledCurveImpl implements BezierC
             newPoints.push(new PointImpl(x, y));
         }
         newPoints.push(this.points[n - 1]);
-        return new BezierCurveImpl(newPoints) as this;
+        return new PolynomialBezierCurve(newPoints) as this;
     }
 
     /**
@@ -63,7 +63,7 @@ export class BezierCurveImpl extends PointControlledCurveImpl implements BezierC
     extrapolate(t: number): this {
         const decasteljauScheme = this.decasteljauScheme(t);
         const newPoints = decasteljauScheme.map(row => row[0]);
-        return new BezierCurveImpl(newPoints) as this;
+        return new PolynomialBezierCurve(newPoints) as this;
     }
 
     /**
@@ -75,8 +75,8 @@ export class BezierCurveImpl extends PointControlledCurveImpl implements BezierC
         const n = decasteljauScheme.length;
         const points1 = decasteljauScheme.map(row => row[0]);
         const points2 = decasteljauScheme.map((row, i) => row[n - 1 - i]).reverse();
-        const bezierCurve1 = new BezierCurveImpl(points1);
-        const bezierCurve2 = new BezierCurveImpl(points2);
+        const bezierCurve1 = new PolynomialBezierCurve(points1);
+        const bezierCurve2 = new PolynomialBezierCurve(points2);
         return [bezierCurve1, bezierCurve2] as this[];
     };
 

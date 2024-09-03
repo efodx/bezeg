@@ -4,6 +4,37 @@
 
 \usepackage[caption = false]{subfig}
 
+\usepackage{listings}
+%\lstset{basicstyle=\ttfamily}
+
+\usepackage{xcolor}
+
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
+\lstdefinestyle{mystyle}{
+    backgroundcolor=\color{backcolour},
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{magenta},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\ttfamily\footnotesize,
+    breakatwhitespace=false,
+    breaklines=true,
+    captionpos=b,
+    keepspaces=true,
+    numbers=left,
+    numbersep=5pt,
+    showspaces=false,
+    showstringspaces=false,
+    showtabs=false,
+    tabsize=2
+}
+
+\lstset{style=mystyle}
+
 
 % - ime datoteke z viri (vključno s končnico .bib), če uporabljate BibTeX
 
@@ -1602,28 +1633,191 @@ the content and not the structure of your work.}
     Klik ob stranici pravokotnika pa zažene rotiranje krivulje \missingref{slika}.
     Klik znotraj pravokotnika zažene premikanje krivulje \missingref{slika}.
 
+    \subsection{Algoritmi in podatkovne strukture}
 
-    \section{Integrali po \texorpdfstring{$\omega$}{ω}-kompleksih}
+    \subsubsection{Osnovni vmesniki}
+    Vse krivulje predstavljene v delu temeljijo na kontrolnih točkah.
+    Točke v Bezgu predstavljamo z vmesnikom
+    \begin{lstlisting}[label={lst:vmesnik-tocke}]
+interface Point {
+ X: () => number;
+ Y: () => number;
+ setX: (x: number | (() => number)) => void;
+ setY: (y: number | (() => number)) => void;
+}.
+    \end{lstlisting}
+    Koordinati X in Y sta funkciji in ne fiksni števili.
+    Tak vmesnik omogoča večjo fleksibilnost točk.
+    Vmesnik za upravljanje s krivuljo, ki temelji na kontrolnih točkah je naslednji
+    \begin{lstlisting}[label={lst:vmesnik-curve}]
+interface PointControlledCurve {
+ calculatePointAtT(t: number): Point;
+ setPoints(points: Point[]): void;
+ getPoints(): Point[];
+ getBoundingBox(): number[];
+ affineTransform(A: number[][], b: number[], center: number[]): void;
+ removePoint(point: Point): void;
+ addPoint(point: Point): void;
+}.
+    \end{lstlisting}
+    Osnovne implementacije vmesnika PointControlledCurve sem združil v abstraktnem razredu AbstractPointControlledCurve, ki implementira vse metode razen calculatePointAtT\@.
+    Metodo calculatePointAtT implementacije razreda AbstractPointControlledCurve definirajo poljubno.
+    Pokažimo le implementacijo metode affineTransform, saj so ostale implementacije trivialne.
+    Vse krivulje razen PH krivulj iz prejšnjih razdelkov so afino invariantne.
+    Da krivuljo transformiramo, moramo zato transformirati le kontrolne točke.
+    \begin{lstlisting}[label={lst:affine-transform}]
+abstract class AbstractPointControlledCurve implements PointControlledCurve {
+    ...
+ affineTransform(A: number[][], b: number[], center: number[]): void {
+  this.getPoints().forEach(point => {
+   x = point.X();
+   y = point.Y();
+   x = x - center[0];
+   y = y - center[1];
+   newX = A[0][0] * x + A[0][1] * y;
+   newY = A[1][0] * x + A[1][1] * y;
+   newX = newX + center[0] + b[0];
+   newY = newY + center[1] + b[1];
+   point.setX(newX);
+   point.setY(newY);
+  });
+   ...
+}
+    \end{lstlisting}
 
-    \subsection{Definicija}
-    \begin{definicija}
-        Neskončno zaporedje kompleksnih števil, označeno z $\omega = (\omega_1, \omega_2, \ldots)$,
-        se imenuje \emph{$\omega$-kompleks}.\footnote{To ime je izmišljeno.}
+    \subsubsection{Implementacije točk}
+    V projektu sem pripravil dve implementaciji vmesnika Point.
+    Za osnovno delo z krivuljami sem pripravil razred PointImpl.
+    Predstavlja osnovno implementacijo funkcij iz vmesnika.
+    Za primer pokažimo implementacijo metode X v tem razredu.
+    \begin{lstlisting}[label={lst:point-impl}]
+class PointImpl implements Point {
+    constructor(x: number | (() => number), y: number | (() => number)) {
+        this.x = x;
+        this.y = y;
+    }
+    ...
+    X(): number {
+        if (typeof this.x == 'number') {
+            return this.x;
+        }
+        return this.x();
+    }
+    ...
+}
+    \end{lstlisting}
+    Druga implementacija predstavlja ovoj za točke iz knjižnice jsxgraph, kjer metode le delegiramo na metode originalne točke iz knjižnice.
+    Na primer
+    \begin{lstlisting}[label={lst:jsx-point-impl}]
+class PointImpl2 implements Point {
+    constructor(point: JSXPoint) {
+        this.point = point;
+    }
+    ...
+    X(): number {
+        return this.point.X();
+    }
+    ...
+}.
+    \end{lstlisting}
+    Takšen ovoj nam omogoča, da točke iz knjižnice jsxgraph uporabljamo v svojih krivuljah.
 
-        Črni blok zgoraj je tam namenoma. Označuje, da \LaTeX{} ni znal vrstice prelomiti pravilno
-        in vas na to opozarja. Preoblikujte stavek ali mu pomagajte deliti problematično besedo z
-        ukazom \verb|\hyphenation{an-ti-ko-mu-ta-ti-ven}| v preambuli.
-    \end{definicija}
-    \begin{trditev}[Znano ime ali avtor]
-        \label{trd:obstoj-omega}
-        Obstaja vsaj en $\omega$-kompleks.
-    \end{trditev}
-    \begin{proof}
-        Naštejmo nekaj primerov:
-        \begin{align}
-            \omega &= (0, 0, 0,& &= \dots), \label{eq:zero-kompleks} \\
-            \omega &= (1, i, & &=-1, -i, 1, \ldots), \nonumber \\
-            \omega &= (0,& &= 1, 2, 3, \ldots). \nonumber \qedhere  % postavi QED na zadnjo vrstico enačbe
-        \end{align}
-    \end{proof}
+    \subsubsection{Bezierjeva krivulja}
+    Vmesnik za Bezierjevo krivuljo poleg metod vmesnika PointControlledCurve premore še metode za ekstrapolacijo, subdivizijo in višanje stopnje krivulje.
+    \begin{lstlisting}[label={lst:bez-curve-vmesnik}]
+interface BezierCurve extends PointControlledCurve {
+    elevate(): BezierCurve;
+    extrapolate(t: number): BezierCurve;
+    subdivide(t: number): BezierCurve[];
+}.
+    \end{lstlisting}
+    Metode vračajo nove krivulje in ne spreminjajo prvotne krivulje.
+    Razred PolynomialBezierCurve predstavlja implementacijo polinomske Bezierjeve krivulje.
+    Metode so implementirane po korakih iz pripadajočih razdelkov.
+    Za primer si oglejmo implementaciji metod calculateAtT in elevate
+    \begin{lstlisting}[label={lst:bez-curve}]
+class PolynomialBezierCurve extends AbstractPointControlledCurve implements BezierCurve {
+    ...
+ calculatePointAtT(t: number): Point {
+   points = copy(this.getPoints());
+   n = points.length  - 1;
+   for (r = 1; r =< n; r++) {
+     for (i = 0; i =< n-r; i++) {
+         points[i] = (1-t)*points[i] + t*points[i+1];
+     }
+   }
+   return points[0];
+ }
+
+ elevate(): PolynomialBezierCurve {
+   points = this.getPoints();
+   n = points.length;
+   newPoints = [];
+   newPoints.push(points[0]);
+   for (let i=1; i<n; i++) {
+       x = i/n*points[i-1].X() + (1-i/n)*points[i].X();
+       y = i/n*points[i-1].Y() + (1-i/n)*points[i].Y();
+       newPoints.push(new PointImpl(x, y));
+   }
+   newPoints.push(this.points[n-1]);
+   return new PolynomialBezierCurve(newPoints);
+ }
+    ...
+}
+    \end{lstlisting}
+    Podobno implementiramo tudi razred, ki predstavlja racionalno Bezierjevo krivuljo RationalBezierCurve.
+    \begin{lstlisting}[label={lst:rat-curve}]
+class RationalBezierCurve extends AbstractPointControlledCurve implements BezierCurve {
+    ...
+ calculatePointAtT(t: number): Point {
+   points = copy(this.getPoints());
+   n = points.length  - 1;
+   for (r = 1; r =< n; r++) {
+     for (i = 0; i =< n-r; i++) {
+         points[i] = (1-t)*points[i] + t*points[i+1];
+     }
+   }
+   return points[0];
+ }
+
+ elevate(): PolynomialBezierCurve {
+   points = this.getPoints();
+   n = points.length;
+   newPoints = [];
+   newPoints.push(points[0]);
+   for (let i=1; i<n; i++) {
+       x = i/n*points[i-1].X() + (1-i/n)*points[i].X();
+       y = i/n*points[i-1].Y() + (1-i/n)*points[i].Y();
+       newPoints.push(new PointImpl(x, y));
+   }
+   newPoints.push(this.points[n-1]);
+   return new PolynomialBezierCurve(newPoints);
+ }
+    ...
+}
+    \end{lstlisting}
+%
+%    \section{Integrali po \texorpdfstring{$\omega$}{ω}-kompleksih}
+%
+%    \subsection{Definicija}
+%    \begin{definicija}
+%        Neskončno zaporedje kompleksnih števil, označeno z $\omega = (\omega_1, \omega_2, \ldots)$,
+%        se imenuje \emph{$\omega$-kompleks}.\footnote{To ime je izmišljeno.}
+%
+%        Črni blok zgoraj je tam namenoma. Označuje, da \LaTeX{} ni znal vrstice prelomiti pravilno
+%        in vas na to opozarja. Preoblikujte stavek ali mu pomagajte deliti problematično besedo z
+%        ukazom \verb|\hyphenation{an-ti-ko-mu-ta-ti-ven}| v preambuli.
+%    \end{definicija}
+%    \begin{trditev}[Znano ime ali avtor]
+%        \label{trd:obstoj-omega}
+%        Obstaja vsaj en $\omega$-kompleks.
+%    \end{trditev}
+%    \begin{proof}
+%        Naštejmo nekaj primerov:
+%        \begin{align}
+%            \omega &= (0, 0, 0,& &= \dots), \label{eq:zero-kompleks} \\
+%            \omega &= (1, i, & &=-1, -i, 1, \ldots), \nonumber \\
+%            \omega &= (0,& &= 1, 2, 3, \ldots). \nonumber \qedhere  % postavi QED na zadnjo vrstico enačbe
+%        \end{align}
+%    \end{proof}
 \end{document}

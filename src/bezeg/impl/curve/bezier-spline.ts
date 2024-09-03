@@ -1,9 +1,9 @@
 import {Point} from "../../api/point/point";
-import {BezierCurveImpl} from "./bezier-curve-impl";
-import {PointControlledCurveImpl} from "./point-controlled-curve-impl";
+import {PolynomialBezierCurve} from "./polynomial-bezier-curve";
+import {AbstractPointControlledCurve} from "./abstract-point-controlled-curve";
 
-abstract class BezierSpline extends PointControlledCurveImpl {
-    protected bezierCurves: BezierCurveImpl[];
+abstract class BezierSpline extends AbstractPointControlledCurve {
+    protected bezierCurves: PolynomialBezierCurve[];
     protected nonFreePoints: Array<Point> = [];
     protected b: number[] = [];
     protected alpha: number = 0;
