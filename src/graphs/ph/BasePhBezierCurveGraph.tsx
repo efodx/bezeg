@@ -65,12 +65,10 @@ abstract class BasePhBezierCurveGraph<P, S extends BasePhBezierCurveGraphStates>
 
     override getSelectedCurveCommands(): JSX.Element[] {
         return super.getSelectedCurveCommands().concat(<HodographInputbox
-                setRef={board => {
-                    this.setHodographBoard(board);
-                    this.initializeHodographs(this.getFirstCurveAsPHBezierCurve().w.map(p => [p.X(), p.Y()]));
-                }}/>, <Button
-                onClick={() => this.scale(1.2)}>Povečaj</Button>,
-            <Button onClick={() => this.scale(0.8)}>Pomanjšaj</Button>);
+            setRef={board => {
+                this.setHodographBoard(board);
+                this.initializeHodographs(this.getFirstCurveAsPHBezierCurve().w.map(p => [p.X(), p.Y()]));
+            }}/>);
     }
 
     getFirstCurveAsPHBezierCurve() {

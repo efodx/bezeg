@@ -14,6 +14,8 @@ import {CurveStyles} from "../styles/CurveStyles";
 import {CacheContext} from "../context/CacheContext";
 import {PhBezierCurveCommands} from "./inputs/PhBezierCurveCommands";
 import {SizeContext} from "../context/SizeContext";
+import {Point} from "../../bezeg/api/point/point";
+import {Point as PointWrapper} from "./Point";
 
 
 interface JSXPHBezierCurveConstructorParams extends JSXBezierCurveConstructorParams {
@@ -56,13 +58,6 @@ export class JSXPHBezierCurve extends JSXBezierCurve {
             curve.importState(params.state);
         }
         return curve as JSXBezierCurve;
-    }
-
-    override showBoundingBox() {
-        super.showBoundingBox();
-        this.boundBoxPoints[0].setAttribute({visible: false});
-        this.boundBoxPoints[1].setAttribute({visible: false});
-        this.boundBoxPoints[2].setAttribute({visible: false});
     }
 
     override importState(state: JSXPHBezierCurveState) {
@@ -115,20 +110,6 @@ export class JSXPHBezierCurve extends JSXBezierCurve {
         curve.getPoints().map((p, i) => this.createJSXGraphPoint(() => p.X(), () => p.Y(), PointStyles.pi(i, () => this.isShowingJxgPoints())));
         return curve;
     }
-
-    override resize(newCoords: JXG.Coords) {
-        let [minX, maxX, minY, maxY] = this.pointControlledCurve.getBoundingBox();
-        let [dx, dy] = [newCoords.usrCoords[1] - this.coords!.usrCoords[1], newCoords.usrCoords[2] - this.coords!.usrCoords[2]];
-        let [xDir, yDir] = this.getResizingDir();
-        dx = dx * xDir;
-        dy = dy * yDir;
-        let xScale = (2 * dx + maxX - minX) / (maxX - minX);
-        let yScale = (2 * dy + maxY - minY) / (maxY - minY);
-        let scale = Math.max(xScale, yScale);
-        this.pointControlledCurve.scale(scale);
-        this.move(newCoords);
-    }
-
 
     generateJxgOffsetCurveControlPoints() {
         this.getCurve().getOffsetCurves().forEach(curve => {
@@ -222,11 +203,58 @@ export class JSXPHBezierCurve extends JSXBezierCurve {
         }
     }
 
+    override startResizing() {
+        super.startResizing();
+    }
+
+    override resize(newCoords: JXG.Coords) {
+        let [minX, maxX, minY, maxY] = this.pointControlledCurve.getBoundingBox();
+        let [cX, cY] = this.pointControlledCurve.getBoundingBoxCenter();
+        let [dx, dy] = [newCoords.usrCoords[1] - this.coords!.usrCoords[1], newCoords.usrCoords[2] - this.coords!.usrCoords[2]];
+        let [xDir, yDir] = this.getResizingDir();
+        dy = yDir * dy;
+        dx = xDir * dx;
+        let xScale = (2 * dx + maxX - minX) / (maxX - minX);
+        let yScale = (2 * dy + maxY - minY) / (maxY - minY);
+
+        let [x, y] = [newCoords.usrCoords[1], newCoords.usrCoords[2]];
+        let center = new PointImpl(cX, cY);
+        let resizingPoint = new PointWrapper(this.resizingStart!);
+        let userCoords = new PointImpl(x, y);
+        if (((xDir * yDir === 1) && !this.isPointOnLeft(center, resizingPoint, userCoords)) || ((xDir * yDir === -1) && this.isPointOnLeft(center, resizingPoint, userCoords))) {
+            this.pointControlledCurve.scale(xScale);
+        } else {
+            this.pointControlledCurve.scale(yScale);
+        }
+
+
+    }
+
     override getCurveCommands(): JSX.Element[] {
         return super.getCurveCommands().concat(...PhBezierCurveCommands(this));
     }
 
     override getCurve(): PhBezierCurve {
         return super.getCurve() as PhBezierCurve;
+    }
+
+    override getResizingDir(): number[] {
+        // @ts-ignore
+        if (this.boundBoxPoints[0] === this.resizingStart) {
+            return [-1, -1];
+        }
+        // @ts-ignore
+        if (this.boundBoxPoints[1] === this.resizingStart) {
+            return [-1, 1];
+        }
+        // @ts-ignore
+        if (this.boundBoxPoints[2] === this.resizingStart) {
+            return [1, 1];
+        }
+        return [1, -1];
+    }
+
+    private isPointOnLeft(current: Point, point: Point, p: Point) {
+        return ((p.X() - current.X()) * (point.Y() - current.Y()) - (p.Y() - current.Y()) * (point.X() - current.X())) <= 0;
     }
 }

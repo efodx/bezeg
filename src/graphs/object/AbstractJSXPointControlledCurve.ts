@@ -31,6 +31,7 @@ export abstract class AbstractJSXPointControlledCurve<T extends PointControlledC
     readonly pointControlledCurve: T;
     readonly board: Board;
     protected boundBoxPoints: JXG.Point[] = [];
+    protected resizingStart: JXG.Point | undefined;
     private jxgCurve: JXG.Curve;
     private boundBoxSegments: JXG.Segment[] = [];
     private convexHullSegments: JXG.Segment[] = [];
@@ -47,7 +48,6 @@ export abstract class AbstractJSXPointControlledCurve<T extends PointControlledC
     private rotationCenter?: number[];
     private readonly convexHullRefresher = this.refreshConvexHull.bind(this);
     private attributes: Attr = {allowShowControlPolygon: true} as Attr;
-
 
     constructor(points: number[][], board: Board, attributes?: Attr) {
         this.board = board;
@@ -176,9 +176,9 @@ export abstract class AbstractJSXPointControlledCurve<T extends PointControlledC
         console.time("Processing mouse down event");
         this.coords = this.getMouseCoords(e);
         // @ts-ignore
-        if (this.boundBoxPoints?.some(point => point.hasPoint(this.coords!.scrCoords[1], this.coords!.scrCoords[2])) && this.selected) {
+        if (this.selected && this.boundBoxPoints?.some(point => point.hasPoint(this.coords!.scrCoords[1], this.coords!.scrCoords[2]))) {
             this.startResizing();
-        } else if (!this.isMouseInsideBoundingBox() && this.isMouseInsidePaddedBoundingBox() && this.selected) {
+        } else if (this.selected && !this.isMouseInsideBoundingBox() && this.isMouseInsidePaddedBoundingBox()) {
             this.startRotating();
         }
         if (this.selected && !this.resizing && !this.rotating) {
@@ -225,6 +225,8 @@ export abstract class AbstractJSXPointControlledCurve<T extends PointControlledC
     }
 
     startResizing() {
+        // @ts-ignore
+        this.resizingStart = this.boundBoxPoints?.filter(point => point.hasPoint(this.coords!.scrCoords[1], this.coords!.scrCoords[2]))[0]!;
         this.resizing = true;
     }
 

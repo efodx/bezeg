@@ -3,7 +3,7 @@ import {PointImpl} from "../point/point-impl";
 import {BezierCurve} from "../../api/curve/bezier-curve";
 import {PolynomialBezierCurve} from "./polynomial-bezier-curve";
 import {RationalBezierCurve} from "./rational-bezier-curve";
-import {CacheContext} from "../../../graphs/context/CacheContext";
+import {AbstractPointControlledCurve} from "./abstract-point-controlled-curve";
 
 const deltaPravokoten = (p0: Point, p1: Point) => new PointImpl(() => p1.Y() - p0.Y(), () => p0.X() - p1.X());
 const bin = (n: number, k: number): number => k === 0 ? 1 : (n * bin(n - 1, k - 1)) / k;
@@ -12,10 +12,9 @@ const bin = (n: number, k: number): number => k === 0 ? 1 : (n * bin(n - 1, k - 
  * Represents a PH Bezier curve.
  * The underlying curve is still a Bezier curve.
  */
-export class PhBezierCurve implements BezierCurve {
+export class PhBezierCurve extends AbstractPointControlledCurve implements BezierCurve {
     private d: number = 0.2;
     private underlyingBezierCurve: BezierCurve;
-    private points: Point[];
     private underlyingCurveControlPoints: Point[];
     private offsetCurves: BezierCurve[] = [];
     private sigmas: Array<() => number>;
@@ -23,7 +22,7 @@ export class PhBezierCurve implements BezierCurve {
     private bezierCurveSigma?: BezierCurve;
 
     constructor(points: Point[], w: Point[]) {
-        this.points = points;
+        super(points);
         this._w = w;
         this.underlyingCurveControlPoints = this.generatePointsForDegree(this.degree);
         this.underlyingBezierCurve = new PolynomialBezierCurve(this.underlyingCurveControlPoints);
@@ -179,26 +178,24 @@ export class PhBezierCurve implements BezierCurve {
 
     // Delegate Methods for the underlying bezier curve
     subdivide(t: number): BezierCurve[] {
+        // TODO this shouldnt really be used...
         return this.underlyingBezierCurve.subdivide(t);
     }
 
-    setPoints(points: Point[]) {
-        this.underlyingBezierCurve.setPoints(points);
-    }
-
-    flip(x: boolean, y: boolean) {
-        this.underlyingBezierCurve.flip(x, y);
-    }
-
     decasteljau(t: number, pointsAtT: number[][]): number[][][] {
+        // TODO this shouldnt really be used...
         return this.underlyingBezierCurve.decasteljau(t, pointsAtT);
     }
 
-    rotate(theta: number) {
-        const rotationMatrix = [[Math.cos(theta), -Math.sin(theta)], [Math.sin(theta), Math.cos(theta)]];
-        this.affineTransform(rotationMatrix);
-        this._w.forEach(point => this.transformPoint(point, 0, 0, rotationMatrix, undefined));
-        this.underlyingBezierCurve.rotate(theta);
+    override rotate(theta: number) {
+        const rotateByHalfTheta = [[Math.cos(theta / 2), -Math.sin(theta / 2)], [Math.sin(theta / 2), Math.cos(theta / 2)]];
+        const [cX, cY] = [this.underlyingBezierCurve.getPoints().map(point => point.X()).reduce((previousValue, currentValue) => previousValue + currentValue) / this.underlyingBezierCurve.getPoints().length,
+            this.underlyingBezierCurve.getPoints().map(point => point.Y()).reduce((previousValue, currentValue) => previousValue + currentValue) / this.underlyingBezierCurve.getPoints().length];
+        this._w.forEach(point => this.transformPoint(point, 0, 0, rotateByHalfTheta, undefined));
+        const rotateByTheta = [[Math.cos(theta), -Math.sin(theta)], [Math.sin(theta), Math.cos(theta)]];
+        const newCenter = new PointImpl(cX, cY);
+        this.transformPoint(newCenter, this.points[0].X(), this.points[0].Y(), rotateByTheta, undefined);
+        this.moveFor(cX - newCenter.X(), cY - newCenter.Y());
     }
 
     elevate(): BezierCurve {
@@ -209,62 +206,32 @@ export class PhBezierCurve implements BezierCurve {
         return this.underlyingBezierCurve.decasteljauScheme(t);
     }
 
-    scale(xScale: number) {
-        let [minX, maxX, minY, maxY] = this.getBoundingBox();
-        this._w.forEach(point => this.transformPoint(point, 0, 0, [[xScale, 0], [0, xScale!]], undefined));
-        // TODO MOVE THIS ONE LEVEL ABOVE
-        CacheContext.update();
-        const [minX2, maxX2, minY2, maxY2] = this.getBoundingBox();
-        const dx = minX2 - minX;
-        const dy = minY2 - minY;
-        this.moveFor(dx, -dy);
+    override scale(xScale: number) {
+        xScale = Math.sqrt(xScale);
+        this._w.forEach(point => this.transformPoint(point, 0, 0, [[xScale, 0], [0, xScale]], undefined));
+        const [cX, cY] = this.getBoundingBoxCenter();
+        const newCenter = new PointImpl(cX, cY);
+        this.transformPoint(newCenter, this.points[0].X(), this.points[0].Y(), [[xScale, 0], [0, xScale]], undefined);
+        this.moveFor(2 * (cX - newCenter.X()), 2 * (cY - newCenter.Y()));
     }
 
-
-    moveFor(x: number, y: number) {
-        console.log("Moving curve");
-        console.log(this.points);
-        this.underlyingBezierCurve.moveFor(x, y);
-    }
-
-    getBoundingBox(): number[] {
+    override getBoundingBox(): number[] {
         return this.underlyingBezierCurve.getBoundingBox();
-    }
-
-    transformPoint(point: Point, xCenter: number, yCenter: number, A: number[][], b?: number[]) {
-        this.underlyingBezierCurve.transformPoint(point, xCenter, yCenter, A, b);
-    }
-
-    addPoint(point: Point) {
-        this.underlyingBezierCurve.addPoint(point);
     }
 
     extrapolate(t: number): BezierCurve {
         return this.underlyingBezierCurve.extrapolate(t);
     }
 
-    getPoints(): Point[] {
+    override getPoints(): Point[] {
         return this.underlyingBezierCurve.getPoints();
-    }
-
-    getBoundingBoxCenter(): number[] {
-        return this.underlyingBezierCurve.getBoundingBoxCenter();
     }
 
     calculatePointAtT(t: number): Point {
         return this.underlyingBezierCurve.calculatePointAtT(t);
     }
 
-    affineTransform(A: number[][]) {
-        console.log("transformin curve");
-        this.underlyingBezierCurve.affineTransform(A);
-    }
-
-    removePoint(point: Point) {
-        this.underlyingBezierCurve.removePoint(point);
-    }
-
-    getConvexHull(): Point[] {
+    override getConvexHull(): Point[] {
         return this.underlyingBezierCurve.getConvexHull();
     }
 
