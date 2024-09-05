@@ -4,7 +4,7 @@ import {BaseBezierCurveGraph} from "../base/BaseBezierCurveGraph";
 import {BaseGraphStates} from "../base/BaseCurveGraph";
 import {Button} from "react-bootstrap";
 import Slider from "../../inputs/Slider";
-import {BezierCurveAttributes} from "../object/AbstractJSXBezierCurve";
+import {BezierCurveAttributes} from "../object/AbstractJXGBezierCurve";
 
 class GraphExtrapolation extends BaseBezierCurveGraph<any, BaseGraphStates> {
     defaultPreset(): any {

@@ -1,7 +1,7 @@
 /**
  * Class that wraps a BezierCurve with methods for dealing with JSXGraph
  */
-import {AbstractJSXPointControlledCurve, PointControlledCurveState} from "./AbstractJSXPointControlledCurve";
+import {AbstractJXGPointControlledCurve, PointControlledCurveState} from "./AbstractJXGPointControlledCurve";
 import {BezierSpline} from "../../bezeg/impl/curve/bezier-spline";
 import {Board} from "jsxgraph";
 import {PointStyles} from "../styles/PointStyles";
@@ -17,7 +17,7 @@ export interface SplineCurveState extends PointControlledCurveState {
     hideFixed: boolean;
 }
 
-export abstract class JXGSplineCurve<C extends BezierSpline> extends AbstractJSXPointControlledCurve<C, any> {
+export abstract class JXGSplineCurve<C extends BezierSpline> extends AbstractJXGPointControlledCurve<C, any> {
     nonFreeJsxPoints!: JXG.Point[];
     labelAll: boolean = true;
     hideFixed: boolean = false;

@@ -5,9 +5,9 @@ import {Board} from "jsxgraph";
 import {Point} from "../object/Point";
 import {Select} from "../../inputs/Select";
 import {
-    AbstractJSXPointControlledCurve,
+    AbstractJXGPointControlledCurve,
     PointControlledCurveAttributes
-} from "../object/AbstractJSXPointControlledCurve";
+} from "../object/AbstractJXGPointControlledCurve";
 import {PointControlledCurve} from "../../bezeg/api/curve/point-controlled-curve";
 import {OnOffSwitch} from "../../inputs/OnOffSwitch";
 import {Commands} from "./Commands";
@@ -17,7 +17,7 @@ import {JXGRationalBezierCurve} from "../object/./JXGRationalBezierCurve";
 import {ClassMapper} from "../object/ClassMapper";
 import {PointStyles} from "../styles/PointStyles";
 import {Preset} from "./presets/Presets";
-import {AbstractJSXBezierCurve} from "../object/AbstractJSXBezierCurve";
+import {AbstractJXGBezierCurve} from "../object/AbstractJXGBezierCurve";
 import {CacheContext} from "../context/CacheContext";
 
 enum SelectedCurveOption {
@@ -37,7 +37,7 @@ JXG.extend(JXG.Point.prototype, {});
 abstract class BaseCurveGraph<P, S extends BaseGraphStates> extends BaseGraph<P, S> {
     public override readonly state = this.getInitialState();
     protected inputsDisabled: boolean = false;
-    protected jxgCurves: AbstractJSXPointControlledCurve<PointControlledCurve, PointControlledCurveAttributes>[] = [];
+    protected jxgCurves: AbstractJXGPointControlledCurve<PointControlledCurve, PointControlledCurveAttributes>[] = [];
     protected graphJXGPoints: JXG.Point[] = [];
 
     override importPreset(preset: Preset) {
@@ -232,7 +232,7 @@ abstract class BaseCurveGraph<P, S extends BaseGraphStates> extends BaseGraph<P,
         str.forEach(p => {
             const [id, object] = [p[0], p[1]];
             let curve = ClassMapper.getFromDto(id)(object, this.board);
-            if (curve instanceof AbstractJSXBezierCurve) {
+            if (curve instanceof AbstractJXGBezierCurve) {
                 curve.setSubdivisionResultConsumer((jsxCrv) => this.jxgCurves.push(jsxCrv));
             }
             return this.jxgCurves.push(curve);
@@ -240,7 +240,7 @@ abstract class BaseCurveGraph<P, S extends BaseGraphStates> extends BaseGraph<P,
 
     }
 
-    protected selectCurve(selectableCurve: AbstractJSXPointControlledCurve<PointControlledCurve, PointControlledCurveAttributes>, additionalState = {}) {
+    protected selectCurve(selectableCurve: AbstractJXGPointControlledCurve<PointControlledCurve, PointControlledCurveAttributes>, additionalState = {}) {
         selectableCurve.select();
         this.setState({...this.state, curveSelected: true, ...additionalState});
     }

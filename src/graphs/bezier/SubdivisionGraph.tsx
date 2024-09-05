@@ -38,7 +38,7 @@ class SubdivisionGraph extends BaseBezierCurveGraph<any, BaseGraphStates> {
     }
 
     override getAllJxgPoints() {
-        return super.getAllJxgPoints().concat(this.jxgCurves.flatMap(curve => (curve as JXGBezierCurve).getJsxDecasteljauPoints()));
+        return super.getAllJxgPoints().concat(this.jxgCurves.flatMap(curve => (curve as JXGBezierCurve).getJXGDecasteljauPoints()));
     }
 
     subdivide() {

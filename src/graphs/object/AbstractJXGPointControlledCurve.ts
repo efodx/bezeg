@@ -25,7 +25,7 @@ export interface PointControlledCurveState {
 /**
  * Class that wraps a PointControlledCurve with methods for dealing with JSXGraph
  */
-export abstract class AbstractJSXPointControlledCurve<T extends PointControlledCurve, Attr extends PointControlledCurveAttributes> {
+export abstract class AbstractJXGPointControlledCurve<T extends PointControlledCurve, Attr extends PointControlledCurveAttributes> {
     coords?: JXG.Coords;
     jxgPoints: JXG.Point[] = [];
     readonly pointControlledCurve: T;

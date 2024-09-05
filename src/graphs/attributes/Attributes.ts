@@ -1,5 +1,5 @@
-import {BezierCurveAttributes} from "../object/AbstractJSXBezierCurve";
-import {PointControlledCurveAttributes} from "../object/AbstractJSXPointControlledCurve";
+import {BezierCurveAttributes} from "../object/AbstractJXGBezierCurve";
+import {PointControlledCurveAttributes} from "../object/AbstractJXGPointControlledCurve";
 
 export const Attributes = {
     bezierDisabled: {

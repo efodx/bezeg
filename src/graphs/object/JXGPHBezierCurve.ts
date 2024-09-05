@@ -1,12 +1,12 @@
 /**
  * Class that wraps a BezierCurve with methods for dealing with JSXGraph
  */
-import {JXGBezierCurve, JSXBezierCurveConstructorParams, JSXBezierCurveState} from "./JXGBezierCurve";
+import {JSXBezierCurveConstructorParams, JXGBezierCurve, JXGBezierCurveState} from "./JXGBezierCurve";
 import {PhBezierCurve} from "../../bezeg/impl/curve/ph-bezier-curve";
 import {PointImpl} from "../../bezeg/impl/point/point-impl";
 import {PointStyles} from "../styles/PointStyles";
 import {Board} from "jsxgraph";
-import {BezierCurveAttributes} from "./AbstractJSXBezierCurve";
+import {BezierCurveAttributes} from "./AbstractJXGBezierCurve";
 import {BezierCurve} from "../../bezeg/api/curve/bezier-curve";
 import {Attributes} from "../attributes/Attributes";
 import {Color, Colors} from "../bezier/utilities/Colors";
@@ -23,7 +23,7 @@ interface JSXPHBezierCurveConstructorParams extends JSXBezierCurveConstructorPar
     state: JSXPHBezierCurveState
 }
 
-interface JSXPHBezierCurveState extends JSXBezierCurveState {
+interface JSXPHBezierCurveState extends JXGBezierCurveState {
     showOffsetCurve: boolean;
     showOffsetCurveControlPoints: boolean;
     showOffsetCurveControlPointsLines: boolean;

@@ -1918,8 +1918,20 @@ class GenericBezierSpline extends BezierSpline {
     \begin{lstlisting}[label={lst:ghdfg}]
  jxgBezierCurve = new JXGBezierCurve([[1,2],[2,3],[3,0]], board);
     \end{lstlisting}
-
-
+    Na grafu se nariše Bezierjeva krivulja z izbranimi kontrolnimi točkami.
+    Poleg risanja krivulje na graf, razred ponuja tudi druge metode za delo s krivuljo.
+    V naslednjem primeru naštejmo nekaj funkcionalnosti.
+\begin{lstlisting}[label={lst:ghdfg}]
+ // Prikaze kontrolni poligon krivulje
+ jxgBezierCurve.showControlPolygon();
+ // Doda novo (interaktivno) kontrolno tocko
+ jxgBezierCurve.addPoint(2,-1);
+ // Prikaze konveksno ovojnico kontrolnega poligona
+ jxgBezierCurve.showConvexHull();
+ // Premakne krivuljo
+ jxgBezierCurve.moveFor(2,3);
+    \end{lstlisting}
+    Poleg takšnih metod imajo JXG implementacije krivulj tudi metode za procesiranje uporabnikove miške processMouseDown, processMouseMove, processMouseUp,ki skrbijo za to, da lahko uporabnik krivuljo afino transformira na naraven način.
 %
 %    \section{Integrali po \texorpdfstring{$\omega$}{ω}-kompleksih}
 %

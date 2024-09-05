@@ -1,17 +1,17 @@
 import {PolynomialBezierCurve} from "../../bezeg/impl/curve/polynomial-bezier-curve";
-import {AbstractJSXBezierCurve, BezierCurveAttributes} from "./AbstractJSXBezierCurve";
+import {AbstractJXGBezierCurve, BezierCurveAttributes} from "./AbstractJXGBezierCurve";
 import {BezierCurve} from "../../bezeg/api/curve/bezier-curve";
 import {PointStyles} from "../styles/PointStyles";
 import {BezierCurveCommands} from "./inputs/BezierCurveCommands";
 import {Board} from "jsxgraph";
-import {PointControlledCurveState} from "./AbstractJSXPointControlledCurve";
+import {PointControlledCurveState} from "./AbstractJXGPointControlledCurve";
 
 export interface JSXBezierCurveConstructorParams {
     points: number[][],
-    state: JSXBezierCurveState
+    state: JXGBezierCurveState
 }
 
-export interface JSXBezierCurveState extends PointControlledCurveState {
+export interface JXGBezierCurveState extends PointControlledCurveState {
     subdivisionT: number
     decasteljauT: number
     extrapolationT: number
@@ -21,7 +21,7 @@ export interface JSXBezierCurveState extends PointControlledCurveState {
 /**
  * Class that wraps a BezierCurve with methods for dealing with JSXGraph
  */
-export class JXGBezierCurve extends AbstractJSXBezierCurve<BezierCurve, BezierCurveAttributes> {
+export class JXGBezierCurve extends AbstractJXGBezierCurve<BezierCurve, BezierCurveAttributes> {
 
     static toDto(curve: JXGBezierCurve): JSXBezierCurveConstructorParams {
         return {
@@ -40,7 +40,7 @@ export class JXGBezierCurve extends AbstractJSXBezierCurve<BezierCurve, BezierCu
         return curve;
     }
 
-    override importState(state: JSXBezierCurveState) {
+    override importState(state: JXGBezierCurveState) {
         super.importState(state);
         this.setSubdivisionT(state.subdivisionT);
         this.setDecasteljauT(state.decasteljauT);

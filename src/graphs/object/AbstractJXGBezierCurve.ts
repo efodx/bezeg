@@ -1,11 +1,11 @@
-import {AbstractJSXPointControlledCurve, PointControlledCurveAttributes} from "./AbstractJSXPointControlledCurve";
+import {AbstractJXGPointControlledCurve, PointControlledCurveAttributes} from "./AbstractJXGPointControlledCurve";
 import {BezierCurve} from "../../bezeg/api/curve/bezier-curve";
 import {PointStyles} from "../styles/PointStyles";
 import {Color, Colors} from "../bezier/utilities/Colors";
 import {SegmentStyles} from "../styles/SegmentStyles";
 import {CacheContext} from "../context/CacheContext";
 import {Point} from "../../bezeg/api/point/point";
-import {JSXBezierCurveState} from "./JXGBezierCurve";
+import {JXGBezierCurveState} from "./JXGBezierCurve";
 
 export interface BezierCurveAttributes extends PointControlledCurveAttributes {
     allowSubdivision: boolean,
@@ -15,7 +15,7 @@ export interface BezierCurveAttributes extends PointControlledCurveAttributes {
     allowShrink: boolean
 }
 
-export abstract class AbstractJSXBezierCurve<T extends BezierCurve, Attr extends BezierCurveAttributes> extends AbstractJSXPointControlledCurve<T, Attr> {
+export abstract class AbstractJXGBezierCurve<T extends BezierCurve, Attr extends BezierCurveAttributes> extends AbstractJXGPointControlledCurve<T, Attr> {
     subdivisionT: number = 0.5;
     extrapolationT: number = 1.2;
     subdivisionPoint: JXG.Point | null = null;
@@ -103,14 +103,14 @@ export abstract class AbstractJSXBezierCurve<T extends BezierCurve, Attr extends
         this.showingDecasteljauScheme = true;
     }
 
-    override exportState(): JSXBezierCurveState {
+    override exportState(): JXGBezierCurveState {
         return {
             ...super.exportState(),
             showingDecasteljauScheme: this.showingDecasteljauScheme,
             subdivisionT: this.subdivisionT,
             decasteljauT: this.decasteljauT,
             extrapolationT: this.extrapolationT
-        } as JSXBezierCurveState;
+        } as JXGBezierCurveState;
     }
 
     showElevatePoints() {
@@ -186,7 +186,7 @@ export abstract class AbstractJSXBezierCurve<T extends BezierCurve, Attr extends
         }
     }
 
-    getJsxDecasteljauPoints() {
+    getJXGDecasteljauPoints() {
         return this.decasteljauPoints;
     }
 

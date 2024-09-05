@@ -3,11 +3,11 @@
  */
 import {RationalBezierCurve} from "../../bezeg/impl/curve/rational-bezier-curve";
 import {Board} from "jsxgraph";
-import {AbstractJSXBezierCurve, BezierCurveAttributes} from "./AbstractJSXBezierCurve";
+import {AbstractJXGBezierCurve, BezierCurveAttributes} from "./AbstractJXGBezierCurve";
 import {PointStyles} from "../styles/PointStyles";
 import {SizeContext} from "../context/SizeContext";
 import {RationalBezierCurveCommands} from "./inputs/RationalBezierCurveCommands";
-import {JSXBezierCurveState} from "./JXGBezierCurve";
+import {JXGBezierCurveState} from "./JXGBezierCurve";
 import {CacheContext} from "../context/CacheContext";
 
 interface JSXRationalBezierCurveConstructorParams {
@@ -16,13 +16,13 @@ interface JSXRationalBezierCurveConstructorParams {
     state: JSXRationalBezierCurveState
 }
 
-interface JSXRationalBezierCurveState extends JSXBezierCurveState {
+interface JSXRationalBezierCurveState extends JXGBezierCurveState {
     weightNumber: number
     showingWeights: boolean
     showingFarinPoints: boolean
 }
 
-export class JXGRationalBezierCurve extends AbstractJSXBezierCurve<RationalBezierCurve, BezierCurveAttributes> {
+export class JXGRationalBezierCurve extends AbstractJXGBezierCurve<RationalBezierCurve, BezierCurveAttributes> {
     weightNumber: number = 1;
     private weightLabels: JXG.GeometryElement[] = [];
     private showingWeights: boolean = false;
