@@ -47,7 +47,6 @@ export abstract class AbstractJSXPointControlledCurve<T extends PointControlledC
     private rotationCenter?: number[];
     private readonly convexHullRefresher = this.refreshConvexHull.bind(this);
     private attributes: Attr = {allowShowControlPolygon: true} as Attr;
-    private resizingPoint: JXG.Point | undefined;
 
 
     constructor(points: number[][], board: Board, attributes?: Attr) {
@@ -57,6 +56,7 @@ export abstract class AbstractJSXPointControlledCurve<T extends PointControlledC
             this.setAttributes(attributes);
         }
         this.pointControlledCurve = this.getStartingCurve(points);
+        // TODO the starting curve is hardly ever actually used... Maybe think differently about this.
         this.jxgCurve = this.board.create('curve',
             [(t: number) => {
                 return this.pointControlledCurve.calculatePointAtT(t).X();
@@ -226,13 +226,10 @@ export abstract class AbstractJSXPointControlledCurve<T extends PointControlledC
 
     startResizing() {
         this.resizing = true;
-        // @ts-ignore
-        this.resizingPoint = this.boundBoxPoints.filter(point => point.hasPoint(this.coords!.scrCoords[1], this.coords!.scrCoords[2]))[0];
     }
 
     stopResizing() {
         this.resizing = false;
-        this.resizingPoint = undefined;
     }
 
     startDragging() {

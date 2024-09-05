@@ -116,19 +116,15 @@ export class RationalBezierCurve extends PolynomialBezierCurve {
         // TODO think about removing pointsAtT argument
         const decasteljauScheme = [];
         const n = this.points.length;
-        const weightsAtT = this.reactiveWeights ? this.reactiveWeights.map(w => w()) : this.weights.map(w => w);
+        const ws = this.reactiveWeights ? this.reactiveWeights.map(w => w()) : this.weights.map(w => w);
         decasteljauScheme.push(pointsAtT.map(row => [...row]));
-        let w1, w2;
         for (let r = 1; r < n; r++) {
             for (let i = 0; i < n - r; i++) {
-                w1 = weightsAtT[i];
-                w2 = weightsAtT[i + 1];
-                weightsAtT[i] = (1 - t) * w1 + t * w2;
-                w1 = w1 / weightsAtT[i];
-                w2 = w2 / weightsAtT[i];
+                const w = (1 - t) * ws[i] + t * ws[i + 1];
                 for (let d = 0; d < pointsAtT[i].length; d++) {
-                    pointsAtT[i][d] = ((1 - t) * w1 * pointsAtT[i][d] + t * w2 * pointsAtT[i + 1][d]);
+                    pointsAtT[i][d] = ((1 - t) * ws[i] / w * pointsAtT[i][d] + t * ws[i + 1] / w * pointsAtT[i + 1][d]);
                 }
+                ws[i] = w;
             }
             decasteljauScheme.push(pointsAtT.map(row => [...row]));
         }

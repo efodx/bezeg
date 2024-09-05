@@ -3,7 +3,7 @@ import {PolynomialBezierCurve} from "./polynomial-bezier-curve";
 import {AbstractPointControlledCurve} from "./abstract-point-controlled-curve";
 
 abstract class BezierSpline extends AbstractPointControlledCurve {
-    protected bezierCurves: PolynomialBezierCurve[];
+    protected bezierCurves: PolynomialBezierCurve[] = [];
     protected nonFreePoints: Array<Point> = [];
     protected b: number[] = [];
     protected alpha: number = 0;
@@ -11,13 +11,9 @@ abstract class BezierSpline extends AbstractPointControlledCurve {
     /**
      * @constructor
      * @param {Array.<Point>} points - Curve's control points
-     * @param degree
-     * @param continuity
      */
     constructor(points: Array<Point>) {
         super(points);
-        this.bezierCurves = [];
-
         this.generateBezierCurves();
     }
 
@@ -32,20 +28,16 @@ abstract class BezierSpline extends AbstractPointControlledCurve {
     abstract generateBezierCurves(): void;
 
     calculatePointAtT(t: number): Point {
-        if (t === 1) {
-            return this.bezierCurves[this.bezierCurves.length - 1].calculatePointAtT(1);
-        }
         let n = this.bezierCurves.length;
-        let c = Math.floor(n * t);
         let u = this.getU();
-        for (let c = 0; c < n; c++) {
-            if (t < u[c + 1]) {
-                t = t - u[c];
-                t = t / (u[c + 1] - u[c]);
-                return this.bezierCurves[c].calculatePointAtT(t);
+        for (let i = 0; i < n; i++) {
+            if (t < u[i + 1]) {
+                t = t - u[i];
+                t = t / (u[i + 1] - u[i]);
+                return this.bezierCurves[i].calculatePointAtT(t);
             }
         }
-        return this.bezierCurves[c].calculatePointAtT(t);
+        return this.bezierCurves[this.bezierCurves.length - 1].calculatePointAtT(1);
     }
 
 

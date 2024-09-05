@@ -1,13 +1,12 @@
 import {Point as BezegPoint} from "../../bezeg/api/point/point";
-import {Point as JSXPoint} from "jsxgraph";
 
 /**
- * Class that wraps a JSXPoint into BezegPoint interface.
+ * Class that wraps a JXG.Point into BezegPoint interface.
  */
 export class Point implements BezegPoint {
-    readonly point: JSXPoint;
+    readonly point: JXG.Point;
 
-    constructor(point: JSXPoint) {
+    constructor(point: JXG.Point) {
         this.point = point;
     }
 

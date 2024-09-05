@@ -1,67 +1,67 @@
-import BezierCurveGraph from './graphs/bezier/BezierCurveGraph'
-import GraphSubdivision from './graphs/bezier/SubdivisionGraph'
-import { ErrorPage } from './ErrorPage'
-import App from './App'
-import { WelcomePage } from './WelcomePage'
-import ExtrapolationGraph from './graphs/bezier/ExtrapolationGraph'
-import ElevationGraph from './graphs/bezier/ElevationGraph'
-import DecasteljauGraph from './graphs/bezier/DecasteljauGraph'
+import BezierCurveGraph from './graphs/bezier/BezierCurveGraph';
+import GraphSubdivision from './graphs/bezier/SubdivisionGraph';
+import { ErrorPage } from './ErrorPage';
+import App from './App';
+import { WelcomePage } from './WelcomePage';
+import ExtrapolationGraph from './graphs/bezier/ExtrapolationGraph';
+import ElevationGraph from './graphs/bezier/ElevationGraph';
+import DecasteljauGraph from './graphs/bezier/DecasteljauGraph';
 import RationalBezierCurveGraph
-  from './graphs/rational/RationalBezierCurveGraph'
-import RationalElevationGraph from './graphs/rational/RationalElevationGraph'
+  from './graphs/rational/RationalBezierCurveGraph';
+import RationalElevationGraph from './graphs/rational/RationalElevationGraph';
 import RationalExtrapolationGraph
-  from './graphs/rational/RationalExtrapolationGraph'
+  from './graphs/rational/RationalExtrapolationGraph';
 import RationalSubdivisionGraph
-  from './graphs/rational/RationalSubdivisionGraph'
-import AffineBezierGraph from './graphs/bezier/AffineTransformsBezierCurveGraph'
-import SplineGraph from './graphs/spline/CnSplineGraph'
-import C1SplineGraph from './graphs/spline/C1SplineGraph'
-import G1SplineGraph from './graphs/spline/G1SplineGraph'
-import C2SplineGraph from './graphs/spline/C2SplineGraph'
-import CubicPhBezierCurveGraph from './graphs/ph/CubicPhBezierCurveGraph'
-import QuinticPhBezierCurve from './graphs/ph/QuinticPhBezierCurveGraph'
+  from './graphs/rational/RationalSubdivisionGraph';
+import AffineBezierGraph from './graphs/bezier/AffineTransformsBezierCurveGraph';
+import SplineGraph from './graphs/spline/CnSplineGraph';
+import C1SplineGraph from './graphs/spline/C1SplineGraph';
+import G1SplineGraph from './graphs/spline/G1SplineGraph';
+import C2SplineGraph from './graphs/spline/C2SplineGraph';
+import CubicPhBezierCurveGraph from './graphs/ph/CubicPhBezierCurveGraph';
+import QuinticPhBezierCurve from './graphs/ph/QuinticPhBezierCurveGraph';
 import AlphaParamBezierCurveGraph
-  from './graphs/parametrisations/AlphaParamBezierCurveGraph'
+  from './graphs/parametrisations/AlphaParamBezierCurveGraph';
 import UniformParamBezierCurveGraph
-  from './graphs/parametrisations/UniformParamBezierCurveGraph'
-import { useState } from 'react'
+  from './graphs/parametrisations/UniformParamBezierCurveGraph';
+import { useState } from 'react';
 import RationalBezierCurveCircleGraphN
-  from './graphs/rational/RationalBezierCurveCircleGraphN'
-import { BernsteinGraph } from './graphs/bernstein/BernsteinGraph'
-import FarinPointsCurveGraph from './graphs/rational/FarinPointsCurveGraph'
-import { RefreshContext } from './graphs/context/react/RefreshContext'
+  from './graphs/rational/RationalBezierCurveCircleGraphN';
+import { BernsteinGraph } from './graphs/bernstein/BernsteinGraph';
+import FarinPointsCurveGraph from './graphs/rational/FarinPointsCurveGraph';
+import { RefreshContext } from './graphs/context/react/RefreshContext';
 import C2SplineGraphParametrization
-  from './graphs/parametrisations/SplineAlphaParametrizationGraph'
+  from './graphs/parametrisations/SplineAlphaParametrizationGraph';
 import RationalDecasteljauGraph
-  from './graphs/rational/RationalDecasteljauGraph'
-import DecasteljauGraph2 from './graphs/bezier/DecasteljauGraph2'
-import DecasteljauGraph3 from './graphs/bezier/DecasteljauGraph3'
-import G1SymmetricSplineGraph from './graphs/spline/G1SymmetricSplineGraph'
+  from './graphs/rational/RationalDecasteljauGraph';
+import DecasteljauGraph2 from './graphs/bezier/DecasteljauGraph2';
+import DecasteljauGraph3 from './graphs/bezier/DecasteljauGraph3';
+import G1SymmetricSplineGraph from './graphs/spline/G1SymmetricSplineGraph';
 
-const PATH_BEZIER_CURVES = '/bezeg/bezier'
+const PATH_BEZIER_CURVES = '/bezeg/bezier';
 const BEZIER_CURVES_GROUP = {
   title: 'Bezierjeve Krivulje', path: PATH_BEZIER_CURVES,
-}
+};
 
-const PATH_RATIONAL_CURVES = '/bezeg/rational'
+const PATH_RATIONAL_CURVES = '/bezeg/rational';
 const RATIONAL_CURVES_GROUP = {
   title: 'Racionalne Bezierjeve Krivulje', path: PATH_RATIONAL_CURVES,
-}
+};
 
-const PATH_SPLINE_CURVES = '/bezeg/spline'
+const PATH_SPLINE_CURVES = '/bezeg/spline';
 const SPLINES_GROUP = {
   title: 'Zlepki', path: PATH_SPLINE_CURVES,
-}
+};
 
-const PATH_PH_CURVES = '/bezeg/ph'
+const PATH_PH_CURVES = '/bezeg/ph';
 const PH_CURVES_GROUP = {
   title: 'PH Krivulje', path: PATH_PH_CURVES,
-}
+};
 
-const PATH_PARAM = '/bezeg/param'
+const PATH_PARAM = '/bezeg/param';
 const PARAMETRIZATION_GROUP = {
   title: 'Parametrizacije', path: PATH_PARAM,
-}
+};
 
 const routes = [
   {
@@ -223,17 +223,17 @@ const routes = [
       },
 
     ],
-  }]
+  }];
 
 function Refresher (props) {
-  const [key, setKey] = useState(1)
+  const [key, setKey] = useState(1);
 
   return <RefreshContext.Provider value={() => setKey(key + 1)}>
     <div key={key}>{props.children}</div>
-  </RefreshContext.Provider>
+  </RefreshContext.Provider>;
 }
 
 routes[0].children.forEach(
-  route => route.element = <Refresher>{route.element}</Refresher>)
+  route => route.element = <Refresher>{route.element}</Refresher>);
 
-export default routes
+export default routes;

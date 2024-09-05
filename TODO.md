@@ -60,3 +60,7 @@
 - [ ] Dodajanje tock pri decasteljau 2
 - [ ] Premisli API... curve.board.update() to ne bi smelo bit potrebno tam, al? :/ Mogoce svoj wrapper za board s
   contextom?
+
+
+- [ ] HEJ. MULTI. DIMENZIONALNE. TOČKE. PROSIM KEVIN. PROSIM.
+- [ ] CACHING NIMA KAJ DELAT V BEZEG

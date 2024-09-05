@@ -5,6 +5,7 @@ import {AbstractJSXPointControlledCurve, PointControlledCurveState} from "./Abst
 import {BezierSpline} from "../../bezeg/impl/curve/bezier-spline";
 import {Board} from "jsxgraph";
 import {PointStyles} from "../styles/PointStyles";
+import {Point} from "../../bezeg/api/point/point";
 
 export interface JSXSplineConstructorParams {
     points: number[][],
@@ -34,7 +35,7 @@ export abstract class JSXSplineCurve<C extends BezierSpline> extends AbstractJSX
         this.pointControlledCurve.generateBezierCurves();
         while (this.pointControlledCurve.getNonFreePoints().length !== this.nonFreeJsxPoints.length) {
             const len = this.nonFreeJsxPoints.length;
-            const jsxpoint = this.createFixedJsxPoint(this.getCurve(), len);
+            const jsxpoint = this.createFixedJsxPoint(this.getCurve().getNonFreePoints()[len - 1]);
             this.nonFreeJsxPoints.push(jsxpoint.point);
         }
         this.labelJxgPoints();
@@ -113,13 +114,12 @@ export abstract class JSXSplineCurve<C extends BezierSpline> extends AbstractJSX
         const spline = this.getCurve();
         // This may look dumb, but in reality this makes us able to change underlying non-free points
         this.nonFreeJsxPoints = spline.getNonFreePoints()
-            .map((p, i) => this.createFixedJsxPoint(spline, i))
-            //  .map((p, i) => this.createJSXGraphPoint(() => p.X(), () => p.Y(), PointStyles.fixed))
+            .map(p => this.createFixedJsxPoint(p))
             .map(point => point.point);
     }
 
-    private createFixedJsxPoint(spline: C, i: number) {
-        return this.createJSXGraphPoint(() => spline.getNonFreePoints()[i].X(), () => spline.getNonFreePoints()[i].Y(), {
+    private createFixedJsxPoint(p: Point) {
+        return this.createJSXGraphPoint(() => p.X(), () => p.Y(), {
             ...PointStyles.fixed,
             visible: () => !this.hideFixed
         });
