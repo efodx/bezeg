@@ -1,5 +1,5 @@
 import BaseCurveGraph, {BaseGraphStates} from "./BaseCurveGraph";
-import {JXGBezierCurve} from "../object/JXGBezierCurve";
+import {JXGBezierCurve} from "../curves/object/JXGBezierCurve";
 
 
 export abstract class BaseBezierCurveGraph<P, S extends BaseGraphStates> extends BaseCurveGraph<P, S> {

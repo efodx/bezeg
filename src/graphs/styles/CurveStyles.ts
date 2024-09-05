@@ -1,5 +1,5 @@
 import {SizeContext} from "../context/SizeContext";
-import {Colors} from "../bezier/utilities/Colors";
+import {Colors} from "../curves/bezier/utilities/Colors";
 
 const curveStyle = {
     strokeWidth: () => SizeContext.strokeWidth,

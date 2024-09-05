@@ -45,7 +45,7 @@ export abstract class AbstractPointControlledCurve implements PointControlledCur
      */
     rotate(theta: number) {
         const rotationMatrix = [[Math.cos(theta), -Math.sin(theta)], [Math.sin(theta), Math.cos(theta)]];
-        this.affineTransform(rotationMatrix, [0, 0], [0, 0]);
+        this.affineTransform(rotationMatrix, [0, 0]);
     }
 
     getBoundingBox() {
@@ -111,7 +111,6 @@ export abstract class AbstractPointControlledCurve implements PointControlledCur
         }
         // This is so that we don't override points that have their coordinated fixed by others
         if (!point.isXFunction()) {
-            console.log("Setting x");
             point.setX(newX);
         } else {
             console.log("NO XXY FOR U");

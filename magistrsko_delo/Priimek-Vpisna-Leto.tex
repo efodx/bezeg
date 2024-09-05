@@ -1920,7 +1920,7 @@ class GenericBezierSpline extends BezierSpline {
     \end{lstlisting}
     Na grafu se nariše Bezierjeva krivulja z izbranimi kontrolnimi točkami.
     Poleg risanja krivulje na graf, razred ponuja tudi druge metode za delo s krivuljo.
-    V naslednjem primeru naštejmo nekaj funkcionalnosti.
+    V naslednjem primeru pokažimo nekaj funkcionalnosti.
 \begin{lstlisting}[label={lst:ghdfg}]
  // Prikaze kontrolni poligon krivulje
  jxgBezierCurve.showControlPolygon();
@@ -1932,6 +1932,9 @@ class GenericBezierSpline extends BezierSpline {
  jxgBezierCurve.moveFor(2,3);
     \end{lstlisting}
     Poleg takšnih metod imajo JXG implementacije krivulj tudi metode za procesiranje uporabnikove miške processMouseDown, processMouseMove, processMouseUp,ki skrbijo za to, da lahko uporabnik krivuljo afino transformira na naraven način.
+ \subsubsection{Grafi}
+    Grafi bezga implementirajo razred BaseGraph, ki skrbi za postavitev orodij in inicializacijo grafa knjižnice jsxgraph.
+
 %
 %    \section{Integrali po \texorpdfstring{$\omega$}{ω}-kompleksih}
 %

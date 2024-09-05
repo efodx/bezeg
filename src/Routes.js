@@ -1,42 +1,46 @@
-import BezierCurveGraph from './graphs/bezier/BezierCurveGraph';
-import GraphSubdivision from './graphs/bezier/SubdivisionGraph';
 import { ErrorPage } from './ErrorPage';
 import App from './App';
 import { WelcomePage } from './WelcomePage';
-import ExtrapolationGraph from './graphs/bezier/ExtrapolationGraph';
-import ElevationGraph from './graphs/bezier/ElevationGraph';
-import DecasteljauGraph from './graphs/bezier/DecasteljauGraph';
-import RationalBezierCurveGraph
-  from './graphs/rational/RationalBezierCurveGraph';
-import RationalElevationGraph from './graphs/rational/RationalElevationGraph';
-import RationalExtrapolationGraph
-  from './graphs/rational/RationalExtrapolationGraph';
-import RationalSubdivisionGraph
-  from './graphs/rational/RationalSubdivisionGraph';
-import AffineBezierGraph from './graphs/bezier/AffineTransformsBezierCurveGraph';
-import SplineGraph from './graphs/spline/CnSplineGraph';
-import C1SplineGraph from './graphs/spline/C1SplineGraph';
-import G1SplineGraph from './graphs/spline/G1SplineGraph';
-import C2SplineGraph from './graphs/spline/C2SplineGraph';
-import CubicPhBezierCurveGraph from './graphs/ph/CubicPhBezierCurveGraph';
-import QuinticPhBezierCurve from './graphs/ph/QuinticPhBezierCurveGraph';
-import AlphaParamBezierCurveGraph
-  from './graphs/parametrisations/AlphaParamBezierCurveGraph';
-import UniformParamBezierCurveGraph
-  from './graphs/parametrisations/UniformParamBezierCurveGraph';
-import { useState } from 'react';
-import RationalBezierCurveCircleGraphN
-  from './graphs/rational/RationalBezierCurveCircleGraphN';
 import { BernsteinGraph } from './graphs/bernstein/BernsteinGraph';
-import FarinPointsCurveGraph from './graphs/rational/FarinPointsCurveGraph';
-import { RefreshContext } from './graphs/context/react/RefreshContext';
-import C2SplineGraphParametrization
-  from './graphs/parametrisations/SplineAlphaParametrizationGraph';
+import BezierCurveGraph from './graphs/curves/bezier/BezierCurveGraph';
+import DecasteljauGraph from './graphs/curves/bezier/DecasteljauGraph';
+import DecasteljauGraph2 from './graphs/curves/bezier/DecasteljauGraph2';
+import AffineTransformBezierCurveGraph
+  from './graphs/curves/bezier/AffineTransformsBezierCurveGraph';
+import DecasteljauGraph3 from './graphs/curves/bezier/DecasteljauGraph3';
+import ExtrapolationGraph from './graphs/curves/bezier/ExtrapolationGraph';
+import ElevationGraph from './graphs/curves/bezier/ElevationGraph';
+import UniformParamBezierCurveGraph
+  from './graphs/curves/parametrisations/UniformParamBezierCurveGraph';
+import AlphaParamBezierCurveGraph
+  from './graphs/curves/parametrisations/AlphaParamBezierCurveGraph';
+import QuinticPhBezierCurve from './graphs/curves/ph/QuinticPhBezierCurveGraph';
+import CubicPhBezierCurveGraph from './graphs/curves/ph/CubicPhBezierCurveGraph';
+import G1SymmetricSplineGraph
+  from './graphs/curves/spline/G1SymmetricSplineGraph';
+import G1SplineGraph from './graphs/curves/spline/G1SplineGraph';
+import C2SplineGraph from './graphs/curves/spline/C2SplineGraph';
+import C1SplineGraph from './graphs/curves/spline/C1SplineGraph';
+import RationalBezierCurveCircleGraphN
+  from './graphs/curves/rational/RationalBezierCurveCircleGraphN';
+import FarinPointsCurveGraph
+  from './graphs/curves/rational/FarinPointsCurveGraph';
+import RationalBezierCurveGraph
+  from './graphs/curves/rational/FarinPointsCurveGraph';
+import RationalSubdivisionGraph
+  from './graphs/curves/rational/RationalSubdivisionGraph';
+import RationalExtrapolationGraph
+  from './graphs/curves/rational/RationalExtrapolationGraph';
+import RationalElevationGraph
+  from './graphs/curves/rational/RationalElevationGraph';
 import RationalDecasteljauGraph
-  from './graphs/rational/RationalDecasteljauGraph';
-import DecasteljauGraph2 from './graphs/bezier/DecasteljauGraph2';
-import DecasteljauGraph3 from './graphs/bezier/DecasteljauGraph3';
-import G1SymmetricSplineGraph from './graphs/spline/G1SymmetricSplineGraph';
+  from './graphs/curves/rational/RationalDecasteljauGraph';
+import SubdivisionGraph from './graphs/curves/bezier/SubdivisionGraph';
+import CnSplineGraph from './graphs/curves/spline/CnSplineGraph';
+import SplineAlphaParametrizationGraph
+  from './graphs/curves/parametrisations/SplineAlphaParametrizationGraph';
+import { RefreshContext } from './graphs/context/react/RefreshContext';
+import { useState } from 'react';
 
 const PATH_BEZIER_CURVES = '/bezeg/bezier';
 const BEZIER_CURVES_GROUP = {
@@ -94,7 +98,7 @@ const routes = [
       }, {
         group: BEZIER_CURVES_GROUP,
         path: PATH_BEZIER_CURVES + '/affine',
-        element: <AffineBezierGraph/>,
+        element: <AffineTransformBezierCurveGraph/>,
         title: 'Afine Transformacije',
       }, {
         group: BEZIER_CURVES_GROUP,
@@ -104,7 +108,7 @@ const routes = [
       }, {
         group: BEZIER_CURVES_GROUP,
         path: PATH_BEZIER_CURVES + '/subdivision',
-        element: <GraphSubdivision/>,
+        element: <SubdivisionGraph/>,
         title: 'Zaporedna subdivizija',
       }, {
         group: BEZIER_CURVES_GROUP,
@@ -166,7 +170,7 @@ const routes = [
       // },
       {
         path: PATH_SPLINE_CURVES + '/spline',
-        element: <SplineGraph/>,
+        element: <CnSplineGraph/>,
         title: 'Enostranski Cn Zlepek',
         group: SPLINES_GROUP,
       }, {
@@ -207,7 +211,7 @@ const routes = [
         group: PH_CURVES_GROUP,
       }, {
         path: PATH_PARAM + '/param/alphaparam2',
-        element: <C2SplineGraphParametrization/>,
+        element: <SplineAlphaParametrizationGraph/>,
         title: 'Prava Alpha Parametrizacija',
         group: PARAMETRIZATION_GROUP,
       }, {

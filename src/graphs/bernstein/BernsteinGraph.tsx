@@ -2,10 +2,10 @@ import {Button, ButtonGroup} from "react-bootstrap";
 import React from "react";
 import {PolynomialBezierCurve} from "../../bezeg/impl/curve/polynomial-bezier-curve";
 import {PointImpl} from "../../bezeg/impl/point/point-impl";
-import {Colors} from "../bezier/utilities/Colors";
 import BaseGraph from "../base/BaseGraph";
 import {OnOffSwitch} from "../../inputs/OnOffSwitch";
 import {SizeContext} from "../context/SizeContext";
+import {Colors} from "../curves/bezier/utilities/Colors";
 
 function connectCurves(c1: [x1: (t: number) => number, y1: (t: number) => number], c2: [x2: (t: number) => number, y2: (t: number) => number]) {
     const x = (t: number) => {

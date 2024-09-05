@@ -2,23 +2,23 @@ import React from 'react';
 
 
 import {Board} from "jsxgraph";
-import {Point} from "../object/Point";
 import {Select} from "../../inputs/Select";
-import {
-    AbstractJXGPointControlledCurve,
-    PointControlledCurveAttributes
-} from "../object/AbstractJXGPointControlledCurve";
 import {PointControlledCurve} from "../../bezeg/api/curve/point-controlled-curve";
 import {OnOffSwitch} from "../../inputs/OnOffSwitch";
 import {Commands} from "./Commands";
 import BaseGraph, {BaseGraphState} from "./BaseGraph";
 import {VisibilityContext} from "../context/VisibilityContext";
-import {JXGRationalBezierCurve} from "../object/./JXGRationalBezierCurve";
-import {ClassMapper} from "../object/ClassMapper";
 import {PointStyles} from "../styles/PointStyles";
 import {Preset} from "./presets/Presets";
-import {AbstractJXGBezierCurve} from "../object/AbstractJXGBezierCurve";
 import {CacheContext} from "../context/CacheContext";
+import {
+    AbstractJXGPointControlledCurve,
+    PointControlledCurveAttributes
+} from "../curves/object/AbstractJXGPointControlledCurve";
+import {JXGRationalBezierCurve} from "../curves/object/JXGRationalBezierCurve";
+import {ClassMapper} from "../curves/object/ClassMapper";
+import {AbstractJXGBezierCurve} from "../curves/object/AbstractJXGBezierCurve";
+import {Point} from "../curves/object/Point";
 
 enum SelectedCurveOption {
     MOVE_CURVE, ADD_POINTS, DELETE_POINTS

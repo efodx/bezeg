@@ -1,7 +1,7 @@
 import {PointAttributes} from "jsxgraph";
 import {SizeContext} from "../context/SizeContext";
 import {VisibilityContext} from "../context/VisibilityContext";
-import {Colors} from "../bezier/utilities/Colors";
+import {Colors} from "../curves/bezier/utilities/Colors";
 
 
 const pointStyle: PointAttributes = {
