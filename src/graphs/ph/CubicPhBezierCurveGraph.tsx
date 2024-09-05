@@ -20,7 +20,7 @@ class CubicPhBezierCurveGraph extends BasePhBezierCurveGraph<any, CubicPhBezierC
 
     override initialize() {
         super.initialize();
-        this.getFirstJsxCurve().getJxgCurve().setAttribute({visible: () => this.state.showingCurve});
+        this.getFirstJxgCurve().getJxgCurve().setAttribute({visible: () => this.state.showingCurve});
         const points = this.getAllJxgPoints();
 
         const label = {...PointStyles.default.label};
@@ -131,7 +131,7 @@ class CubicPhBezierCurveGraph extends BasePhBezierCurveGraph<any, CubicPhBezierC
 
     private showControlyPolygonGeometry(checked: boolean) {
         this.setState({...this.state, showingCurve: !checked});
-        this.getFirstJsxCurve().showControllPolygon(checked);
+        this.getFirstJxgCurve().showControllPolygon(checked);
     }
 }
 

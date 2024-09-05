@@ -1,22 +1,22 @@
-import {JSXRationalBezierCurve} from "./JSXRationalBezierCurve";
-import {JSXPHBezierCurve} from "./JSXPHBezierCurve";
-import {JSXBezierCurve} from "./JSXBezierCurve";
+import {JXGRationalBezierCurve} from "././JXGRationalBezierCurve";
+import {JXGPHBezierCurve} from "./JXGPHBezierCurve";
+import {JXGBezierCurve} from "./JXGBezierCurve";
 import {Board} from "jsxgraph";
-import {JSXGenericSplineCurve} from "./JSXGenericSplineCurve";
-import {JSXQuadraticC1SplineCurve} from "./JSXQuadraticC1SplineCurve";
-import {JSXQubicC2SplineCurve} from "./JSXQubicC2SplineCurve";
-import {JSXQuadraticG1SplineCurve} from "./JSXQuadraticG1SplineCurve";
-import {JSXSymmetricQuadraticG1SplineCurve} from "./JSXSymmetricQuadraticG1SplineCurve";
+import {JXGGenericSplineCurve} from "./JXGGenericSplineCurve";
+import {JXGQuadraticC1SplineCurve} from "./JXGQuadraticC1SplineCurve";
+import {JXGQubicC2SplineCurve} from "./JXGQubicC2SplineCurve";
+import {JXGQuadraticG1SplineCurve} from "./JXGQuadraticG1SplineCurve";
+import {JXGSymmetricQuadraticG1SplineCurve} from "./JXGSymmetricQuadraticG1SplineCurve";
 
 const nameToClassMap = new Map([
-    ["JSXRationalBezierCurve", JSXRationalBezierCurve as any],
-    ["JSXGenericSplineCurve", JSXGenericSplineCurve],
-    ["JSXQuadraticC1SplineCurve", JSXQuadraticC1SplineCurve],
-    ["JSXQubicC2SplineCurve", JSXQubicC2SplineCurve],
-    ["JSXQuadraticG1SplineCurve", JSXQuadraticG1SplineCurve],
-    ["JSXBezierCurve", JSXBezierCurve],
-    ["JSXPHBezierCurve", JSXPHBezierCurve],
-    ["JSXSymmetricQuadraticG1SplineCurve", JSXSymmetricQuadraticG1SplineCurve]
+    ["JSXRationalBezierCurve", JXGRationalBezierCurve as any],
+    ["JSXGenericSplineCurve", JXGGenericSplineCurve],
+    ["JSXQuadraticC1SplineCurve", JXGQuadraticC1SplineCurve],
+    ["JSXQubicC2SplineCurve", JXGQubicC2SplineCurve],
+    ["JSXQuadraticG1SplineCurve", JXGQuadraticG1SplineCurve],
+    ["JSXBezierCurve", JXGBezierCurve],
+    ["JSXPHBezierCurve", JXGPHBezierCurve],
+    ["JSXSymmetricQuadraticG1SplineCurve", JXGSymmetricQuadraticG1SplineCurve]
 ]);
 
 const classToNameMap = new Map<any, string>(

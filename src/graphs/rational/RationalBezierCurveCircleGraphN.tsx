@@ -52,7 +52,7 @@ class RationalBezierCurveGraph extends BaseRationalCurveGraph<any, BaseGraphStat
         this.board.suspendUpdate();
         // @ts-ignore
         this.board.removeObject(this.getAllJxgCurves().concat(this.getAllJxgPoints()));
-        this.jsxBezierCurves = [];
+        this.jxgCurves = [];
         this.generateCurves(n);
         this.board.unsuspendUpdate();
     }

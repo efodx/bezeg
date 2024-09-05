@@ -1,10 +1,10 @@
 import Slider from "../../../inputs/Slider";
 import {Button} from "react-bootstrap";
 import React from "react";
-import {JSXBezierCurve} from "../JSXBezierCurve";
+import {JXGBezierCurve} from "../JXGBezierCurve";
 import {CacheContext} from "../../context/CacheContext";
 
-export function BezierCurveCommands(curve: JSXBezierCurve): JSX.Element[] {
+export function BezierCurveCommands(curve: JXGBezierCurve): JSX.Element[] {
     const commands = [];
     if (curve.getAttributes().allowSubdivision) {
         curve.createSubdivisionPoint();

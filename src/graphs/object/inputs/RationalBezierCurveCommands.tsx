@@ -1,11 +1,11 @@
 import {Button, ButtonGroup} from "react-bootstrap";
 import {OnOffSwitch} from "../../../inputs/OnOffSwitch";
 import React, {useState} from "react";
-import {JSXRationalBezierCurve} from "../JSXRationalBezierCurve";
+import {JXGRationalBezierCurve} from ".././JXGRationalBezierCurve";
 import {BezierCurveCommands} from "./BezierCurveCommands";
 import {CacheContext} from "../../context/CacheContext";
 
-function WeightController(props: { curve: JSXRationalBezierCurve }): JSX.Element {
+function WeightController(props: { curve: JXGRationalBezierCurve }): JSX.Element {
     const [stateRefresher, setStateRefresher] = useState(1);
     const refreshState = () => {
         setStateRefresher(stateRefresher + 1);
@@ -39,7 +39,7 @@ function WeightController(props: { curve: JSXRationalBezierCurve }): JSX.Element
     </ButtonGroup>;
 }
 
-export function RationalBezierCurveCommands(curve: JSXRationalBezierCurve): JSX.Element[] {
+export function RationalBezierCurveCommands(curve: JXGRationalBezierCurve): JSX.Element[] {
     const commands = BezierCurveCommands(curve as any);
     commands.push(<div>
         <OnOffSwitch initialState={curve.isShowingWeights()}

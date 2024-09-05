@@ -1,5 +1,5 @@
 import BaseCurveGraph, {BaseGraphStates} from "../base/BaseCurveGraph";
-import {JSXRationalBezierCurve} from "../object/JSXRationalBezierCurve";
+import {JXGRationalBezierCurve} from "../object/./JXGRationalBezierCurve";
 
 export abstract class BaseRationalCurveGraph<P, S extends BaseGraphStates> extends BaseCurveGraph<P, S> {
     override initialize() {
@@ -7,7 +7,7 @@ export abstract class BaseRationalCurveGraph<P, S extends BaseGraphStates> exten
         this.boardUpdate();
     }
 
-    override getFirstJsxCurve(): JSXRationalBezierCurve {
-        return super.getFirstJsxCurve() as JSXRationalBezierCurve;
+    override getFirstJxgCurve(): JXGRationalBezierCurve {
+        return super.getFirstJxgCurve() as JXGRationalBezierCurve;
     }
 }

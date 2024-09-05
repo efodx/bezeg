@@ -1,7 +1,7 @@
 /**
  * Class that wraps a BezierCurve with methods for dealing with JSXGraph
  */
-import {JSXBezierCurve, JSXBezierCurveConstructorParams, JSXBezierCurveState} from "./JSXBezierCurve";
+import {JXGBezierCurve, JSXBezierCurveConstructorParams, JSXBezierCurveState} from "./JXGBezierCurve";
 import {PhBezierCurve} from "../../bezeg/impl/curve/ph-bezier-curve";
 import {PointImpl} from "../../bezeg/impl/point/point-impl";
 import {PointStyles} from "../styles/PointStyles";
@@ -30,7 +30,7 @@ interface JSXPHBezierCurveState extends JSXBezierCurveState {
     d: number
 }
 
-export class JSXPHBezierCurve extends JSXBezierCurve {
+export class JXGPHBezierCurve extends JXGBezierCurve {
 
     private showOffsetCurve: boolean = false;
     private showOffsetCurveControlPoints: boolean = false;
@@ -44,7 +44,7 @@ export class JSXPHBezierCurve extends JSXBezierCurve {
         this.setAttributes({...Attributes.bezierDisabled, allowShowConvexHull: false});
     }
 
-    static override toDto(curve: JSXBezierCurve): any {
+    static override toDto(curve: JXGBezierCurve): any {
         return {
             points: [curve.pointControlledCurve.getPoints().map(point => [point.X(), point.Y()])[0]],
             hodographs: (curve.getCurve() as PhBezierCurve).w.map(point => [point.X(), point.Y()]),
@@ -52,12 +52,12 @@ export class JSXPHBezierCurve extends JSXBezierCurve {
         } as JSXPHBezierCurveConstructorParams;
     }
 
-    static override fromDto(params: JSXPHBezierCurveConstructorParams, board: Board): JSXBezierCurve {
-        const curve = new JSXPHBezierCurve(params.points.concat(params.hodographs), board);
+    static override fromDto(params: JSXPHBezierCurveConstructorParams, board: Board): JXGBezierCurve {
+        const curve = new JXGPHBezierCurve(params.points.concat(params.hodographs), board);
         if (params.state) {
             curve.importState(params.state);
         }
-        return curve as JSXBezierCurve;
+        return curve as JXGBezierCurve;
     }
 
     override importState(state: JSXPHBezierCurveState) {

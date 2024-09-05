@@ -9,12 +9,12 @@ class Graph extends BaseRationalCurveGraph<any, BaseGraphStates> {
 
     override initialize() {
         super.initialize();
-        this.getFirstJsxCurve().setAttributes(Attributes.bezierDisabled);
+        this.getFirstJxgCurve().setAttributes(Attributes.bezierDisabled);
     }
 
     elevate() {
         this.board.suspendUpdate();
-        this.getFirstJsxCurve().elevate();
+        this.getFirstJxgCurve().elevate();
         this.unsuspendBoardUpdate();
     }
 

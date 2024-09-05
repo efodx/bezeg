@@ -2,7 +2,7 @@ import React from 'react';
 
 import {BaseRationalCurveGraph} from "./BaseRationalCurveGraph";
 import {Button} from "react-bootstrap";
-import {JSXRationalBezierCurve} from "../object/JSXRationalBezierCurve";
+import {JXGRationalBezierCurve} from "../object/./JXGRationalBezierCurve";
 import {BaseGraphStates} from "../base/BaseCurveGraph";
 
 class Graph extends BaseRationalCurveGraph<any, BaseGraphStates> {
@@ -14,10 +14,10 @@ class Graph extends BaseRationalCurveGraph<any, BaseGraphStates> {
         }
         this.stepsDone = this.stepsDone + 1;
         this.board.suspendUpdate();
-        let oldJsxBezierCurves = this.jsxBezierCurves.map(c => c as JSXRationalBezierCurve);
+        let oldJsxBezierCurves = this.jxgCurves.map(c => c as JXGRationalBezierCurve);
         for (let bezierCurve of oldJsxBezierCurves) {
             const newCurve = bezierCurve.subdivide(1 / 2);
-            this.jsxBezierCurves.push(newCurve);
+            this.jxgCurves.push(newCurve);
         }
         this.unsuspendBoardUpdate();
     };

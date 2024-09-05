@@ -23,7 +23,7 @@ class DecasteljauGraph extends BaseBezierCurveGraph<any, DecasteljauGraphStates>
 
     override componentDidUpdate(prevProps: Readonly<any>, prevState: Readonly<DecasteljauGraphStates>, snapshot?: any) {
         this.board.suspendUpdate();
-        this.getFirstJsxCurve().setDecasteljauT(this.state.t);
+        this.getFirstJxgCurve().setDecasteljauT(this.state.t);
         this.unsuspendBoardUpdate();
     }
 
@@ -47,10 +47,10 @@ class DecasteljauGraph extends BaseBezierCurveGraph<any, DecasteljauGraphStates>
 
     override initialize() {
         super.initialize();
-        this.graphJXGPoints = this.getFirstJsxCurve().getJxgPoints();
-        this.getFirstJsxCurve().setIntervalEnd(() => this.state.wholeCurve ? 1 : this.state.t);
-        this.getFirstJsxCurve().setAttributes(Attributes.bezierDisabled);
-        this.getFirstJsxCurve().showDecasteljauPoints();
+        this.graphJXGPoints = this.getFirstJxgCurve().getJxgPoints();
+        this.getFirstJxgCurve().setIntervalEnd(() => this.state.wholeCurve ? 1 : this.state.t);
+        this.getFirstJxgCurve().setAttributes(Attributes.bezierDisabled);
+        this.getFirstJxgCurve().showDecasteljauPoints();
 
         const curve = this.getFirstCurve();
         this.board.create('curve',

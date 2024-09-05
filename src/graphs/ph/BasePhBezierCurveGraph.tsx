@@ -7,8 +7,8 @@ import {Point} from "../object/Point";
 import React from "react";
 import {Button} from "react-bootstrap";
 import {OnOffSwitch} from "../../inputs/OnOffSwitch";
-import {JSXBezierCurve} from "../object/JSXBezierCurve";
-import {JSXPHBezierCurve} from "../object/JSXPHBezierCurve";
+import {JXGBezierCurve} from "../object/JXGBezierCurve";
+import {JXGPHBezierCurve} from "../object/JXGPHBezierCurve";
 
 export interface BasePhBezierCurveGraphStates extends BaseGraphStates {
     showOffsetCurve: boolean,
@@ -31,16 +31,14 @@ abstract class BasePhBezierCurveGraph<P, S extends BasePhBezierCurveGraphStates>
         if (!this.state.initialized) {
             return [];
         }
-        console.log(this.getFirstJsxCurveAsPHCurve().isShowingOffsetCurve());
         const commands = [];
         commands.push(<OnOffSwitch
-            initialState={this.getFirstJsxCurveAsPHCurve().isShowingOffsetCurve()}
+            initialState={this.getFirstJxgCurveAsPHCurve().isShowingOffsetCurve()}
             onChange={checked => {
-                this.getFirstJsxCurveAsPHCurve().setShowOffsetCurve(checked);
+                this.getFirstJxgCurveAsPHCurve().setShowOffsetCurve(checked);
                 this.setState({...this.state, showOffsetCurve: checked});
             }}
             label={"Offset krivulje"}/>);
-
 
         if (this.state.showOffsetCurve) {
             commands.push(<Slider min={-3}
@@ -50,14 +48,14 @@ abstract class BasePhBezierCurveGraph<P, S extends BasePhBezierCurveGraphStates>
                                   onChange={e => this.setOffsetCurveDistance(e)}/>);
             commands.push(<OnOffSwitch
                 onChange={checked => {
-                    this.getFirstJsxCurveAsPHCurve().setShowOffsetCurveControlPoints(checked);
+                    this.getFirstJxgCurveAsPHCurve().setShowOffsetCurveControlPoints(checked);
                     this.setState({...this.state, showOffsetCurveControlPoints: checked});
                 }}
                 label={"Kontrolne točke offset krivulje"}
                 initialState={this.state.showOffsetCurveControlPoints}/>);
-            commands.push(<Button onClick={() => this.getFirstJsxCurveAsPHCurve().addOffsetCurve()}>Dodaj
+            commands.push(<Button onClick={() => this.getFirstJxgCurveAsPHCurve().addOffsetCurve()}>Dodaj
                 krivuljo</Button>);
-            commands.push(<Button onClick={() => this.getFirstJsxCurveAsPHCurve().removeOffsetCurve()}>Odstrani
+            commands.push(<Button onClick={() => this.getFirstJxgCurveAsPHCurve().removeOffsetCurve()}>Odstrani
                 krivuljo</Button>);
         }
         return super.getGraphCommands().concat(commands);
@@ -75,12 +73,12 @@ abstract class BasePhBezierCurveGraph<P, S extends BasePhBezierCurveGraphStates>
         return this.getFirstCurve() as PhBezierCurve;
     }
 
-    override getFirstJsxCurve(): JSXBezierCurve {
-        return super.getFirstJsxCurve() as JSXBezierCurve;
+    override getFirstJxgCurve(): JXGBezierCurve {
+        return super.getFirstJxgCurve() as JXGBezierCurve;
     }
 
-    getFirstJsxCurveAsPHCurve(): JSXPHBezierCurve {
-        return super.getFirstJsxCurve() as JSXPHBezierCurve;
+    getFirstJxgCurveAsPHCurve(): JXGPHBezierCurve {
+        return super.getFirstJxgCurve() as JXGPHBezierCurve;
     }
 
     private initializeHodographs(hodographs: number[][]) {

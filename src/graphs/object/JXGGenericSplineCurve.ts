@@ -1,4 +1,4 @@
-import {JSXSplineConstructorParams, JSXSplineCurve} from "./JSXSplineCurve";
+import {JSXSplineConstructorParams, JXGSplineCurve} from "./JXGSplineCurve";
 import {Board} from "jsxgraph";
 import {GenericBezierSpline} from "../../bezeg/impl/curve/GenericBezierSpline";
 import {PointStyles} from "../styles/PointStyles";
@@ -8,7 +8,7 @@ export interface JSXGenericSplineConstructorParams extends JSXSplineConstructorP
     degree: number
 }
 
-export class JSXGenericSplineCurve extends JSXSplineCurve<GenericBezierSpline> {
+export class JXGGenericSplineCurve extends JXGSplineCurve<GenericBezierSpline> {
 
     constructor(points: number[][], continuity: number, degree: number, board: Board) {
         super(points, board);
@@ -21,7 +21,7 @@ export class JSXGenericSplineCurve extends JSXSplineCurve<GenericBezierSpline> {
         this.board.unsuspendUpdate();
     }
 
-    static toDto(curve: JSXGenericSplineCurve): JSXGenericSplineConstructorParams {
+    static toDto(curve: JXGGenericSplineCurve): JSXGenericSplineConstructorParams {
         return {
             points: curve.pointControlledCurve.points.map(point => [point.X(), point.Y()]),
             degree: curve.pointControlledCurve.getDegree(),
@@ -30,8 +30,8 @@ export class JSXGenericSplineCurve extends JSXSplineCurve<GenericBezierSpline> {
         };
     }
 
-    static fromDto(params: JSXGenericSplineConstructorParams, board: Board): JSXGenericSplineCurve {
-        const curve = new JSXGenericSplineCurve(params.points, params.continuity, params.degree, board);
+    static fromDto(params: JSXGenericSplineConstructorParams, board: Board): JXGGenericSplineCurve {
+        const curve = new JXGGenericSplineCurve(params.points, params.continuity, params.degree, board);
         if (params.state) {
             curve.importState(params.state);
         }

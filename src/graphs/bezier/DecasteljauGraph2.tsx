@@ -5,7 +5,7 @@ import {BaseGraphStates} from "../base/BaseCurveGraph";
 import {OnOffSwitch} from "../../inputs/OnOffSwitch";
 import Slider from "../../inputs/Slider";
 import {Attributes} from "../attributes/Attributes";
-import {JSXBezierCurve} from "../object/JSXBezierCurve";
+import {JXGBezierCurve} from "../object/JXGBezierCurve";
 import {PointStyles} from "../styles/PointStyles";
 import {SegmentStyles} from "../styles/SegmentStyles";
 import {PolynomialBezierCurve} from "../../bezeg/impl/curve/polynomial-bezier-curve";
@@ -26,7 +26,7 @@ class DecasteljauGraph extends BaseBezierCurveGraph<any, DecasteljauGraphStates>
 
     override componentDidUpdate(prevProps: Readonly<any>, prevState: Readonly<DecasteljauGraphStates>, snapshot?: any) {
         this.board.suspendUpdate();
-        this.getFirstJsxCurve().setDecasteljauT(this.state.t);
+        this.getFirstJxgCurve().setDecasteljauT(this.state.t);
         this.unsuspendBoardUpdate();
     }
 
@@ -51,14 +51,14 @@ class DecasteljauGraph extends BaseBezierCurveGraph<any, DecasteljauGraphStates>
 
     override initialize() {
         super.initialize();
-        this.getFirstJsxCurve().setAttributes({...this.getFirstJsxCurve().getAttributes(), selectable: false});
-        this.graphJXGPoints = this.getFirstJsxCurve().getJxgPoints();
+        this.getFirstJxgCurve().setAttributes({...this.getFirstJxgCurve().getAttributes(), selectable: false});
+        this.graphJXGPoints = this.getFirstJxgCurve().getJxgPoints();
         this.generateInterpolatingBezierCurves();
 
-        this.getFirstJsxCurve().setIntervalEnd(() => this.state.t);
-        this.getFirstJsxCurve().setAttributes(Attributes.bezierDisabled);
-        this.getFirstJsxCurve().setDecasteljauT(this.state.t);
-        // this.getFirstJsxCurve().showDecasteljauPoints()
+        this.getFirstJxgCurve().setIntervalEnd(() => this.state.t);
+        this.getFirstJxgCurve().setAttributes(Attributes.bezierDisabled);
+        this.getFirstJxgCurve().setDecasteljauT(this.state.t);
+        // this.getFirstJxgCurve().showDecasteljauPoints()
         this.boardUpdate();
     }
 
@@ -74,7 +74,7 @@ class DecasteljauGraph extends BaseBezierCurveGraph<any, DecasteljauGraphStates>
     }
 
     private generateInterpolatingBezierCurves() {
-        const points = this.getFirstJsxCurve().getCurve().getPoints();
+        const points = this.getFirstJxgCurve().getCurve().getPoints();
         const curve1points = points.slice(0, this.graphJXGPoints.length - 1);
         const curve2points = points.slice(1, this.graphJXGPoints.length);
         const curvee = new PolynomialBezierCurve(curve1points);
@@ -110,7 +110,7 @@ class DecasteljauGraph extends BaseBezierCurveGraph<any, DecasteljauGraphStates>
                 () => 1
             ], {...CurveStyles.default, strokeColor: Color.G, layer: 2}
         );
-        const drawingPoint = this.board?.create('point', [() => this.getFirstJsxCurve().getCurve().calculatePointAtT(this.state.t).X(), () => this.getFirstJsxCurve().getCurve().calculatePointAtT(this.state.t).Y()], {
+        const drawingPoint = this.board?.create('point', [() => this.getFirstJxgCurve().getCurve().calculatePointAtT(this.state.t).X(), () => this.getFirstJxgCurve().getCurve().calculatePointAtT(this.state.t).Y()], {
             ...PointStyles.default,
             color: Colors[4],
             name: () => ""

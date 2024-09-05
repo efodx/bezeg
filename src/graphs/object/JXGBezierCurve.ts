@@ -21,17 +21,17 @@ export interface JSXBezierCurveState extends PointControlledCurveState {
 /**
  * Class that wraps a BezierCurve with methods for dealing with JSXGraph
  */
-export class JSXBezierCurve extends AbstractJSXBezierCurve<BezierCurve, BezierCurveAttributes> {
+export class JXGBezierCurve extends AbstractJSXBezierCurve<BezierCurve, BezierCurveAttributes> {
 
-    static toDto(curve: JSXBezierCurve): JSXBezierCurveConstructorParams {
+    static toDto(curve: JXGBezierCurve): JSXBezierCurveConstructorParams {
         return {
             points: curve.pointControlledCurve.getPoints().map(point => [point.X(), point.Y()]),
             state: curve.exportState()
         };
     }
 
-    static fromDto(params: JSXBezierCurveConstructorParams, board: Board): JSXBezierCurve {
-        const curve = new JSXBezierCurve(params.points, board);
+    static fromDto(params: JSXBezierCurveConstructorParams, board: Board): JXGBezierCurve {
+        const curve = new JXGBezierCurve(params.points, board);
         if (params.state) {
             board.suspendUpdate();
             curve.importState(params.state);
@@ -89,7 +89,7 @@ export class JSXBezierCurve extends AbstractJSXBezierCurve<BezierCurve, BezierCu
 
         // Create second curve
         let curve2pointArray = curve2.getPoints().map(point => [point.X(), point.Y()]);
-        const newJsxCurve = new JSXBezierCurve(curve2pointArray, this.board) as this;
+        const newJsxCurve = new JXGBezierCurve(curve2pointArray, this.board) as this;
         newJsxCurve.setAttributes(this.getAttributes());
         if (this.subdivisionResultConsumer !== undefined) {
             this.subdivisionResultConsumer(newJsxCurve);
@@ -102,8 +102,6 @@ export class JSXBezierCurve extends AbstractJSXBezierCurve<BezierCurve, BezierCu
         this.clearJxgPoints();
         const wrappedPoints = elevated.getPoints().map((point, i) => this.createJSXGraphPoint(point.X(), point.Y(), PointStyles.pi(i, () => this.isShowingJxgPoints())));
         this.pointControlledCurve.setPoints(wrappedPoints);
-        // TODO how to do this efficiently
-        //this.importState(this.exportState())
     }
 
     extrapolate(t: number) {

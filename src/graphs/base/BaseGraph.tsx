@@ -153,7 +153,7 @@ abstract class BaseGraph<P, S extends BaseGraphState> extends Component<P, S> {
         const fullScreenContext = this.context.fullScreen;
         return <Container fluid>
             <Row className={"align-items-center"} style={{height: "92vh"}}>
-                <Col className={fullScreenContext.fullScreen ? 'tools-fs' : 'tools'}
+                <Col className={(fullScreenContext.fullScreen ? 'tools-fs' : '')}
                      xs={0} lg={2}><Tools
                     tools={this.getTools()}/></Col>
                 <Col className={fullScreenContext.fullScreen ? 'graph-fs' : 'graph'} xs={12}

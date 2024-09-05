@@ -8,7 +8,7 @@ import {Attributes} from "../attributes/Attributes";
 class ElevationGraph extends BaseBezierCurveGraph<any, BaseGraphStates> {
     override initialize() {
         super.initialize();
-        this.getFirstJsxCurve().setAttributes(Attributes.bezierDisabled);
+        this.getFirstJxgCurve().setAttributes(Attributes.bezierDisabled);
     }
 
     defaultPreset(): any {
@@ -27,7 +27,7 @@ class ElevationGraph extends BaseBezierCurveGraph<any, BaseGraphStates> {
 
     elevate() {
         this.board.suspendUpdate();
-        this.getFirstJsxCurve().elevate();
+        this.getFirstJxgCurve().elevate();
         this.unsuspendBoardUpdate();
     }
 

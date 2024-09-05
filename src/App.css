@@ -157,6 +157,11 @@
     --tools-transition-function: ease-out;
 }
 
+.tools {
+    max-height: 83vh;
+    overflow-y: auto;
+}
+
 .tools-fs {
     position: absolute;
     z-index: 1;
@@ -167,6 +172,7 @@
     clip-path: polygon(0% 0%, 6% 0%, 6% 100%, 0 100%);
     padding: var(--bs-border-width) !important;
     padding-right: 0 !important;
+    margin-top: 10vh;
 }
 
 .tools-fs > .card {

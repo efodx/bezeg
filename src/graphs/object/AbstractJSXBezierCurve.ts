@@ -5,7 +5,7 @@ import {Color, Colors} from "../bezier/utilities/Colors";
 import {SegmentStyles} from "../styles/SegmentStyles";
 import {CacheContext} from "../context/CacheContext";
 import {Point} from "../../bezeg/api/point/point";
-import {JSXBezierCurveState} from "./JSXBezierCurve";
+import {JSXBezierCurveState} from "./JXGBezierCurve";
 
 export interface BezierCurveAttributes extends PointControlledCurveAttributes {
     allowSubdivision: boolean,
@@ -33,7 +33,7 @@ export abstract class AbstractJSXBezierCurve<T extends BezierCurve, Attr extends
 
     /**
      * Subdivides the curve at t.
-     * This JSXBezierCurve becomes the part that was at [0,t] while the method returns the part from [t,1]
+     * This JXGBezierCurve becomes the part that was at [0,t] while the method returns the part from [t,1]
      * @param t
      */
     abstract subdivide(t: number): this

@@ -2,11 +2,11 @@ import Slider from "../../../inputs/Slider";
 import {Button} from "react-bootstrap";
 import {OnOffSwitch} from "../../../inputs/OnOffSwitch";
 import React, {useState} from "react";
-import {JSXPHBezierCurve} from "../JSXPHBezierCurve";
+import {JXGPHBezierCurve} from "../JXGPHBezierCurve";
 
 
 interface OffsetCurveSettingsProps {
-    curve: JSXPHBezierCurve
+    curve: JXGPHBezierCurve
 }
 
 function OffsetCurveSettings({curve}: OffsetCurveSettingsProps) {
@@ -50,7 +50,7 @@ function OffsetCurveSettings({curve}: OffsetCurveSettingsProps) {
     </div>;
 }
 
-export function PhBezierCurveCommands(curve: JSXPHBezierCurve): JSX.Element[] {
+export function PhBezierCurveCommands(curve: JXGPHBezierCurve): JSX.Element[] {
     const commands = [];
     commands.push(<OffsetCurveSettings curve={curve}></OffsetCurveSettings>);
     return commands;

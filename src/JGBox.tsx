@@ -12,7 +12,7 @@ export function JGBox() {
 
 
     width = "100%";
-    height = "80vh";
+    height = "85vh";
     return <div id="jgbox" style={{
         width: width,
         height: fullScreen ? "100vh" : height,

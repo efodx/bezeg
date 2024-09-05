@@ -9,7 +9,7 @@ class RationalBezierCurveGraph extends BaseRationalCurveGraph<any, BaseGraphStat
 
     override initialize() {
         super.initialize();
-        if (this.getFirstJsxCurve().isShowingFarinPoints()) {
+        if (this.getFirstJxgCurve().isShowingFarinPoints()) {
             this.showFarinPoints(true);
         }
         CacheContext.update();
@@ -17,12 +17,12 @@ class RationalBezierCurveGraph extends BaseRationalCurveGraph<any, BaseGraphStat
 
     override getGraphCommands(): JSX.Element[] {
         return this.state.initialized ? super.getGraphCommands().concat(<OnOffSwitch
-            initialState={this.getFirstJsxCurve().isShowingFarinPoints()}
+            initialState={this.getFirstJxgCurve().isShowingFarinPoints()}
             onChange={(checked) => this.showFarinPoints(checked)} label={"Farinove Točke"}/>, <OnOffSwitch
-            initialState={this.getFirstJsxCurve().isShowingWeights()}
-            onChange={(checked) => this.getFirstJsxCurve().showwWeights(checked)} label={"Uteži"}/>, <OnOffSwitch
-            initialState={this.getFirstJsxCurve().inStandardForm()}
-            onChange={(checked) => this.getFirstJsxCurve().setStandardForm(checked)}
+            initialState={this.getFirstJxgCurve().isShowingWeights()}
+            onChange={(checked) => this.getFirstJxgCurve().showwWeights(checked)} label={"Uteži"}/>, <OnOffSwitch
+            initialState={this.getFirstJxgCurve().inStandardForm()}
+            onChange={(checked) => this.getFirstJxgCurve().setStandardForm(checked)}
             label={"Standardna Forma"}/>) : [];
     }
 
@@ -46,7 +46,7 @@ class RationalBezierCurveGraph extends BaseRationalCurveGraph<any, BaseGraphStat
     }
 
     private showFarinPoints(checked: boolean) {
-        this.getFirstJsxCurve().showFarinPoints(checked);
+        this.getFirstJxgCurve().showFarinPoints(checked);
         this.getAllJxgPoints().forEach(point => point.setAttribute({fixed: checked}));
         this.inputsDisabled = checked;
     }

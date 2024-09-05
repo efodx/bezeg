@@ -1,7 +1,7 @@
 import {BaseSplineCurveGraph} from "./BaseSplineCurveGraph";
 import {BaseGraphStates} from "../base/BaseCurveGraph";
 import {Button} from "react-bootstrap";
-import {JSXGenericSplineCurve} from "../object/JSXGenericSplineCurve";
+import {JXGGenericSplineCurve} from "../object/JXGGenericSplineCurve";
 
 class Graph extends BaseSplineCurveGraph<BaseGraphStates> {
 
@@ -29,31 +29,31 @@ class Graph extends BaseSplineCurveGraph<BaseGraphStates> {
                 stopnjo</Button></div>]);
     }
 
-    override getFirstJsxCurve(): JSXGenericSplineCurve {
-        return super.getFirstJsxCurve() as JSXGenericSplineCurve;
+    override getFirstJxgCurve(): JXGGenericSplineCurve {
+        return super.getFirstJxgCurve() as JXGGenericSplineCurve;
     }
 
     private increaseContinuity() {
         this.board.suspendUpdate();
-        this.getFirstJsxCurve().increaseContinuity();
+        this.getFirstJxgCurve().increaseContinuity();
         this.unsuspendBoardUpdate();
     }
 
     private decreaseContinuity() {
         this.board.suspendUpdate();
-        this.getFirstJsxCurve().decreaseContinuity();
+        this.getFirstJxgCurve().decreaseContinuity();
         this.unsuspendBoardUpdate();
     }
 
     private increaseDegree() {
         this.board.suspendUpdate();
-        this.getFirstJsxCurve().increaseDegree();
+        this.getFirstJxgCurve().increaseDegree();
         this.unsuspendBoardUpdate();
     }
 
     private decreaseDegree() {
         this.board.suspendUpdate();
-        this.getFirstJsxCurve().decreaseDegree();
+        this.getFirstJxgCurve().decreaseDegree();
         this.unsuspendBoardUpdate();
 
     }

@@ -17,7 +17,7 @@ export interface SplineCurveState extends PointControlledCurveState {
     hideFixed: boolean;
 }
 
-export abstract class JSXSplineCurve<C extends BezierSpline> extends AbstractJSXPointControlledCurve<C, any> {
+export abstract class JXGSplineCurve<C extends BezierSpline> extends AbstractJSXPointControlledCurve<C, any> {
     nonFreeJsxPoints!: JXG.Point[];
     labelAll: boolean = true;
     hideFixed: boolean = false;

@@ -8,7 +8,7 @@ import {Attributes} from "../attributes/Attributes";
 export default class AffineTransformBezierCurveGraph extends BaseBezierCurveGraph<any, BaseGraphStates> {
     override initialize() {
         super.initialize();
-        this.getFirstJsxCurve().setAttributes(Attributes.bezierDisabled);
+        this.getFirstJxgCurve().setAttributes(Attributes.bezierDisabled);
     }
 
 

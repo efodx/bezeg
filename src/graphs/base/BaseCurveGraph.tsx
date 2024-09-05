@@ -13,7 +13,7 @@ import {OnOffSwitch} from "../../inputs/OnOffSwitch";
 import {Commands} from "./Commands";
 import BaseGraph, {BaseGraphState} from "./BaseGraph";
 import {VisibilityContext} from "../context/VisibilityContext";
-import {JSXRationalBezierCurve} from "../object/JSXRationalBezierCurve";
+import {JXGRationalBezierCurve} from "../object/./JXGRationalBezierCurve";
 import {ClassMapper} from "../object/ClassMapper";
 import {PointStyles} from "../styles/PointStyles";
 import {Preset} from "./presets/Presets";
@@ -37,7 +37,7 @@ JXG.extend(JXG.Point.prototype, {});
 abstract class BaseCurveGraph<P, S extends BaseGraphStates> extends BaseGraph<P, S> {
     public override readonly state = this.getInitialState();
     protected inputsDisabled: boolean = false;
-    protected jsxBezierCurves: AbstractJSXPointControlledCurve<PointControlledCurve, PointControlledCurveAttributes>[] = [];
+    protected jxgCurves: AbstractJSXPointControlledCurve<PointControlledCurve, PointControlledCurveAttributes>[] = [];
     protected graphJXGPoints: JXG.Point[] = [];
 
     override importPreset(preset: Preset) {
@@ -57,15 +57,15 @@ abstract class BaseCurveGraph<P, S extends BaseGraphStates> extends BaseGraph<P,
     }
 
     getFirstCurve() {
-        return this.getFirstJsxCurve()?.getCurve();
+        return this.getFirstJxgCurve()?.getCurve();
     }
 
-    getFirstJsxCurve() {
-        return this.jsxBezierCurves[0];
+    getFirstJxgCurve() {
+        return this.jxgCurves[0];
     }
 
     getAllJxgPoints() {
-        return this.jsxBezierCurves.flatMap(c => c.getJxgPoints()).concat(this.graphJXGPoints);
+        return this.jxgCurves.flatMap(c => c.getJxgPoints()).concat(this.graphJXGPoints);
     }
 
     override componentDidMount() {
@@ -75,10 +75,10 @@ abstract class BaseCurveGraph<P, S extends BaseGraphStates> extends BaseGraph<P,
         this.board.on('move', (e) => this.handleMove(e));
     }
 
-    createRationalJSXBezierCurve(points: number[][], weights: number[]): JSXRationalBezierCurve {
-        const curve = new JSXRationalBezierCurve(points, weights, this.board);
-        this.jsxBezierCurves.push(curve);
-        curve.setSubdivisionResultConsumer((jsxCrv) => this.jsxBezierCurves.push(jsxCrv));
+    createRationalJSXBezierCurve(points: number[][], weights: number[]): JXGRationalBezierCurve {
+        const curve = new JXGRationalBezierCurve(points, weights, this.board);
+        this.jxgCurves.push(curve);
+        curve.setSubdivisionResultConsumer((jsxCrv) => this.jxgCurves.push(jsxCrv));
         return curve;
     }
 
@@ -151,7 +151,7 @@ abstract class BaseCurveGraph<P, S extends BaseGraphStates> extends BaseGraph<P,
             if (!selectedCurve) {
                 // @ts-ignore
                 if (!this.getAllJxgPoints().some(p => p.hasPoint(coords.scrCoords[1], coords.scrCoords[2]))) {
-                    selectableCurve = this.jsxBezierCurves.filter(curve => curve.isSelectable(e))[0];
+                    selectableCurve = this.jxgCurves.filter(curve => curve.isSelectable(e))[0];
                     if (selectableCurve) {
                         this.selectCurve(selectableCurve);
                     }
@@ -176,7 +176,7 @@ abstract class BaseCurveGraph<P, S extends BaseGraphStates> extends BaseGraph<P,
             this.getSelectedCurve().getJxgPoints().every((point, i) => {
                 // @ts-ignore
                 if (point.hasPoint(coords.scrCoords[1], coords.scrCoords[2])) {
-                    this.getFirstJsxCurve().removePoint(i);
+                    this.getFirstJxgCurve().removePoint(i);
                     return false;
                 }
                 return true;
@@ -187,7 +187,7 @@ abstract class BaseCurveGraph<P, S extends BaseGraphStates> extends BaseGraph<P,
     };
 
     getSelectedCurve() {
-        return this.jsxBezierCurves.filter(curve => curve.isSelected())[0];
+        return this.jxgCurves.filter(curve => curve.isSelected())[0];
     }
 
 
@@ -204,7 +204,7 @@ abstract class BaseCurveGraph<P, S extends BaseGraphStates> extends BaseGraph<P,
     }
 
     getAllJxgCurves() {
-        return this.jsxBezierCurves.map(curve => curve.getJxgCurve());
+        return this.jxgCurves.map(curve => curve.getJxgCurve());
     }
 
     getSelectableCurveArea() {
@@ -216,7 +216,7 @@ abstract class BaseCurveGraph<P, S extends BaseGraphStates> extends BaseGraph<P,
     }
 
     override exportPresetData() {
-        return this.jsxBezierCurves.map(curve => {
+        return this.jxgCurves.map(curve => {
             // @ts-ignore
             return [ClassMapper.getClassName(curve.constructor), ClassMapper.getToDto(curve.constructor)(curve)];
         });
@@ -225,7 +225,7 @@ abstract class BaseCurveGraph<P, S extends BaseGraphStates> extends BaseGraph<P,
     override importPresetData(str: string) {
         // @ts-ignore
         this.board.removeObject(this.getAllJxgCurves().concat(this.getAllJxgPoints()));
-        this.jsxBezierCurves = [];
+        this.jxgCurves = [];
         this.graphJXGPoints = [];
 
         // @ts-ignore
@@ -233,9 +233,9 @@ abstract class BaseCurveGraph<P, S extends BaseGraphStates> extends BaseGraph<P,
             const [id, object] = [p[0], p[1]];
             let curve = ClassMapper.getFromDto(id)(object, this.board);
             if (curve instanceof AbstractJSXBezierCurve) {
-                curve.setSubdivisionResultConsumer((jsxCrv) => this.jsxBezierCurves.push(jsxCrv));
+                curve.setSubdivisionResultConsumer((jsxCrv) => this.jxgCurves.push(jsxCrv));
             }
-            return this.jsxBezierCurves.push(curve);
+            return this.jxgCurves.push(curve);
         });
 
     }

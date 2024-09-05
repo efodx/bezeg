@@ -1,19 +1,19 @@
-import {JSXSplineConstructorParams, JSXSplineCurve} from "./JSXSplineCurve";
+import {JSXSplineConstructorParams, JXGSplineCurve} from "./JXGSplineCurve";
 import {Board} from "jsxgraph";
 import {PointStyles} from "../styles/PointStyles";
 import {C2QubicBezierSpline} from "../../bezeg/impl/curve/C2QubicBezierSpline";
 
 
-export class JSXQubicC2SplineCurve extends JSXSplineCurve<C2QubicBezierSpline> {
-    static toDto(curve: JSXQubicC2SplineCurve): JSXSplineConstructorParams {
+export class JXGQubicC2SplineCurve extends JXGSplineCurve<C2QubicBezierSpline> {
+    static toDto(curve: JXGQubicC2SplineCurve): JSXSplineConstructorParams {
         return {
             points: curve.pointControlledCurve.points.map(point => [point.X(), point.Y()]),
             state: curve.exportState()
         };
     }
 
-    static fromDto(params: JSXSplineConstructorParams, board: Board): JSXQubicC2SplineCurve {
-        const curve = new JSXQubicC2SplineCurve(params.points, board);
+    static fromDto(params: JSXSplineConstructorParams, board: Board): JXGQubicC2SplineCurve {
+        const curve = new JXGQubicC2SplineCurve(params.points, board);
         if (params.state) {
             curve.importState(params.state);
         }

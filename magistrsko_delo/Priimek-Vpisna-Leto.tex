@@ -1913,7 +1913,11 @@ class GenericBezierSpline extends BezierSpline {
           0,1]
     );
     \end{lstlisting}
-    Da ni treba krivulj "na roke" vstavljat krivulj v jsxgraph sem v projektu definiral
+    Da ni treba krivulj "na roke" vstavljat krivulj v jsxgraph sem v projektu definiral razrede krivulj, s predpono JXG, ki to delajo namesto nas.
+    Bezierjevo krivuljo lahko dodamo na graf jsxgraph knjižnice na naslednji način.
+    \begin{lstlisting}[label={lst:ghdfg}]
+ jxgBezierCurve = new JXGBezierCurve([[1,2],[2,3],[3,0]], board);
+    \end{lstlisting}
 
 
 %
