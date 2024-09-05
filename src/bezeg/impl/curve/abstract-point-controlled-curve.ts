@@ -78,14 +78,9 @@ export abstract class AbstractPointControlledCurve implements PointControlledCur
 
     }
 
-    affineTransform(A: number [][]): void
-    affineTransform(A: number [][], b: number[]): void
-    affineTransform(A: number[][], b: number[], center: number[]): void
-
     affineTransform(A: number[][], b?: number[], center?: number[]): void {
         if (!center) {
             center = this.getPointsCenter();
-            // center = this.getBoundingBoxCenter()
         }
         let [xCenter, yCenter] = center;
         this.points.forEach(point => {
@@ -116,7 +111,10 @@ export abstract class AbstractPointControlledCurve implements PointControlledCur
         }
         // This is so that we don't override points that have their coordinated fixed by others
         if (!point.isXFunction()) {
+            console.log("Setting x");
             point.setX(newX);
+        } else {
+            console.log("NO XXY FOR U");
         }
         if (!point.isYFunction()) {
             point.setY(newY);

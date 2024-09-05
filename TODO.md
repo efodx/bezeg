@@ -29,9 +29,9 @@
 - [x] Decasteljau generateLineSegments(slider: JXG.Slider) in se ena metoda... naj bo to abstrahirano kar je lahko.
 - [x] ODSTRANI SLIDERJE KER DELAJO GUZVO NA SLIKAH
 - [x] Naj se da odstranit oznake točk tudi za segmente..... MORDA DODAM VISIBILITY MED CONTEXTE...
-- [ ] Na G1 zlepkih da premikamo alphe
+- [x] Na G1 zlepkih da premikamo alphe
 - [ ] Oznake za transformacije pri izbrani krivulji - pac pointer changes.
-- [ ] Kontrolne točke racionalnih se ne prikazujejo!! :(
+- [x] Kontrolne točke racionalnih se ne prikazujejo!! :(
 
 ### Low Priority
 

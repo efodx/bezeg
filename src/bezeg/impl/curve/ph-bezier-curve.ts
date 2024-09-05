@@ -222,6 +222,8 @@ export class PhBezierCurve implements BezierCurve {
 
 
     moveFor(x: number, y: number) {
+        console.log("Moving curve");
+        console.log(this.points);
         this.underlyingBezierCurve.moveFor(x, y);
     }
 
@@ -254,6 +256,7 @@ export class PhBezierCurve implements BezierCurve {
     }
 
     affineTransform(A: number[][]) {
+        console.log("transformin curve");
         this.underlyingBezierCurve.affineTransform(A);
     }
 
