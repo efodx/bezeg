@@ -187,7 +187,7 @@ export class JXGRationalBezierCurve extends AbstractJXGBezierCurve<RationalBezie
     showFarinPoints(show: boolean) {
         if (show) {
             const weights = this.getCurve().getWeights();
-            const points = this.getCurve().getPoints();
+            const points = this.getJxgPoints();
 
             const reactiveWeights: Array<() => number> = [];
             reactiveWeights.push(() => 1);

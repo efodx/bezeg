@@ -4,7 +4,7 @@ import {Button, Form} from "react-bootstrap";
 
 export function SaveImage(props: { saveAsSVG: (name: string) => void, saveAsPNG: (name: string) => void }) {
     return <div>
-        <Form.Label>Izvozi</Form.Label>
+        <Form.Label>Izvoz slike</Form.Label>
         <div>
             <SaveAsSvg onClick={props.saveAsSVG}/>
             <SaveAsPng onClick={props.saveAsPNG}/>
