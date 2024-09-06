@@ -15,7 +15,7 @@ import {PointImpl} from "../../../bezeg/impl/point/point-impl";
 import {SizeContext} from "../../context/SizeContext";
 import {CurveStyles} from "../../styles/CurveStyles";
 import {Point} from "../../../bezeg/api/point/point";
-import {Point as PointWrapper} from "./Point";
+import {JXGPointWrapper as PointWrapper} from "./JXGPointWrapper";
 
 interface JSXPHBezierCurveConstructorParams extends JSXBezierCurveConstructorParams {
     hodographs: number[][],
@@ -50,7 +50,7 @@ export class JXGPHBezierCurve extends JXGBezierCurve {
             state: curve.exportState()
         } as JSXPHBezierCurveConstructorParams;
     }
- 
+
     static override fromDto(params: JSXPHBezierCurveConstructorParams, board: Board): JXGBezierCurve {
         const curve = new JXGPHBezierCurve(params.points.concat(params.hodographs), board);
         if (params.state) {

@@ -1,5 +1,5 @@
 import {Board, PointAttributes} from "jsxgraph";
-import {Point} from "./Point";
+import {JXGPointWrapper} from "./JXGPointWrapper";
 import {PointControlledCurveCommands} from "./inputs/PointControlledCurveCommands";
 import {PointControlledCurve} from "../../../bezeg/api/curve/point-controlled-curve";
 import {CurveStyles} from "../../styles/CurveStyles";
@@ -417,7 +417,7 @@ export abstract class AbstractJXGPointControlledCurve<T extends PointControlledC
      * @param y
      * @param opts
      */
-    protected createJSXGraphPoint(x: number | (() => number), y: number | (() => number), opts?: any): Point {
+    protected createJSXGraphPoint(x: number | (() => number), y: number | (() => number), opts?: any): JXGPointWrapper {
         let point: JXG.Point;
         if (opts) {
             point = this.board.create('point', [x, y], opts);
@@ -442,7 +442,7 @@ export abstract class AbstractJXGPointControlledCurve<T extends PointControlledC
             CacheContext.update();
         });
         this.jxgPoints.push(point);
-        return new Point(point);
+        return new JXGPointWrapper(point);
     }
 
     protected movePointsToNewPoints(newPoints: any[]) {

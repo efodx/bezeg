@@ -1,7 +1,10 @@
-import React from "react";
+import React, {useContext} from "react";
 import Logo from "./images/elderflower.png";
+import {SiteContext} from "./graphs/context/react/SiteContext";
 
 export function WelcomePage() {
+    const fsContext = useContext(SiteContext).fullScreen;
+    fsContext.setFullScreen(false);
     return <div>
         <h1 style={{color: "white"}} className="display-4">
             Dobrodošel na Bezgu!

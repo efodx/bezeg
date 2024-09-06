@@ -1,9 +1,9 @@
-import {Point as BezegPoint} from "../../../bezeg/api/point/point";
+import {Point} from "../../../bezeg/api/point/point";
 
 /**
  * Class that wraps a JXG.Point into BezegPoint interface.
  */
-export class Point implements BezegPoint {
+export class JXGPointWrapper implements Point {
     readonly point: JXG.Point;
 
     constructor(point: JXG.Point) {

@@ -3,7 +3,7 @@ import React, {Component, useRef, useState} from 'react';
 
 import {Board, JSXGraph} from "jsxgraph";
 import {JGBox} from "../../JGBox";
-import {Button, Col, Container, Overlay, Popover, Row} from "react-bootstrap";
+import {Col, Container, Overlay, Popover, Row} from "react-bootstrap";
 import {SizeContext} from "../context/SizeContext";
 import {Commands} from "./Commands";
 import {Tools} from "./Tools";
@@ -17,6 +17,7 @@ import {PresetSelector} from "./PresetSelector";
 import {SaveImage} from "./SaveImage";
 import {AxisSelector} from "./AxisSelector";
 import {AxisContext} from "../context/AxisContext";
+import ToolTippedButton from "../../inputs/ToolTippedButton";
 
 
 function Help() {
@@ -32,7 +33,7 @@ function Help() {
 
     return (
         <div className={'help-button'} ref={ref}>
-            <Button onClick={handleClick}>ⓘ</Button>
+            <ToolTippedButton tooltip={"Pomoč"} onClick={handleClick}>🛈</ToolTippedButton>
             <Overlay
                 show={show}
                 target={target}
@@ -160,8 +161,8 @@ abstract class BaseGraph<P, S extends BaseGraphState> extends Component<P, S> {
                      lg={fullScreenContext.fullScreen ? 12 : 8}><JGBox/>
                     <div className={"help-container"}><Help></Help>
                         <div className={"fs-button"}>
-                            <Button
-                                onClick={() => fullScreenContext.setFullScreen(!fullScreenContext.fullScreen)}>⛶</Button>
+                            <ToolTippedButton tooltip={"Predstavitveni način"}
+                                              onClick={() => fullScreenContext.setFullScreen(!fullScreenContext.fullScreen)}>⛶</ToolTippedButton>
                         </div>
                     </div>
                 </Col>

@@ -1565,23 +1565,19 @@ the content and not the structure of your work.}
     \section{Orodje za grafični prikaz konceptov}
     Vsi koncepti predstavljeni v magistrskem delu so tudi implementirani na spletni strani.
     Slikovno gradivo skozi magistrsko delo je bilo ustvarjeno s pomočjo orodja.
-    Za risanje grafov sem uporabil odprtokodno knjižnico JSxGraph.
-    Za oblikovanje spletne strani sem uporabil ogrodje bootstrap.
-    Za ogrodje same spletne strani pa React.
+    Spletno orodje pod krovom za izdelavo uporabniških vmesnikov uporablja knjižnico React,
+    za risanje interaktivnih grafov knjižnico JSxGraph, za oblikovanje spletne strani pa uporablja ogrodje bootstrap v paru s knjižnico react-bootstrap.
+    % Knjižnic ne bomo podrobneje opisovali, bralec si lahko o njih prebere na pripadajočih spletnih straneh.
 
     \subsection{Implementacija konceptov magistrskega dela}
 
-    \subsection{Orodja}
+    \subsection{Funkcionalnosti orodja}
     Na levi strani vsakega grafa se nahaja kartica~\ref{fig:bezeg:kartica-z-orodji} s funkcionalnostmi za vse grafe.
     V naslednjih podrazdelkih bomo predstavili posamezno funkcionalnost.
 
     \subsubsection{Izvoz slik}
     Uporabnik lahko s stiskom na gumb SVG oziroma PNG izvozi sliko v izbranem formatu.
     Pri izvozu v SVG format, zaradi pomankljivosti knjižnice JSXGraph, izgubimo oznake točk.
-
-    \subsubsection{Ponastavitev grafa}
-    Na kartici se nahaja priročen gumb za ponastavljanje grafa.
-    Ob pritisku se graf ponastavi na izbrano prednastavitev.
 
     \subsubsection{Prikaz mreže}
     Če uporabnik ne želi prikazovati mreže koordinatnega sistema, lahko za to uporabi preklopnik za prikaz mreže.
@@ -1933,7 +1929,8 @@ class GenericBezierSpline extends BezierSpline {
     \end{lstlisting}
     Poleg takšnih metod imajo JXG implementacije krivulj tudi metode za procesiranje uporabnikove miške processMouseDown, processMouseMove, processMouseUp,ki skrbijo za to, da lahko uporabnik krivuljo afino transformira na naraven način.
  \subsubsection{Grafi}
-    Grafi bezga implementirajo razred BaseGraph, ki skrbi za postavitev orodij in inicializacijo grafa knjižnice jsxgraph.
+    Grafi bezga implementirajo razred BaseGraph, ki skrbi za inicializacijo grafa knjižnice jsxgraph in doda funkcionalnosti naštete v razdelku \mycomment{ref na razdelek o tem.}
+
 
 %
 %    \section{Integrali po \texorpdfstring{$\omega$}{ω}-kompleksih}

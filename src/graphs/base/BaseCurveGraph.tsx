@@ -18,7 +18,7 @@ import {
 import {JXGRationalBezierCurve} from "../curves/object/JXGRationalBezierCurve";
 import {ClassMapper} from "../curves/object/ClassMapper";
 import {AbstractJXGBezierCurve} from "../curves/object/AbstractJXGBezierCurve";
-import {Point} from "../curves/object/Point";
+import {JXGPointWrapper} from "../curves/object/JXGPointWrapper";
 
 enum SelectedCurveOption {
     MOVE_CURVE, ADD_POINTS, DELETE_POINTS
@@ -88,7 +88,7 @@ abstract class BaseCurveGraph<P, S extends BaseGraphStates> extends BaseGraph<P,
      * @param y
      * @param opts
      */
-    createJSXGraphPoint(x: number | (() => number), y: number | (() => number), opts?: any): Point {
+    createJSXGraphPoint(x: number | (() => number), y: number | (() => number), opts?: any): JXGPointWrapper {
         let point;
         if (opts) {
             point = this.board.create('point', [x, y], opts);
@@ -99,7 +99,7 @@ abstract class BaseCurveGraph<P, S extends BaseGraphStates> extends BaseGraph<P,
             CacheContext.update();
         });
         this.graphJXGPoints.push(point);
-        return new Point(point);
+        return new JXGPointWrapper(point);
     }
 
     // TODO change e to pointerevent
@@ -209,9 +209,7 @@ abstract class BaseCurveGraph<P, S extends BaseGraphStates> extends BaseGraph<P,
 
     getSelectableCurveArea() {
         let commands = [this.getSelect()];
-        if (this.state.selectedCurveOption === SelectedCurveOption.MOVE_CURVE) {
-            commands = commands.concat(this.getSelectedCurveCommands());
-        }
+        commands = commands.concat(this.getSelectedCurveCommands());
         return <Commands commands={commands} title={"Izbrana krivulja"}></Commands>;
     }
 

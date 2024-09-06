@@ -1,10 +1,11 @@
 import {Preset, Presets, PresetService} from "./presets/Presets";
 import React, {useContext, useRef, useState} from "react";
 import {SiteContext} from "../context/react/SiteContext";
-import {Button, Form, Modal} from "react-bootstrap";
+import {Button, ButtonGroup, Form, Modal} from "react-bootstrap";
 import {wait} from "@testing-library/user-event/dist/utils";
 import {RefreshContext} from "../context/react/RefreshContext";
 import {ResetButton} from "./ResetButton";
+import ToolTippedButton from "../../inputs/ToolTippedButton";
 
 
 function exportToFile(data: string) {
@@ -34,10 +35,9 @@ function ImportFromFileModal(props: { onConfirm: (fileContents: string) => void 
 
     return (
         <>
-            <Button className="ms-1" onClick={handleShow}>
-                Uvozi
-            </Button>
-
+            <ToolTippedButton tooltip={"Uvozi prednastavitve"} onClick={handleShow}>
+                📥
+            </ToolTippedButton>
             <Modal show={show} onHide={handleClose}>
                 <Modal.Header closeButton>
                     <Modal.Title>Uvozi iz datoteke</Modal.Title>
@@ -87,9 +87,9 @@ function SaveModal(props: { onSave: (name: string) => void, initialValue: string
 
     return (
         <>
-            <Button onClick={handleShow}>
+            <ToolTippedButton onClick={handleShow} tooltip={"Shrani prednastavitev"}>
                 💾
-            </Button>
+            </ToolTippedButton>
 
             <Modal show={show} onHide={handleClose}>
                 <Modal.Header closeButton>
@@ -138,9 +138,9 @@ function TrashModal(props: { trash: () => void, disabled?: boolean }) {
 
     return (
         <>
-            <Button className="ms-1" disabled={props.disabled} onClick={handleShow}>
+            <ToolTippedButton disabled={props.disabled} onClick={handleShow} tooltip={"Izbriši prednastavitev"}>
                 🗑
-            </Button>
+            </ToolTippedButton>
             <Modal show={show} onHide={handleClose}>
                 <Modal.Header closeButton>
                     <Modal.Title>Izbriši prednastavitev?</Modal.Title>
@@ -217,45 +217,48 @@ export function PresetSelector(props: {
             {presets.presets.data.map(preset =>
                 <option value={preset.id}>{preset.id}</option>)}
         </Form.Select>
-        <Form.Group className="mx-auto my-1">
-            <SaveModal onSave={(name) => {
-                if (name === null || name === "") {
-                    name = "preset-" + Math.random();
-                }
-                const newPresets = props.presetService.savePreset({
-                    ...props.presetProvider(),
-                    id: name
-                });
-                setPresets({
-                    presets: newPresets,
-                    selectedPreset: newPresets.data[newPresets.data.length - 1]
-                });
-                presetContext.setSelected(name);
-            }} initialValue={presetContext.selected}></SaveModal>
-            <TrashModal disabled={presets.selectedPreset === undefined} trash={() => {
-                const newPresets = props.presetService.removePreset(presets.selectedPreset.id);
-                setPresets({
-                    presets: newPresets,
-                    selectedPreset: newPresets.data[0]
-                });
-                presetContext.setSelected(newPresets.data[0]?.id);
-            }}></TrashModal>
-        </Form.Group>
-        <Form.Group className="mx-auto my-1">
-            <Button onClick={() => {
-                exportToFile(props.presetService.exportAllPresetsToString());
-            }}>Ivozi</Button>
-            <ImportFromFileModal onConfirm={fileContents => {
-                props.presetService.importFromString(fileContents);
-                refreshContext();
-            }}/></Form.Group>
-        <Button onClick={() => {
-            const allPresets = props.presetService.loadPresets();
-            exportPresets(allPresets);
-        }}>Generiraj slike</Button>
-        <Form.Group className="mx-auto my-1">
-            <ResetButton/>
-        </Form.Group>
+        <Form.Group className="my-1">
+            <ButtonGroup vertical={true}>
+                <ButtonGroup>
+                    <ResetButton/>
+                    <SaveModal onSave={(name) => {
+                        if (name === null || name === "") {
+                            name = "preset-" + Math.random();
+                        }
+                        const newPresets = props.presetService.savePreset({
+                            ...props.presetProvider(),
+                            id: name
+                        });
+                        setPresets({
+                            presets: newPresets,
+                            selectedPreset: newPresets.data[newPresets.data.length - 1]
+                        });
+                        presetContext.setSelected(name);
+                    }} initialValue={presetContext.selected}></SaveModal>
+                    <TrashModal disabled={presets.selectedPreset === undefined} trash={() => {
+                        const newPresets = props.presetService.removePreset(presets.selectedPreset.id);
+                        setPresets({
+                            presets: newPresets,
+                            selectedPreset: newPresets.data[0]
+                        });
+                        presetContext.setSelected(newPresets.data[0]?.id);
+                    }}></TrashModal>
+                </ButtonGroup>
+                <ButtonGroup>
+                    <ToolTippedButton tooltip={"Izvozi prednastavitve"} onClick={() => {
+                        exportToFile(props.presetService.exportAllPresetsToString());
+                    }}>📤</ToolTippedButton>
+                    <ImportFromFileModal onConfirm={fileContents => {
+                        props.presetService.importFromString(fileContents);
+                        refreshContext();
+                    }}/>
+                    <ToolTippedButton tooltip={"Generiraj slike za prednastavitve"} onClick={() => {
+                        const allPresets = props.presetService.loadPresets();
+                        exportPresets(allPresets);
+                    }}>🖼</ToolTippedButton>
+
+                </ButtonGroup></ButtonGroup></Form.Group>
+
     </Form.Group>;
 
 }

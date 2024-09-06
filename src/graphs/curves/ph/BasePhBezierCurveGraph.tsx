@@ -1,5 +1,5 @@
 import {HodographInputbox} from "./HodographInputBox";
-import {Point} from "../object/Point";
+import {JXGPointWrapper} from "../object/JXGPointWrapper";
 import React from "react";
 import {Button} from "react-bootstrap";
 import {JXGBezierCurve} from "../object/JXGBezierCurve";
@@ -82,12 +82,8 @@ abstract class BasePhBezierCurveGraph<P, S extends BasePhBezierCurveGraphStates>
     }
 
     private initializeHodographs(hodographs: number[][]) {
-        // if (this.hodographBoard === undefined) {
-        //     setTimeout(() => this.initializeHodographs(hodographs), 10);
-        //     return;
-        // }
         const jxgGraphPoints = hodographs.map(w => this.hodographBoard.create('point', [w[0], w[1]]));
-        const hodographPoints = jxgGraphPoints.map(point => new Point(point));
+        const hodographPoints = jxgGraphPoints.map(point => new JXGPointWrapper(point));
 
         jxgGraphPoints.forEach(point => point.on("drag", () => {
             this.boardUpdate();
