@@ -18,6 +18,7 @@ import {SaveImage} from "./SaveImage";
 import {AxisSelector} from "./AxisSelector";
 import {AxisContext} from "../context/AxisContext";
 import ToolTippedButton from "../../inputs/ToolTippedButton";
+import {ImageStore} from "./ImageStore";
 
 
 function Help() {
@@ -248,13 +249,19 @@ abstract class BaseGraph<P, S extends BaseGraphState> extends Component<P, S> {
         const mmls = document.querySelectorAll<HTMLElement>("mjx-assistive-mml");
         mmls.forEach(el =>
             el.style.setProperty("display", "none", "important"));
+        ImageStore.creatingImage();
         html2canvas(document.getElementById('jgbox') as HTMLElement).then(canvas => {
-            const link = document.createElement('a');
-            link.href = canvas.toDataURL('image/png');
-            link.download = fileName;
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
+            canvas.toBlob(blob => {
+                if (blob == null) {
+                    return;
+                }
+                ImageStore.addImage(blob, fileName);
+            });
+            //
+            // link.download = fileName;
+            // document.body.appendChild(link);
+            // link.click();
+            // document.body.removeChild(link);
         });
         mmls.forEach(el =>
             el.style.removeProperty("display"));

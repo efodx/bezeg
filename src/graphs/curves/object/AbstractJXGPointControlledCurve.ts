@@ -409,6 +409,28 @@ export abstract class AbstractJXGPointControlledCurve<T extends PointControlledC
         this.board.unsuspendUpdate();
     }
 
+    processMouseCursor(e: PointerEvent) {
+        const newCoords = this.getMouseCoords(e);
+        const oldCoords = this.coords;
+        this.coords = newCoords;
+
+        if (this.isMouseInsideBoundingBox()) {
+            this.board.containerObj.style.cursor = 'move';
+        } else if (!this.isMouseInsideBoundingBox() && this.isMouseInsidePaddedBoundingBox()) {
+            this.board.containerObj.style.cursor = 'pointer';
+        } else {
+            this.board.containerObj.style.cursor = 'default';
+        }
+        this.boundBoxPoints.forEach((p, i) => {
+            // @ts-ignore
+            if (p.hasPoint(this.coords?.scrCoords[1], this.coords?.scrCoords[2])) {
+                this.board.containerObj.style.cursor = i % 2 != 0 ? 'nwse-resize' : 'nesw-resize';
+            }
+        });
+
+        this.coords = oldCoords;
+    }
+
     protected abstract getStartingCurve(points: number[][]): T
 
     /**
@@ -542,5 +564,4 @@ export abstract class AbstractJXGPointControlledCurve<T extends PointControlledC
             this.hideHullInternal();
         }
     }
-
 }

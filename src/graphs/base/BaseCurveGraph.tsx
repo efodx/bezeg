@@ -261,6 +261,9 @@ abstract class BaseCurveGraph<P, S extends BaseGraphStates> extends BaseGraph<P,
             return;
         }
         let selectedCurve = this.getSelectedCurve();
+        if (!selectedCurve?.needToProcessMoveEvent()) {
+            selectedCurve?.processMouseCursor(e);
+        }
         if (selectedCurve && selectedCurve.needToProcessMoveEvent()) {
             this.board.suspendUpdate();
             selectedCurve?.processMouseMove(e);

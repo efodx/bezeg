@@ -6,6 +6,7 @@ import {wait} from "@testing-library/user-event/dist/utils";
 import {RefreshContext} from "../context/react/RefreshContext";
 import {ResetButton} from "./ResetButton";
 import ToolTippedButton from "../../inputs/ToolTippedButton";
+import {ImageStore} from "./ImageStore";
 
 
 function exportToFile(data: string) {
@@ -19,6 +20,115 @@ function exportToFile(data: string) {
     element.click();
 
     document.body.removeChild(element);
+}
+
+function GenerateImagesModal(props: { onConfirm: (fileContents: string) => void }) {
+    const [show, setShow] = useState(false);
+    const [fileContents, setFileContents] = useState("");
+
+    const inputRef = useRef();
+    const handleClose = () => setShow(false);
+    const handleConfirm = () => {
+        props.onConfirm(fileContents);
+        setShow(false);
+    };
+    const handleShow = () => setShow(true);
+
+    return (
+        <>
+            <ToolTippedButton tooltip={"Uvozi prednastavitve"} onClick={handleShow}>
+                📥
+            </ToolTippedButton>
+            <Modal show={show} onHide={handleClose}>
+                <Modal.Header closeButton>
+                    <Modal.Title>Uvozi iz datoteke</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <Form onSubmit={e => {
+                        e.preventDefault();
+                        handleConfirm();
+                    }}>
+                        <Form.Group controlId="formFile" className="mb-3">
+                            <Form.Label>Izberi file</Form.Label>
+                            <Form.Control
+                                // @ts-ignore
+                                ref={inputRef}
+                                onChange={event => {
+                                    // @ts-ignore
+                                    inputRef.current.files[0].text().then(t => setFileContents(t));
+                                }
+                                } type="file"/>
+                        </Form.Group>
+                    </Form>
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button variant="secondary" onClick={handleClose}>
+                        Zapri
+                    </Button>
+                    <Button onClick={handleConfirm}>
+                        Uvozi
+                    </Button>
+                </Modal.Footer>
+            </Modal>
+        </>
+    );
+
+}
+
+function ImageGenerationModal(props: { onConfirm: (fileContents: string[]) => void, presetService: PresetService }) {
+    const [show, setShow] = useState(false);
+    const allPresets = props.presetService.loadPresets();
+    let selectedPresets: string[] = allPresets.data.map(presets => presets.id);
+
+    const inputRef = useRef();
+    const handleClose = () => setShow(false);
+    const handleConfirm = () => {
+        props.onConfirm(selectedPresets);
+        setShow(false);
+    };
+    const handleShow = () => setShow(true);
+
+    return (
+        <>
+            <ToolTippedButton tooltip={"Generiraj slike za prednastavitve"} onClick={handleShow}>🖼</ToolTippedButton>
+
+            <Modal show={show} onHide={handleClose}>
+                <Modal.Header closeButton>
+                    <Modal.Title>Generiraj slike</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <Form onSubmit={e => {
+                        e.preventDefault();
+                        handleConfirm();
+                    }}>
+                        {allPresets.data.map(preset => <Form.Check
+                                type={'checkbox'}
+                                id={`default-checkbox` + preset.id}
+                                label={preset.id}
+                                defaultChecked={selectedPresets.includes(preset.id)}
+                                onChange={event => {
+                                    if (event.target.checked) {
+                                        selectedPresets.push(preset.id);
+                                    } else {
+                                        selectedPresets = selectedPresets.filter(presetId => preset.id !== presetId);
+                                    }
+                                }}
+                            />
+                        )}
+                    </Form>
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button variant="secondary" onClick={handleClose}>
+                        Zapri
+                    </Button>
+                    <Button onClick={handleConfirm}>
+                        Generiraj
+                    </Button>
+                </Modal.Footer>
+            </Modal>
+        </>
+    );
+
 }
 
 function ImportFromFileModal(props: { onConfirm: (fileContents: string) => void }) {
@@ -178,6 +288,7 @@ export function PresetSelector(props: {
             index = 0;
         }
         if (index === allPresets.data.length + 1) {
+            ImageStore.createZip();
             return;
         }
         const preset = allPresets.data[index];
@@ -252,10 +363,10 @@ export function PresetSelector(props: {
                         props.presetService.importFromString(fileContents);
                         refreshContext();
                     }}/>
-                    <ToolTippedButton tooltip={"Generiraj slike za prednastavitve"} onClick={() => {
+                    <ImageGenerationModal onConfirm={presets => {
                         const allPresets = props.presetService.loadPresets();
-                        exportPresets(allPresets);
-                    }}>🖼</ToolTippedButton>
+                        exportPresets({data: allPresets.data.filter(preset => presets.includes(preset.id))});
+                    }} presetService={props.presetService}/>
 
                 </ButtonGroup></ButtonGroup></Form.Group>
 
