@@ -257,11 +257,6 @@ abstract class BaseGraph<P, S extends BaseGraphState> extends Component<P, S> {
                 }
                 ImageStore.addImage(blob, fileName);
             });
-            //
-            // link.download = fileName;
-            // document.body.appendChild(link);
-            // link.click();
-            // document.body.removeChild(link);
         });
         mmls.forEach(el =>
             el.style.removeProperty("display"));
