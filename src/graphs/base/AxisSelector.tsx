@@ -8,7 +8,7 @@ export function AxisSelector(props: { board: () => JXG.Board }) {
     const [selectedAxis, setAxis] = useState(AxisContext.getSelected());
 
     return <Form.Group>
-        <Form.Label>Mreža</Form.Label>
+        <Form.Label>Koordinatni sistem</Form.Label>
         <Form.Select key={Math.random()} onChange={(value) => {
             AxisContext.setSelected(value.target.value as AxisSelect);
             setAxis(value.target.value as AxisSelect);

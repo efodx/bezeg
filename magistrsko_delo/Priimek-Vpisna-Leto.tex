@@ -1562,27 +1562,32 @@ the content and not the structure of your work.}
     \end{figure}
 
 
-    \section{Orodje za grafični prikaz konceptov}
-    Vsi koncepti predstavljeni v magistrskem delu so tudi implementirani na spletni strani.
+
+
+
+
+    \section{Orodje za grafični prikaz lastnosti Bézierjevih in PH krivulj - \textit{Bezeg}}
+    Vsi koncepti predstavljeni v magistrskem delu so implementirani v spletnem orodju Bezeg.
     Slikovno gradivo skozi magistrsko delo je bilo ustvarjeno s pomočjo orodja.
+    Orodje v celoti živi v uporabnikovem brskalniku in zato, razen za strežbo statične spletne strani, dodatnih zalednih sistemov ne potrebuje.
+    Objavljeno je preko storitve GitHub Pages~\cite{github-pages}, ki omogoča zastonjsko objavo takšne spletne strani.
     Spletno orodje pod krovom za izdelavo uporabniških vmesnikov uporablja knjižnico React,
     za risanje interaktivnih grafov knjižnico JSXGraph, za oblikovanje spletne strani pa uporablja ogrodje bootstrap v paru s knjižnico react-bootstrap.
     % Knjižnic ne bomo podrobneje opisovali, bralec si lahko o njih prebere na pripadajočih spletnih straneh.
-    \subsection{Spletna stran}
-    Osnovni izgled pri izbranem grafu na spletni strani Bezga si lahko ogledamo na sliki~\ref{fig:bezeg:osnovni-izgled}.
+    \subsection{Uporabniški vmesnik}
+    Osnovni izgled uporabniškega vmesnika za izbrani graf na spletni strani Bezga si lahko ogledamo na sliki~\ref{fig:bezeg:osnovni-izgled}.
     Na vrhu se nahaja navigacijska vrstica z povezavami do različnih grafov.
     Na sredini se nahaja instanca grafa knjižnice JSXGraph.
     Levo od grafa se nahaja kartica s splošnimi orodji za vse grafe, desno od njega pa se nahaja kartica z grafu specifičnimi ukazi.
     V naslednjem podrazdelku bomo predstavili funkcionalnosti kartice z orodji.
     \begin{figure}[h]
         \centering
-        \includegraphics[width = 0.90\textwidth]{images/bezeg/osnovni-izgled}
-        \caption{Osnovni izgled.}
+        \includegraphics[width = \textwidth]{images/bezeg/osnovni-izgled}
+        \caption{Osnovni izgled uporabniškega vmesnika.}
         \label{fig:bezeg:osnovni-izgled}
     \end{figure}
     \subsubsection{Orodja}
-    Kartico z orodji si podrobneje poglejmo na sliki~\ref{fig:bezeg:kartica-z-orodji}.
-    Predstavimo sedaj čemu posamezno orodje služi.
+    Kartico z orodji si oglejmo na sliki~\ref{fig:bezeg:kartica-z-orodji} in predstavimo čemu posamezno orodje služi.
     \begin{figure}[h]
         \centering
         \includegraphics[width = 0.30\textwidth]{images/bezeg/orodja}
@@ -1590,10 +1595,10 @@ the content and not the structure of your work.}
         \label{fig:bezeg:kartica-z-orodji}
     \end{figure}
     \begin{itemize}
-        \item Mreža\\
-        Orodje za mrežo premore le izbirnik s katerim uporabnik izbere kateri elementi mreže bodo prikazani.
+        \item Koordinatni sistem\\
+        Orodje za koordinatni sistem premore le izbirnik s katerim uporabnik izbira kateri elementi koordinatnega sistema bodo prikazani na grafu.
         \item Povečava\\
-        Orodje za povečavo uporabniku nudi drsnik s katerim lahko spreminja velikost elementov na grafu.
+        Orodje za povečavo uporabniku nudi drsnik s katerim lahko poveča velikost elementov na grafu.
         \item Izvoz slike \\
         Uporabnik lahko s pritiskom na gumb SVG oziroma PNG izvozi sliko v izbranem formatu.
         Pri izvozu v format SVG, zaradi pomanjkljivosti knjižnice JSXGraph, izgubimo oznake točk.
@@ -1605,8 +1610,8 @@ the content and not the structure of your work.}
         Če uporabnik želi svoje prednastavitve prenesti na drug računalnik, lahko to stori tako, da prednastavitve izvozi in jih na drugem računalniku uvozi.
         Prednastavitve se izvozijo kot JSON datoteka.
         Uporabnik ima tudi možnost generirati slike svojih prednastavitev.
-        Ob zagonu generacije slik orodje začne preklapljati med prednastavitvami ter izvažati slike.
-        Slike izvozi v PNG formatu, imena pa so enaka imenom prednastavitev.
+        Ob zagonu generacije slik orodje začne preklapljati med prednastavitvami ter ustvarjati slike.
+        Slike nato v PNG formatu, pod imeni prednastavitev, zapakira v zip datoteko, ki jo uporabnik prenese.
         \item Oznake točk\\
         Preklopnik za prikazovanje oznak točk na grafih z Bezierjevimi krivuljami.
     \end{itemize}
@@ -1625,62 +1630,57 @@ the content and not the structure of your work.}
         \label{fig:ukazi-na-grafu}
     \end{figure}
 
-    \subsection{Ukazi izbrane krivulje}
-    Ko uporabnik klikne na krivuljo, jo s tem tudi izbere.
-    Na desni strani vsakega grafa se ob izbrani krivulji kartica z ukazi na grafu zamenja s kartico z ukazi izbrane krivulje.
+    \subsection{Ukazi in transformacije izbrane krivulje}
+    Uporabnik lahko krivuljo izbere tako, da nanjo klikne.
+    Ko je krivulja izbrana, se okoli nje nariše črtkan pravokotnik, kartico z ukazi na grafu pa zamenja kartica z ukazi izbrane krivulje.
     Primere takšnih kartic si lahko ogledamo na sliki~\ref{fig:izbrana-krivulja}.
+    Naštejmo še, kakšne ukaze premorejo različne krivulje.
     \begin{figure}[h!]
         \captionsetup[subfigure]{labelformat=empty}
         \centering
-        \subfloat[polinomska Bezierjeva]{\includegraphics[width = \groupimagewidth]{images/bezeg/izbrana-krivulja-bezier}}
+        \subfloat[polinomska Bezierjeva krivulja]{\includegraphics[width = \groupimagewidth]{images/bezeg/izbrana-krivulja-bezier}}
         \qquad
-        \subfloat[racionalna Bezierjeva]{\includegraphics[width = \groupimagewidth]{images/bezeg/izbrana-krivulja-rational}}
+        \subfloat[racionalna Bezierjeva krivulja]{\includegraphics[width = \groupimagewidth]{images/bezeg/izbrana-krivulja-rational}}
         \qquad
-        \subfloat[PH]{\includegraphics[width = \groupimagewidth]{images/bezeg/izbrana-krivulja-ph}}
+        \subfloat[PH krivulja]{\includegraphics[width = \groupimagewidth]{images/bezeg/izbrana-krivulja-ph}}
         \caption{Kartice z ukazi za različne izbrane krivulje.}
         \label{fig:izbrana-krivulja}
     \end{figure}
-    Naštejmo sedaj ukaze posamičnih krivulj.
     \begin{itemize}
         \item  Vse krivulje omogočajo preklapljanje prikazovanja kontrolnega poligona, konveksne ovojnice kontrolnih točk, ter kontrolnih točk samih.
     \item  Bézierjeva krivulja premore poleg osnovih ukazov še ukaze za subdivizijo, ekstrapolacijo, skrčitev, višanje stopnje, ter prikazovanje De Casteljaujeve sheme.
         Ob premiku miške na posamezni ukaz se na grafu predstavi nekakšen predogled ukaza.
         Primer si lahko ogledami na sliki~\ref{fig:bezier:prikaz-rezultata}.
-        \item  Racionalna Bézierjeva Krivulja ima poleg funkcionalnosti bezierjeve krivulje še dodane ukaze za prikaz in spreminjanje uteži, ter drsnik za preklapljanje forme uteži.
+        \item Racionalna Bézierjeva Krivulja ima poleg funkcionalnosti Bézierjeve krivulje še dodane ukaze za prikaz in spreminjanje uteži, ter preklopnik za prikaz standardne forme uteži.
         \item PH Bézierjeve krivulje nimajo ukazov, ki so jih imele Bézierjeve krivulje, saj se pri nekaterih ukazih izgubi lastnost PH.
-        Premorejo pa naslednje ukaze.
-        Prikazovanje odmik krivulj in spreminjanje velikosti odmika.
-        Prikaz kontrolnih točk odmik krivulj ter prikazovanje premic na katerih ležijo.
-        Dodajanje in odstranjevanje odmik krivulj.
-        Koordinatni sistem z interaktivnimi točkami, ki predstavljajo hodografe.
+        Premorejo pa naslednje ukaze: prikazovanje odmik krivulj in spreminjanje velikosti odmika,
+        prikaz kontrolnih točk odmik krivulj ter prikazovanje premic na katerih ležijo, dodajanje in odstranjevanje odmik krivulj, in koordinatni sistem z interaktivnimi točkami, ki predstavljajo hodografe.
         \item $C^n$ zlepki premorejo le ukaze osnovne krivulje, $G^1$ zlepki pa imajo poleg teh še drsnike za spreminjanje števil $\beta_1$.
     \end{itemize}
-
-    % tukaj lahko dam slike za subdivizijo ekstrapolacijo skrčitev itd
     \begin{figure}[h!]
         \captionsetup[subfigure]{labelformat=empty}
         \centering
-        \subfloat[]{\includegraphics[width = \groupimagewidth]{images/bezeg/prikaz-rezultata}}
-        \caption{Predogled rezultata za skrčitev.}
+        \subfloat[skrčitev]{\includegraphics[width = \groupimagewidth]{images/bezeg/prikaz-rezultata-skrcitev}}
+        \qquad
+        \subfloat[višanje stopnje]{\includegraphics[width = \groupimagewidth]{images/bezeg/prikaz-rezultata-visanje}}
+        \qquad
+        \subfloat[ekstrapolacija]{\includegraphics[width = \groupimagewidth]{images/bezeg/prikaz-rezultata-ekstrapolacija}}
+        \caption{Predogledi rezultatov različnih ukazov krivulje.}
         \label{fig:bezier:prikaz-rezultata}
     \end{figure}
-
-
-    \subsection{Transformacije izbrane krivulje}
-    Ko je krivulja izbrana, je okoli nje
-    Ob kliku se okoli krivulje prikaže črtkan pravokotnik, ki izbrano krivuljo označuje.
-    Uporabnik lahko nato s transformacijo pravokotnika transformira tudi izbrano krivuljo.
-    Klik na oglišče pravokotnika zažene spreminjanje velikosti krivulje \missingref{slika}.
-    Klik ob stranici pravokotnika pa zažene rotiranje krivulje \missingref{slika}.
-    Klik znotraj pravokotnika zažene premikanje krivulje \missingref{slika}.
+    Uporabnik lahko izbrano krivuljo transformira tako, da upravlja s črtkanim pravokotnikom.
+    Klik na oglišče pravokotnika zažene spreminjanje velikosti krivulje, klik ob stranici pravokotnika zažene rotiranje krivulje, klik znotraj pravokotnika pa zažene premikanje krivulje.
+    Primere si lahko ogledamo na sliki~\ref{fig:bezier:transformacije-krivulje}.
     \begin{figure}[h!]
         \captionsetup[subfigure]{labelformat=empty}
         \centering
-        \subfloat[]{\includegraphics[width = \groupimagewidth]{images/bezeg/resize-start}}
+        \subfloat[spreminjanje velikosti]{\includegraphics[width = \groupimagewidth]{images/bezeg/spreminjanje-velikosti}}
         \qquad
-        \subfloat[]{\includegraphics[width = \groupimagewidth]{images/bezeg/resize-end}}
-        \caption{Spreminjanje velikosti krivulje.}
-        \label{fig:bezier:prikaz-rezultata}
+        \subfloat[premik]{\includegraphics[width = \groupimagewidth]{images/bezeg/premik}}
+        \qquad
+        \subfloat[rotacija]{\includegraphics[width = \groupimagewidth]{images/bezeg/rotacija}}
+        \caption{Transformacije izbrane krivulje.}
+        \label{fig:bezier:transformacije-krivulje}
     \end{figure}
 
     \subsection{Algoritmi in podatkovne strukture}
@@ -1714,7 +1714,7 @@ interface PointControlledCurve {
     V projektu sem pripravil dve implementaciji vmesnika Point.
     Za osnovno delo z krivuljami sem pripravil razred PointImpl.
     Predstavlja osnovno implementacijo funkcij iz vmesnika.
-    Za primer pokažimo implementacijo metode X v tem razredu.
+    Za primer pokažimo konstruktor razreda ter implementacijo metode X v tem razredu.
     \begin{lstlisting}[label={lst:point-impl}]
 class PointImpl implements Point {
     constructor(x: number | (() => number), y: number | (() => number)) {
@@ -1745,7 +1745,7 @@ class JXGPointWrapper implements Point {
     ...
 }.
     \end{lstlisting}
-    Takšen ovoj nam omogoča, da točke iz knjižnice JSXGraph uporabljamo v definicijah svojih krivulj.
+    Takšen ovoj nam omogoča, da točke iz knjižnice JSXGraph uporabljamo pri konstrukciji svojih krivulj.
 
     \subsubsection{Implementacije krivulj}
     Osnovne implementacije vmesnika PointControlledCurve sem združil v abstraktnem razredu AbstractPointControlledCurve, ki implementira vse metode razen calculatePointAtT\@.
