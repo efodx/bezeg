@@ -7,12 +7,20 @@ export class C2QubicBezierSpline extends BezierSpline {
 
     override getU() {
         const u = [0];
-        for (let i = 1; i < this.points.length - 2; i++) {
-            let pointStart = this.points[i];
-            let pointEnd = this.points[i + 1];
-            let d = Math.sqrt((pointStart.X() - pointEnd.X()) ** 2 + (pointStart.Y() - pointEnd.Y()) ** 2) ** this.alpha;
+        let pointStart = this.points[0];
+        let pointEnd = this.points[2];
+        let d = Math.sqrt((pointStart.X() - pointEnd.X()) ** 2 + (pointStart.Y() - pointEnd.Y()) ** 2) ** this.alpha;
+        u.push(u[u.length - 1] + d);
+        for (let i = 2; i < this.points.length - 3; i++) {
+            pointStart = this.points[i];
+            pointEnd = this.points[i + 1];
+            d = Math.sqrt((pointStart.X() - pointEnd.X()) ** 2 + (pointStart.Y() - pointEnd.Y()) ** 2) ** this.alpha;
             u.push(u[u.length - 1] + d);
         }
+        pointStart = this.points[this.points.length - 3];
+        pointEnd = this.points[this.points.length - 1];
+        d = Math.sqrt((pointStart.X() - pointEnd.X()) ** 2 + (pointStart.Y() - pointEnd.Y()) ** 2) ** this.alpha;
+        u.push(u[u.length - 1] + d);
         return u.map(t => t / u[u.length - 1]);
     }
 

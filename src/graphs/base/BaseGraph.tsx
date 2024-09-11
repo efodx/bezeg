@@ -186,7 +186,7 @@ abstract class BaseGraph<P, S extends BaseGraphState> extends Component<P, S> {
     getTools(): JSX.Element[] {
         const tools = [<AxisSelector board={() => this.board}></AxisSelector>,
             <SizeRange board={() => this.board}/>,
-            <SaveImage saveAsSVG={name => this.saveAsSVG(name)} saveAsPNG={name => this.saveAsPNG(name)}/>,
+            <SaveImage saveAsSVG={name => this.saveAsSVG(name)} saveAsPNG={name => this.saveAsPNG2(name)}/>,
         ];
         if (this.presetService) {
             tools.push(<PresetSelector presetService={this.presetService}
@@ -257,6 +257,22 @@ abstract class BaseGraph<P, S extends BaseGraphState> extends Component<P, S> {
                 }
                 ImageStore.addImage(blob, fileName);
             });
+        });
+        mmls.forEach(el =>
+            el.style.removeProperty("display"));
+    }
+
+    private saveAsPNG2(fileName: string) {
+        const mmls = document.querySelectorAll<HTMLElement>("mjx-assistive-mml");
+        mmls.forEach(el =>
+            el.style.setProperty("display", "none", "important"));
+        html2canvas(document.getElementById('jgbox') as HTMLElement).then(canvas => {
+            const link = document.createElement('a');
+            link.href = canvas.toDataURL('image/png');
+            link.download = fileName;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
         });
         mmls.forEach(el =>
             el.style.removeProperty("display"));

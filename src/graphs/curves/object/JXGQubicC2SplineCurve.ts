@@ -24,6 +24,15 @@ export class JXGQubicC2SplineCurve extends JXGSplineCurve<C2QubicBezierSpline> {
         return super.getAllFreeJxgPoints();
     }
 
+    override labelJxgPoints() {
+        if (this.labelAll) {
+            this.getJxgPoints().forEach((point, i) => point.setName(PointStyles.pi(i - 1, () => this.isShowingJxgPoints()).name as string));
+        } else {
+            this.getJxgPoints().forEach((point, i) => point.setName(""));
+            this.getAllFreeJxgPoints().forEach((point, i) => point.setName(PointStyles.pi(i, () => this.isShowingJxgPoints()).name as string));
+        }
+
+    }
 
     protected getStartingCurve(points: number[][]): C2QubicBezierSpline {
         const jsxPoints = points.map((point, i) => this.createJSXGraphPoint(point[0], point[1], PointStyles.pi(i, () => this.isShowingJxgPoints())));

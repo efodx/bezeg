@@ -82,7 +82,7 @@ abstract class BasePhBezierCurveGraph<P, S extends BasePhBezierCurveGraphStates>
     }
 
     private initializeHodographs(hodographs: number[][]) {
-        const jxgGraphPoints = hodographs.map(w => this.hodographBoard.create('point', [w[0], w[1]]));
+        const jxgGraphPoints = hodographs.map(((w, i) => this.hodographBoard.create('point', [w[0], w[1]], {name: "w_" + i})));
         const hodographPoints = jxgGraphPoints.map(point => new JXGPointWrapper(point));
 
         jxgGraphPoints.forEach(point => point.on("drag", () => {

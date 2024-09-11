@@ -8,7 +8,12 @@ interface HodographInputBoxProps {
 export function HodographInputbox(props: HodographInputBoxProps) {
     useEffect(() => {
         const board = JSXGraph.initBoard("hodograph-input-box", {
-            showFullscreen: false, boundingbox: [-5, 5, 5, -5], axis: true, showNavigation: false, showCopyright: false
+            showFullscreen: false,
+            boundingbox: [-5, 5, 5, -5],
+            axis: true,
+            showNavigation: false,
+            showCopyright: false,
+            showScreenshot: true
         });
         props.setRef(board);
     });

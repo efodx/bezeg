@@ -4,6 +4,7 @@ import {BaseGraphStates} from "../../base/BaseCurveGraph";
 import {PointStyles} from "../../styles/PointStyles";
 import React from "react";
 import Slider from "../../../inputs/Slider";
+import {SizeContext} from "../../context/SizeContext";
 
 interface SplineAlphaParamGraphStates extends BaseGraphStates {
     numberOfPoints: number;
@@ -68,7 +69,7 @@ class Graph extends BaseSplineCurveGraph<SplineAlphaParamGraphStates> {
     }
 
     defaultPreset(): any {
-        return [["JSXQuadraticC1SplineCurve", {
+        return [["JSXQubicC2SplineCurve", {
             "points": [[-3, 2], [-4, -1], [-3, -2], [-1, 1], [1, 2], [4, 2], [3, -1]],
             "state": {
                 "showingJxgPoints": true, "showingControlPolygon": false, "showingConvexHull": false
@@ -81,6 +82,7 @@ class Graph extends BaseSplineCurveGraph<SplineAlphaParamGraphStates> {
         for (let i = 1; i <= numberOfPoints; i++) {
             this.createJSXGraphPoint(() => this.getFirstCurve()!.calculatePointAtT(i * dt).X(), () => this.getFirstCurve()!.calculatePointAtT(i * dt).Y(), {
                 ...PointStyles.default,
+                size: () => SizeContext.pointSize * 0.5,
                 color: Colors[3]
             });
         }
