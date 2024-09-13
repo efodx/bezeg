@@ -109,7 +109,7 @@ export class JXGBezierCurve extends AbstractJXGBezierCurve<BezierCurve, BezierCu
         this.movePointsToNewPoints(extrapolatedBezier.getPoints());
     }
 
-    getStartingCurve(points: number[][]): BezierCurve {
+    getInitialCurve(points: number[][]): BezierCurve {
         let jsxPoints = points.map((point, i) => this.createJSXGraphPoint(point[0], point[1], PointStyles.pi(i, () => this.isShowingJxgPoints())));
         return new PolynomialBezierCurve(jsxPoints);
     }

@@ -29,6 +29,7 @@ interface JSXPHBezierCurveState extends JXGBezierCurveState {
     d: number
 }
 
+// TODO this one shouldn't extend JXGBezierCurve... but we needed it cause we don't have an interface for the JXG curves..
 export class JXGPHBezierCurve extends JXGBezierCurve {
 
     private showOffsetCurve: boolean = false;
@@ -103,7 +104,7 @@ export class JXGPHBezierCurve extends JXGBezierCurve {
         this.showOffsetCurve = show;
     }
 
-    override getStartingCurve(points: number[][]): BezierCurve {
+    override getInitialCurve(points: number[][]): BezierCurve {
         const pointsImpl = points.map(p => new PointImpl(p[0], p[1]));
         const curve = new PhBezierCurve(pointsImpl.slice(0, 1), pointsImpl.slice(1));
         curve.getPoints().map((p, i) => this.createJSXGraphPoint(() => p.X(), () => p.Y(), PointStyles.pi(i, () => this.isShowingJxgPoints())));

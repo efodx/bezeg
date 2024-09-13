@@ -1,6 +1,6 @@
 import BaseCurveGraph, {BaseGraphStates} from "../../base/BaseCurveGraph";
 import {BezierSpline} from "../../../bezeg/impl/curve/bezier-spline";
-import {JXGSplineCurve} from "../object/JXGSplineCurve";
+import {AbstractJXGSplineCurve} from "../object/AbstractJXGSplineCurve";
 import {OnOffSwitch} from "../../../inputs/OnOffSwitch";
 
 export abstract class BaseSplineCurveGraph<S extends BaseGraphStates> extends BaseCurveGraph<any, S> {
@@ -13,8 +13,8 @@ export abstract class BaseSplineCurveGraph<S extends BaseGraphStates> extends Ba
         return super.getFirstCurve() as BezierSpline;
     }
 
-    override getFirstJxgCurve(): JXGSplineCurve<any> {
-        return super.getFirstJxgCurve() as JXGSplineCurve<any>;
+    override getFirstJxgCurve(): AbstractJXGSplineCurve<any> {
+        return super.getFirstJxgCurve() as AbstractJXGSplineCurve<any>;
     }
 
     override getGraphCommands(): JSX.Element[] {

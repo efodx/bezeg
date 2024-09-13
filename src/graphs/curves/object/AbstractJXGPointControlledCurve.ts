@@ -54,7 +54,7 @@ export abstract class AbstractJXGPointControlledCurve<T extends PointControlledC
         if (attributes) {
             this.setAttributes(attributes);
         }
-        this.pointControlledCurve = this.getStartingCurve(points);
+        this.pointControlledCurve = this.getInitialCurve(points);
         // TODO the starting curve is hardly ever actually used... Maybe think differently about this.
         this.jxgCurve = this.board.create('curve',
             [(t: number) => {
@@ -431,7 +431,7 @@ export abstract class AbstractJXGPointControlledCurve<T extends PointControlledC
         this.coords = oldCoords;
     }
 
-    protected abstract getStartingCurve(points: number[][]): T
+    protected abstract getInitialCurve(points: number[][]): T
 
     /**
      * Creates a JSXGraph point ands wraps it with the Point interface.

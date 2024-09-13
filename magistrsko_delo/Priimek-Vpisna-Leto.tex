@@ -1072,7 +1072,7 @@ the content and not the structure of your work.}
         \label{fig:zlepek-g1}
     \end{figure}
 
-    \subsection{Konstrukcija zlepkov Bézierjevih krivulj}
+    \subsection{Konstrukcija zlepkov Bézierjevih krivulj}\label{subsec:konstrukcija-zlepkov}
 %    V tem podrazdelku bomo podali nekaj algoritmov za konstrukcijo zlepkov Bézierjevih krivulj.
 %    Najprej bomo predstavili enostransko konstrukcijo $C^r$ zlepka za poljuben $r$, ki bo bolj teoretične narave.
 %    Nadaljevali pa bomo s simetričnimi konstrukcijami, ki so uporabne tudi v praksi.
@@ -1260,10 +1260,10 @@ the content and not the structure of your work.}
     Takšnem generiranju točk pravimo \textit{$\alpha$ parametrizacije}.
     Točke $u_i$ torej izberemo tako, da velja
     \[\Delta u_i=||\Delta p_i||^{\alpha},\quad \alpha\in[0,1],\quad i=0,1,\ldots,m.\]
-    Če želimo upoštevati točki $d_{-1}$ in $d_{m+1}$, ju lahko upoštevamo pri izračunu $u_1$ in $u_m$ na naslednji način
+    Če želimo upoštevati točki $p_{-1}$ in $p_{m+1}$, ju lahko upoštevamo pri izračunu $u_1$ in $u_m$ na naslednji način
     \[ u_1=u_0+|| p_1-p_{-1}||^{\alpha}, \quad  u_m=u_{m-1}+|| p_{m+1}-p_{m-1}||^{\alpha}, \quad  \alpha\in[0,1].\]
     Vpliv izbire $\alpha$ si lahko ogledamo na sliki~\ref{fig:zlepek-alfa}.
-    Izbira vpliva tako na obliko, kot tudi na enakomernost porazdeljenosti točk na krivulji, izračunanih pri ekvidistantnih $t_i$.
+    Izbira vpliva tako na obliko, kot tudi na enakomernost porazdeljenosti točk na krivulji, izračunanih pri ekvidistantnih parametrih $\{t_i\}_{i=0}^{N}$.
     \begin{figure}[h]
         \captionsetup[subfigure]{labelformat=empty}
         \centering
@@ -1569,8 +1569,9 @@ the content and not the structure of your work.}
     kjer so polinomi $\tilde{W},\tilde{X}$ in $\tilde{Y}$ stopnje $2n-1$,
     njihovi koeficienti v Bernsteinovi bazi pa definirajo kontrolne točke racionalne Bézierjeve krivulje s homogenimi koordinatami
     \[\mathbf{O}_k=(\tilde{W_k},\tilde{X_k},\tilde{Y_k}),\quad k=0,\ldots,2n-1.\]
-    Homogene koordinate odmik krivulje lahko v zaključeni obliki izrazimo s kontrolnimi točkami Bézierjeve PH krivulje
+    Homogene koordinate kontrolnih točk racionalne odmik krivulje lahko v zaključeni obliki izrazimo s kontrolnimi točkami začetne Bézierjeve PH krivulje
     \[\mathbf{O}_k= \sum_{j=\max(0,k-n)}^{\min(n-1,k)} \frac{\binom{n-1}{j}\binom{n}{k-j} }{\binom{2n-1}{k}}(\sigma_j\mathbf{P}_{k-j} + dn\Delta \mathbf{P}_j^{\perp}),\quad k=0,\ldots,2n-1.        \]
+    \mycomment{To ni očitno, moram dodati referenco na kak dokaz.}
     Za primer si oglejmo kontrolne točke odmik krivulje kubične PH krivulje
     %\mycomment{Ostalih stopenj ne bomo razpisali, saj bomo v nadaljevanju predstavili zapis, ki bo vse to olajšal.}
     \begin{align*}
@@ -1594,13 +1595,13 @@ the content and not the structure of your work.}
         \label{fig:kontrolne-točke-offset}
     \end{figure}
 
-    \subsection{Reprezentacija s kompleksnimi števili}
+    \subsection{Reprezentacija s kompleksnimi števili}\label{subsec:complex-repr}
     Kubične in kvintične Bézierjeve PH krivulje smo v prejšnjih podrazdelkih izpeljali tako, da smo izbrali Bernsteinove polinome definirane z izrazi~\eqref{eq:ph-bernstein-1},\eqref{eq:ph-bernstein-1} in integrirali.
     Če predstavimo konstante iz polinomov s kompleksnimi števili $\mathbf{w_i} = u_i +  iv_i\in \C$ in enako storimo s kontrolno točko $\p_0=x_0 + iy_0$, lahko preostale kontrolne točke kubične Bézierjeve PH krivulje izrazimo kot kompleksna števila z naslednjimi izrazi
     \[\p_1=\p_0+\frac{1}{3}\mathbf{w}_0^2,\quad \p_2=\p_1+\frac{1}{3}\mathbf{w}_0\mathbf{w}_1,\quad \p_3=\p_2+\frac{1}{3}\mathbf{w}_1^2.\]
     Podobno za kvintično Bézierjevo PH krivuljo dobimo izraze
     \begin{gather*}
-        \p_1=\p_0+\frac{1}{5}\mathbf{w}_0^2,\quad \p_2=\p_1 +\frac{1}{5}\mathbf{w}_0\mathbf{w}_1,\quad  \p_3=\p_2+\frac{1}{5} \frac{2\mathbf{w}_1^2 + \mathbf{w}_0\mathbf{w}_2}{3} \\
+        \p_1=\p_0+\frac{1}{5}\mathbf{w}_0^2,\quad \p_2=\p_1 +\frac{1}{5}\mathbf{w}_0\mathbf{w}_1,\quad  \p_3=\p_2+\frac{1}{5} \frac{2\mathbf{w}_1^2 + \mathbf{w}_0\mathbf{w}_2}{3}, \\
         \p_4=\p_3+\frac{1}{5}\mathbf{w}_1\mathbf{w}_2,\quad \p_5=\p_4+\frac{1}{5}\mathbf{w}_2^2.
     \end{gather*}
     Da so izrazi ekvivalentni izrazom~\eqref{eq:ph-kontrolne} oziroma izrazom~\eqref{eq:ph-kontrolne-5} je enostavno preveriti z nekaj računanja.
@@ -1609,7 +1610,7 @@ the content and not the structure of your work.}
     Potem lahko rotacijo števila $\mathbf{w_i}$ okoli središča koordinatnega sistema za kot $\theta$ predstavimo z množenjem števila s kompleksnim številom $\mathbf{z}=e^{i\theta}$, tj.\ $\mathbf{z}\mathbf{w_i}=r_i e^{i(\varphi_i+\theta)}$.
     Kontrolne točke pri rotiranih točkah $\mathbf{\tilde{w}}_i=\mathbf{z}\mathbf{w}_i$ potem izledajo takole
     \[\tilde{\p}_1=\p_0+\frac{1}{3}\mathbf{z}^2\mathbf{w}_0^2,\quad \tilde{\p_2}=\tilde{\p_1}+\frac{1}{3}\mathbf{z}^2\mathbf{w}_0\mathbf{w}_1,\quad \tilde{\p_3}=\tilde{\p_2}+\frac{1}{3}\mathbf{z}^2\mathbf{w}_1^2.\]
-    Če fiksiramo točko $\p_0=(0,0)$ iz izrazov hitro sledi $\tilde{\p}_i=\mathbf{z}^2\p_i$.
+    Če fiksiramo točko $\p_0=(0,0)$, iz izrazov hitro sledi $\tilde{\p}_i=\mathbf{z}^2\p_i$.
     Od tod pa sledi, da rotiranje števil $\mathbf{w_i}$ okoli središča za kot $\theta$ rotira krivuljo okoli točke $\p_0$ za kot $2\theta$.
     Podobno dobimo, če za število $\mathbf{z}$ vzamemo skalar.
     V tem primeru skaliranje števil $\mathbf{w_i}$ za skalar $d$, skalira krivuljo za $d^2$.
@@ -1632,9 +1633,9 @@ the content and not the structure of your work.}
     Spletno orodje pod krovom za izdelavo uporabniških vmesnikov uporablja knjižnico React,
     za risanje interaktivnih grafov knjižnico JSXGraph, za oblikovanje spletne strani pa uporablja ogrodje bootstrap v paru s knjižnico react-bootstrap.
     % Knjižnic ne bomo podrobneje opisovali, bralec si lahko o njih prebere na pripadajočih spletnih straneh.
-    \subsection{Uporabniški vmesnik}
+    \subsection{Uporabniški vmesnik}\label{subsec:gui}
     Osnovni izgled uporabniškega vmesnika za izbrani graf na spletni strani Bezga si lahko ogledamo na sliki~\ref{fig:bezeg:osnovni-izgled}.
-    Na vrhu se nahaja navigacijska vrstica z povezavami do različnih grafov.
+    Na vrhu se nahaja navigacijska vrstica s povezavami do različnih grafov.
     Na sredini se nahaja instanca grafa knjižnice JSXGraph.
     Levo od grafa se nahaja kartica s splošnimi orodji za vse grafe, desno od njega pa se nahaja kartica z grafu specifičnimi ukazi.
     V naslednjem podrazdelku bomo predstavili funkcionalnosti kartice z orodji.
@@ -1687,8 +1688,7 @@ the content and not the structure of your work.}
         \caption{Kartice ukazov na grafu za različne grafe.}
         \label{fig:ukazi-na-grafu}
     \end{figure}
-
-    \subsection{Ukazi in transformacije izbrane krivulje}
+    \subsubsection{Ukazi in transformacije izbrane krivulje}
     Uporabnik lahko krivuljo izbere tako, da nanjo klikne.
     Ko je krivulja izbrana, se okoli nje nariše črtkan pravokotnik, kartico z ukazi na grafu pa zamenja kartica z ukazi izbrane krivulje.
     Primere takšnih kartic si lahko ogledamo na sliki~\ref{fig:izbrana-krivulja}.
@@ -1741,9 +1741,23 @@ the content and not the structure of your work.}
         \label{fig:bezier:transformacije-krivulje}
     \end{figure}
 
-    \subsection{Algoritmi in podatkovne strukture}
-
-    \subsubsection{Osnovni vmesniki}\label{subsubsec:osnovni-vmesniki}
+    \subsection{Implementacija}
+    Implementacija krivulj v Bezgu je napisana v programskem jeziku TypeScript.
+    Zavoljo kompaknosti, bodo primeri kode v magistrskem delu pisani v mešanici psevdokode in TypeScripta.
+    Dejansko implementacijo, si lahko bralec ogleda na repozitoriju Bezga~\cite{github-bezeg}.
+    Arhitekturo aplikacije si lahko ogledamo na sliki~\ref{fig:arhitektura}.
+    Uporabniški vmesnik upravlja s krivuljami preko razreda JXGPointControlledCurve.
+    Razred JXGPointControlledCurve točke iz knjižnice JSXGraph ovije v ovoj JXGPointWrapper, ki nudi podporo za rabo točk v implementiranih krivuljah Bezga.
+    Ovoj JXGPointWrapper je dvosmeren - spreminjanje točke v implementaciji krivulj spremeni točko iz knjižnice JSXGraph in obratno.
+    Tako dosežemo to, da uporabnikovo premikanje točk iz knjižnice JSXGraph spreminja obliko krivulje, razne transformacije krivulje pa transformirajo tudi točke iz knjižnice JSXGraph.
+    V naslednjih podrazdelkih bomo podrobneje predstavili posamezne člene Bezga.
+    \begin{figure}[h!]
+        \centering
+        \includegraphics[width = 0.70\textwidth]{drawio/actualfinal.drawio}
+        \caption{Arhitektura spletnega orodja Bezeg.}
+        \label{fig:arhitektura}
+    \end{figure}
+    \subsubsection{Vmesniki}\label{subsubsec:osnovni-vmesniki}
     Vse krivulje predstavljene v delu temeljijo na kontrolnih točkah.
     Točke v Bezgu predstavljamo z vmesnikom
     \begin{lstlisting}[label={lst:vmesnik-tocke}]
@@ -1769,9 +1783,8 @@ interface PointControlledCurve {
     \end{lstlisting}
 
     \subsubsection{Implementacije točk}
-    V projektu sem pripravil dve implementaciji vmesnika Point.
-    Za osnovno delo s krivuljami sem pripravil razred PointImpl.
-    Predstavlja osnovno implementacijo funkcij iz vmesnika.
+    V projektu se nahajata dve implementaciji vmesnika Point.
+    Za osnovno delo s krivuljami je na voljo razred PointImpl, ki predstavlja osnovno implementacijo funkcij iz vmesnika.
     Za primer pokažimo konstruktor razreda ter implementacijo metode X v tem razredu.
     \begin{lstlisting}[label={lst:point-impl}]
 class PointImpl implements Point {
@@ -1789,7 +1802,7 @@ class PointImpl implements Point {
     ...
 }
     \end{lstlisting}
-    Druga implementacija predstavlja ovoj za točke iz knjižnice JSXGraph, kjer metode le delegiramo na metode originalne točke iz knjižnice.
+    Druga implementacija vmesnika Point predstavlja ovoj za točke iz knjižnice JSXGraph, kjer metode le delegiramo na metode originalne točke iz knjižnice.
     Na primer
     \begin{lstlisting}[label={lst:jsx-point-impl}]
 class JXGPointWrapper implements Point {
@@ -1806,14 +1819,20 @@ class JXGPointWrapper implements Point {
     Takšen ovoj nam omogoča, da točke iz knjižnice JSXGraph uporabljamo pri konstrukciji svojih krivulj.
 
     \subsubsection{Implementacije krivulj}
-    Osnovne implementacije vmesnika PointControlledCurve sem združil v abstraktnem razredu AbstractPointControlledCurve, ki implementira vse metode razen calculatePointAtT\@.
-    Metodo calculatePointAtT implementacije razreda AbstractPointControlledCurve definirajo poljubno.
-    Pokažimo le implementacijo metode affineTransform, saj so ostale implementacije trivialne.
+    Osnovne implementacije vmesnika PointControlledCurve so združene v abstraktnem razredu AbstractPointControlledCurve, ki implementira vse metode razen calculatePointAtT\@.
+    Metodo calculatePointAtT implementacije razreda AbstractPointControlledCurve implementirajo poljubno.
+    Razredno hierarhijo krivulj v Bezgu si lahko ogledamo na sliki~\ref{fig:hiearhija-krivulj}.
+    Za primer pokažimo kako je implementirana metoda affineTransform v razredu AbstractPointControlledCurve.
     Vse krivulje razen PH krivulj iz prejšnjih razdelkov so afino invariantne.
     Da krivuljo transformiramo, moramo zato transformirati le kontrolne točke.
+    \begin{figure}[h!]
+        \centering
+        \includegraphics[width = \textwidth]{drawio/classhierrhija.drawio}
+        \caption{Razredna hierarhija krivulj.}
+        \label{fig:hiearhija-krivulj}
+    \end{figure}
     \begin{lstlisting}[label={lst:affine-transform}]
 abstract class AbstractPointControlledCurve implements PointControlledCurve {
- points: Point[];
     ...
  affineTransform(A: number[][], b: number[], center: number[]): void {
   this.getPoints().forEach(point => {
@@ -1831,6 +1850,7 @@ abstract class AbstractPointControlledCurve implements PointControlledCurve {
    ...
 }
     \end{lstlisting}
+    \subsubsection*{Bézierjeva krivulja}
     Vmesnik za Bézierjevo krivuljo poleg metod vmesnika PointControlledCurve premore še metode za ekstrapolacijo, subdivizijo in višanje stopnje krivulje.
     \begin{lstlisting}[label={lst:bez-curve-vmesnik}]
 interface BezierCurve extends PointControlledCurve {
@@ -1863,9 +1883,7 @@ class PolynomialBezierCurve extends AbstractPointControlledCurve implements Bezi
    newPoints = [];
    newPoints.push(points[0]);
    for (let i=1; i<n; i++) {
-       x = i/n*points[i-1].X() + (1-i/n)*points[i].X();
-       y = i/n*points[i-1].Y() + (1-i/n)*points[i].Y();
-       newPoints.push(new PointImpl(x, y));
+       newPoints.push(newPoint);
    }
    newPoints.push(this.points[n-1]);
    return new PolynomialBezierCurve(newPoints);
@@ -1876,7 +1894,6 @@ class PolynomialBezierCurve extends AbstractPointControlledCurve implements Bezi
     Podobno implementiramo tudi razred, ki predstavlja racionalno Bézierjevo krivuljo RationalBezierCurve.
     Razred ima poleg polja za kontrolne točke, tudi polje za uteži.
     Za primer pokažimo implementaciji metod calculatePointAtT in  extrapolate.
-    \mycomment{dodaj racunanje po dimenzijah?}
     \begin{lstlisting}[label={lst:rat-curve}]
 class RationalBezierCurve extends AbstractPointControlledCurve implements BezierCurve {
  weights: number[];
@@ -1913,7 +1930,7 @@ class RationalBezierCurve extends AbstractPointControlledCurve implements Bezier
 }
     \end{lstlisting}
 
-    \subsubsection{Zlepki Bézierjevih krivulj}
+    \subsubsection*{Zlepki Bézierjevih krivulj}
     Osnovno implementacijo zlepka Bézierjevih krivulj ponazarjamo z abstraktnim razredom BezierSpline.
     Razred ima polje, ki vsebuje seznam Bézierjevih krivulj ki ga sestavljajo.
     Bézierjeve krivulje generiramo s klicem abstraktne metode generateBezierCurves, ki jo implementacije zlepka implementirajo poljubno.
@@ -1987,20 +2004,60 @@ class GenericBezierSpline extends BezierSpline {
          ...
  }.
     \end{lstlisting}
-    Podobno so implementirani tudi ostali zlepki iz magistrskega dela.
-    Pri tem imata zlepka za $G^1$ in $G^2$ zveznost dodatno polje za števila $\beta_i$.
-    \subsubsection{PH Krivulje}
-    \mycomment{dodat bo treba par algoritmov.... Za rotacijo in kreacijo in scaling.... Bo treba kompleksne..}
+    Podobno so implementirani tudi ostali zlepki iz magistrskega dela, kjer je metoda generateBezierCurves za posamezen zlepek implementirana po pripadajočem algoritmu iz razdelka~\ref{subsec:konstrukcija-zlepkov}.
+    Implementaciji $G^1$ in $G^2$ zlepkov imata dodatno polje, ki drži števila $\beta_i$.
+    \subsubsection*{PH Krivulje}
+    Za delo s PH krivuljami je na voljo razred PhBezierCurve.
+    Razred prejme kontrolno točko $\p_0$ in točke $\mathbf{w}_i$ predstavljene v razdelku~\ref{subsec:complex-repr}.
+    Na podlagi števila vnešenih točk $\mathbf{w}_i$ se nato odloči katere izraze iz razdelka~\ref{subsec:complex-repr} uporabi pri generaciji točk polinomske Bezierjeve krivulje.
+    Ker Bezierjeve PH krivulje niso afino invariantne, metodo affineTransform povozimo, da v primeru klica vrže napako.
+    Rotacija, skaliranje krivulje v obe smeri in premik krivulje obdržijo PH lastnost, zato so v razredu implementirane metode, ki te funkcionalnosti podpirajo.
+    Za primer si oglejmo konstruktor razreda, povoženo funkcijo affineTransform in funkciji moveFor ter scale.
+    \begin{lstlisting}
+export class PhBezierCurve extends AbstractPointControlledCurve {
+  private underlyingBezierCurve: BezierCurve;
+  private underlyingCurveControlPoints: Point[];
+  private w: Point[];
 
-    \subsubsection{Povezava Bezga s knjižnico JSXGraph}
-    S pomočjo knjižnice JSXGraph v Bezgu narišemo interaktivne Bézierjeve krivulje.
-    V razdelku~\ref{subsubsec:osnovni-vmesniki} smo povedali, da smo ustvarili razred, ki ovije točke iz knjižnice JSXGraph in omogoča njihovo rabo v naših krivuljah.
-    Oglejmo si, kako izgleda primer risanja interaktivne Bezgove krivulje s knjižnico JSXGraph.
+  constructor(point: Point, w: Point[]) {
+    super([point]);
+    this.w = w;
+    degree = 2 * w.length - 1;
+    this.underlyingCurveControlPoints = this.generatePointsForDegree(degree);
+    this.underlyingBezierCurve = new PolynomialBezierCurve(this.underlyingCurveControlPoints);
+  }
+        ...
+
+  override affineTransform(A: number[][], b: number[], center: number[]): void {
+        throw "PH Curves don't allow affine transformations.";
+  });
+
+  moveFor(x: number, y: number) {
+    point = this.getPoints()[0];
+    point.setX(point.X() + x);
+    point.setY(point.Y() + y);
+  }
+
+  scale(scale: number) {
+    scale = Math.sqrt(scale);
+    this.w.forEach(point => {
+        point.setX(scale * point.X());
+        point.setY(scale * point.Y());
+    });
+  }
+        ...
+}.
+\end{lstlisting}
+
+    \subsubsection{Povezava implementacij krivulj s knjižnico JSXGraph}
+    V Bezgu interaktivne Bézierjeve krivulje rišemo s pomočjo knjižnice JSXGraph.
+    V razdelku~\ref{subsubsec:osnovni-vmesniki} smo povedali, da imamo na voljo razred, ki ovije točke iz knjižnice JSXGraph in omogoča njihovo rabo v naših krivuljah.
+    Oglejmo si, kako lahko krivulje iz prejšnjega razdelka narišemo, in naredimo interaktivne, s knjižnico JSXGraph.
     \begin{lstlisting}[label={lst:ghdfg}]
-    // Ustvarimo tocke knjiznice jsxgraph
+    // Ustvarimo interaktivne tocke knjiznice jsxgraph
     jxgPoints = [[-1, 0],[0, 1],[1, 1],[2,0]].map(p=> board.create('point', [p[0], p[1]], opts));
     // Tocke ovijemo
-    wrappedPoints = jxgPoints.map(p=> new WrappedPoint(p));
+    wrappedPoints = jxgPoints.map(p=> new JXGPointWrapper(p));
     // Ustvarimo Bezgovo Bezierjevo krivuljo
     curve = new PolynomialBezierCurve(wrappedPoints);
     // Ustvarimo se jsxgraph krivuljo
@@ -2010,14 +2067,24 @@ class GenericBezierSpline extends BezierSpline {
           0,1]
     );
     \end{lstlisting}
-    Da ni treba krivulj "na roke" vstavljat krivulj v jsxgraph sem v projektu definiral razrede krivulj, s predpono JXG, ki to delajo namesto nas.
-    Bézierjevo krivuljo lahko dodamo na graf JSXGraph knjižnice na naslednji način.
-    \begin{lstlisting}[label={lst:ghdfg}]
- jxgBezierCurve = new JXGBezierCurve([[1,2],[2,3],[3,0]], board);
-    \end{lstlisting}
-    Na grafu se nariše Bézierjeva krivulja z izbranimi kontrolnimi točkami.
+    Na grafu se izriše Bézierjeva krivulja z izbranimi kontrolnimi točkami.
+    Premik kontrolnih točk na grafu spreminja obliko krivulje.
+    Za zgornje, in ostalo delo potrebno za izris grafa, v Bezgu poskrbijo implementacije razreda AbstractJXGPointControlledCurve, ki ima abstraktno metodo getInitialCurve.
+    Metodo getInitialCurve implementacije razreda implementirajo, da izrišejo svojo krivuljo.
+    Hierarhijo si lahko ogledamo na sliki~\ref{fig:hiearhija-jxg-krivulj}.
+   % Polinomsko Bézierjevo krivuljo lahko dodamo na graf JSXGraph knjižnice na naslednji način.
+    \begin{figure}[h!]
+        \centering
+        \includegraphics[width = \textwidth]{drawio/jxgcurveshierarhija.drawio}
+        \caption{Razredna hierarhija JXG krivulj.}
+        \label{fig:hiearhija-jxg-krivulj}
+    \end{figure}
+%    \begin{lstlisting}[label={lst:ghdfg}]
+%        // board je instanca grafa iz knjiznice JSXGraph
+% jxgBezierCurve = new JXGBezierCurve([[1,2],[2,3],[3,0]], board);
+%    \end{lstlisting}
     Poleg risanja krivulje na graf, razred ponuja tudi druge metode za delo s krivuljo.
-    V naslednjem primeru pokažimo nekaj funkcionalnosti.
+    V naslednjem primeru naštejmo nekaj funkcionalnosti.
 \begin{lstlisting}[label={lst:ghdfg}]
  // Prikaze kontrolni poligon krivulje
  jxgBezierCurve.showControlPolygon();
@@ -2028,11 +2095,55 @@ class GenericBezierSpline extends BezierSpline {
  // Premakne krivuljo
  jxgBezierCurve.moveFor(2,3);
     \end{lstlisting}
-    Poleg takšnih metod imajo JXG implementacije krivulj tudi metode za procesiranje uporabnikove miške processMouseDown, processMouseMove, processMouseUp,ki skrbijo za to, da lahko uporabnik krivuljo afino transformira na naraven način.
+    Poleg takšnih metod ima razred JXGPointControlledCurve tudi metode za procesiranje potez uporabnikove miške processMouseDown, processMouseMove, processMouseUp, ki skrbijo za to, da lahko uporabnik z rabo miške transformira izbrano krivuljo.
  \subsubsection{Grafi}
-    Grafi bezga implementirajo razred BaseGraph, ki skrbi za inicializacijo grafa knjižnice jsxgraph in doda funkcionalnosti naštete v razdelku \mycomment{ref na razdelek o tem.}
+    Za inicializacijo grafa knjižnice JSXGraph in funkcionalnosti naštete v razdelku~\ref{subsec:gui} skrbi abstrakten razred BaseGraph, ki ima abstraktno metodo initialize.
+    Posamezna implementacija razreda BaseGraph implementira metodo initialize, da na grafu nariše željeno.
+    Za funkcionalnost izbire krivulje poskrbi abstrakten razred AbstractBaseCurveGraph, ki metode initialize ne implementira.
+    Metodo implementirajo posamezni razredi, da narišejo potrebne krivulje.
+    Razredno arhitekturo grafov si lahko ogledamo na sliki~\ref{fig:hiearhija-krivulj}.
+    \begin{figure}[h!]
+        \centering
+        \includegraphics[width = \textwidth]{drawio/graph-hierarhija.drawio}
+        \caption{Razredna hierarhija grafov.}
+        \label{fig:hiearhija-krivulj}
+    \end{figure}
+    Kot primer implementacije metode initialize si oglejmo kako graf racionalne Bezierjeve krivulje nariše svojo krivuljo
+    \begin{lstlisting}[label={lst:ghdfg}]
+    class RationalCurveGraph extends AbstractBaseCurveGraph {
+    ...
+        initialize(): void {
+             this.curve = new JXGRationalBezierCurve([[1,2],[2,2],[3,2]],[1,1,1],this.board);
+           }
+    ...
+    }.
+    \end{lstlisting}
+    Posamezni grafi lahko ukaze na kartico z ukazi na grafu dodajo tako, da povozijo metodo getGraphCommands.
+    Graf za višanje stopnje krivulje na naslednji način ustvari gumb, ki ob kliku zviša stopnjo krivulje
+    \begin{lstlisting}[label={lst:ghdfssg}]
+ class ElevationGraph extends AbstractBaseCurveGraph {
+     ...
+    override getGraphCommands(): JSX.Element[] {
+        return [<Button onClick={() => this.elevate()}>Dvigni stopnjo</Button>];
+    }
+    ...
+}.
+    \end{lstlisting}
+    Ukaze za kartico izbrane krivulje pa poda izbrana krivulja sama.
+    Vse implementacije razreda JXGPointControlledCurve imajo namreč metodo getCurveCommands, ki vrača ukaze za kartico.
+    Na primer razred JXGPHBezierCurve na naslednji način poda ukaze za upravljanje z odmik krivuljami
+    \begin{lstlisting}[label={lst:ghdfs1sg}]
+class JXGPHBezierCurve extends JXGPointControlledCurve {
+    ...
+    getCurveCommands(): JSX.Element[] {
+        return [<OffsetCurveSettings></OffsetCurveSettings>];
+    }
+    ...
+}.
+\end{lstlisting}
 
-
+    \section{Zaključek}
+    Orodje je super.
 %
 %    \section{Integrali po \texorpdfstring{$\omega$}{ω}-kompleksih}
 %

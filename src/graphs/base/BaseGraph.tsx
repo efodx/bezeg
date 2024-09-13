@@ -106,10 +106,10 @@ abstract class BaseGraph<P, S extends BaseGraphState> extends Component<P, S> {
                     x: AxisStyles.defaultX,
                     y: AxisStyles.defaultY
                 },
-                //theme: 'mono_thin'
             });
 
-            // this is a way to brute force the updates, but it is not the most efficient
+            // this is a way to brute force the updates, but it is not efficient.... like ... AT ALL. Avoid this and use it only when testing.
+            // PLEASE DO NOT LET THIS INTO PRODUCTION... PLEASE
             // this.board.on('update', (e) => {
             //    CacheContext.update()
             // });
@@ -128,7 +128,7 @@ abstract class BaseGraph<P, S extends BaseGraphState> extends Component<P, S> {
                 console.debug(this.defaultPreset());
                 this.importPresetData(this.defaultPreset());
             }
-
+            // TODO We should remove this...
             this.initialize();
         }
     }

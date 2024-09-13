@@ -311,7 +311,7 @@ export class JXGRationalBezierCurve extends AbstractJXGBezierCurve<RationalBezie
         this.setWeight(1);
     }
 
-    protected getStartingCurve(points: number[][]): RationalBezierCurve {
+    protected getInitialCurve(points: number[][]): RationalBezierCurve {
         let jsxPoints = points.map((point, i) => this.createJSXGraphPoint(point[0], point[1], PointStyles.pi(i, () => this.isShowingJxgPoints())));
         return new RationalBezierCurve(jsxPoints, jsxPoints.map(() => 1));
     }

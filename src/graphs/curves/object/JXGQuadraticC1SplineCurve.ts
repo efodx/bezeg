@@ -1,10 +1,10 @@
-import {JSXSplineConstructorParams, JXGSplineCurve} from "./JXGSplineCurve";
+import {AbstractJXGSplineCurve, JSXSplineConstructorParams} from "./AbstractJXGSplineCurve";
 import {Board} from "jsxgraph";
 import {C1QuadraticBezierSpline} from "../../../bezeg/impl/curve/C1QuadraticBezierSpline";
 import {PointStyles} from "../../styles/PointStyles";
 
 
-export class JXGQuadraticC1SplineCurve extends JXGSplineCurve<C1QuadraticBezierSpline> {
+export class JXGQuadraticC1SplineCurve extends AbstractJXGSplineCurve<C1QuadraticBezierSpline> {
     static toDto(curve: JXGQuadraticC1SplineCurve): JSXSplineConstructorParams {
         return {
             points: curve.pointControlledCurve.points.map(point => [point.X(), point.Y()]),
@@ -35,7 +35,7 @@ export class JXGQuadraticC1SplineCurve extends JXGSplineCurve<C1QuadraticBezierS
             });
     }
 
-    protected getStartingCurve(points: number[][]): C1QuadraticBezierSpline {
+    protected getInitialCurve(points: number[][]): C1QuadraticBezierSpline {
         const jsxPoints = points.map((point, i) => this.createJSXGraphPoint(point[0], point[1], PointStyles.pi(i, () => this.isShowingJxgPoints())));
         return new C1QuadraticBezierSpline(jsxPoints);
     }

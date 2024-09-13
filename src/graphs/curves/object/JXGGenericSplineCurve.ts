@@ -1,4 +1,4 @@
-import {JSXSplineConstructorParams, JXGSplineCurve} from "./JXGSplineCurve";
+import {AbstractJXGSplineCurve, JSXSplineConstructorParams} from "./AbstractJXGSplineCurve";
 import {Board} from "jsxgraph";
 import {GenericBezierSpline} from "../../../bezeg/impl/curve/GenericBezierSpline";
 import {PointStyles} from "../../styles/PointStyles";
@@ -8,7 +8,7 @@ export interface JSXGenericSplineConstructorParams extends JSXSplineConstructorP
     degree: number
 }
 
-export class JXGGenericSplineCurve extends JXGSplineCurve<GenericBezierSpline> {
+export class JXGGenericSplineCurve extends AbstractJXGSplineCurve<GenericBezierSpline> {
 
     constructor(points: number[][], continuity: number, degree: number, board: Board) {
         super(points, board);
@@ -93,7 +93,7 @@ export class JXGGenericSplineCurve extends JXGSplineCurve<GenericBezierSpline> {
     }
 
 
-    protected getStartingCurve(points: number[][]): GenericBezierSpline {
+    protected getInitialCurve(points: number[][]): GenericBezierSpline {
         const jsxPoints = points.map((point, i) => this.createJSXGraphPoint(point[0], point[1], PointStyles.pi(i, () => this.isShowingJxgPoints())));
         return new GenericBezierSpline(jsxPoints, 3, 1);
     }
