@@ -87,7 +87,12 @@
 % - povzetek v slovenščini
 %   V povzetku na kratko opišite vsebinske rezultate dela. Sem ne sodi razlaga
 %   organizacije dela, torej v katerem razdelku je kaj, pač pa le opis vsebine.
-\povzetek{Tukaj napišemo povzetek vsebine. Sem sodi razlaga vsebine in ne opis tega, kako je delo organizirano.}
+% Delo je močno podprto s slikovnim gradivom, ki je nastalo s pomočjo orodja.
+\povzetek{V magistrskem delu obravnavamo Bezierjeve krivulje, racionalne Bezierjeve krivulje, zlepke Bezierjevih krivulj ter Bezierjeve PH krivulje.
+Skozi delo predstavimo njihove lastnosti, ki so ključne za rabo v CAD/CAGD sistemih in algoritme, ki njihovo rabo v takšnih sistemih omogočajo.
+Predstavimo tudi orodje za grafični prikaz lastnosti prej naštetih krivulj - Bezeg.
+Ogledamo si njegove funkcionalnosti in pokažemo osnovne ideje za tem, kako je orodje implementirano in kako so v orodju implementirane prej naštete krivulje.
+}
 
 % - povzetek v angleščini
 \abstract{An abstract of the work is written here. This includes a short description of
@@ -202,12 +207,43 @@ the content and not the structure of your work.}
 \begin{document}
 
     \section{Uvod}
-    Napišite kratek zgodovinski in matematični uvod. Pojasnite motivacijo za problem, kje
-    nastopa, kje vse je bil obravnavan. Na koncu opišite tudi organizacijo dela -- kaj je v
-    katerem razdelku.
-
-
+%    Napišite kratek zgodovinski in matematični uvod. Pojasnite motivacijo za problem, kje
+%    nastopa, kje vse je bil obravnavan.
     \mycomment{Ker je v okviru magistrskega dela nastalo orodje za grafični prikaz konceptov, bo delo polno s slikovnimi primeri.}
+    \mycomment{Bezierjeve krivulje so marsikje uoprabljene za marsikaj in ph krivulje tudi..... }
+
+%    Na koncu opišite tudi organizacijo dela -- kaj je v
+%    katerem razdelku.
+    Začeli bomo s predstavitvijo Bezierjevih krivulj, kjer bomo najprej spoznali Bernsteinove bazne polinome, na katerih Bezierjeve krivulje temeljijo.
+    Predstavili bomo nekaj njihovih ključnih lastnosti, nato pa bomo z njihovo pomočjo upeljali Bezierjeve krivulje.
+    Pokazali bomo nekaj osnovnih lastnosti krivulj, nadaljevali pa bomo z De Casteljaujevim algoritmom, ki je ključen za stabilno računanje točk Bezierjeve krivulje.
+    Podrobneje si bomo ogledali lastnosti subdivizije, ekstrapolacije ter višanja stopnje Bezierjeve krivulje.
+    Zaključili pa bomo z odvodi Bezierjeve krivulje, ki bodo pomembni pri tvorjenju zlepkov Bezierjevih krivulj v 6. poglavju.
+
+    V tretjem poglavju se bomo posvečali racionalnim Bezierjevim krivuljam.
+    Predstavili bomo delovanje uteži racionalne Bezierjeve krivulje in število dodatnih prostih parametrov, ki jih dobimo v primerjavi s polinomskimi Bezierjevimi krivuljami.
+    Pokazali bomo racionalni De Casteljaujev algoritem, ki je razširitev algoritma iz prejšnjega poglavja.
+    Nato pa bomo še pokazali Farinove točke, ki predstavljajo uporabniku CAGD sistema prijazno kontrolo nad utežmi.
+
+    Četrto poglavje je namenjeno zlepkom Bezierjevih krivulj.
+    Zlepke krivulj bomo najprej definirali, nato pa izpeljali pogoje gladkosti za zlepke Bezierjevih krivulj.
+    Predstavili bomo koncept geometrijske zveznosti in izpeljali nekaj pogojev za različne stopnje geometrijske zveznosti.
+    Proti koncu poglavja bomo podali nekaj algoritmov za konstrukcijo zlepkov Bezierjevih krivulj.
+    Zaključili pa bomo z načinom računanja delilnih točk zlepka imenovanim $\alpha$- parametrizacije.
+
+    V naslednjem poglavju predstavimo PH krivulje.
+    Začnemo z motivacijo za njimi, kjer pokažemo, da nelinearne polinomske krivulje ne premorejo konstantne parametrične hitrosti.
+    Kot alternativo predstavimo PH krivulje, ki imajo polinomsko parametrično hitrost.
+    Nato s pomočjo Bernsteinovih polinomov izrazimo kontrolne točke Bezierjevih PH Krivulj kubične in kvintične stopnje.
+    Izpeljemo parametrično hitrost Bezierjevih PH krivulj, ki jo nato uporabimo pri iskanju približka za enakomerno parametrizacijo.
+    Pokažemo, da so funkcije tangente, normale in ukrivljenosti PH krivulje racionalne funkcije.
+    Kot posledico izrazimo odmik krivuljo Bezierjeve PH krivulje kot racionalno Bezierjevo krivuljo.
+    V zaključku poglavja izrazimo še kontrolne točke kubične in kvintične Bezierjeve PH krivulje s kompleksnimi števili, kar omogoča enostavno skaliranje in rotiranje krivulje.
+
+    V šestem poglavju se posvetimo orodju za grafični prikaz lastnosti krivulj iz prejšnjih poglavij - Bezgu.
+    Na začetku predstavimo uporabniški vmesnik orodja in njegove funkcionalnosti, ter čemu je orodje namenjeno.
+    Drugi del poglavja pa je namenjen implementaciji orodja, kjer predstavimo arhitekturo aplikacije ter podamo nekaj primerov iz dejanske implementacije.
+
 
 
     \section{Bézierjeve krivulje}\label{sec:bezierjeve-krivulje}
@@ -1622,7 +1658,7 @@ the content and not the structure of your work.}
         \subfloat[štartna krivulja]{\includegraphics[width = \groupimagewidth]{images/ph-before-rotate}}\quad
         \subfloat[rotacija za $\pi$]{\includegraphics[width = \groupimagewidth]{images/ph-after-rotate}}\quad
         \subfloat[4x pomanjšanje v obe smeri]{\includegraphics[width = \groupimagewidth]{images/ph-after-scale}}
-        \caption{Rotacija in skaliranje krivulje in pripadajočimi števili $w_i$.}
+        \caption{Rotacija in skaliranje krivulje s pripadajočimi števili $w_i$.}
         \label{fig:transformacije-ph-krivulje}
     \end{figure}
     \section{Orodje za grafični prikaz lastnosti Bézierjevih in PH krivulj - \textit{Bezeg}}
@@ -2071,7 +2107,7 @@ export class PhBezierCurve extends AbstractPointControlledCurve {
     Premik kontrolnih točk na grafu spreminja obliko krivulje.
     Za zgornje, in ostalo delo potrebno za izris grafa, v Bezgu poskrbijo implementacije razreda AbstractJXGPointControlledCurve, ki ima abstraktno metodo getInitialCurve.
     Metodo getInitialCurve implementacije razreda implementirajo, da izrišejo svojo krivuljo.
-    Hierarhijo si lahko ogledamo na sliki~\ref{fig:hiearhija-jxg-krivulj}.
+    Razredno hierarhijo si lahko ogledamo na sliki~\ref{fig:hiearhija-jxg-krivulj}.
    % Polinomsko Bézierjevo krivuljo lahko dodamo na graf JSXGraph knjižnice na naslednji način.
     \begin{figure}[h!]
         \centering
@@ -2095,10 +2131,10 @@ export class PhBezierCurve extends AbstractPointControlledCurve {
  // Premakne krivuljo
  jxgBezierCurve.moveFor(2,3);
     \end{lstlisting}
-    Poleg takšnih metod ima razred JXGPointControlledCurve tudi metode za procesiranje potez uporabnikove miške processMouseDown, processMouseMove, processMouseUp, ki skrbijo za to, da lahko uporabnik z rabo miške transformira izbrano krivuljo.
+    Poleg takšnih metod ima razred JXGPointControlledCurve tudi metode za procesiranje potez uporabnikove miške processMouseDown, processMouseMove, processMouseUp, ki skrbijo za to, da lahko uporabnik z rabo miške upravlja z izbrano krivuljo.
  \subsubsection{Grafi}
-    Za inicializacijo grafa knjižnice JSXGraph in funkcionalnosti naštete v razdelku~\ref{subsec:gui} skrbi abstrakten razred BaseGraph, ki ima abstraktno metodo initialize.
-    Posamezna implementacija razreda BaseGraph implementira metodo initialize, da na grafu nariše željeno.
+    Za inicializacijo grafa knjižnice JSXGraph in funkcionalnosti naštete v razdelku~\ref{subsec:gui} skrbi abstrakten razred AbstractBaseGraph, ki ima abstraktno metodo initialize.
+    Posamezna implementacija razreda AbstractBaseGraph implementira metodo initialize, da na grafu nariše željeno.
     Za funkcionalnost izbire krivulje poskrbi abstrakten razred AbstractBaseCurveGraph, ki metode initialize ne implementira.
     Metodo implementirajo posamezni razredi, da narišejo potrebne krivulje.
     Razredno arhitekturo grafov si lahko ogledamo na sliki~\ref{fig:hiearhija-krivulj}.
@@ -2119,7 +2155,7 @@ export class PhBezierCurve extends AbstractPointControlledCurve {
     }.
     \end{lstlisting}
     Posamezni grafi lahko ukaze na kartico z ukazi na grafu dodajo tako, da povozijo metodo getGraphCommands.
-    Graf za višanje stopnje krivulje na naslednji način ustvari gumb, ki ob kliku zviša stopnjo krivulje
+    Za primer si oglejmo, kako graf za višanje stopnje krivulje ustvari gumb, ki ob kliku zviša stopnjo krivulje
     \begin{lstlisting}[label={lst:ghdfssg}]
  class ElevationGraph extends AbstractBaseCurveGraph {
      ...
@@ -2142,8 +2178,6 @@ class JXGPHBezierCurve extends JXGPointControlledCurve {
 }.
 \end{lstlisting}
 
-    \section{Zaključek}
-    Orodje je super.
 %
 %    \section{Integrali po \texorpdfstring{$\omega$}{ω}-kompleksih}
 %
