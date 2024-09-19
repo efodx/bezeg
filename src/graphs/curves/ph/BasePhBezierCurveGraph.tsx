@@ -38,7 +38,7 @@ abstract class BasePhBezierCurveGraph<P, S extends BasePhBezierCurveGraphStates>
                 this.getFirstJxgCurveAsPHCurve().setShowOffsetCurve(checked);
                 this.setState({...this.state, showOffsetCurve: checked});
             }}
-            label={"Offset krivulje"}/>);
+            label={"Odmiki krivulje"}/>);
 
         if (this.state.showOffsetCurve) {
             commands.push(<Slider min={-3}

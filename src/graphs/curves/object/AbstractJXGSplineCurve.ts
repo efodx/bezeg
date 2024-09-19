@@ -70,7 +70,6 @@ export abstract class AbstractJXGSplineCurve<C extends BezierSpline> extends Abs
             this.getJxgPoints().forEach((point, i) => point.setName(""));
             this.getAllFreeJxgPoints().forEach((point, i) => point.setName(PointStyles.pi(i, () => this.isShowingJxgPoints()).name as string));
         }
-
     }
 
     setLabelAll(all: boolean) {
@@ -118,7 +117,7 @@ export abstract class AbstractJXGSplineCurve<C extends BezierSpline> extends Abs
             .map(point => point.point);
     }
 
-    private createFixedJsxPoint(p: Point) {
+    protected createFixedJsxPoint(p: Point) {
         return this.createJSXGraphPoint(() => p.X(), () => p.Y(), {
             ...PointStyles.fixed,
             visible: () => !this.hideFixed

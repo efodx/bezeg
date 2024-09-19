@@ -29,7 +29,7 @@ export class PolynomialBezierCurve extends AbstractPointControlledCurve implemen
      * @param {number} t
      * @returns {Point} point
      */
-    calculatePointAtT(t: number): Point {
+    eval(t: number): Point {
         const currentContext = CacheContext.context;
         if (currentContext !== this.lastCacheContext) {
             this.cachedPoints.clear();

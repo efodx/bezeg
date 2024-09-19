@@ -8,7 +8,7 @@ export abstract class AbstractPointControlledCurve implements PointControlledCur
         this.points = points;
     }
 
-    abstract calculatePointAtT(t: number): Point;
+    abstract eval(t: number): Point;
 
     /**
      * Sets the control points.
@@ -28,15 +28,15 @@ export abstract class AbstractPointControlledCurve implements PointControlledCur
         if (yScale === undefined) {
             yScale = xScale;
         }
-        this.affineTransform([[xScale, 0], [0, yScale]], [0, 0], this.getBoundingBoxCenter());
+        this.transform([[xScale, 0], [0, yScale]], [0, 0], this.getBoundingBoxCenter());
     }
 
     moveFor(x: number, y: number): void {
-        this.affineTransform([[1, 0], [0, 1]], [x, y]);
+        this.transform([[1, 0], [0, 1]], [x, y]);
     }
 
     flip(x: boolean, y: boolean) {
-        this.affineTransform([[x ? -1 : 1, 0], [0, y ? -1 : 1]]);
+        this.transform([[x ? -1 : 1, 0], [0, y ? -1 : 1]]);
     }
 
     /**
@@ -45,7 +45,7 @@ export abstract class AbstractPointControlledCurve implements PointControlledCur
      */
     rotate(theta: number) {
         const rotationMatrix = [[Math.cos(theta), -Math.sin(theta)], [Math.sin(theta), Math.cos(theta)]];
-        this.affineTransform(rotationMatrix, [0, 0]);
+        this.transform(rotationMatrix, [0, 0]);
     }
 
     getBoundingBox() {
@@ -78,7 +78,7 @@ export abstract class AbstractPointControlledCurve implements PointControlledCur
 
     }
 
-    affineTransform(A: number[][], b?: number[], center?: number[]): void {
+    transform(A: number[][], b?: number[], center?: number[]): void {
         if (!center) {
             center = this.getPointsCenter();
         }

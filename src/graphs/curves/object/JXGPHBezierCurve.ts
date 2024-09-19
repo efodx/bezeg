@@ -189,10 +189,10 @@ export class JXGPHBezierCurve extends JXGBezierCurve {
         this.jsxOffsetCurves = [];
         this.jsxOffsetCurves = this.getCurve().getOffsetCurves().map(curve => this.board.create('curve',
             [(t: number) => {
-                return curve.calculatePointAtT(t).X();
+                return curve.eval(t).X();
             },
                 (t: number) => {
-                    return curve.calculatePointAtT(t).Y();
+                    return curve.eval(t).Y();
                 },
                 0,
                 1

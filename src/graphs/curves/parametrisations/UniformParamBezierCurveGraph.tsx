@@ -5,6 +5,8 @@ import Slider from "../../../inputs/Slider";
 import {range} from "../../../utils/Range";
 import {PhBezierCurve} from "../../../bezeg/impl/curve/ph-bezier-curve";
 import {PointStyles} from "../../styles/PointStyles";
+import {SizeContext} from "../../context/SizeContext";
+import {Color, Colors} from "../bezier/utilities/Colors";
 
 interface UniformParamBezierCurveGraphStates extends BasePhBezierCurveGraphStates {
     isAlphaParam: boolean
@@ -130,7 +132,16 @@ class UniformParamBezierCurveGraph extends BasePhBezierCurveGraph<any, UniformPa
             this.ts = this.getUniformParamTs();
         }
         for (let i = 1; i <= this.state.numberOfPoints; i++) {
-            this.createJSXGraphPoint(() => this.getFirstCurve()!.calculatePointAtT(this.ts[i - 1]).X(), () => this.getFirstCurve()!.calculatePointAtT(this.ts[i - 1]).Y(), {...PointStyles.fixed});
+            let point = this.createJSXGraphPoint(() => this.getFirstCurve()!.eval(this.ts[i - 1]).X(), () => this.getFirstCurve()!.eval(this.ts[i - 1]).Y(), {
+                ...PointStyles.fixed,
+                size: () => SizeContext.pointSize * 0.5,
+                color: Colors[3],
+            });
+            // For some reason you cant set color and stroke color at the same time....
+            point.point.setAttribute({
+                strokeWidth: () => SizeContext.pointSize / 5,
+                strokeColor: Color.BLACK,
+            });
         }
     }
 

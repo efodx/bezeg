@@ -73,7 +73,7 @@ class AlphaParamBezierCurveGraph extends BaseBezierCurveGraph<any, AlphaParamGra
     generateParamPoints() {
         const dt = 1 / (this.state.numberOfPoints + 1);
         for (let i = 1; i <= this.state.numberOfPoints; i++) {
-            this.createJSXGraphPoint(() => this.getFirstCurve()!.calculatePointAtT(this.alphaParam(i * dt)).X(), () => this.getFirstCurve()!.calculatePointAtT(this.alphaParam(i * dt)).Y());
+            this.createJSXGraphPoint(() => this.getFirstCurve()!.eval(this.alphaParam(i * dt)).X(), () => this.getFirstCurve()!.eval(this.alphaParam(i * dt)).Y());
         }
     }
 

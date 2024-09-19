@@ -76,7 +76,7 @@ export class PhBezierCurve extends AbstractPointControlledCurve implements Bezie
             s.push(lastS);
             this.bezierCurveS = new PolynomialBezierCurve(s.map(p => new PointImpl(p, 1)));
         }
-        return this.bezierCurveS.calculatePointAtT(t).X();
+        return this.bezierCurveS.eval(t).X();
 
     }
 
@@ -84,7 +84,7 @@ export class PhBezierCurve extends AbstractPointControlledCurve implements Bezie
         if (!this.bezierCurveSigma) {
             this.bezierCurveSigma = new PolynomialBezierCurve(this.sigmas.map(sigma => new PointImpl(sigma, 1)));
         }
-        return this.bezierCurveSigma.calculatePointAtT(t).X();
+        return this.bezierCurveSigma.eval(t).X();
     }
 
     getOffsetCurves() {
@@ -227,8 +227,8 @@ export class PhBezierCurve extends AbstractPointControlledCurve implements Bezie
         return this.underlyingBezierCurve.getPoints();
     }
 
-    calculatePointAtT(t: number): Point {
-        return this.underlyingBezierCurve.calculatePointAtT(t);
+    eval(t: number): Point {
+        return this.underlyingBezierCurve.eval(t);
     }
 
     override getConvexHull(): Point[] {

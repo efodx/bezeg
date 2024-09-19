@@ -13,6 +13,7 @@ const pointStyle: PointAttributes = {
         parse: false,
         anchorY: "bottom",
         anchorX: "left",
+        //   anchorX: "middle",
         // @ts-ignore
         offset: () => [0, SizeContext.fontSize * -0.3],
         // @ts-ignore
@@ -32,6 +33,7 @@ function pi(i: number, visible: () => boolean): PointAttributes {
     return {
         ...pointStyle,
         name: "$$p_{" + i + "}$$",
+        // name: "$$p_{\\scriptsize" + i + "}$$",
         // @ts-ignore
         visible: visible
     };

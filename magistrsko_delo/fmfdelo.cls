@@ -601,7 +601,8 @@
   \@osnovnaliteratura
   \newrefcontext[sorting=none]{keyrefctx}
   \printbibliography[env=keyrefs,category=keyreferences,
-                     title={\@sloeng{\section*{Osnovna literatura}}
+  % Izgleda, da se samo doda \section* ... oz nekdo ga  doda...
+                     title={\@sloeng{{Osnovna literatura}}
                                     {\section*{Basic references}}}]
   \endrefcontext
 

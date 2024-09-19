@@ -218,16 +218,16 @@ export abstract class AbstractJXGBezierCurve<T extends BezierCurve, Attr extends
 
     createSubdivisionPoint() {
         if (this.board && !this.subdivisionPoint && this) {
-            this.subdivisionPoint = this.board.create('point', [() => this.getCurve().calculatePointAtT(this.subdivisionT).X(),
-                () => this.getCurve().calculatePointAtT(this.subdivisionT).Y()], PointStyles.default) as JXG.Point;
+            this.subdivisionPoint = this.board.create('point', [() => this.getCurve().eval(this.subdivisionT).X(),
+                () => this.getCurve().eval(this.subdivisionT).Y()], PointStyles.default) as JXG.Point;
             this.subdivisionPoint.hide();
         }
     }
 
     createExtrapolationPoint() {
         if (this.board && !this.extrapolationPoint && this) {
-            this.extrapolationPoint = this.board.create('point', [() => this.getCurve().calculatePointAtT(this.extrapolationT).X(),
-                () => this.getCurve().calculatePointAtT(this.extrapolationT).Y()], PointStyles.default) as JXG.Point;
+            this.extrapolationPoint = this.board.create('point', [() => this.getCurve().eval(this.extrapolationT).X(),
+                () => this.getCurve().eval(this.extrapolationT).Y()], PointStyles.default) as JXG.Point;
             this.extrapolationPoint.hide();
         }
     }

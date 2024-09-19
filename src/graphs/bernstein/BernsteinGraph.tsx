@@ -70,10 +70,10 @@ export class BernsteinGraph extends BaseGraph<any, any> {
             const anchor = [(0.6 - numOfPolynoms * 0.10) + 0.20 * i, 1.05];
             const bezierCurve = new PolynomialBezierCurve(points.map(point => new PointImpl(point[0], point[1])));
             if (isSumGraph && i > 0) {
-                polynoms.push((t: number) => polynoms[i - 1](t) + bezierCurve.calculatePointAtT(t).X());
+                polynoms.push((t: number) => polynoms[i - 1](t) + bezierCurve.eval(t).X());
                 board.update();
             } else {
-                polynoms.push((t: number) => bezierCurve.calculatePointAtT(t).X());
+                polynoms.push((t: number) => bezierCurve.eval(t).X());
             }
             if (isSumGraph) {
                 if (i === 0) {

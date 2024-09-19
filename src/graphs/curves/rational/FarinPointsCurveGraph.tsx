@@ -23,7 +23,7 @@ class RationalBezierCurveGraph extends BaseRationalCurveGraph<any, BaseGraphStat
             onChange={(checked) => this.getFirstJxgCurve().showwWeights(checked)} label={"Uteži"}/>, <OnOffSwitch
             initialState={this.getFirstJxgCurve().inStandardForm()}
             onChange={(checked) => this.getFirstJxgCurve().setStandardForm(checked)}
-            label={"Standardna Forma"}/>) : [];
+            label={"Standardna Oblika"}/>) : [];
     }
 
     defaultPreset(): any {

@@ -92,6 +92,30 @@ export class JXGGenericSplineCurve extends AbstractJXGSplineCurve<GenericBezierS
         this.labelJxgPoints();
     }
 
+    override labelJxgPoints() {
+        if (this.labelAll) {
+            const labels: string[] = [];
+            const curves = this.getCurve().getUnderlyingCurves();
+            curves.forEach((curve, c) => {
+                curve.getPoints().forEach((point, i) => {
+                    if (i !== 0 || labels.length === 0) {
+                        const name = "$$p_{\\scriptsize" + i + "}^{\\scriptsize(" + (c + 1) + ")}$$";
+                        labels.push(name);
+                    } else {
+                        var name = " $$ p_{\\scriptsize" + (curves[c - 1].getPoints().length - 1) + "}^{\\scriptsize(" + c + ")}$$";
+                        var name = " $$ p_{\\scriptsize" + (curves[c - 1].getPoints().length - 1) + "}^{\\scriptsize(" + c + ")}{\\scriptsize=}p_{\\scriptsize" + 0 + "}^{\\scriptsize(" + (c + 1) + ")}$$";
+                        labels[labels.length - 1] = name;
+                    }
+                });
+            });
+
+            //    const name = PointStyles.pi(i, () => this.isShowingJxgPoints()).name as string;
+            this.getJxgPoints().forEach((point, i) => point.setName(labels[i]));
+        } else {
+            this.getJxgPoints().forEach((point, i) => point.setName(""));
+            this.getAllFreeJxgPoints().forEach((point, i) => point.setName(PointStyles.pi(i, () => this.isShowingJxgPoints()).name as string));
+        }
+    }
 
     protected getInitialCurve(points: number[][]): GenericBezierSpline {
         const jsxPoints = points.map((point, i) => this.createJSXGraphPoint(point[0], point[1], PointStyles.pi(i, () => this.isShowingJxgPoints())));

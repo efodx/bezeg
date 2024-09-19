@@ -21,7 +21,7 @@ function OffsetCurveSettings({curve}: OffsetCurveSettingsProps) {
                 curve.setShowOffsetCurve(checked);
                 setShowOffsetCurve(checked);
             }}
-            label={"Offset krivulje"}/>
+            label={"Odmiki krivulje"}/>
         {showOffsetCurve && <div>
           <Slider min={-3}
                   max={3}

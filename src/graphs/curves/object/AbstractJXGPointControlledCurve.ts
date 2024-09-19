@@ -33,7 +33,7 @@ export abstract class AbstractJXGPointControlledCurve<T extends PointControlledC
     protected resizingStart: JXG.Point | undefined;
     private jxgCurve: JXG.Curve;
     private boundBoxSegments: JXG.Segment[] = [];
-    private convexHullSegments: JXG.Segment[] = [];
+    private convexHull: JXG.Polygon | undefined = undefined;
     private selected: boolean = false;
     private dragging: boolean = false;
     private rotating: boolean = false;
@@ -58,10 +58,10 @@ export abstract class AbstractJXGPointControlledCurve<T extends PointControlledC
         // TODO the starting curve is hardly ever actually used... Maybe think differently about this.
         this.jxgCurve = this.board.create('curve',
             [(t: number) => {
-                return this.pointControlledCurve.calculatePointAtT(t).X();
+                return this.pointControlledCurve.eval(t).X();
             },
                 (t: number) => {
-                    return this.pointControlledCurve.calculatePointAtT(t).Y();
+                    return this.pointControlledCurve.eval(t).Y();
                 },
                 () => {
                     if (typeof this.intervalStart == "number") {
@@ -501,8 +501,10 @@ export abstract class AbstractJXGPointControlledCurve<T extends PointControlledC
     }
 
     private hideHullInternal() {
-        this.board.removeObject(this.convexHullSegments);
-        this.convexHullSegments = [];
+        if (this.convexHull) {
+            this.board.removeObject(this.convexHull);
+            this.convexHull = undefined;
+        }
     }
 
     private showHullInternal() {
@@ -512,10 +514,11 @@ export abstract class AbstractJXGPointControlledCurve<T extends PointControlledC
             console.debug("WE SHOULDN'T COME HERE, ASYNC STUFF IS SCARY!!");
             return;
         }
-        const segments = jxgPoints.slice(1).map((p, i) => this.board.create('segment', [jxgPoints[i], p], {strokeWidth: () => SizeContext.strokeWidth}));
-        this.convexHullSegments.push(...segments);
-        const lastSegment = this.board.create('segment', [jxgPoints[jxgPoints.length - 1], jxgPoints[0]], {strokeWidth: () => SizeContext.strokeWidth});
-        this.convexHullSegments.push(lastSegment);
+        this.convexHull = this.board.create('polygon', [...jxgPoints, jxgPoints[0]], {
+            ...SegmentStyles.default,
+            borders: {...SegmentStyles.default},
+            fillOpacity: 0.175
+        });
     }
 
     private addBoundingBox() {

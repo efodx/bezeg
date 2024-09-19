@@ -46,7 +46,7 @@ export function RationalBezierCurveCommands(curve: JXGRationalBezierCurve): JSX.
                      onChange={(checked) => curve.showwWeights(checked)} label={"Uteži"}/>
         <WeightController curve={curve}></WeightController>
         <OnOffSwitch initialState={curve.inStandardForm()}
-                     onChange={(checked) => curve.setStandardForm(checked)} label={"Standardna Forma"}/>
+                     onChange={(checked) => curve.setStandardForm(checked)} label={"Standardna Oblika"}/>
 
     </div>);
     return commands;

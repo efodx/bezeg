@@ -55,10 +55,10 @@ class DecasteljauGraph extends BaseBezierCurveGraph<any, DecasteljauGraphStates>
         const curve = this.getFirstCurve();
         this.board.create('curve',
             [(t: number) => {
-                return curve.calculatePointAtT(t).X();
+                return curve.eval(t).X();
             },
                 (t: number) => {
-                    return curve.calculatePointAtT(t).Y();
+                    return curve.eval(t).Y();
                 },
                 () => this.state.t,
                 1

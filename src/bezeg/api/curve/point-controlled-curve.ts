@@ -2,7 +2,7 @@ import {Point} from "../point/point";
 
 export interface PointControlledCurve {
 
-    calculatePointAtT(t: number): Point;
+    eval(t: number): Point;
 
     /**
      * Sets the control points.
@@ -32,11 +32,7 @@ export interface PointControlledCurve {
 
     getBoundingBoxCenter(): number[];
 
-    affineTransform(A: number [][]): void;
-
-    affineTransform(A: number [][], b?: number[]): void;
-
-    affineTransform(A: number[][], b?: number[], center?: number[]): void;
+    transform(A: number[][], b?: number[], center?: number[]): void;
 
     transformPoint(point: Point, xCenter: number, yCenter: number, A: number[][], b?: number[]): void;
 

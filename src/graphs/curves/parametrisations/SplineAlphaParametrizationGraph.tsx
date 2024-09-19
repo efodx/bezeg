@@ -1,5 +1,5 @@
 import {BaseSplineCurveGraph} from "../spline/BaseSplineCurveGraph";
-import {Colors} from "../bezier/utilities/Colors";
+import {Color, Colors} from "../bezier/utilities/Colors";
 import {BaseGraphStates} from "../../base/BaseCurveGraph";
 import {PointStyles} from "../../styles/PointStyles";
 import React from "react";
@@ -80,10 +80,15 @@ class Graph extends BaseSplineCurveGraph<SplineAlphaParamGraphStates> {
     generateParamPoints(numberOfPoints: number) {
         const dt = 1 / (numberOfPoints + 1);
         for (let i = 1; i <= numberOfPoints; i++) {
-            this.createJSXGraphPoint(() => this.getFirstCurve()!.calculatePointAtT(i * dt).X(), () => this.getFirstCurve()!.calculatePointAtT(i * dt).Y(), {
+            let point = this.createJSXGraphPoint(() => this.getFirstCurve()!.eval(i * dt).X(), () => this.getFirstCurve()!.eval(i * dt).Y(), {
                 ...PointStyles.default,
                 size: () => SizeContext.pointSize * 0.5,
-                color: Colors[3]
+                color: Colors[3],
+            });
+            // For some reason you cant set color and stroke color at the same time....
+            point.point.setAttribute({
+                strokeWidth: () => SizeContext.pointSize / 5,
+                strokeColor: Color.BLACK,
             });
         }
     }

@@ -27,17 +27,17 @@ abstract class BezierSpline extends AbstractPointControlledCurve {
 
     abstract generateBezierCurves(): void;
 
-    calculatePointAtT(t: number): Point {
+    eval(t: number): Point {
         let n = this.bezierCurves.length;
         let u = this.getU();
         for (let i = 0; i < n; i++) {
             if (t < u[i + 1]) {
                 t = t - u[i];
                 t = t / (u[i + 1] - u[i]);
-                return this.bezierCurves[i].calculatePointAtT(t);
+                return this.bezierCurves[i].eval(t);
             }
         }
-        return this.bezierCurves[this.bezierCurves.length - 1].calculatePointAtT(1);
+        return this.bezierCurves[this.bezierCurves.length - 1].eval(1);
     }
 
 
@@ -105,6 +105,10 @@ abstract class BezierSpline extends AbstractPointControlledCurve {
         return [minX, maxX, minY, maxY];
     }
 
+    getUnderlyingCurves() {
+        return this.bezierCurves;
+    }
+
     protected getU() {
         const n = this.bezierCurves.length;
         const u = [0];
@@ -117,7 +121,6 @@ abstract class BezierSpline extends AbstractPointControlledCurve {
         }
         return u.map(t => t / u[u.length - 1]);
     }
-
 
 }
 

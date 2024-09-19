@@ -80,19 +80,19 @@ class DecasteljauGraph extends BaseBezierCurveGraph<any, DecasteljauGraphStates>
         const curvee2 = new PolynomialBezierCurve(curve2points);
 
 
-        const p1 = this.createJSXGraphPoint(() => curvee.calculatePointAtT(this.state.t).X(), () => curvee.calculatePointAtT(this.state.t).Y(), PointStyles.fixed);
+        const p1 = this.createJSXGraphPoint(() => curvee.eval(this.state.t).X(), () => curvee.eval(this.state.t).Y(), PointStyles.fixed);
         const pp1 = this.graphJXGPoints[this.graphJXGPoints.length - 1];
-        const p2 = this.createJSXGraphPoint(() => curvee2.calculatePointAtT(this.state.t).X(), () => curvee2.calculatePointAtT(this.state.t).Y(), PointStyles.fixed);
+        const p2 = this.createJSXGraphPoint(() => curvee2.eval(this.state.t).X(), () => curvee2.eval(this.state.t).Y(), PointStyles.fixed);
         const pp2 = this.graphJXGPoints[this.graphJXGPoints.length - 1];
 
         const segment = this.board.create('segment', [pp1, pp2], SegmentStyles.default);
 
         this.board.create('curve',
             [(t: number) => {
-                return curvee.calculatePointAtT(t).X();
+                return curvee.eval(t).X();
             },
                 (t: number) => {
-                    return curvee.calculatePointAtT(t).Y();
+                    return curvee.eval(t).Y();
                 },
                 0,
                 () => 1
@@ -100,16 +100,16 @@ class DecasteljauGraph extends BaseBezierCurveGraph<any, DecasteljauGraphStates>
         );
         this.board.create('curve',
             [(t: number) => {
-                return curvee2.calculatePointAtT(t).X();
+                return curvee2.eval(t).X();
             },
                 (t: number) => {
-                    return curvee2.calculatePointAtT(t).Y();
+                    return curvee2.eval(t).Y();
                 },
                 0,
                 () => 1
             ], {...CurveStyles.default, strokeColor: Color.G, layer: 2}
         );
-        const drawingPoint = this.board?.create('point', [() => this.getFirstJxgCurve().getCurve().calculatePointAtT(this.state.t).X(), () => this.getFirstJxgCurve().getCurve().calculatePointAtT(this.state.t).Y()], {
+        const drawingPoint = this.board?.create('point', [() => this.getFirstJxgCurve().getCurve().eval(this.state.t).X(), () => this.getFirstJxgCurve().getCurve().eval(this.state.t).Y()], {
             ...PointStyles.default,
             color: Colors[4],
             name: () => ""
