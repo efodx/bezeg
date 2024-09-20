@@ -28,7 +28,6 @@ export class PhBezierCurve extends AbstractPointControlledCurve implements Bezie
         this.underlyingBezierCurve = new PolynomialBezierCurve(this.underlyingCurveControlPoints);
         this.sigmas = this.generateSigmas(this.degree);
         this.addOffsetCurve();
-        this.addOffsetCurve();
     }
 
     private _w: Point[];
@@ -43,6 +42,16 @@ export class PhBezierCurve extends AbstractPointControlledCurve implements Bezie
 
     get degree() {
         return 2 * this._w.length - 1;
+    }
+
+    setOffsetCurveNumber(num: number) {
+        while (num !== this.offsetCurves.length && num !== undefined) {
+            if (num > this.offsetCurves.length) {
+                this.addOffsetCurve();
+            } else {
+                this.removeOffsetCurve();
+            }
+        }
     }
 
     addOffsetCurve() {

@@ -89,7 +89,7 @@ class UniformParamBezierCurveGraph extends BasePhBezierCurveGraph<any, UniformPa
                     value={this.state.isAlphaParam ? "alpha" : "uniform"}
                     onChange={select => this.selectParam(select)}
                     aria-label="Default select example">
-                    <option value="alpha">Alfa parametrizacija</option>
+                    <option value="alpha">Utežena parametrizacija</option>
                     <option value="uniform">Enakomerna parametrizacija</option>
                 </Form.Select>
             </Form>

@@ -109,7 +109,7 @@ const routes = [
         group: BEZIER_CURVES_GROUP,
         path: PATH_BEZIER_CURVES + '/subdivision',
         element: <SubdivisionGraph/>,
-        title: 'Zaporedna subdivizija',
+        title: 'Zaporedna Subdivizija',
       }, {
         group: BEZIER_CURVES_GROUP,
         path: PATH_BEZIER_CURVES + '/extrapolation',
@@ -119,7 +119,7 @@ const routes = [
         group: BEZIER_CURVES_GROUP,
         path: PATH_BEZIER_CURVES + '/elevation',
         element: <ElevationGraph/>,
-        title: 'Višanje stopnje',
+        title: 'Višanje Stopnje',
       }, {
         group: RATIONAL_CURVES_GROUP,
         path: PATH_RATIONAL_CURVES + '/base',
@@ -134,7 +134,7 @@ const routes = [
         group: RATIONAL_CURVES_GROUP,
         path: PATH_RATIONAL_CURVES + '/rational-elevation',
         element: <RationalElevationGraph/>,
-        title: 'Višanje stopnje',
+        title: 'Višanje Stopnje',
       }, {
         path: PATH_RATIONAL_CURVES + '/rational-extrapolation',
         element: <RationalExtrapolationGraph/>,
@@ -160,7 +160,7 @@ const routes = [
       {
         path: PATH_RATIONAL_CURVES + '/circlen',
         element: <RationalBezierCurveCircleGraphN/>,
-        title: 'Krožnica iz n kosov',
+        title: 'Krožnica iz n delov',
         group: RATIONAL_CURVES_GROUP,
       }, // {
       //   path: PATH_RATIONAL_CURVES + '/circleizpeljava',
@@ -171,27 +171,27 @@ const routes = [
       {
         path: PATH_SPLINE_CURVES + '/spline',
         element: <CnSplineGraph/>,
-        title: 'Enostranski Cn Zlepek',
+        title: <div>Enostranski C<sup>n</sup> Zlepek</div>,
         group: SPLINES_GROUP,
       }, {
         path: PATH_SPLINE_CURVES + '/c1spline',
         element: <C1SplineGraph/>,
-        title: 'Simetrični C1 Zlepek',
+        title: <div>Simetrični C<sup>1</sup> Zlepek</div>,
         group: SPLINES_GROUP,
       }, {
         path: PATH_SPLINE_CURVES + '/c2spline',
         element: <C2SplineGraph/>,
-        title: 'Simetrični C2 Zlepek',
+        title: <div>Simetrični C<sup>2</sup> Zlepek</div>,
         group: SPLINES_GROUP,
       }, {
         path: PATH_SPLINE_CURVES + '/g1spline',
         element: <G1SplineGraph/>,
-        title: 'Enostranski G1 Zlepek',
+        title: <div>Enostranski G<sup>1</sup> Zlepek</div>,
         group: SPLINES_GROUP,
       }, {
         path: PATH_SPLINE_CURVES + '/g1-sym-spline',
         element: <G1SymmetricSplineGraph/>,
-        title: 'Simetrični G1 Zlepek',
+        title: <div>Simetrični G<sup>1</sup> Zlepek</div>,
         group: SPLINES_GROUP,
       }, // {
       //   path: PATH_SPLINE_CURVES + '/g1affinespline',
@@ -212,12 +212,12 @@ const routes = [
       }, {
         path: PATH_PARAM + '/param/alphaparam2',
         element: <SplineAlphaParametrizationGraph/>,
-        title: 'Prava Alpha Parametrizacija',
+        title: 'α - Parametrizacije',
         group: PARAMETRIZATION_GROUP,
       }, {
         path: PATH_PARAM + '/param/alphaparam',
         element: <AlphaParamBezierCurveGraph/>,
-        title: 'Alpha Parametrizacija',
+        title: 'Utežena Parametrizacija',
         group: PARAMETRIZATION_GROUP,
       }, {
         path: PATH_PARAM + '/param/uniform',

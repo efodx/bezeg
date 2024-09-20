@@ -5,6 +5,7 @@ import {PointStyles} from "../../styles/PointStyles";
 import React from "react";
 import Slider from "../../../inputs/Slider";
 import {SizeContext} from "../../context/SizeContext";
+import {Preset} from "../../base/presets/Presets";
 
 interface SplineAlphaParamGraphStates extends BaseGraphStates {
     numberOfPoints: number;
@@ -12,6 +13,12 @@ interface SplineAlphaParamGraphStates extends BaseGraphStates {
 }
 
 class Graph extends BaseSplineCurveGraph<SplineAlphaParamGraphStates> {
+    override componentDidUpdate(prevProps: Readonly<any>, prevState: Readonly<SplineAlphaParamGraphStates>, snapshot?: any) {
+        if (this.graphJXGPoints.length !== this.state.numberOfPoints) {
+            // Not sure if correct fix, but it works.
+            this.generateParamPoints(this.state.numberOfPoints);
+        }
+    }
 
     override getInitialState() {
         return {
@@ -21,14 +28,22 @@ class Graph extends BaseSplineCurveGraph<SplineAlphaParamGraphStates> {
         };
     }
 
-    override initialize() {
-        super.initialize();
-        this.generateParamPoints(15);
-        this.setState({...this.state, alpha: this.getFirstCurve().getAlpha()});
-    }
 
     override presets(): string {
         return "alfaparametrizacije";
+    }
+
+    override importPreset(preset: Preset) {
+        super.importPreset(preset);
+        const presetState = preset.graphState as SplineAlphaParamGraphStates;
+        if (presetState.numberOfPoints) {
+            this.board.suspendUpdate();
+            this.getFirstCurve().setAlpha(presetState.alpha);
+            this.setState({alpha: presetState.alpha, numberOfPoints: presetState.numberOfPoints});
+            this.clearPoints();
+            this.generateParamPoints(presetState.numberOfPoints);
+            this.unsuspendBoardUpdate();
+        }
     }
 
 
@@ -72,7 +87,7 @@ class Graph extends BaseSplineCurveGraph<SplineAlphaParamGraphStates> {
         return [["JSXQubicC2SplineCurve", {
             "points": [[-3, 2], [-4, -1], [-3, -2], [-1, 1], [1, 2], [4, 2], [3, -1]],
             "state": {
-                "showingJxgPoints": true, "showingControlPolygon": false, "showingConvexHull": false
+                "showingJxgPoints": true, "showingControlPolygon": false, "showingConvexHull": false, hideFixed: true
             }
         }]];
     }

@@ -1,4 +1,3 @@
-import {Button, ButtonGroup} from "react-bootstrap";
 import React from "react";
 import {PolynomialBezierCurve} from "../../bezeg/impl/curve/polynomial-bezier-curve";
 import {PointImpl} from "../../bezeg/impl/point/point-impl";
@@ -6,6 +5,7 @@ import BaseGraph from "../base/BaseGraph";
 import {OnOffSwitch} from "../../inputs/OnOffSwitch";
 import {SizeContext} from "../context/SizeContext";
 import {Colors} from "../curves/bezier/utilities/Colors";
+import {CountSetter} from "../../inputs/CountSetter";
 
 function connectCurves(c1: [x1: (t: number) => number, y1: (t: number) => number], c2: [x2: (t: number) => number, y2: (t: number) => number]) {
     const x = (t: number) => {
@@ -152,14 +152,9 @@ export class BernsteinGraph extends BaseGraph<any, any> {
     }
 
     override getGraphCommands(): JSX.Element[] {
-        return super.getGraphCommands().concat(<ButtonGroup>
-                <Button className="btn-block"
-                        onClick={() => this.setN(Math.min(this.state.n + 1, 6))}>+</Button>
-                <Button variant="light" onClick={() => 1}
-                        className="btn-block">{this.state.n - 1}</Button>
-                <Button onClick={() => this.setN(Math.max(this.state.n - 1, 1))}
-                        className="btn-block">-</Button>
-            </ButtonGroup>,
+        return super.getGraphCommands().concat(<CountSetter min={0} max={5} onPlus={() => this.setN(this.state.n + 1)}
+                                                            onCenter={() => 1} n={this.state.n - 1}
+                                                            onMinus={() => this.setN(this.state.n - 1)}/>,
             <OnOffSwitch initialState={this.state.isSumGraph} onChange={checked => this.setIsSumGraph(checked)}
                          label={"Naloženi ploščinski grafikon"}/>);
     }

@@ -110,7 +110,10 @@ the content and not the structure of your work.}
 
 % - neobvezna zahvala
 \zahvala{
-    Zahvaljujem se mentorju za zelo sproščen odnos!
+    Zahvaljujem se mentorju prof.~dr.~Emilu Žagarju za vso pomoč in usmeritve tekom magistrskega dela, za spodbudne besede ter potrpežljivost pri delu z mano, še posebej pa za zelo sproščen odnos.
+
+    Za vso podporo in zaupanje se zahvaljujem tudi partnerici, družini in prijateljem.
+    Posebej bi izpostavil prijatelja Kristjana Bolčiča, ki mi je skozi študentsko življenje veliko pomagal tudi z deljenjem zapiskov in bil na voljo, ko se mi je s snovjo (oziroma v življenju) kje zataknilo.
 }
 
 % - program dela, ki ga napiše mentor z osnovno literaturo
@@ -1676,7 +1679,7 @@ the content and not the structure of your work.}
 
 
     \section{Orodje za grafični prikaz lastnosti Bézierjevih in PH krivulj - \textit{Bezeg}}
-    Vse krivulje, ki so bile v magistrskem delu predstavljene, so tudi implementirane v spletnem orodju Bezeg, ki je bilo v izdelano okviru dela.
+    Vse krivulje, ki so bile v magistrskem delu predstavljene, so tudi implementirane v spletnem orodju Bezeg, ki je bilo izdelano v okviru dela.
     Orodje v celoti živi v uporabnikovem brskalniku in zato zalednih sistemov ne potrebuje.
     Objavljeno je preko storitve GitHub Pages~\cite{github-pages}, ki omogoča zastonjsko objavo statične spletne strani.
     Dostopno pa je na spletni strani~\cite{spletna-bezeg}.
@@ -2206,9 +2209,24 @@ class JXGPHBezierCurve extends JXGPointControlledCurve {
 
 
     \section{Zaključek}
-    Tole moram še naumit.
-%    Izboljšave orodja:\\
-%    - "peskovnik", kjer lahko uporabnik poljubne krivulje noter vstavlja
+    % in skripte !!! ce se le da, dej se tisto navezi
+    Večino dela smo posvečali predstavitvi Bezierjevih krivulj (in njihovih variacij) ter PH krivulj.
+    Opisali smo njihove glavne lastnosti in podali nekaj algoritmov, ki omogočajo njihovo rabo v CAD in CAGD sistemih.
+    Zaradi obširnosti snovi, smo marsikateri dokaz izpustili.
+    Manjkajoče dokaze, in več o predstavljenih krivuljah, lahko bralec najde v delih~\cite{farouki} in~\cite{stability-rational}.
+
+    V koncu dela smo predstavili spletno orodje Bezeg, ki je bilo v okviru dela tudi izdelano.
+    Orodje uporabniku omogoča grafično prikazovanje lastnosti Bezierjevih in PH krivulj.
+    Grafe v spletnem orodju lahko uporabnik (do neke mere) prilagodi svojim željam, prilagoditve pa shrani kot prednastavitve, ki jih po želji tudi prenaša med računalniki.
+    Orodje ima veliko prostora za izboljšave in razširitve.
+    Da bi Bezeg študentom bolje služil kot učno orodje, bi lahko poleg grafov bila razložena tudi snov, ki je na grafu predstavljena.
+    Tako bi se lahko študent o krivuljah učil na enem mestu brez, da bi moral podporno snov iskati drugje.
+    Da bi predstavitve grafov bile bolj prilagodljive, bi lahko eden izmed grafov predstavljal t.\ i.\ peskovnik, kjer bi lahko uporabnik vstavljal poljubne krivulje.
+    V primeru širše rabe orodja, bi bilo smiselno dodati zaledni sistem za delo z uporabniki in njihovimi prednastavitvami.
+    Poleg izboljšav samega orodja, bi lahko razširili tudi obseg snovi, ki je v orodju implementirana.
+    Snov bi bilo možno razširiti tako na snov o interpolacijskih zlepkih, B-zlepkih, racionalnih PH krivuljah ipd., kot tudi na snov o Bezierjevih ploskvah, saj knjižnica JSXGraph podpira tridimenzionalne grafe.
+
+
 %
 %
 %    \section{Integrali po \texorpdfstring{$\omega$}{ω}-kompleksih}

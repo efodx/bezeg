@@ -1,7 +1,6 @@
 import {HodographInputbox} from "./HodographInputBox";
 import {JXGPointWrapper} from "../object/JXGPointWrapper";
 import React from "react";
-import {Button} from "react-bootstrap";
 import {JXGBezierCurve} from "../object/JXGBezierCurve";
 import {JXGPHBezierCurve} from "../object/JXGPHBezierCurve";
 import {BaseGraphStates} from "../../base/BaseCurveGraph";
@@ -9,6 +8,7 @@ import {BaseBezierCurveGraph} from "../../base/BaseBezierCurveGraph";
 import {OnOffSwitch} from "../../../inputs/OnOffSwitch";
 import Slider from "../../../inputs/Slider";
 import {PhBezierCurve} from "../../../bezeg/impl/curve/ph-bezier-curve";
+import {CountSetter} from "../../../inputs/CountSetter";
 
 export interface BasePhBezierCurveGraphStates extends BaseGraphStates {
     showOffsetCurve: boolean,
@@ -40,7 +40,7 @@ abstract class BasePhBezierCurveGraph<P, S extends BasePhBezierCurveGraphStates>
             }}
             label={"Odmiki krivulje"}/>);
 
-        if (this.state.showOffsetCurve) {
+        if (this.getFirstJxgCurveAsPHCurve().isShowingOffsetCurve()) {
             commands.push(<Slider min={-3}
                                   max={3}
                                   initialValue={this.getFirstCurveAsPHBezierCurve()?.getOffsetCurveDistance() ? this.getFirstCurveAsPHBezierCurve()?.getOffsetCurveDistance() : 0}
@@ -51,12 +51,18 @@ abstract class BasePhBezierCurveGraph<P, S extends BasePhBezierCurveGraphStates>
                     this.getFirstJxgCurveAsPHCurve().setShowOffsetCurveControlPoints(checked);
                     this.setState({...this.state, showOffsetCurveControlPoints: checked});
                 }}
-                label={"Kontrolne točke offset krivulje"}
+                label={"Kontrolne točke odmikov krivulje"}
                 initialState={this.state.showOffsetCurveControlPoints}/>);
-            commands.push(<Button onClick={() => this.getFirstJxgCurveAsPHCurve().addOffsetCurve()}>Dodaj
-                krivuljo</Button>);
-            commands.push(<Button onClick={() => this.getFirstJxgCurveAsPHCurve().removeOffsetCurve()}>Odstrani
-                krivuljo</Button>);
+            commands.push(<div>
+                <div>Število odmikov</div>
+                <CountSetter onPlus={() => {
+                    this.getFirstJxgCurveAsPHCurve().addOffsetCurve();
+                }} onCenter={() => 1} n={this.getFirstJxgCurveAsPHCurve().getNumberOfOffsetCurves()}
+                             onMinus={() => {
+                                 this.getFirstJxgCurveAsPHCurve().removeOffsetCurve();
+                             }}
+                             min={1}
+                ></CountSetter></div>);
         }
         return super.getGraphCommands().concat(commands);
     }

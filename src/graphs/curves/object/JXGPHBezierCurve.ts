@@ -26,6 +26,7 @@ interface JSXPHBezierCurveState extends JXGBezierCurveState {
     showOffsetCurve: boolean;
     showOffsetCurveControlPoints: boolean;
     showOffsetCurveControlPointsLines: boolean;
+    offsetCurveNumber: number;
     d: number
 }
 
@@ -65,9 +66,11 @@ export class JXGPHBezierCurve extends JXGBezierCurve {
         if (state.d) {
             this.getCurve().setOffsetCurveDistance(state.d);
         }
+        this.setOffsetCurveNumber(state.offsetCurveNumber);
         this.generateJsxOffsetCurves(!state.showOffsetCurve);
         this.setShowOffsetCurve(state.showOffsetCurve);
         this.setShowOffsetCurveControlPoints(state.showOffsetCurveControlPoints);
+        this.setShowOffsetCurveControlPointsLines(state.showOffsetCurveControlPointsLines);
     }
 
     override exportState(): JSXPHBezierCurveState {
@@ -76,8 +79,8 @@ export class JXGPHBezierCurve extends JXGBezierCurve {
             showOffsetCurveControlPoints: this.showOffsetCurveControlPoints,
             showOffsetCurveControlPointsLines: this.showOffsetCurveControlPointsLines,
             showOffsetCurve: this.showOffsetCurve,
+            offsetCurveNumber: this.getCurve().getOffsetCurves().length,
             d: this.getCurve().getOffsetCurveDistance()
-
         } as JSXPHBezierCurveState;
     }
 
@@ -109,6 +112,10 @@ export class JXGPHBezierCurve extends JXGBezierCurve {
         const curve = new PhBezierCurve(pointsImpl.slice(0, 1), pointsImpl.slice(1));
         curve.getPoints().map((p, i) => this.createJSXGraphPoint(() => p.X(), () => p.Y(), PointStyles.pi(i, () => this.isShowingJxgPoints())));
         return curve;
+    }
+
+    setOffsetCurveNumber(num: number) {
+        this.getCurve().setOffsetCurveNumber(num);
     }
 
     generateJxgOffsetCurveControlPoints() {
@@ -152,6 +159,9 @@ export class JXGPHBezierCurve extends JXGBezierCurve {
         return this.showOffsetCurveControlPoints;
     }
 
+    getNumberOfOffsetCurves() {
+        return this.getCurve().getOffsetCurves().length;
+    }
 
     addOffsetCurve() {
         this.board.suspendUpdate();
