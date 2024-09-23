@@ -96,7 +96,7 @@ class CubicPhBezierCurveGraph extends BasePhBezierCurveGraph<any, CubicPhBezierC
     private createLLabel(points: JXG.Point[], i: number) {
         let textattr = {
             useMathJax: true,
-            fontSize: () => SizeContext.fontSize * 0.6,
+            fontSize: () => SizeContext.fontSize,
             visible: () => !this.state.showingCurve
         };
 
@@ -107,9 +107,9 @@ class CubicPhBezierCurveGraph extends BasePhBezierCurveGraph<any, CubicPhBezierC
                 var spd = Math.sqrt(dx ** 2 + dy ** 2);
                 spd = spd * 1.8;//popravek
                 dy = dy / spd;
-                dy = dy * SizeContext.fontSize * 0.015;
+                dy = dy * SizeContext.fontSize * 0.022;
                 if (dx < 0) {
-                    dy -= SizeContext.fontSize * 0.005;
+                    dy -= SizeContext.fontSize * 0.01;
                 }
                 //dy += dy / Math.abs(dy) * SizeContext.fontSize * 0.01;
                 return (points[i].X() + points[i + 1].X()) / 2 + dy;
@@ -119,7 +119,7 @@ class CubicPhBezierCurveGraph extends BasePhBezierCurveGraph<any, CubicPhBezierC
                 var spd = Math.sqrt(dx ** 2 + dy ** 2);
                 spd = spd * 1.8;//popravek
                 dx = dx / spd;
-                dx = dx * SizeContext.fontSize * 0.015;
+                dx = dx * SizeContext.fontSize * 0.022;
                 //dx += dx / Math.abs(dx) * SizeContext.fontSize * 0.01;
                 return (points[i].Y() + points[i + 1].Y()) / 2 - dx;
             },

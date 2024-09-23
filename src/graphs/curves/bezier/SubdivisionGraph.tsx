@@ -49,12 +49,14 @@ class SubdivisionGraph extends BaseBezierCurveGraph<any, BaseGraphStates> {
         // @ts-ignore
         this.board.suspendUpdate();
         let oldJsxBezierCurves = this.jxgCurves.map(c => c as JXGBezierCurve);
+        console.log(this.jxgCurves.length);
         for (let bezierCurve of oldJsxBezierCurves) {
+            // TODO REDESIGN SUBDIVISIONRESULTCONSUMER...
+            bezierCurve.setSubdivisionResultConsumer(() => "");
             let newCurve = bezierCurve.subdivide(1 / 2);
-            bezierCurve.hideDecasteljauScheme();
-            bezierCurve.showControlPolygon();
-            newCurve.showControlPolygon();
-
+            if (bezierCurve.isShowingControlPolygon()) {
+                newCurve.showControlPolygon();
+            }
             this.jxgCurves.push(newCurve);
         }
         this.unsuspendBoardUpdate();

@@ -9,6 +9,8 @@ import {OnOffSwitch} from "../../../inputs/OnOffSwitch";
 import Slider from "../../../inputs/Slider";
 import {PhBezierCurve} from "../../../bezeg/impl/curve/ph-bezier-curve";
 import {CountSetter} from "../../../inputs/CountSetter";
+import {SizeContext} from "../../context/SizeContext";
+import {PointAttributes} from "jsxgraph";
 
 export interface BasePhBezierCurveGraphStates extends BaseGraphStates {
     showOffsetCurve: boolean,
@@ -88,7 +90,15 @@ abstract class BasePhBezierCurveGraph<P, S extends BasePhBezierCurveGraphStates>
     }
 
     private initializeHodographs(hodographs: number[][]) {
-        const jxgGraphPoints = hodographs.map(((w, i) => this.hodographBoard.create('point', [w[0], w[1]], {name: "w_" + i})));
+        const jxgGraphPoints = hodographs.map(((w, i) => this.hodographBoard.create('point', [w[0], w[1]], {
+            label: {
+                fontSize: () => Math.max(20, 0.5 * SizeContext.fontSize),
+                useMathJax: true,
+                parse: false
+            },
+            size: () => Math.max(4, 0.5 * SizeContext.pointSize),
+            name: "$$w_{" + i + "}$$"
+        } as unknown as PointAttributes)));
         const hodographPoints = jxgGraphPoints.map(point => new JXGPointWrapper(point));
 
         jxgGraphPoints.forEach(point => point.on("drag", () => {

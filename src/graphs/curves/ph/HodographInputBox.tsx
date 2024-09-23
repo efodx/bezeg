@@ -13,7 +13,12 @@ export function HodographInputbox(props: HodographInputBoxProps) {
             axis: true,
             showNavigation: false,
             showCopyright: false,
-            showScreenshot: true
+            showScreenshot: true,
+            // TODO MAKE THIS GOOD
+            // defaultAxes: {
+            //     x: AxisStyles.defaultX,
+            //     y: AxisStyles.defaultY
+            // },
         });
         props.setRef(board);
     });

@@ -7,7 +7,7 @@ import DecasteljauGraph from './graphs/curves/bezier/DecasteljauGraph';
 import DecasteljauGraph2 from './graphs/curves/bezier/DecasteljauGraph2';
 import AffineTransformBezierCurveGraph
   from './graphs/curves/bezier/AffineTransformsBezierCurveGraph';
-import DecasteljauGraph3 from './graphs/curves/bezier/DecasteljauGraph3';
+import DecasteljauGraph3 from './graphs/curves/bezier/SubdivisionGraph1';
 import ExtrapolationGraph from './graphs/curves/bezier/ExtrapolationGraph';
 import ElevationGraph from './graphs/curves/bezier/ElevationGraph';
 import UniformParamBezierCurveGraph

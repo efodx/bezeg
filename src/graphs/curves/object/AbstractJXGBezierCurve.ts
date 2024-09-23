@@ -73,6 +73,8 @@ export abstract class AbstractJXGBezierCurve<T extends BezierCurve, Attr extends
         // TODO.... just look at it...
         if (show === undefined || show) {
             this.showDecasteljauScheme();
+        } else {
+            this.hideDecasteljauScheme();
         }
     }
 
