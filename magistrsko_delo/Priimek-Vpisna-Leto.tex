@@ -104,13 +104,13 @@ Ogledamo si njegove funkcionalnosti in pokažemo osnovne ideje, kako je orodje i
 
 % - klasifikacijske oznake, ločene z vejicami
 %   Oznake, ki opisujejo področje dela, so dostopne na strani https://www.ams.org/msc/
-\klasifikacija{74B05, 65N99}
+\klasifikacija{65D17, 65D07, 68-04}
 
 % - ključne besede, ki nastopajo v delu, ločene s \sep
-\kljucnebesede{integracija\sep kompleks}
+\kljucnebesede{Bézierjeva krivulja\sep racionalna Bézierjeva krivulja\sep zlepek\sep krivulja s pitagorejskim hodografom\sep spletno orodje}
 
 % - angleški prevod ključnih besed
-\keywords{integration\sep complex} % angleški prevod ključnih besed
+\keywords{Bézier curve\sep rational Bézier curve\sep spline\sep pythagorean hodograph curve\sep web tool} % angleški prevod ključnih besed
 
 % - neobvezna zahvala
 \zahvala{
@@ -220,7 +220,7 @@ Ogledamo si njegove funkcionalnosti in pokažemo osnovne ideje, kako je orodje i
 %    nastopa, kje vse je bil obravnavan.
     Za namene računalniško podprtega geometrijskega oblikovanja (ang.\ computer-aided geometric design, okrajš.\ CAGD) v avtomobilski industriji, sta v zgodnjih šestdesetih letih prejšnjega stoletja francoska inženirja Paul de Casteljau in Pierre Bézier vzporedno uvedla Bézierjeve krivulje.
     To so parametrično podane krivulje, ki temeljijo na kontrolnih točkah, preko katerih uporabnik CAGD sistema upravlja s krivuljo.
-    Zaradi enostavne uporabe, se je njihova raba razširila tudi v sisteme za računalniško podprto geometrijsko oblikovanje izven avtomobilske industrije, ter sisteme za računalniško podprto načrtovanje (ang.\ computer-aided design, okrajš.\ CAD).
+    Zaradi enostavne uporabe se je njihova raba razširila tudi v sisteme za računalniško podprto geometrijsko oblikovanje izven avtomobilske industrije ter sisteme za računalniško podprto načrtovanje (ang.\ computer-aided design, okrajš.\ CAD).
     Danes se o Bézierjevih krivuljah (in njihovih variacijah) učimo tudi na fakulteti, kjer se je pojavila želja po orodju, s katerim bi lahko predavatelji grafično prikazovali njihove lastnosti.
     Cilj magistrskega dela je krivulje opisati ter takšno orodje tudi izdelati.
     V času pisanja je orodje že izdelano, zato je delo bogato s slikovnim gradivom, ki je bilo ustvarjeno z njim.
@@ -1165,7 +1165,7 @@ Ogledamo si njegove funkcionalnosti in pokažemo osnovne ideje, kako je orodje i
         \end{algorithmic}
     \end{algorithm}
     \noindent Zlepki, konstruirani s takšnim algoritmom, niso uporabniku prijazni, saj kontrolne točke različno vplivajo na obliko krivulje.
-    Za primer si na sliki~\ref{fig:enostranski-c1} oglejmo obnašanje tako konstruiranega kvadratnega $C^1$ zlepka.
+    Za primer si na sliki~\ref{fig:enostranski-c1} oglejmo obnašanje tako konstruiranega kvadratičnega $C^1$ zlepka.
     \begin{figure}[h]
         \captionsetup[subfigure]{labelformat=empty}
         \centering
@@ -1174,16 +1174,16 @@ Ogledamo si njegove funkcionalnosti in pokažemo osnovne ideje, kako je orodje i
         \subfloat[premik $\p_1$]{\includegraphics[width = \groupimagewidth]{images/enostranski-spline-3}}
         \qquad
         \subfloat[premik $\p_5$]{\includegraphics[width = \groupimagewidth]{images/enostranski-spline-2}}
-        \caption{Obnašanje enostranskega kvadratnega $C^1$ zlepka.}
+        \caption{Obnašanje enostranskega kvadratičnega $C^1$ zlepka.}
         \label{fig:enostranski-c1}
     \end{figure}
 
     \subsubsection{Simetrična konstrukcija}
     Uporabniku mnogo bolj prijazni so algoritmi simetričnih konstrukcij.
-    Brez izpeljave podajmo algoritma~\ref{alg:C-1}~in~\ref{alg:C-2} za simetrični konstrukciji kvadratnega $C^1$ in kubičnega $C^2$ zlepka.
+    Brez izpeljave podajmo algoritma~\ref{alg:C-1}~in~\ref{alg:C-2} za simetrični konstrukciji kvadratičnega $C^1$ in kubičnega $C^2$ zlepka.
     Obnašanje tako konstruiranih zlepkov si lahko ogledamo na slikah~\ref{fig:simetricni-c1} in~\ref{fig:simetricni-c2}.
     \begin{algorithm}[H]
-        \caption{Simetrična konstrukcija kvadratnega $C^1$ zlepka}
+        \caption{Simetrična konstrukcija kvadratičnega $C^1$ zlepka}
         \label{alg:C-1}
         \begin{algorithmic}
             \State Vhod:
@@ -1235,7 +1235,7 @@ Ogledamo si njegove funkcionalnosti in pokažemo osnovne ideje, kako je orodje i
         \subfloat[premik $\p_1$]{\includegraphics[width = \groupimagewidth]{images/simetricni-c1-spline-2}}
         \qquad
         \subfloat[premik $\p_4$]{\includegraphics[width = \groupimagewidth]{images/simetricni-c1-spline-3}}
-        \caption{Obnašanje simetrično konstruiranega kvadratnega $C^1$ zlepka.}
+        \caption{Obnašanje simetrično konstruiranega kvadratičnega $C^1$ zlepka.}
         \label{fig:simetricni-c1}
     \end{figure}
     \begin{figure}[h]
@@ -1272,11 +1272,11 @@ Ogledamo si njegove funkcionalnosti in pokažemo osnovne ideje, kako je orodje i
         \caption{Konveksni ovojnici simetrično konstruiranih kubičnih $C^2$ zlepkov.}
         \label{fig:ovojnica-zlepek}
     \end{figure}
-    Algoritem za simetrično konstrukcijo kvadratnega $C^1$ zlepka lahko adaptiramo tako, da upoštevamo pogoj~\eqref{eq:g1-pogoj} za $G^1$ zveznost.
-    Dobimo algoritem~\ref{alg:G-1} za simetrično konstrukcijo kvadratnega $G^1$ zlepka, kjer števila $\beta_l$ omejimo na interval $(0,1)$.
+    Algoritem za simetrično konstrukcijo kvadratičnega $C^1$ zlepka lahko adaptiramo tako, da upoštevamo pogoj~\eqref{eq:g1-pogoj} za $G^1$ zveznost.
+    Dobimo algoritem~\ref{alg:G-1} za simetrično konstrukcijo kvadratičnega $G^1$ zlepka, kjer števila $\beta_l$ omejimo na interval $(0,1)$.
     Obnašanje zlepka ob spreminjanju $\beta_1$ si lahko ogledamo na sliki~\ref{fig:zlepek-g1-beta}.
     \begin{algorithm}[H]
-        \caption{Simetrična konstrukcija kvadratnega $G^1$ zlepka}
+        \caption{Simetrična konstrukcija kvadratičnega $G^1$ zlepka}
         \label{alg:G-1}
         \begin{algorithmic}
             \State Vhod:
@@ -1303,7 +1303,7 @@ Ogledamo si njegove funkcionalnosti in pokažemo osnovne ideje, kako je orodje i
         \subfloat[$\beta_1=0.25$]{\includegraphics[width = \groupimagewidth]{images/zlepek-g1-b1-025}}
         \qquad
         \subfloat[$\beta_1=0.75$]{\includegraphics[width = \groupimagewidth]{images/zlepek-g1-b1-075}}
-        \caption{Vpliv izbire $\beta_1$ pri simetričnem kvadratnem $G^1$ zlepku.}
+        \caption{Vpliv izbire $\beta_1$ pri simetričnem kvadratičnem $G^1$ zlepku.}
         \label{fig:zlepek-g1-beta}
     \end{figure}
 
@@ -1315,7 +1315,7 @@ Ogledamo si njegove funkcionalnosti in pokažemo osnovne ideje, kako je orodje i
     Takšnem generiranju točk pravimo \textit{$\alpha$ parametrizacije}.
     Točke $u_i$ torej izberemo tako, da velja:
     \[\Delta u_i=||\Delta \p_i||^{\alpha},\quad \alpha\in[0,1],\quad i=0,1,\ldots,m.\]
-    Če želimo upoštevati točki $p_{-1}$ in $p_{m+1}$, ju lahko upoštevamo pri izračunu $u_1$ in $u_m$ na naslednji način
+    Če želimo upoštevati točki $\p_{-1}$ in $\p_{m+1}$, ju lahko upoštevamo pri izračunu $u_1$ in $u_m$ na naslednji način
     \[ u_1=u_0+|| \p_1-\p_{-1}||^{\alpha}, \quad  u_m=u_{m-1}+|| \p_{m+1}-\p_{m-1}||^{\alpha}, \quad  \alpha\in[0,1].\]
     Vpliv izbire $\alpha$ si lahko ogledamo na sliki~\ref{fig:zlepek-alfa}.
     Izbira vpliva tako na obliko, kot tudi na enakomernost porazdeljenosti točk na krivulji, izračunanih pri ekvidistantnih parametrih $\{t_i\}_{i=0}^{N}$.
@@ -1475,7 +1475,7 @@ Ogledamo si njegove funkcionalnosti in pokažemo osnovne ideje, kako je orodje i
         \p_3 &= \p_2 + \frac{1}{3}(u_1^2-v_1^2, 2u_1v_1). \nonumber
     \end{align}
     Tukaj smo kontrolno točko $\p_0=(x_0,y_0)$ izbrali poljubno, saj sta $x_0$ in $y_0$ integracijski konstanti.
-    Kontrolni poligoni dobljeni z izrazi~\eqref{eq:ph-kontrolne} imajo tudi geometrijsko interpretacijo.
+    Kontrolni poligoni, dobljeni z izrazi~\eqref{eq:ph-kontrolne}, imajo tudi geometrijsko interpretacijo.
     Brez dokaza podajmo izrek, ki jo definira.
     \begin{izrek}
         \label{izrek:geometrija-ph-poligona}
@@ -2225,9 +2225,9 @@ class JXGPHBezierCurve extends JXGPointControlledCurve {
     Da bi Bezeg študentom bolje služil kot učno orodje, bi lahko poleg grafov bila razložena tudi snov, ki je na grafu predstavljena.
     Tako bi se lahko študent o krivuljah učil na enem mestu brez, da bi moral podporno snov iskati drugje.
     Da bi predstavitve grafov bile bolj prilagodljive, bi lahko eden izmed grafov predstavljal t.\ i.\ peskovnik, kjer bi lahko uporabnik vstavljal poljubne krivulje.
-    V primeru širše rabe orodja, bi bilo smiselno dodati zaledni sistem za delo z uporabniki in njihovimi prednastavitvami.
+    V primeru širše rabe orodja bi bilo smiselno dodati zaledni sistem za delo z uporabniki in njihovimi prednastavitvami.
     Poleg izboljšav samega orodja, bi lahko razširili tudi obseg snovi, ki je v orodju implementirana.
-    Snov bi bilo možno razširiti tako na snov o interpolacijskih zlepkih, B-zlepkih, racionalnih PH krivuljah ipd., kot tudi na snov o Bézierjevih ploskvah, saj knjižnica JSXGraph podpira tridimenzionalne grafe.
+    Snov bi bilo možno razširiti tako na interpolacijske zlepke, B-zlepke, racionalne PH krivulje ipd., kot tudi na Bézierjeve ploskve, saj knjižnica JSXGraph podpira tridimenzionalne grafe.
 
 
 %
