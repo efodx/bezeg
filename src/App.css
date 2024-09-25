@@ -1,38 +1,263 @@
 .App {
-  text-align: center;
+    text-align: center;
+    background-color: var(--bezeg-background);
 }
 
 .App-logo {
-  height: 40vmin;
-  pointer-events: none;
+    height: 40vmin;
+    pointer-events: none;
 }
 
 @media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+    .App-logo {
+        animation: App-logo-spin infinite 20s linear;
+    }
 }
 
 .App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+    background-color: #282c34;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: calc(10px + 2vmin);
+    color: white;
+}
+
+
+.navbar .navbar-nav > .open > a,
+.navbar .navbar-nav > .open > a:focus,
+.navbar .navbar-nav > .open > a:hover {
+    background-color: red;
 }
 
 .App-link {
-  color: #61dafb;
+    color: #61dafb;
 }
 
 @keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+
+/*Resizable styles*/
+.react-resizable {
+    position: relative;
+}
+
+.react-resizable-handle {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    background-repeat: no-repeat;
+    background-origin: content-box;
+    box-sizing: border-box;
+    background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2IDYiIHN0eWxlPSJiYWNrZ3JvdW5kLWNvbG9yOiNmZmZmZmYwMCIgeD0iMHB4IiB5PSIwcHgiIHdpZHRoPSI2cHgiIGhlaWdodD0iNnB4Ij48ZyBvcGFjaXR5PSIwLjMwMiI+PHBhdGggZD0iTSA2IDYgTCAwIDYgTCAwIDQuMiBMIDQgNC4yIEwgNC4yIDQuMiBMIDQuMiAwIEwgNiAwIEwgNiA2IEwgNiA2IFoiIGZpbGw9IiMwMDAwMDAiLz48L2c+PC9zdmc+');
+    background-position: bottom right;
+    padding: 0 3px 3px 0;
+}
+
+.react-resizable-handle-sw {
+    bottom: 0;
+    left: 0;
+    cursor: sw-resize;
+    transform: rotate(90deg);
+}
+
+.react-resizable-handle-se {
+    bottom: 0;
+    right: 0;
+    cursor: se-resize;
+}
+
+.react-resizable-handle-nw {
+    top: 0;
+    left: 0;
+    cursor: nw-resize;
+    transform: rotate(180deg);
+}
+
+.react-resizable-handle-ne {
+    top: 0;
+    right: 0;
+    cursor: ne-resize;
+    transform: rotate(270deg);
+}
+
+.react-resizable-handle-w,
+.react-resizable-handle-e {
+    top: 50%;
+    margin-top: -10px;
+    cursor: ew-resize;
+}
+
+.react-resizable-handle-w {
+    left: 0;
+    transform: rotate(135deg);
+}
+
+.react-resizable-handle-e {
+    right: 0;
+    transform: rotate(315deg);
+}
+
+.react-resizable-handle-n,
+.react-resizable-handle-s {
+    left: 50%;
+    margin-left: -10px;
+    cursor: ns-resize;
+}
+
+.react-resizable-handle-n {
+    top: 0;
+    transform: rotate(225deg);
+}
+
+.react-resizable-handle-s {
+    bottom: 0;
+    transform: rotate(45deg);
+}
+
+
+:root {
+    --dark-moss-green: #3B6704ff;
+    --dark-moss-green-2: #264901ff;
+    --cornflower-blue: #5896F9ff;
+    --citron: #CFCB7Aff;
+    --olivine: #AFB665ff;
+}
+
+
+.help-button {
+    position: absolute;
+    transform: translate(20%, -120%);
+    opacity: 30%;
+}
+
+.help-button:hover {
+    opacity: 1;
+}
+
+.popover {
+    width: max-content;
+}
+
+.JXGtext {
+    z-index: 0 !important;
+}
+
+:root {
+    --tools-transition-time: 0.1s;
+    --tools-transition-function: ease-out;
+}
+
+.tools {
+    max-height: 83vh;
+    overflow-y: auto;
+}
+
+.tools-fs {
+    position: absolute;
+    z-index: 1;
+    opacity: 1;
+    transition-duration: var(--tools-transition-time);
+    transition-timing-function: var(--tools-transition-function);
+    background-color: var(--bs-border-color-translucent);
+    clip-path: polygon(0% 0%, 6% 0%, 6% 100%, 0 100%);
+    padding: var(--bs-border-width) !important;
+    padding-right: 0 !important;
+    margin-top: 10vh;
+}
+
+.tools-fs > .card {
+    border-radius: 0px;
+    transition-duration: var(--tools-transition-time);
+    transition-timing-function: var(--tools-transition-function);
+    clip-path: polygon(0% 0%, 5% 0%, 5% 100%, 0 100%);;
+}
+
+.tools-fs:hover > .card {
+    clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0 100%);;
+}
+
+.tools-fs:hover {
+    clip-path: polygon(0% 0%, 101% 0%, 101% 100%, 0 100%);;
+    opacity: 1;
+}
+
+.graph-commands-fs {
+    right: 0;
+    position: absolute;
+    z-index: 1;
+    transition-duration: var(--tools-transition-time);
+    transition-timing-function: var(--tools-transition-function);
+    background-color: var(--bs-border-color-translucent);
+    clip-path: polygon(94% 0%, 100% 0%, 100% 100%, 94% 100%);
+    padding: var(--bs-border-width) !important;
+    padding-right: 0 !important;
+}
+
+
+.graph-commands-fs:hover {
+    clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0 100%);;
+}
+
+.graph-commands-fs > .card {
+    border-radius: 0px;
+    transition-duration: var(--tools-transition-time);
+    transition-timing-function: var(--tools-transition-function);
+    clip-path: polygon(95% 0%, 100% 0%, 100% 100%, 95% 100%);
+}
+
+.graph-commands-fs:hover > .card {
+    clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0 100%);
+}
+
+.graph-fs {
+    padding: 0 !important;
+}
+
+
+.fs-button {
+    position: absolute;
+    transform: translate(140%, -120%);
+    opacity: 30%;
+}
+
+.fs-button:hover {
+    opacity: 1;
+}
+
+.card-title {
+    white-space: nowrap;
+}
+
+.navbar-fs {
+    /*display: none !important;*/
+    position: absolute !important;
+    z-index: 1;
+    width: 100%;
+    border-bottom: var(--bs-border-width) solid var(--bs-border-color-translucent);
+    height: 2px;
+}
+
+.navbar-fs > * {
+    transition-duration: var(--tools-transition-time);
+    opacity: 0
+}
+
+.navbar-fs:hover > * {
+    opacity: 1;
+}
+
+.navbar-fs:hover {
+    transition-duration: var(--tools-transition-time);
+    height: auto;
+    /*height: 80px;*/
 }

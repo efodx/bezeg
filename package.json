@@ -1,19 +1,28 @@
 {
   "name": "bezeg",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "homepage": "/bezeg",
   "private": true,
   "dependencies": {
-    "@testing-library/jest-dom": "^5.16.5",
+    "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
     "@types/jest": "^27.5.2",
-    "@types/node": "^16.18.21",
-    "@types/react": "^18.0.29",
-    "@types/react-dom": "^18.0.11",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
+    "@types/node": "^16.18.101",
+    "@types/react": "^18.3.3",
+    "@types/react-dom": "^18.3.0",
+    "bootstrap": "^5.3.3",
+    "client-zip": "^2.4.5",
+    "html2canvas": "^1.4.1",
+    "jsxgraph": "^1.9.2",
+    "jszip": "^3.10.1",
+    "react": "^18.3.1",
+    "react-bootstrap": "^2.10.4",
+    "react-dom": "^18.3.1",
+    "react-router-bootstrap": "^0.26.3",
+    "react-router-dom": "^6.24.1",
     "react-scripts": "5.0.1",
+    "sass": "^1.77.8",
     "typescript": "^4.9.5",
     "web-vitals": "^2.1.4"
   },
@@ -29,7 +38,13 @@
     "extends": [
       "react-app",
       "react-app/jest"
-    ]
+    ],
+    "rules": {
+      "semi": [
+        2,
+        "always"
+      ]
+    }
   },
   "browserslist": {
     "production": [
@@ -44,7 +59,7 @@
     ]
   },
   "devDependencies": {
-    "gh-pages": "^5.0.0",
-    "jsxgraph": "^1.5.0"
+    "@types/react-router-bootstrap": "^0.26.6",
+    "gh-pages": "^5.0.0"
   }
 }
