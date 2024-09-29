@@ -11,7 +11,7 @@ class RationalBezierCurveGraph extends BaseRationalCurveGraph<any, BaseGraphStat
                 "showingConvexHull": false,
                 "subdivisionT": 0.5,
                 "extrapolationT": 1.2,
-                "showingWeights": false,
+                "showingWeights": true,
                 "weightNumber": 1,
                 "showingFarinPoints": false
             }

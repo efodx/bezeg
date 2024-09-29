@@ -46,7 +46,7 @@ abstract class BasePhBezierCurveGraph<P, S extends BasePhBezierCurveGraphStates>
             commands.push(<Slider min={-3}
                                   max={3}
                                   initialValue={this.getFirstCurveAsPHBezierCurve()?.getOffsetCurveDistance() ? this.getFirstCurveAsPHBezierCurve()?.getOffsetCurveDistance() : 0}
-                                  step={0.1}
+                                  step={0.01}
                                   onChange={e => this.setOffsetCurveDistance(e)}/>);
             commands.push(<OnOffSwitch
                 onChange={checked => {

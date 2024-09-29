@@ -142,7 +142,7 @@ export abstract class AbstractJXGBezierCurve<T extends BezierCurve, Attr extends
                         () => this.getDecasteljauScheme(this.decasteljauT)[r][i - 1].Y()], {
                         ...PointStyles.default,
                         color: Colors[r],
-                        name: () => this.showingDecasteljauPoints && this.showingDecasteljauScheme ? `$$p_${i}^${r}$$` : ""
+                        name: () => this.showingDecasteljauPoints && this.showingDecasteljauScheme ? `$$p_${i - 1}^${r}$$` : ""
                     });
                 } else {
                     pp1 = this.decasteljauPoints[this.decasteljauPoints.length - 1];
@@ -167,7 +167,7 @@ export abstract class AbstractJXGBezierCurve<T extends BezierCurve, Attr extends
         const drawingPoint = this.board?.create('point', [() => this.getDecasteljauScheme(this.decasteljauT)[n - 1][0].X(), () => this.getDecasteljauScheme(this.decasteljauT)[n - 1][0].Y()], {
             ...PointStyles.default,
             color: Colors[n - 1],
-            name: () => this.showingDecasteljauPoints && this.showingDecasteljauScheme ? `$$p_${0}^${n}$$` : ""
+            name: () => this.showingDecasteljauPoints && this.showingDecasteljauScheme ? `$$p_${0}^${n - 1}$$` : ""
         });
 
         if (drawingPoint instanceof JXG.Point) {

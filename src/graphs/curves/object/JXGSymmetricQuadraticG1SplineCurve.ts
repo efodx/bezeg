@@ -37,13 +37,18 @@ export class JXGSymmetricQuadraticG1SplineCurve extends AbstractJXGSplineCurve<G
         };
     }
 
-    override labelJxgPoints() {
-        if (this.labelAll) {
-            this.getJxgPoints().forEach((point, i) => point.setName(PointStyles.pi(i, () => this.isShowingJxgPoints()).name as string));
-        } else {
-            this.getJxgPoints().forEach((point, i) => point.setName(""));
-            this.getAllFreeJxgPoints().forEach((point, i) => point.setName(PointStyles.pi(i, () => this.isShowingJxgPoints()).name as string));
-        }
+    override getJxgPoints() {
+        // We order them so that labeling of points gets done correctly!
+        const freePoints: JXG.Point[] = this.getAllFreeJxgPoints();
+        const nonFreePoints: JXG.Point[] = this.getAllNonFreeJxgPoints();
+        return this.getCurve().getAllCurvePoints().map(point => point.isXFunction() || point.isYFunction())
+            .map(fixed => {
+                if (fixed) {
+                    return nonFreePoints.shift()!;
+                } else {
+                    return freePoints.shift()!;
+                }
+            });
     }
 
     protected getInitialCurve(points: number[][]): G1SymmetricQuadraticBezierSpline {
